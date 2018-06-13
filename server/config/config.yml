@@ -6,18 +6,10 @@ database:
   password: ""
 
 log:
-  measurement: eb_logins
+  measurement: eb_logins_tst
   user_id: user_id
-  sp_id: sp_entity_id_tag
-  idp_id: idp_entity_id_tag
-
-measurements:
-  - time_span: 1m
-    ancestor: null
-  - time_span: 5m
-    ancestor: 1m
-  - time_span: 15m
-    ancestor: 5m
+  sp_id: sp_entity_id
+  idp_id: idp_entity_id
 
 api_users:
   - name: "dashboard"

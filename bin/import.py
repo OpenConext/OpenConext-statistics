@@ -33,7 +33,7 @@ def import_test_data(host="localhost", port=8086, username="", password=""):
 
         json_body = [
             {
-                "measurement": "eb_logins",
+                "measurement": "eb_logins_tst",
                 "tags": {
                     "sp_entity_id_tag": random.choice(service_providers),
                     "idp_entity_id_tag": random.choice(identity_providers),

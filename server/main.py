@@ -2,15 +2,14 @@ import logging
 import os
 from logging.handlers import TimedRotatingFileHandler
 
-import flask
 import yaml
 from flask import Flask
 from influxdb import InfluxDBClient
 from munch import munchify
-from werkzeug.exceptions import Unauthorized
 
 from server.api.base import base_api
 from server.api.stats import stats_api
+from server.influx.cq import backfill_login_measurements
 
 
 def read_file(file_name):
@@ -19,18 +18,18 @@ def read_file(file_name):
         return f.read()
 
 
-def _init_logging():
+def _init_logging(is_local):
     formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
-    handler = TimedRotatingFileHandler(f"{os.path.dirname(os.path.realpath(__file__))}/../log/stats.log",
-                                       when="midnight", backupCount=15)
-    handler.setFormatter(formatter)
     logger = logging.getLogger()
-    logger.addHandler(handler)
-    logger.setLevel(logging.INFO)
+    if not is_local:
+        handler = TimedRotatingFileHandler(f"{os.path.dirname(os.path.realpath(__file__))}/../log/stats.log",
+                                           when="midnight", backupCount=15)
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+        logger.setLevel(logging.INFO)
 
 
 def main():
-    _init_logging()
     config = munchify(yaml.load(read_file("config/config.yml")))
 
     app = Flask(__name__)
@@ -43,8 +42,16 @@ def main():
                                        password=config.database.password,
                                        database=config.database.name)
     app.influx_config = config
+
+    backfill_measurements = os.environ.get("BACKFILL_MEASUREMENTS")
+    if backfill_measurements or True:
+        backfill_login_measurements(config, app.influx_client)
+
     profile = os.environ.get("PROFILE")
-    if profile is not None and profile == "local":
+
+    is_local = profile is not None and profile == "local"
+    _init_logging(is_local)
+    if is_local:
         app.run(port=8080, debug=False, host="0.0.0.0", threaded=True)
 
 
