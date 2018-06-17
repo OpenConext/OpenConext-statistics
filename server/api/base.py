@@ -1,15 +1,12 @@
 from functools import wraps
 
-import flask
-from flask import Blueprint
-from flask import jsonify
+from flask import Blueprint, jsonify, current_app, request as current_request
 from werkzeug.exceptions import HTTPException, Unauthorized
 
 base_api = Blueprint("base_api", __name__, url_prefix="/")
 
 
 def auth_filter(config):
-    current_request = flask.request
     # Allow Cross-Origin Resource Sharing calls and health checks
     if current_request.method == "OPTIONS" or current_request.base_url.endswith("health"):
         return
@@ -24,7 +21,7 @@ def json_endpoint(f):
     @wraps(f)
     def json(*args, **kwargs):
         try:
-            auth_filter(flask.current_app.influx_config)
+            auth_filter(current_app.influx_config)
             body, status = f(*args, **kwargs)
             return jsonify(body), status
         except Exception as e:

@@ -3,7 +3,7 @@ import os
 from logging.handlers import TimedRotatingFileHandler
 
 import yaml
-from flask import Flask
+from flask import Flask, jsonify, request as current_request
 from influxdb import InfluxDBClient
 from munch import munchify
 
@@ -29,12 +29,17 @@ def _init_logging(is_local):
         logger.setLevel(logging.INFO)
 
 
+def page_not_found(_):
+    return jsonify({"message": f"{current_request.base_url} not found"}), 404
+
+
 def main():
     config = munchify(yaml.load(read_file("config/config.yml")))
 
     app = Flask(__name__)
     app.register_blueprint(stats_api)
     app.register_blueprint(base_api)
+    app.register_error_handler(404, page_not_found)
 
     app.influx_client = InfluxDBClient(host=config.database.host,
                                        port=config.database.port,
@@ -44,7 +49,7 @@ def main():
     app.influx_config = config
 
     backfill_measurements = os.environ.get("BACKFILL_MEASUREMENTS")
-    if backfill_measurements or True:
+    if backfill_measurements:
         backfill_login_measurements(config, app.influx_client)
 
     profile = os.environ.get("PROFILE")

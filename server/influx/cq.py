@@ -63,13 +63,16 @@ def backfill_login_measurements(config, db: InfluxDBClient):
         include_total = p == "minute"
         unique_postfix = "_unique" if p != "minute" else ""
         create_continuous_query(db=db, db_name=db_name, duration=duration, is_unique=True, include_total=include_total,
-                                measurement_name=f"sp_idp_users_{p}{unique_postfix}", parent_name=log_source, group_by=[sp, idp])
+                                measurement_name=f"sp_idp_users_{p}{unique_postfix}", parent_name=log_source,
+                                group_by=[sp, idp])
         create_continuous_query(db=db, db_name=db_name, duration=duration, is_unique=True, include_total=include_total,
-                                measurement_name=f"idp_users_{p}{unique_postfix}", parent_name=log_source, group_by=[idp])
+                                measurement_name=f"idp_users_{p}{unique_postfix}", parent_name=log_source,
+                                group_by=[idp])
         create_continuous_query(db=db, db_name=db_name, duration=duration, is_unique=True, include_total=include_total,
                                 measurement_name=f"sp_users_{p}{unique_postfix}", parent_name=log_source, group_by=[sp])
         create_continuous_query(db=db, db_name=db_name, duration=duration, is_unique=True, include_total=include_total,
-                                measurement_name=f"total_users_{p}{unique_postfix}", parent_name=log_source, group_by=[])
+                                measurement_name=f"total_users_{p}{unique_postfix}", parent_name=log_source,
+                                group_by=[])
 
     for d, p in (("hour", "minute"), ("day", "hour"), ("week", "day")):
         duration = "1" + d[:1]
