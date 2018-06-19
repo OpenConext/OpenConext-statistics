@@ -49,10 +49,12 @@ def login_by_time_frame(config, scale="day", from_seconds=None, to_seconds=None,
     q += f" and time < {to_seconds}s" if to_seconds else ""
     q += f" and {config.log.sp_id} = '{sp_entity_id}'" if sp_entity_id else ""
     q += f" and {config.log.idp_id} = '{idp_entity_id}'" if sp_entity_id else ""
-    res = _query(q)
-    if include_unique:
-        print("TODO")
-    return res
+    records = _query(q)
+    if include_unique and scale != "minute":
+        q = q.replace(measurement, f"{measurement}_unique")
+        unique_records = _query(q)
+        records.extend(unique_records)
+    return records
 
 
 def login_by_time_period(config, period, idp_entity_id=None, sp_entity_id=None, include_unique=True):
@@ -64,10 +66,15 @@ def login_by_time_period(config, period, idp_entity_id=None, sp_entity_id=None, 
     measurement += "total_" if not idp_entity_id and not sp_entity_id else ""
     measurement += f"users_{scale}"
 
-    q = f"select sum(count_user_id) from {measurement} where 1=1 and time >= {from_seconds}s and time < {to_seconds}s "
+    q = f"select sum(count_user_id) as sum_count_user_id from {measurement} " \
+        f"where 1=1 and time >= {from_seconds}s and time < {to_seconds}s "
     q += f" and {config.log.sp_id} = '{sp_entity_id}'" if sp_entity_id else ""
     q += f" and {config.log.idp_id} = '{idp_entity_id}'" if sp_entity_id else ""
-    res = _query(q)
+    records = _query(q)
+    if include_unique and scale != "minute":
+        q = q.replace(f"sum(count_user_id) as sum_count_user_id from {measurement}",
+                      f"sum(distinct_count_user_id) as sum_distinct_count_user_id from {measurement}_unique")
+        unique_records = _query(q)
+        records.extend(unique_records)
 
-    # TODO sum over day, or week depending on
-    return res
+    return records
