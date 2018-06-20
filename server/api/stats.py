@@ -8,7 +8,7 @@ from server.influx.repo import min_time, max_time, service_providers, identity_p
     login_by_time_period
 
 stats_api = Blueprint("stats_api", __name__, url_prefix="/api/stats")
-
+period_regex = r"\d{4}[YQMWD]{0,1}\d{0,3}$"
 
 @stats_api.route("/first_login", strict_slashes=False)
 @json_endpoint
@@ -39,7 +39,7 @@ def _options():
     return {
         "idp_entity_id": args.get("idp_entity_id"),
         "sp_entity_id": args.get("sp_entity_id"),
-        "include_unique": args.get("include_unique", default=True)
+        "include_unique": "true" == args.get("include_unique", default="true").lower()
     }
 
 
@@ -49,7 +49,7 @@ def login_time_frame():
     def _parse_date(key):
         date = request.args.get(key)
         if date:
-            res = re.match("(\d{4})[/.-](\d{2})[/.-](\d{4})$", date)
+            res = re.match(r"(\d{4})[/.-](\d{2})[/.-](\d{2})$", date)
             if res:
                 return int(datetime.datetime(*(map(int, res.groups()))).timestamp())
         return date
@@ -58,12 +58,15 @@ def login_time_frame():
     to_arg = _parse_date("to")
     scale = request.args.get("scale", default="day")
 
-    return login_by_time_frame(current_app.influx_config, scale, from_arg, to_arg, **_options()), 200
+    return login_by_time_frame(current_app.influx_config, scale=scale, from_seconds=from_arg, to_seconds=to_arg,
+                               **_options()), 200
 
 
 @stats_api.route("/login_period", strict_slashes=False)
 @json_endpoint
 def login_time_period():
     period = request.args.get("period")
+    if not re.match(period_regex, period, re.IGNORECASE):
+        raise ValueError(f"Invalid period {period}. Must match {period_regex}")
 
     return login_by_time_period(current_app.influx_config, period, **_options()), 200

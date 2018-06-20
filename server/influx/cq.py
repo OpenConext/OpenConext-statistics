@@ -9,19 +9,20 @@ from influxdb import InfluxDBClient
 logger = logging.getLogger()
 
 
-def append_measurement(l, postfix=""):
+def append_measurement(l, period, postfix=""):
     l.append(f"sp_idp_users_{period}{postfix}")
     l.append(f"idp_users_{period}{postfix}")
     l.append(f"sp_users_{period}{postfix}")
     l.append(f"total_users_{period}{postfix}")
 
 
-measurements = []
-
-for period in ["minute", "hour", "day", "week"]:
-    append_measurement(measurements)
-    if period != "minute":
-        append_measurement(measurements, postfix="_unique")
+def get_measurements():
+    measurements = []
+    for period in ["minute", "hour", "day", "week"]:
+        append_measurement(measurements, period)
+        if period != "minute":
+            append_measurement(measurements, period, postfix="_unique")
+    return measurements
 
 
 def create_continuous_query(db, db_name, duration, is_unique, include_total, measurement_name, parent_name,
@@ -50,7 +51,7 @@ def backfill_login_measurements(config, db: InfluxDBClient):
     sp = config.log.sp_id
     idp = config.log.idp_id
 
-    for measurement in measurements:
+    for measurement in get_measurements():
         db.drop_measurement(measurement)
 
     continuous_queries = list(map(lambda x: x["name"], db.query("show continuous queries").get_points()))

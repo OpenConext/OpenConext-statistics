@@ -33,8 +33,8 @@ def page_not_found(_):
     return jsonify({"message": f"{current_request.base_url} not found"}), 404
 
 
-def main():
-    config = munchify(yaml.load(read_file("config/config.yml")))
+def main(config_file_location="config/config.yml"):
+    config = munchify(yaml.load(read_file(config_file_location)))
 
     app = Flask(__name__)
     app.register_blueprint(stats_api)
@@ -48,8 +48,9 @@ def main():
                                        database=config.database.name)
     app.influx_config = config
 
-    backfill_measurements = os.environ.get("BACKFILL_MEASUREMENTS")
-    if backfill_measurements:
+    app.influx_client.switch_database(config.database.name)
+    measurements_count = len(list(app.influx_client.get_list_measurements()))
+    if measurements_count < 29:
         backfill_login_measurements(config, app.influx_client)
 
     profile = os.environ.get("PROFILE")

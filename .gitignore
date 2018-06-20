@@ -3,3 +3,5 @@ data
 log
 .venv
 .pytest_cache
+.coverage
+htmlcov/

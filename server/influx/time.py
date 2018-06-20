@@ -1,4 +1,5 @@
 import datetime
+import math
 
 
 def day_start_end_seconds(year_number, day_number):
@@ -48,3 +49,27 @@ def start_end_period(period):
     if len(period) == 4:
         return year_start_end_seconds(year)
     return periods[period[4:5].lower()](year, int(period[5:]))
+
+
+def _bucket(date, scale):
+    if scale == "year":
+        return str(date.year)
+    if scale == "month":
+        return f"{date.year}M{date.month}"
+    if scale == "quarter":
+        return f"{date.year}Q{math.ceil(date.month/3)}"
+
+
+def group_by(points, scale, count_user_identifier):
+    if len(points) == 0:
+        return points
+    result = {}
+    for p in points:
+        date = datetime.datetime.strptime(p["time"], "%Y-%m-%dT%H:%M:%SZ")
+        bucket = _bucket(date, scale)
+        count = result.get(bucket)
+        if count is None:
+            result[bucket] = p[count_user_identifier]
+        else:
+            result[bucket] = count + p[count_user_identifier]
+    return [{"time": k, count_user_identifier: v} for k, v in result.items()]

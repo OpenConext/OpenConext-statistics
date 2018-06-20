@@ -1,3 +1,4 @@
+import logging
 from functools import wraps
 
 from flask import Blueprint, jsonify, current_app, request as current_request
@@ -26,6 +27,7 @@ def json_endpoint(f):
             return jsonify(body), status
         except Exception as e:
             response = jsonify(message=e.description if isinstance(e, HTTPException) else str(e))
+            logging.getLogger().exception("Message")
             response.status_code = e.code if isinstance(e, HTTPException) else 500
             if response.status_code == 401:
                 response.headers.set("WWW-Authenticate", "Basic realm=\"Please login\"")

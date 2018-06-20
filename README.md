@@ -49,3 +49,8 @@ Or simply
 ```
 pytest
 ```
+To generate coverage reports:
+```
+pytest --cov=server --cov-report html:htmlcov server/test
+open htmlcov/index.html
+```

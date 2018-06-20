@@ -1,0 +1,18 @@
+database:
+  name: eb_logs_test
+  host: localhost
+  port: 8086
+  username: ""
+  password: ""
+
+log:
+  measurement: eb_logins_tst
+  user_id: user_id
+  sp_id: sp_entity_id
+  idp_id: idp_entity_id
+
+api_users:
+  - name: "dashboard"
+    password: "secret"
+  - name: "sysadmin"
+    password: "secret"

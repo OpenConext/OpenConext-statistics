@@ -45,6 +45,7 @@ def import_test_data(host="localhost", port=8086, username="", password=""):
         ]
         client.write_points(json_body)
 
+
         if i is 0:
             client.query("CREATE CONTINUOUS QUERY \"user_sp_idp_aggregates_min\" ON \"eb_logs_poc\" BEGIN "
                          "SELECT "
