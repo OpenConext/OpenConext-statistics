@@ -24,6 +24,7 @@ class AbstractTest(TestCase):
 
     def create_app(self):
         from server.__main__ import main
+        os.environ["TEST"] = "1"
         app = main("config/test_config.yml")
         return app
 

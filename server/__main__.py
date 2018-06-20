@@ -54,9 +54,11 @@ def main(config_file_location="config/config.yml"):
             backfill_login_measurements(config, app.influx_client)
 
     profile = os.environ.get("PROFILE")
+    test = os.environ.get("TEST")
 
     is_local = profile is not None and profile == "local"
-    _init_logging(is_local)
+    is_test = test is not None and bool(test)
+    _init_logging(is_local or is_test)
     if is_local:
         app.run(port=8080, debug=False, host="0.0.0.0", threaded=True)
     else:

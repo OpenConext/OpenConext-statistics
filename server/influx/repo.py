@@ -49,7 +49,7 @@ def login_by_time_frame(config, scale="day", from_seconds=None, to_seconds=None,
     q += f" and time >= {from_seconds}s" if from_seconds else ""
     q += f" and time < {to_seconds}s" if to_seconds else ""
     q += f" and {config.log.sp_id} = '{sp_entity_id}'" if sp_entity_id else ""
-    q += f" and {config.log.idp_id} = '{idp_entity_id}'" if sp_entity_id else ""
+    q += f" and {config.log.idp_id} = '{idp_entity_id}'" if idp_entity_id else ""
     q += f" group by {config.log.idp_id}" if sp_entity_id and not idp_entity_id else ""
     q += f" group by {config.log.sp_id}" if idp_entity_id and not sp_entity_id else ""
     records = _query(q)
