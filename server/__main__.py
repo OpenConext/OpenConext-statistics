@@ -58,6 +58,8 @@ def main():
     _init_logging(is_local)
     if is_local:
         app.run(port=8080, debug=False, host="0.0.0.0", threaded=True)
+    else:
+        return app
 
 
 if __name__ == "__main__":
