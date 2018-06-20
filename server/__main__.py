@@ -47,11 +47,11 @@ def main(config_file_location="config/config.yml"):
                                        password=config.database.password,
                                        database=config.database.name)
     app.influx_config = config
-
-    app.influx_client.switch_database(config.database.name)
-    measurements_count = len(list(app.influx_client.get_list_measurements()))
-    if measurements_count < 29:
-        backfill_login_measurements(config, app.influx_client)
+    if len(list(filter(lambda m: m["name"] == config.database.name, app.influx_client.get_list_database()))) != 0:
+        app.influx_client.switch_database(config.database.name)
+        measurements_count = len(list(app.influx_client.get_list_measurements()))
+        if measurements_count < 29:
+            backfill_login_measurements(config, app.influx_client)
 
     profile = os.environ.get("PROFILE")
 

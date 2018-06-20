@@ -15,6 +15,7 @@ class AbstractTest(TestCase):
         if len(list(filter(lambda m: m["name"] == db_name, influx_client.get_list_database()))) == 0:
             influx_client.drop_database(db_name)
             influx_client.create_database(db_name)
+            influx_client.switch_database(db_name)
             file = f"{os.path.dirname(os.path.realpath(__file__))}/seed/seed.json"
             with open(file) as f:
                 json_body = json.loads(f.read())
