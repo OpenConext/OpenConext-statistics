@@ -42,10 +42,7 @@ curl --user "dashboard:secret" "http://localhost:8080/api/stats/login_period?per
 
 ### Testing
 
-```
-python -m pytest ./server/
-```
-Or simply
+To run all tests:
 ```
 pytest
 ```
