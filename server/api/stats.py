@@ -1,6 +1,7 @@
 import datetime
 import re
 
+from dateutil import tz
 from flask import Blueprint, current_app, request
 
 from server.api.base import json_endpoint
@@ -9,6 +10,7 @@ from server.influx.repo import min_time, max_time, service_providers, identity_p
 
 stats_api = Blueprint("stats_api", __name__, url_prefix="/api/stats")
 period_regex = r"\d{4}[YQMWD]{0,1}\d{0,3}$"
+
 
 @stats_api.route("/first_login", strict_slashes=False)
 @json_endpoint
@@ -51,7 +53,7 @@ def login_time_frame():
         if date:
             res = re.match(r"(\d{4})[/.-](\d{2})[/.-](\d{2})$", date)
             if res:
-                return int(datetime.datetime(*(map(int, res.groups()))).timestamp())
+                return int(datetime.datetime(*(map(int, res.groups())),tzinfo=tz.tzutc()).timestamp())
         return date
 
     from_arg = _parse_date("from")

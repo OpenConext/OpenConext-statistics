@@ -2,7 +2,7 @@ import datetime
 
 from flask import current_app
 
-from server.influx.time import start_end_period, group_by
+from server.influx.time import start_end_period, group_by, period_to_scale
 
 epoch = datetime.datetime.utcfromtimestamp(0)
 
@@ -62,28 +62,35 @@ def login_by_time_frame(config, scale="day", from_seconds=None, to_seconds=None,
         unique_records = _query(q)
         if needs_grouping:
             unique_records = group_by(unique_records, scale, "distinct_count_user_id")
-            records.extend(unique_records)
+        records.extend(unique_records)
     return records
 
 
 def login_by_time_period(config, period, idp_entity_id=None, sp_entity_id=None, include_unique=True):
     from_seconds, to_seconds = start_end_period(period)
-    scale = "day" if len(period) == 4 else "week" if period[4:5] == "w" else "day"
+    measurement_scale = "day" if len(period) == 4 else "week" if period[4:5] == "w" else "day"
     measurement = ""
     measurement += "sp_" if sp_entity_id else ""
     measurement += "idp_" if idp_entity_id else ""
     measurement += "total_" if not idp_entity_id and not sp_entity_id else ""
-    measurement += f"users_{scale}"
+    measurement += f"users_{measurement_scale}"
 
     q = f"select sum(count_user_id) as sum_count_user_id from {measurement} " \
         f"where 1=1 and time >= {from_seconds}s and time < {to_seconds}s "
     q += f" and {config.log.sp_id} = '{sp_entity_id}'" if sp_entity_id else ""
     q += f" and {config.log.idp_id} = '{idp_entity_id}'" if sp_entity_id else ""
+
+    scale = period_to_scale(period)
+    needs_grouping = scale in ["month", "quarter", "year"]
     records = _query(q)
+    if needs_grouping:
+        records = group_by(records, scale, "sum_count_user_id")
+
     if include_unique and scale != "minute":
         q = q.replace(f"sum(count_user_id) as sum_count_user_id from {measurement}",
                       f"sum(distinct_count_user_id) as sum_distinct_count_user_id from {measurement}_unique")
         unique_records = _query(q)
+        if needs_grouping:
+            unique_records = group_by(unique_records, scale, "sum_distinct_count_user_id")
         records.extend(unique_records)
-
     return records
