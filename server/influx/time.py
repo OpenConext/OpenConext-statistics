@@ -1,6 +1,8 @@
 import datetime
 import math
+
 from dateutil import tz
+
 
 def day_start_end_seconds(year_number, day_number):
     start = datetime.datetime(year_number, 1, 1, tzinfo=tz.tzutc()) + datetime.timedelta(day_number - 1)

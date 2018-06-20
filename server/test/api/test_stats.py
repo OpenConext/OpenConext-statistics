@@ -28,7 +28,7 @@ class TestStats(AbstractTest):
 
     def test_login_time_frame_group_by_year_without_to(self):
         json = self.get("login_time_frame",
-                        query_data={"from": "2014-01-01","scale": "year",
+                        query_data={"from": "2014-01-01", "scale": "year",
                                     "include_unique": "false"})
         self.assertListEqual([{"count_user_id": 11, "time": "2016"}, {"count_user_id": 14, "time": "2017"},
                               {"count_user_id": 5, "time": "2018"}], json)
@@ -80,7 +80,7 @@ class TestStats(AbstractTest):
     def test_login_period_by_month(self):
         json = self.get("login_period", query_data={"period": "2017M9"})
         self.assertListEqual([{'sum_count_user_id': 4, 'time': '2017M9'},
-                             {'sum_distinct_count_user_id': 4, 'time': '2017M9'}], json)
+                              {'sum_distinct_count_user_id': 4, 'time': '2017M9'}], json)
 
     def test_login_period_by_month_no_results(self):
         json = self.get("login_period", query_data={"period": "2222M9"})

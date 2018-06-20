@@ -14,3 +14,4 @@ install:
   - sudo service influxdb start
 script:
   - pytest
+  - flake8 ./server/

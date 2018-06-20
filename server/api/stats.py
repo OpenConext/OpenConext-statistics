@@ -53,7 +53,7 @@ def login_time_frame():
         if date:
             res = re.match(r"(\d{4})[/.-](\d{2})[/.-](\d{2})$", date)
             if res:
-                return int(datetime.datetime(*(map(int, res.groups())),tzinfo=tz.tzutc()).timestamp())
+                return int(datetime.datetime(*(map(int, res.groups())), tzinfo=tz.tzutc()).timestamp())
         return date
 
     from_arg = _parse_date("from")
