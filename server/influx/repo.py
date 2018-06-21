@@ -52,7 +52,7 @@ def _determine_measurement(config, group_by, idp_entity_id, sp_entity_id, measur
     measurement += "sp_" if include_sp else ""
     include_idp = idp_entity_id or config.log.idp_id in group_by
     measurement += "idp_" if include_idp else ""
-    measurement += "total_" if not include_idp and not  include_sp else ""
+    measurement += "total_" if not include_idp and not include_sp else ""
     measurement += f"users_{measurement_scale}"
     return measurement
 
