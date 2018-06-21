@@ -16,7 +16,7 @@ PROFILE=local python -m server
 ```
 ### API
 
-See the [Wiki]() for the API documentation.
+See the [Wiki](https://github.com/OpenConext/OpenConext-statistics/wiki) for the API documentation.
 
 ### Testing
 
