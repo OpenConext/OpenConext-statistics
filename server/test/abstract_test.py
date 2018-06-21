@@ -34,5 +34,4 @@ class AbstractTest(TestCase):
                                        headers={"Authorization": "Basic ZGFzaGJvYXJkOnNlY3JldA=="},
                                        query_string=query_data)
             self.assertEqual(response_status_code, response.status_code, msg=str(response.json))
-            s.close()
             return response.json

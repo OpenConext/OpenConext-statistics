@@ -58,7 +58,10 @@ def main(config_file_location="config/config.yml"):
 
     is_local = profile is not None and profile == "local"
     is_test = test is not None and bool(int(test))
+
     _init_logging(is_local or is_test)
+
+    # WSGI production mode dictates that no flask app is actually running
     if is_local:
         app.run(port=8080, debug=False, host="0.0.0.0", threaded=True)
     else:
