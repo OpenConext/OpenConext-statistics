@@ -38,10 +38,14 @@ def identity_provider_tags():
 
 def _options():
     args = request.args
+    log = current_app.influx_config.log
+    valid_group_by = [log.idp_id, log.sp_id]
+    group_by = args.get("group_by", default="").split(",")
     return {
         "idp_entity_id": args.get("idp_entity_id"),
         "sp_entity_id": args.get("sp_entity_id"),
-        "include_unique": "true" == args.get("include_unique", default="true").lower()
+        "include_unique": "true" == args.get("include_unique", default="true").lower(),
+        "group_by": list(filter(lambda s: s in valid_group_by, map(lambda s: s.strip(), group_by)))
     }
 
 

@@ -57,7 +57,7 @@ def main(config_file_location="config/config.yml"):
     test = os.environ.get("TEST")
 
     is_local = profile is not None and profile == "local"
-    is_test = test is not None and bool(test)
+    is_test = test is not None and bool(int(test))
     _init_logging(is_local or is_test)
     if is_local:
         app.run(port=8080, debug=False, host="0.0.0.0", threaded=True)

@@ -1,5 +1,6 @@
 import datetime
 import math
+from collections import OrderedDict
 
 from dateutil import tz
 
@@ -60,25 +61,31 @@ def period_to_scale(period):
     return periods[period[4:5].lower()]
 
 
-def _bucket(date, scale):
+def _bucket(point, scale, group_by):
+    date = datetime.datetime.strptime(point["time"], "%Y-%m-%dT%H:%M:%SZ")
+    postfix = "".join(map(lambda k: point[k], group_by)) if group_by else ""
     if scale == "year":
-        return str(date.year)
+        return str(date.year) + postfix
     if scale == "month":
-        return f"{date.year}M{date.month}"
+        return f"{date.year}M{date.month}" + postfix
     if scale == "quarter":
-        return f"{date.year}Q{math.ceil(date.month/3)}"
+        return f"{date.year}Q{math.ceil(date.month/3)}" + postfix
 
 
-def group_by(points, scale, count_user_identifier):
+def _group_point(points, scale, count_user_identifier):
+    common_time = _bucket(points[0], scale, None)
+    aggregated = {"time": common_time, count_user_identifier: sum(p[count_user_identifier] for p in points)}
+    return {**points[0], **aggregated}
+
+
+def grouping(points, scale, count_user_identifier, group_by=None):
     if len(points) == 0:
         return points
-    result = {}
+    results = OrderedDict()
     for p in points:
-        date = datetime.datetime.strptime(p["time"], "%Y-%m-%dT%H:%M:%SZ")
-        bucket = _bucket(date, scale)
-        count = result.get(bucket)
-        if count is None:
-            result[bucket] = p[count_user_identifier]
+        bucket = _bucket(p, scale, group_by)
+        if bucket in results:
+            results[bucket].append(p)
         else:
-            result[bucket] = count + p[count_user_identifier]
-    return [{"time": k, count_user_identifier: v} for k, v in result.items()]
+            results[bucket] = [p]
+    return [_group_point(v, scale, count_user_identifier) for _, v in results.items()]
