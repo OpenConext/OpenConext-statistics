@@ -10,9 +10,8 @@ epoch = datetime.datetime.utcfromtimestamp(0)
 
 def get_points_with_tags(result_set: ResultSet):
     for row in result_set.raw["series"] if "series" in result_set.raw else []:
-        keys = row["columns"]
         for point in row.get("values", []):
-            yield {**dict(zip(keys, point)), **row["tags"]}
+            yield {**dict(zip(row["columns"], point)), **row["tags"]}
 
 
 def _query(s, transform=None, group_by=None):
