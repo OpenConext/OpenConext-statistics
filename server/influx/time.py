@@ -72,7 +72,7 @@ def _bucket(point, scale, group_by):
         return f"{date.year}Q{math.ceil(date.month/3)}" + postfix
 
 
-def _group_point(points, scale, count_user_identifier):
+def _group_points(points, scale, count_user_identifier):
     common_time = _bucket(points[0], scale, None)
     aggregated = {"time": common_time, count_user_identifier: sum(p[count_user_identifier] for p in points)}
     return {**points[0], **aggregated}
@@ -88,4 +88,4 @@ def grouping(points, scale, count_user_identifier, group_by=None):
             results[bucket].append(p)
         else:
             results[bucket] = [p]
-    return [_group_point(v, scale, count_user_identifier) for _, v in results.items()]
+    return [_group_points(v, scale, count_user_identifier) for _, v in results.items()]

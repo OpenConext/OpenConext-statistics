@@ -47,10 +47,11 @@ def _get_time(log_measurement_name, log_user_id_field, ascending=True):
 
 
 def _determine_measurement(config, group_by, idp_entity_id, sp_entity_id, measurement_scale):
-    measurement = ""
     include_sp = sp_entity_id or config.log.sp_id in group_by
-    measurement += "sp_" if include_sp else ""
     include_idp = idp_entity_id or config.log.idp_id in group_by
+
+    measurement = ""
+    measurement += "sp_" if include_sp else ""
     measurement += "idp_" if include_idp else ""
     measurement += "total_" if not include_idp and not include_sp else ""
     measurement += f"users_{measurement_scale}"
