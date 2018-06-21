@@ -2,7 +2,12 @@
 
 This project contains the Statistics API to retrieve login information from InfluxDB
 
-### Getting started
+### [System Requirements](#system-requirements)
+
+- InfluxDB v1.5.x
+- Python 3.6.x
+
+### [Getting started](#getting-started)
 
 Create a virtual environment:
 ```
@@ -14,11 +19,11 @@ And run the server module:
 ```
 PROFILE=local python -m server
 ```
-### API
+### [API](#api)
 
 See the [Wiki](https://github.com/OpenConext/OpenConext-statistics/wiki) for the API documentation.
 
-### Testing
+### [Testing](#testing)
 
 To run all tests:
 ```
