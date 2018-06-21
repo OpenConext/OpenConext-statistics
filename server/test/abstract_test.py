@@ -29,7 +29,7 @@ class AbstractTest(TestCase):
         return app
 
     def get(self, url, query_data={}, response_status_code=200):
-        with requests.Session() as s:
+        with requests.Session():
             response = self.client.get(f"/api/stats/{url}",
                                        headers={"Authorization": "Basic ZGFzaGJvYXJkOnNlY3JldA=="},
                                        query_string=query_data)
