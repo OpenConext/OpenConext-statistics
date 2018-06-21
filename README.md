@@ -1,11 +1,12 @@
 # OpenConext-Statistics
 
-This project contains the Statistics API to retrieve login information from InfluxDB
+This project contains the Statistics API to retrieve OpenConext login information.
 
 ### [System Requirements](#system-requirements)
 
-- InfluxDB v1.5.x
 - Python 3.6.x
+- InfluxDB v1.5.x
+
 
 ### [Getting started](#getting-started)
 
@@ -15,7 +16,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r ./requirements/test.txt
 ```
-And run the server module:
+Ensure InfluxDb is running and run the Python server:
 ```
 PROFILE=local python -m server
 ```
