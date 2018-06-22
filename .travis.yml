@@ -8,6 +8,7 @@ python:
   - "3.6"
 install:
   - pip install -r ./requirements/test.txt
+  - pip install codecov
   - mkdir influxdb_install
   - wget https://dl.influxdata.com/influxdb/releases/influxdb_1.5.3_amd64.deb
   - sudo dpkg -i influxdb_1.5.3_amd64.deb
@@ -15,3 +16,5 @@ install:
 script:
   - pytest --cov=server --cov-report= server/test
   - flake8 ./server/
+after_success:
+  - codecov
