@@ -1,4 +1,6 @@
 # OpenConext-Statistics
+[![Build Status](https://travis-ci.org/OpenConext/OpenConext-statistics.svg)](https://travis-ci.org/OpenConext/OpenConext-statistics)
+[![codecov.io](https://codecov.io/github/OpenConext/OpenConext-statistics/coverage.svg)](https://codecov.io/github/OpenConext/OpenConext-statistics)
 
 This project contains the Statistics API to retrieve OpenConext login information.
 
