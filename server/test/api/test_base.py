@@ -13,7 +13,7 @@ class TestBase(AbstractTest):
 
     def test_500(self):
         json = self.get("login_period", query_data={"period": "xxxx1"}, response_status_code=500)
-        self.assertEqual("Invalid period xxxx1. Must match \\d{4}[YQMWD]{0,1}\\d{0,3}$", json["message"])
+        self.assertEqual("Invalid period xxxx1. Must match \\d{4}[QMWD]{0,1}\\d{0,3}$", json["message"])
 
     def test_404(self):
         res = self.client.get("/nope")

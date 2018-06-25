@@ -9,7 +9,7 @@ from server.influx.repo import min_time, max_time, service_providers, identity_p
     login_by_time_period
 
 stats_api = Blueprint("stats_api", __name__, url_prefix="/api/stats")
-period_regex = r"\d{4}[YQMWD]{0,1}\d{0,3}$"
+period_regex = r"\d{4}[QMWD]{0,1}\d{0,3}$"
 
 
 @stats_api.route("/first_login", strict_slashes=False)
@@ -27,13 +27,13 @@ def last_login():
 @stats_api.route("/service_providers", strict_slashes=False)
 @json_endpoint
 def service_provider_tags():
-    return service_providers(current_app.influx_config.log.sp_id), 200
+    return list(map(lambda p: {"id": p, "name": p}, service_providers(current_app.influx_config.log.sp_id))), 200
 
 
 @stats_api.route("/identity_providers", strict_slashes=False)
 @json_endpoint
 def identity_provider_tags():
-    return identity_providers(current_app.influx_config.log.idp_id), 200
+    return list(map(lambda p: {"id": p, "name": p}, identity_providers(current_app.influx_config.log.idp_id))), 200
 
 
 def _options():

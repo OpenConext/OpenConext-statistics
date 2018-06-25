@@ -23,7 +23,7 @@ def service_provider_tags():
     return {}, 200
 
 
-@user_api.route("/error", strict_slashes=False)
+@user_api.route("/error", methods=["POST"], strict_slashes=False)
 @json_endpoint
 def error():
     return {}, 200

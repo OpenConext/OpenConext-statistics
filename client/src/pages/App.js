@@ -7,7 +7,7 @@ import NotFound from "../pages/NotFound";
 import ServerError from "../pages/ServerError";
 import Header from "../components/Header";
 import Navigation from "../components/Navigation";
-import {configuration, me, reportError} from "../api";
+import {identityProviders, me, reportError, serviceProviders} from "../api";
 import "../locale/en";
 import "../locale/nl";
 import Dummy from "./Dummy";
@@ -28,7 +28,8 @@ class App extends React.PureComponent {
         this.state = {
             loading: true,
             currentUser: {},
-            configuration: {},
+            allServiceProviders: [],
+            allIdentityProviders: [],
             error: false,
             errorDialogOpen: false,
             errorDialogAction: () => this.setState({errorDialogOpen: false})
@@ -72,9 +73,10 @@ class App extends React.PureComponent {
             me().catch(() => this.handleBackendDown())
                 .then(currentUser => {
                     if (currentUser && currentUser.uid) {
-                        configuration().then(configuration => {
-                            this.setState({loading: false, currentUser: currentUser, configuration: configuration});
-                        });
+                        this.setState({currentUser: currentUser, loading: false},
+                            () => Promise.all([identityProviders(), serviceProviders()]).then(res =>
+                                this.setState({allIdentityProviders: res[0], allServiceProviders: res[1]})
+                            ));
                     } else {
                         this.handleBackendDown();
                     }
@@ -84,49 +86,46 @@ class App extends React.PureComponent {
 
 
     render() {
-        const {loading, errorDialogAction, errorDialogOpen} = this.state;
-        console.log("loading 1 " + loading);
+        const {loading, errorDialogAction, errorDialogOpen, currentUser, allIdentityProviders, allServiceProviders}
+            = this.state;
         if (loading) {
             return null; // render null when app is not ready yet
         }
-        console.log("loading 2 " + loading);
-        const {currentUser, configuration} = this.state;
-
         return (
             <Router>
                 <div>
-                    <div>
+                    {currentUser && <div>
                         <Header currentUser={currentUser}/>
                         <Navigation currentUser={currentUser} {...this.props}/>
                         <ErrorDialog isOpen={errorDialogOpen}
                                      close={errorDialogAction}/>
-                    </div>
+                    </div>}
                     <Switch>
-                        <Route path={"/"} component={Index}/>
-                        {/*<Route exact path="/" render={() => <Redirect to="/index"/>}/>*/}
-                        {/*<Route path="/index"*/}
-                               {/*render={props => <Index {...props}/>}/>*/}
-                        {/*<Route path="/live"*/}
-                               {/*render={props => <Live {...props}/>}/>*/}
-                        {/*<Route path="/connected-identity-providers"*/}
-                               {/*render={props => <ConnectedIdentityProviders {...props}/>}/>*/}
-                        {/*<ProtectedRoute path="/overview"*/}
-                                        {/*guest={currentUser.guest}*/}
-                                        {/*render={props => <Overview {...props}/>}/>*/}
-                        {/*<ProtectedRoute path="/identity-providers"*/}
-                                        {/*guest={currentUser.guest}*/}
-                                        {/*render={props => <IdentityProviders {...props}/>}/>*/}
-                        {/*<ProtectedRoute path="/service-providers"*/}
-                                        {/*guest={currentUser.guest}*/}
-                                        {/*render={props => <ServiceProviders {...props}/>}/>*/}
-                        {/*<ProtectedRoute path="/advanced"*/}
-                                        {/*guest={currentUser.guest}*/}
-                                        {/*render={props => <Advanced {...props}/>}/>*/}
-                        {/*<Route path="/error"*/}
-                               {/*render={props => <ServerError {...props}/>}/>*/}
-                        {/*<Route path="/dummy"*/}
-                               {/*render={props => <Dummy {...props}/>}/>*/}
-                        {/*<Route component={NotFound}/>*/}
+                        <Route exact path="/" render={() => <Redirect to="/index"/>}/>
+                        <Route path={"/index"} component={Index}/>
+                        <Route path="/live"
+                               render={props => <Live {...props}/>}/>
+                        <Route path="/connected-identity-providers"
+                               render={props => <ConnectedIdentityProviders {...props}/>}/>
+                        <ProtectedRoute path="/overview"
+                                        user={currentUser}
+                                        render={props => <Overview serviceProviders={allServiceProviders}
+                                                                   identityProviders={allIdentityProviders}
+                                                                   {...props}/>}/>
+                        <ProtectedRoute path="/identity-providers"
+                                        user={currentUser}
+                                        render={props => <IdentityProviders {...props}/>}/>
+                        <ProtectedRoute path="/service-providers"
+                                        user={currentUser}
+                                        render={props => <ServiceProviders {...props}/>}/>
+                        <ProtectedRoute path="/advanced"
+                                        user={currentUser}
+                                        render={props => <Advanced {...props}/>}/>
+                        <Route path="/error"
+                               render={props => <ServerError {...props}/>}/>
+                        <Route path="/dummy"
+                               render={props => <Dummy {...props}/>}/>
+                        <Route component={NotFound}/>
                     </Switch>
                 </div>
             </Router>

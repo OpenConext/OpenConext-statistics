@@ -26,11 +26,14 @@ def json_endpoint(f):
         try:
             auth_filter(current_app.influx_config)
             body, status = f(*args, **kwargs)
-            return jsonify(body), status
+            response = jsonify(body)
+            response.headers.set("x-session-alive", "true")
+            return response, status
         except Exception as e:
             response = jsonify(message=e.description if isinstance(e, HTTPException) else str(e))
             logging.getLogger().exception("Message")
             response.status_code = e.code if isinstance(e, HTTPException) else 500
+            response.headers.set("x-session-alive", "true")
             if response.status_code == 401:
                 response.headers.set("WWW-Authenticate", "Basic realm=\"Please login\"")
             return response

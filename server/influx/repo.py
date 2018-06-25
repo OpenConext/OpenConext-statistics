@@ -24,11 +24,11 @@ def _query(s, transform=None, group_by=None):
 
 
 def service_providers(log_sp_tag):
-    return list(set(_query(f"show tag values with key = {log_sp_tag}", lambda res: res["value"])))
+    return set(_query(f"show tag values with key = {log_sp_tag}", lambda res: res["value"]))
 
 
 def identity_providers(log_idp_tag):
-    return list(set(_query(f"show tag values with key = {log_idp_tag}", lambda res: res["value"])))
+    return set(_query(f"show tag values with key = {log_idp_tag}", lambda res: res["value"]))
 
 
 def min_time(log_measurement_name, log_user_id_field):
