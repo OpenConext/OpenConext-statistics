@@ -71,7 +71,7 @@ def login_time_frame():
 @stats_api.route("/login_period", strict_slashes=False)
 @json_endpoint
 def login_time_period():
-    period = request.args.get("period")
+    period = request.args.get("period", "")
     if not re.match(period_regex, period, re.IGNORECASE):
         raise ValueError(f"Invalid period {period}. Must match {period_regex}")
 

@@ -4,7 +4,7 @@
 
 This project contains the Statistics API to retrieve OpenConext login information.
 
-### [System Requirements](#system-requirements)
+### [Overview Requirements](#system-requirements)
 
 - Python 3.6.x
 - InfluxDB v1.5.x

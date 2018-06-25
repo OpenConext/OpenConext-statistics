@@ -9,6 +9,7 @@ from munch import munchify
 
 from server.api.base import base_api
 from server.api.stats import stats_api
+from server.api.user import user_api
 from server.influx.cq import backfill_login_measurements
 
 
@@ -21,13 +22,15 @@ def read_file(file_name):
 def _init_logging(is_local):
     formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
     logger = logging.getLogger()
-    if not is_local:
+    if is_local:
+        logging.basicConfig()
+        logger.setLevel(logging.DEBUG)
+    else:
         handler = TimedRotatingFileHandler(f"{os.path.dirname(os.path.realpath(__file__))}/../log/stats.log",
                                            when="midnight", backupCount=15)
         handler.setFormatter(formatter)
-        logger.addHandler(handler)
         logger.setLevel(logging.INFO)
-
+        logger.addHandler(handler)
 
 def page_not_found(_):
     return jsonify({"message": f"{current_request.base_url} not found"}), 404
@@ -37,8 +40,10 @@ def main(config_file_location="config/config.yml"):
     config = munchify(yaml.load(read_file(config_file_location)))
 
     app = Flask(__name__)
-    app.register_blueprint(stats_api)
     app.register_blueprint(base_api)
+    app.register_blueprint(stats_api)
+    app.register_blueprint(user_api)
+
     app.register_error_handler(404, page_not_found)
 
     app.influx_client = InfluxDBClient(host=config.database.host,
@@ -55,6 +60,7 @@ def main(config_file_location="config/config.yml"):
 
     profile = os.environ.get("PROFILE")
     test = os.environ.get("TEST")
+    app.influx_config["profile"] = profile
 
     is_local = profile is not None and profile == "local"
     is_test = test is not None and bool(int(test))

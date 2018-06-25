@@ -11,7 +11,9 @@ def auth_filter(config):
     # Allow Cross-Origin Resource Sharing calls and health checks
     if current_request.method == "OPTIONS" or current_request.base_url.endswith("health"):
         return
-
+    if config.profile == "local":
+        return
+    # todo fetch shib header
     auth = current_request.authorization
     if not auth or len(list(filter(lambda user: user.name == auth.username and user.password == auth.password,
                                    config.api_users))) == 0:
