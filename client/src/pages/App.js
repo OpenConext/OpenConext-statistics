@@ -104,21 +104,24 @@ class App extends React.PureComponent {
                         <Route exact path="/" render={() => <Redirect to="/index"/>}/>
                         <Route path={"/index"} component={Index}/>
                         <Route path="/live"
-                               render={props => <Live {...props}/>}/>
+                               render={props => <Live serviceProviders={allServiceProviders}
+                                                      identityProviders={allIdentityProviders}
+                                                      user={currentUser}
+                                                      {...props}/>}/>
                         <Route path="/connected-identity-providers"
                                render={props => <ConnectedIdentityProviders {...props}/>}/>
-                        <ProtectedRoute path="/overview"
+                        <ProtectedRoute path="/dashboard/overview"
                                         user={currentUser}
                                         render={props => <Overview serviceProviders={allServiceProviders}
                                                                    identityProviders={allIdentityProviders}
                                                                    {...props}/>}/>
-                        <ProtectedRoute path="/identity-providers"
+                        <ProtectedRoute path="/dashboard/identity-providers"
                                         user={currentUser}
                                         render={props => <IdentityProviders {...props}/>}/>
-                        <ProtectedRoute path="/service-providers"
+                        <ProtectedRoute path="/dashboard/service-providers"
                                         user={currentUser}
                                         render={props => <ServiceProviders {...props}/>}/>
-                        <ProtectedRoute path="/advanced"
+                        <ProtectedRoute path="/dashboard/advanced"
                                         user={currentUser}
                                         render={props => <Advanced {...props}/>}/>
                         <Route path="/error"

@@ -1,0 +1,64 @@
+@import "../stylesheets/vars.scss";
+
+div.period {
+    border-radius: $br;
+    background-color: white;
+    border: 1px solid $lighter-grey;
+    span.title {
+        background-color: $light-grey;
+        padding: 10px;
+        border-top-left-radius: $br;
+        border-top-right-radius: $br;
+        display: block;
+        font-weight: bold;
+        font-size: 18px;
+        color: $darker-blue;
+    }
+
+    section.controls {
+        padding: 10px 15px;
+        span.sub-title {
+            &:not(:first-child) {
+                display: inline-block;
+                margin-top: 10px;
+            }
+        }
+    }
+    span.Select-clear-zone {
+        display: none;
+    }
+
+    div.Select-control {
+        border-radius: $br;
+        border: 1px solid $lighter-grey;
+        margin-top: 5px;
+        display: table;
+        border-spacing: 0;
+        border-collapse: separate;
+        outline: none;
+        overflow: hidden;
+        position: relative;
+    }
+
+    span.Select-arrow-zone {
+        padding: 0 12px;
+        background-color: $light-grey;
+    }
+    .react-datepicker-wrapper {
+        width: 100%;
+    }
+
+    .react-datepicker__input-container {
+        width: 100%;
+        input[type="text"] {
+            width: 100%;
+            font-size: 14px;
+            padding: 0 10px;
+            border-radius: 3px;
+            border: 1px solid #d9d9d8;
+            margin-top: 5px;
+            line-height: 33px;
+        }
+    }
+
+}

@@ -1,0 +1,8 @@
+@import "../stylesheets/vars.scss";
+@import "../stylesheets/mixins.scss";
+
+.overview {
+    @include page;
+
+}
+

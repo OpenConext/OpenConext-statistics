@@ -1,0 +1,15 @@
+@import "../stylesheets/vars.scss";
+@import "../stylesheets/mixins.scss";
+
+.overview {
+    @include page;
+    display: flex;
+
+    div.providers {
+        min-width: 15rem;
+    }
+    div.js-plotly-plot {
+        flex-grow: 5;
+    }
+}
+

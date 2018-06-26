@@ -64,8 +64,9 @@ def login_time_frame():
     to_arg = _parse_date("to")
     scale = request.args.get("scale", default="day")
 
-    return login_by_time_frame(current_app.influx_config, scale=scale, from_seconds=from_arg, to_seconds=to_arg,
-                               **_options()), 200
+    results = login_by_time_frame(current_app.influx_config, scale=scale, from_seconds=from_arg, to_seconds=to_arg,
+                                **_options())
+    return results if len(results) > 0 else ["no_results"], 200
 
 
 @stats_api.route("/login_period", strict_slashes=False)
@@ -75,4 +76,5 @@ def login_time_period():
     if not re.match(period_regex, period, re.IGNORECASE):
         raise ValueError(f"Invalid period {period}. Must match {period_regex}")
 
-    return login_by_time_period(current_app.influx_config, period, **_options()), 200
+    results = login_by_time_period(current_app.influx_config, period, **_options())
+    return results if len(results) > 0 else ["no_results"], 200

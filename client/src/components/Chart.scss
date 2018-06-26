@@ -1,0 +1,35 @@
+@import "../stylesheets/vars.scss";
+
+section.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 40px;
+    height: 100%;
+    width: 100%;
+    em {
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+}
+
+section.chart {
+    border-radius: $br;
+    background-color: white;
+    border: 1px solid $lighter-grey;
+    height: 100%;
+    width: 100%;
+
+    span.title {
+        background-color: $light-grey;
+        padding: 10px;
+        border-top-left-radius: $br;
+        border-top-right-radius: $br;
+        display: block;
+        font-weight: bold;
+        font-size: 18px;
+        color: $darker-blue;
+    }
+
+}
