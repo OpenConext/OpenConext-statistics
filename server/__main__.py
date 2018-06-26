@@ -32,6 +32,7 @@ def _init_logging(is_local):
         logger.setLevel(logging.INFO)
         logger.addHandler(handler)
 
+
 def page_not_found(_):
     return jsonify({"message": f"{current_request.base_url} not found"}), 404
 
