@@ -91,6 +91,7 @@ export function loginTimeFrame({
 
 export function loginPeriod({
                                 period = new Date().getFullYear(), include_unique = true,
+                                from = undefined, to = undefined,
                                 idp_entity_id, sp_entity_id, group_by
                             }) {
     const query = queryParam(arguments);

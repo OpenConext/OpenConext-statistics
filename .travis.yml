@@ -6,15 +6,24 @@ addons:
 
 python:
   - "3.6"
-install:
+node_js:
+- '7'
+cache:
+  yarn: true
+  directories:
+  - node_modules
+before_install:
   - pip install -r ./requirements/test.txt
   - pip install codecov
   - mkdir influxdb_install
   - wget https://dl.influxdata.com/influxdb/releases/influxdb_1.5.3_amd64.deb
   - sudo dpkg -i influxdb_1.5.3_amd64.deb
   - sudo service influxdb start
+  - npm install -g yarn
+install:
 script:
   - pytest --cov=server --cov-report= server/test
   - flake8 ./server/
+  - cd client && CI=true yarn test && yarn build
 after_success:
   - codecov

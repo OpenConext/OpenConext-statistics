@@ -61,20 +61,22 @@ export default class Chart extends React.PureComponent {
         const plotData = [{
             type: "scatter",
             mode: "lines",
+            fill: "tozeroy",
             name: I18n.t("chart.userCount"),
             x: userCount.map(p => p.time),
             y: userCount.map(p => p.count_user_id),
-            line: {color: "#17BECF"}
+            line: {color: "#058bcf"}
         }];
         if (includeUniques) {
             const uniqueUserCount = data.filter(p => p.distinct_count_user_id);
             const uniquePlotData = {
+                fill: "tozeroy",
                 type: "scatter",
                 mode: "lines",
                 name: I18n.t("chart.uniqueUserCount"),
                 x: uniqueUserCount.map(p => p.time),
                 y: uniqueUserCount.map(p => p.distinct_count_user_id),
-                line: {color: "#7F7F7F"}
+                line: {color: "#dbd304"}
             };
             plotData.push(uniquePlotData)
         }
@@ -83,7 +85,15 @@ export default class Chart extends React.PureComponent {
                 {title && <span className="title">{title}</span>}
                 <Plot
                     data={plotData}
-                    layout={{autosize: true, xaxis: xaxis, yaxis: yaxis}}
+                    layout={{
+                        autosize: true, xaxis: xaxis, yaxis: yaxis, legend: {
+                            traceorder: 'normal',
+                            bgcolor: '#ececec',
+                            bordercolor: '#dadada',
+                            borderwidth: 2,
+                            radius: 3
+                        }
+                    }}
                     useResizeHandler={true}
                     style={{width: "100%", height: "100%"}}/>
             </section>
@@ -96,5 +106,6 @@ Chart.propTypes = {
     data: PropTypes.array.isRequired,
     scale: PropTypes.string.isRequired,
     includeUniques: PropTypes.bool,
-    title: PropTypes.string
+    title: PropTypes.string,
+    groupedBy: PropTypes.array
 };

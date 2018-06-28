@@ -72,6 +72,9 @@ export default class Period extends React.PureComponent {
                         showYearDropdown
                         showMonthDropdown
                         onChange={this.invariant(onChangeTo, "from")}
+                        minDate={from}
+                        todayButton={I18n.t("period.today")}
+                        maxDate={moment()}
                     />
                     <span className="sub-title">{I18n.t("period.scale")}</span>
                     <Select onChange={option => option ? onChangeScale(option.value) : null}

@@ -84,9 +84,11 @@ def login_by_time_frame(config, scale="day", from_seconds=None, to_seconds=None,
     return records
 
 
-def login_by_time_period(config, period, idp_entity_id=None, sp_entity_id=None, include_unique=True, group_by=[]):
-    from_seconds, to_seconds = start_end_period(period)
-    measurement_scale = "day" if len(period) == 4 else "week" if period[4:5] == "w" else "day"
+def login_by_time_period(config, period, idp_entity_id=None, sp_entity_id=None, include_unique=True, group_by=[],
+                         from_s=None, to_s=None):
+    p = start_end_period(period) if period else (from_s, to_s)
+    from_seconds, to_seconds = p
+    measurement_scale = "day" if not period or len(period) == 4 else "week" if period[4:5] == "w" else "day"
     measurement = _determine_measurement(config, group_by, idp_entity_id, sp_entity_id, measurement_scale)
 
     q = f"select sum(count_user_id) as sum_count_user_id from {measurement} " \
@@ -98,7 +100,7 @@ def login_by_time_period(config, period, idp_entity_id=None, sp_entity_id=None, 
         q += f" group by {group_by_tags}"
 
     records = _query(q, group_by=group_by)
-    scale = period_to_scale(period)
+    scale = period_to_scale(period) if period else "day"
     needs_grouping = scale in ["month", "quarter", "year"]
     if needs_grouping:
         records = grouping(records, scale, "sum_count_user_id", group_by)

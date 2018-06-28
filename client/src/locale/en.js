@@ -45,7 +45,8 @@ I18n.translations.en = {
         all: {
             sp: "All Services",
             idp: "All Institutions"
-        }
+        },
+        groupBy: "Group by?"
     },
     period: {
         title: "Period",
@@ -67,7 +68,7 @@ I18n.translations.en = {
         uniqueUserCount: "Unique users",
         loading: "Fetching logins....",
         noResults: "No logins are recorded for the given period.",
-        date: "Datum",
+        date: "Date",
         logins: "Logins per {{scale}}"
     },
     live : {

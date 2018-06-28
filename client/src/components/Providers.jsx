@@ -8,7 +8,10 @@ import ProviderSelect from "./ProviderSelect";
 export default class Providers extends React.PureComponent {
 
     render() {
-        const {onChangeIdp, onChangeSp, serviceProviders, identityProviders, sp, idp} = this.props;
+        const {
+            onChangeIdp, onChangeSp, serviceProviders, identityProviders, sp, idp,
+            groupedBySp, groupedByIdp, onChangeGroupBySp, onChangeGroupByIdp
+        } = this.props;
         return (
             <div className="providers">
                 <span className="title">{I18n.t("providers.title")}</span>
@@ -18,6 +21,8 @@ export default class Providers extends React.PureComponent {
                                     i18nKey={"sp"}
                                     providers={serviceProviders}
                                     selectedProvider={sp}
+                                    groupedBy={groupedBySp}
+                                    onChangeGroupBy={onChangeGroupBySp}
                                     first={true}/>
                     }
 
@@ -25,7 +30,10 @@ export default class Providers extends React.PureComponent {
                     <ProviderSelect onChange={onChangeIdp}
                                     i18nKey={"idp"}
                                     providers={identityProviders}
-                                    selectedProvider={idp}/>}
+                                    selectedProvider={idp}
+                                    groupedBy={groupedByIdp}
+                                    onChangeGroupBy={onChangeGroupByIdp}
+                    />}
                 </section>
             </div>
         );
@@ -39,6 +47,11 @@ Providers.propTypes = {
     identityProviders: PropTypes.array,
     sp: PropTypes.string,
     idp: PropTypes.string,
+    groupedByIdp: PropTypes.bool.isRequired,
+    groupedBySp: PropTypes.bool.isRequired,
+    onChangeGroupByIdp: PropTypes.func.isRequired,
+    onChangeGroupBySp: PropTypes.func.isRequired
+
 };
 
 

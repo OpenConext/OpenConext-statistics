@@ -77,7 +77,7 @@ class TestStats(AbstractTest):
     def test_login_time_frame_group_by_quarter_and_sp(self):
         json = self.get("login_time_frame",
                         query_data={"from": "2016-08-01", "to": "2017-05-20", "scale": "quarter",
-                                    "group_by": "idp_entity_id", "include_unique": "false"})
+                                    "group_by": "idp_id", "include_unique": "false"})
         self.assertListEqual(
             [{'count_user_id': 1, 'idp_entity_id': 'https://idp/1', 'time': '2016Q3'},
              {'count_user_id': 3, 'idp_entity_id': 'https://idp/1', 'time': '2016Q4'},
@@ -91,7 +91,7 @@ class TestStats(AbstractTest):
     def test_login_time_frame_group_by_quarter_and_sp_idp(self):
         json = self.get("login_time_frame",
                         query_data={"from": "2017-01-01", "to": "2017-03-31", "scale": "quarter",
-                                    "group_by": " idp_entity_id, sp_entity_id , bogus", "include_unique": "false"})
+                                    "group_by": " idp_id, sp_id , bogus", "include_unique": "false"})
         self.assertListEqual(
             [{'count_user_id': 1, 'idp_entity_id': 'https://idp/1', 'sp_entity_id': 'https://sp/5', 'time': '2017Q1'},
              {'count_user_id': 1, 'idp_entity_id': 'https://idp/2', 'sp_entity_id': 'https://sp/4', 'time': '2017Q1'}],
@@ -109,11 +109,11 @@ class TestStats(AbstractTest):
 
     def test_login_period_by_month_no_results(self):
         json = self.get("login_period", query_data={"period": "2222M9"})
-        self.assertListEqual([], json)
+        self.assertListEqual(["no_results"], json)
 
     def test_login_period_year_group_by_idp(self):
         json = self.get("login_period",
-                        query_data={"period": "2017", "sp_entity_id": "https://sp/1", "group_by": "idp_entity_id"})
+                        query_data={"period": "2017", "sp_entity_id": "https://sp/1", "group_by": "idp_id"})
         self.assertListEqual([{"idp_entity_id": "https://idp/1", "sum_count_user_id": 1, "time": "2017"},
                               {"idp_entity_id": "https://idp/2", "sum_count_user_id": 1, "time": "2017"},
                               {"idp_entity_id": "https://idp/1", "sum_distinct_count_user_id": 1, "time": "2017"},
@@ -122,7 +122,7 @@ class TestStats(AbstractTest):
 
     def test_login_period_year_group_by_sp(self):
         json = self.get("login_period",
-                        query_data={"period": "2017", "idp_entity_id": "https://idp/1", "group_by": "sp_entity_id"})
+                        query_data={"period": "2017", "idp_entity_id": "https://idp/1", "group_by": "sp_id"})
         self.assertListEqual([{"sp_entity_id": "https://sp/1", "sum_count_user_id": 1, "time": "2017"},
                               {"sp_entity_id": "https://sp/2", "sum_count_user_id": 2, "time": "2017"},
                               {"sp_entity_id": "https://sp/3", "sum_count_user_id": 2, "time": "2017"},
@@ -137,8 +137,21 @@ class TestStats(AbstractTest):
     def test_login_period_year_group_by_sp_and_idp(self):
         json = self.get("login_period",
                         query_data={"period": "2017", "idp_entity_id": "https://idp/1",
-                                    "sp_entity_id": "https://sp/1", "group_by": "sp_entity_id,idp_entity_id"})
+                                    "sp_entity_id": "https://sp/1", "group_by": "sp_id,idp_id"})
         self.assertListEqual(
             [{'idp_entity_id': 'https://idp/1', 'sp_entity_id': 'https://sp/1', 'sum_count_user_id': 1, 'time': '2017'},
              {'idp_entity_id': 'https://idp/1', 'sp_entity_id': 'https://sp/1', 'sum_distinct_count_user_id': 1,
               'time': '2017'}], json)
+
+    def test_login_period_invalid(self):
+        self.get("login_period", response_status_code=500)
+
+    def test_login_period_from_to(self):
+        json = self.get("login_period", query_data={"from": "2017-1-1", "to": "2018-1-1"})
+        self.assertListEqual([{'sum_count_user_id': 14, 'time': '2017-01-01T00:00:00Z'},
+                              {'sum_distinct_count_user_id': 14, 'time': '2017-01-01T00:00:00Z'}], json)
+
+    def test_login_period_from_to_seconds(self):
+        json = self.get("login_period", query_data={"from": "1483228800", "to": "1514764800"})
+        self.assertListEqual([{'sum_count_user_id': 14, 'time': '2017-01-01T00:00:00Z'},
+                              {'sum_distinct_count_user_id': 14, 'time': '2017-01-01T00:00:00Z'}], json)

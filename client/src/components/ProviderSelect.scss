@@ -11,7 +11,9 @@ section.select-provider {
     span.Select-clear-zone {
         display: none;
     }
-
+    div.checkbox {
+        margin-top: 10px;
+    }
     div.Select-control {
         border-radius: $br;
         border: 1px solid $lighter-grey;
