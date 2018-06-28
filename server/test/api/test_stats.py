@@ -147,6 +147,11 @@ class TestStats(AbstractTest):
         self.get("login_period", response_status_code=500)
 
     def test_login_period_from_to(self):
+        json = self.get("login_period", query_data={"from": "2017-01-01", "to": "2018-01-01"})
+        self.assertListEqual([{'sum_count_user_id': 14, 'time': '2017-01-01T00:00:00Z'},
+                              {'sum_distinct_count_user_id': 14, 'time': '2017-01-01T00:00:00Z'}], json)
+
+    def test_login_period_from_to_simple_date(self):
         json = self.get("login_period", query_data={"from": "2017-1-1", "to": "2018-1-1"})
         self.assertListEqual([{'sum_count_user_id': 14, 'time': '2017-01-01T00:00:00Z'},
                               {'sum_distinct_count_user_id': 14, 'time': '2017-01-01T00:00:00Z'}], json)

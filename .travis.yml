@@ -24,6 +24,9 @@ install:
 script:
   - pytest --cov=server --cov-report= server/test
   - flake8 ./server/
-  - cd client && CI=true yarn test && yarn build
+  - cd client
+  - yarn install
+  - CI=true yarn test
+  - yarn build
 after_success:
   - codecov
