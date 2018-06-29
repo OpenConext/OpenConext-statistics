@@ -6,8 +6,8 @@ import "./ProviderSelect.css";
 import CheckBox from "./CheckBox";
 
 export default function ProviderSelect({
-                                           onChange, i18nKey, providers = [], selectedProvider = "",
-                                           groupedBy = false, onChangeGroupBy, first = false
+                                           onChange, i18nKey, providers = [], selectedProvider = "", first = false,
+                                           groupedBy = false, onChangeGroupBy, aggregate = false
                                        }) {
     return (
         <section className="select-provider">
@@ -18,8 +18,9 @@ export default function ProviderSelect({
                     value={selectedProvider}
                     searchable={true}
                     clearable={false}/>
-            {selectedProvider !== "" && <CheckBox name={i18nKey} value={groupedBy}
-                                                  info={I18n.t("providers.groupBy")}
-                                                  onChange={onChangeGroupBy}/>}
+            <CheckBox name={i18nKey} value={groupedBy}
+                      info={I18n.t("providers.groupBy")}
+                      onChange={onChangeGroupBy}
+                      readOnly={selectedProvider !== "" || !aggregate}/>
         </section>);
 }

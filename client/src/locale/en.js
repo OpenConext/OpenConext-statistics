@@ -41,12 +41,13 @@ I18n.translations.en = {
     providers: {
         title: "Providers",
         sp: "Services",
-        idp:"Institutions",
+        idp: "Institutions",
         all: {
             sp: "All Services",
             idp: "All Institutions"
         },
-        groupBy: "Group by?"
+        aggregate: "Aggregate",
+        groupBy: "Group by"
     },
     period: {
         title: "Period",
@@ -60,7 +61,9 @@ I18n.translations.en = {
         week: "Week",
         day: "Day",
         hour: "Hour",
-        minute: "Minute"
+        minute: "Minute",
+        none: "NONE",
+        date: "Date"
     },
     chart: {
         title: "Logins and users per day",
@@ -69,9 +72,11 @@ I18n.translations.en = {
         loading: "Fetching logins....",
         noResults: "No logins are recorded for the given period.",
         date: "Date",
-        logins: "Logins per {{scale}}"
+        logins: "Logins per {{scale}}",
+        allLogins: "Total logins",
+        uniqueLogins: "Unique logins"
     },
-    live : {
+    live: {
         chartTitle: "Total logins per {{scale}}"
     },
     error_dialog: {

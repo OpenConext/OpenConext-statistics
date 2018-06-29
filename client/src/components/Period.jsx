@@ -14,6 +14,7 @@ import moment from "moment";
 moment("nl");
 
 const defaultScales = ["year", "quarter", "month", "week", "day", "hour", "minute"];
+const allowedAggregatedScales = ["year", "quarter", "month", "week", "day"];
 
 export default class Period extends React.PureComponent {
 
@@ -50,13 +51,15 @@ export default class Period extends React.PureComponent {
 
 
     render() {
-        const {scale, onChangeScale, onChangeFrom, from, to, onChangeTo} = this.props;
-        const {scales} = this.state;
+        const {scale, onChangeScale, onChangeFrom, from, to, onChangeTo, aggregate} = this.props;
+        const scales = aggregate ? [...this.state.scales].filter(s => allowedAggregatedScales.indexOf(s) > -1).concat(["none"]) :
+            this.state.scales;
+        const noScaleSelected = scale === "none";
         return (
             <div className="period">
                 <span className="title">{I18n.t("period.title")}</span>
                 <section className="controls">
-                <span className="sub-title">{I18n.t("period.from")}</span>
+                    <span className="sub-title">{I18n.t(noScaleSelected ? "period.date" : "period.from")}</span>
                     <DatePicker
                         selected={from}
                         onChange={this.invariant(onChangeFrom, "to")}
@@ -66,8 +69,8 @@ export default class Period extends React.PureComponent {
                         todayButton={I18n.t("period.today")}
                         maxDate={to}
                     />
-                    <span className="sub-title">{I18n.t("period.to")}</span>
-                    <DatePicker
+                    <span key="1" className="sub-title">{I18n.t("period.to")}</span>
+                    <DatePicker key="2"
                         selected={to}
                         showYearDropdown
                         showMonthDropdown
@@ -96,4 +99,5 @@ Period.propTypes = {
     from: PropTypes.object,
     onChangeTo: PropTypes.func.isRequired,
     to: PropTypes.object,
+    aggregate: PropTypes.bool
 };

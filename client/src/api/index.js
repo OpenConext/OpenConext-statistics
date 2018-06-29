@@ -82,7 +82,8 @@ export function lastLogin() {
 }
 
 export function loginTimeFrame({
-                                   from, to = Math.floor(new Date().getTime() / 1000), scale = "day", include_unique = true,
+                                   from, to = Math.floor(new Date().getTime() / 1000), scale = "day",
+                                   include_unique = true,
                                    idp_entity_id, sp_entity_id, group_by
                                }) {
     const query = queryParam(arguments);
@@ -103,14 +104,14 @@ export function health() {
 }
 
 export function me() {
-    return fetchJson("api/users/me", {}, {}, false);
+    return fetchJson("/api/users/me", {}, {}, false);
 }
 
 export function reportError(error) {
-    return postPutJson("api/users/error", error, "post");
+    return postPutJson("/api/users/error", error, "post");
 }
 
 export function logOut() {
-    return fetchDelete("api/users/logout");
+    return fetchDelete("/api/users/logout");
 }
 
