@@ -38,4 +38,4 @@ def logout():
 @json_endpoint
 def error():
     logging.getLogger("user_api").exception(json.dumps(request.json))
-    return {}, 200
+    return {}, 201
