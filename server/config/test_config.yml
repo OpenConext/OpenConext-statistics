@@ -11,6 +11,9 @@ log:
   sp_id: sp_entity_id
   idp_id: idp_entity_id
 
+secret_key: secret
+product: OpenConext
+
 api_users:
   - name: "dashboard"
     password: "secret"

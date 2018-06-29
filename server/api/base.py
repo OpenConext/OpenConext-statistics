@@ -1,19 +1,16 @@
 import logging
 from functools import wraps
 
-from flask import Blueprint, jsonify, current_app, request as current_request
+from flask import Blueprint, jsonify, current_app, request as current_request, session
 from werkzeug.exceptions import HTTPException, Unauthorized
 
 base_api = Blueprint("base_api", __name__, url_prefix="/")
 
 
 def auth_filter(config):
-    # Allow Cross-Origin Resource Sharing calls and health checks
-    if current_request.method == "OPTIONS" or current_request.base_url.endswith("health"):
+    url = current_request.base_url
+    if url.endswith("health") or url.endswith("api/users/me") or "user" in session:
         return
-    if config.profile == "local":
-        return
-    # todo fetch shib header
     auth = current_request.authorization
     if not auth or len(list(filter(lambda user: user.name == auth.username and user.password == auth.password,
                                    config.api_users))) == 0:
@@ -24,7 +21,7 @@ def json_endpoint(f):
     @wraps(f)
     def json(*args, **kwargs):
         try:
-            auth_filter(current_app.influx_config)
+            auth_filter(current_app.app_config)
             body, status = f(*args, **kwargs)
             response = jsonify(body)
             response.headers.set("x-session-alive", "true")

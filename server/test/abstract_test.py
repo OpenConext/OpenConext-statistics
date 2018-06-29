@@ -10,7 +10,7 @@ from server.influx.cq import backfill_login_measurements
 class AbstractTest(TestCase):
 
     def setUp(self):
-        db_name = self.app.influx_config.database.name
+        db_name = self.app.app_config.database.name
         influx_client = self.app.influx_client
         if len(list(filter(lambda m: m["name"] == db_name, influx_client.get_list_database()))) == 0:
             influx_client.drop_database(db_name)
@@ -20,7 +20,7 @@ class AbstractTest(TestCase):
             with open(file) as f:
                 json_body = json.loads(f.read())
                 influx_client.write_points(json_body)
-            backfill_login_measurements(self.app.influx_config, influx_client)
+            backfill_login_measurements(self.app.app_config, influx_client)
 
     def create_app(self):
         from server.__main__ import main
@@ -28,9 +28,9 @@ class AbstractTest(TestCase):
         app = main("config/test_config.yml")
         return app
 
-    def get(self, url, query_data={}, response_status_code=200):
+    def get(self, url, query_data={}, response_status_code=200, api="stats"):
         with requests.Session():
-            response = self.client.get(f"/api/stats/{url}",
+            response = self.client.get(f"/api/{api}/{url}",
                                        headers={"Authorization": "Basic ZGFzaGJvYXJkOnNlY3JldA=="},
                                        query_string=query_data)
             self.assertEqual(response_status_code, response.status_code, msg=str(response.json))

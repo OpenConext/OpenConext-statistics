@@ -41,6 +41,8 @@ def main(config_file_location="config/config.yml"):
     config = munchify(yaml.load(read_file(config_file_location)))
 
     app = Flask(__name__)
+    app.secret_key = config.secret_key
+
     app.register_blueprint(base_api)
     app.register_blueprint(stats_api)
     app.register_blueprint(user_api)
@@ -52,7 +54,7 @@ def main(config_file_location="config/config.yml"):
                                        username=config.database.username,
                                        password=config.database.password,
                                        database=config.database.name)
-    app.influx_config = config
+    app.app_config = config
     if len(list(filter(lambda m: m["name"] == config.database.name, app.influx_client.get_list_database()))) != 0:
         app.influx_client.switch_database(config.database.name)
         measurements_count = len(list(app.influx_client.get_list_measurements()))
@@ -61,7 +63,7 @@ def main(config_file_location="config/config.yml"):
 
     profile = os.environ.get("PROFILE")
     test = os.environ.get("TEST")
-    app.influx_config["profile"] = profile
+    app.app_config["profile"] = profile
 
     is_local = profile is not None and profile == "local"
     is_test = test is not None and bool(int(test))

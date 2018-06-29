@@ -6,7 +6,7 @@ class CqBase(AbstractTest):
     def create_app(self):
         app = super(CqBase, self).create_app()
         # Force creation of Continuous Queries
-        app.influx_client.drop_database(app.influx_config.database.name)
+        app.influx_client.drop_database(app.app_config.database.name)
         return app
 
     def test_cq(self):

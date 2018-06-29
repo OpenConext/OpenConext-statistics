@@ -15,30 +15,30 @@ period_regex = r"\d{4}[QMWD]{0,1}\d{0,3}$"
 @stats_api.route("/first_login", strict_slashes=False)
 @json_endpoint
 def first_login():
-    return min_time(current_app.influx_config.log.measurement, current_app.influx_config.log.user_id), 200
+    return min_time(current_app.app_config.log.measurement, current_app.app_config.log.user_id), 200
 
 
 @stats_api.route("/last_login", strict_slashes=False)
 @json_endpoint
 def last_login():
-    return max_time(current_app.influx_config.log.measurement, current_app.influx_config.log.user_id), 200
+    return max_time(current_app.app_config.log.measurement, current_app.app_config.log.user_id), 200
 
 
 @stats_api.route("/service_providers", strict_slashes=False)
 @json_endpoint
 def service_provider_tags():
-    return list(map(lambda p: {"id": p, "name": p}, service_providers(current_app.influx_config.log.sp_id))), 200
+    return list(map(lambda p: {"id": p, "name": p}, service_providers(current_app.app_config.log.sp_id))), 200
 
 
 @stats_api.route("/identity_providers", strict_slashes=False)
 @json_endpoint
 def identity_provider_tags():
-    return list(map(lambda p: {"id": p, "name": p}, identity_providers(current_app.influx_config.log.idp_id))), 200
+    return list(map(lambda p: {"id": p, "name": p}, identity_providers(current_app.app_config.log.idp_id))), 200
 
 
 def _options():
     args = request.args
-    log = current_app.influx_config.log
+    log = current_app.app_config.log
     valid_group_by = ["idp_id", "sp_id"]
     group_by = args.get("group_by", default="").split(",")
     return {
@@ -66,7 +66,7 @@ def login_time_frame():
     to_arg = _parse_date("to")
     scale = request.args.get("scale", default="day")
 
-    results = login_by_time_frame(current_app.influx_config, scale=scale, from_seconds=from_arg, to_seconds=to_arg,
+    results = login_by_time_frame(current_app.app_config, scale=scale, from_seconds=from_arg, to_seconds=to_arg,
                                   **_options())
     return results if len(results) > 0 else ["no_results"], 200
 
@@ -82,5 +82,5 @@ def login_time_period():
     if not period and (not from_arg or not to_arg):
         raise ValueError("Must either specify period or from and to")
 
-    results = login_by_time_period(current_app.influx_config, period, **_options(), from_s=from_arg, to_s=to_arg)
+    results = login_by_time_period(current_app.app_config, period, **_options(), from_s=from_arg, to_s=to_arg)
     return results if len(results) > 0 else ["no_results"], 200
