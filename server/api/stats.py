@@ -42,11 +42,12 @@ def _options():
     valid_group_by = ["idp_id", "sp_id"]
     group_by = args.get("group_by", default="").split(",")
     return {
-        "idp_entity_id": args.get("idp_entity_id"),
-        "sp_entity_id": args.get("sp_entity_id"),
+        "idp_entity_id": args.get("idp_id"),
+        "sp_entity_id": args.get("sp_id"),
         "include_unique": "true" == args.get("include_unique", default="true").lower(),
         "group_by": list(
-            map(lambda s: log[s], filter(lambda s: s in valid_group_by, map(lambda s: s.strip(), group_by))))
+            map(lambda s: log[s], filter(lambda s: s in valid_group_by, map(lambda s: s.strip(), group_by)))),
+        "epoch": args.get("epoch")
     }
 
 

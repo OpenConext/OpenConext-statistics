@@ -26,6 +26,7 @@ class AbstractTest(TestCase):
         from server.__main__ import main
         os.environ["TEST"] = "1"
         app = main("config/test_config.yml")
+        app.app_config.test = True
         return app
 
     def get(self, url, query_data={}, response_status_code=200, api="stats"):
