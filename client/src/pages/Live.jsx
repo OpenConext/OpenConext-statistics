@@ -36,10 +36,10 @@ export default class Live extends React.PureComponent {
             loginPeriod({
                 period: period,
                 include_unique: !user.guest,
-                from: period ? undefined : from.unix(),
-                to: period ? undefined : to.unix(),
-                idp_entity_id: idp,
-                sp_entity_id: sp,
+                from: period ? undefined : from.utc().unix(),
+                to: period ? undefined : to.utc().unix(),
+                idp_id: idp,
+                sp_id: sp,
                 group_by: groupBy
             }).then(res => this.setState({data: res}));
         } else {
@@ -48,9 +48,10 @@ export default class Live extends React.PureComponent {
                 to: to.utc().unix(),
                 include_unique: !user.guest,
                 scale: scale,
-                idp_entity_id: idp,
-                sp_entity_id: sp,
-                group_by: groupBy
+                idp_id: idp,
+                sp_id: sp,
+                group_by: groupBy,
+                epoch: "ms"
             }).then(res => this.setState({data: res}));
         }
     }
@@ -66,12 +67,12 @@ export default class Live extends React.PureComponent {
     };
 
     onChangeSp = val => {
-        this.setState({data: [], sp: val},
+        this.setState({data: [], sp: val, groupedBySp: val === "" ? this.state.groupedBySp : false},
             () => this.componentDidMount());
     };
 
     onChangeIdP = val => {
-        this.setState({data: [], idp: val},
+        this.setState({data: [], idp: val, groupedByIdp: val === "" ? this.state.groupedByIdp : false},
             () => this.componentDidMount());
     };
 
@@ -82,7 +83,13 @@ export default class Live extends React.PureComponent {
 
     onChangeAggregate = e => {
         const aggregate = e.target.checked;
-        this.setState({data: [], aggregate: aggregate, scale: aggregate ? "none" : this.state.scale},
+        this.setState({
+                data: [],
+                aggregate: aggregate,
+                scale: aggregate ? "none" : this.state.scale,
+                groupedBySp: aggregate ? this.state.groupedBySp : false,
+                groupedByIdp: aggregate ? this.state.groupedByIdp : false
+            },
             () => this.componentDidMount());
     };
 

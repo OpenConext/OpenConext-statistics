@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-export default class HighChartContainer extends React.PureComponent {
+export default class HighChartContainer extends React.Component {
+
     componentDidMount() {
         const {highcharts, constructorType = "chart", options} = this.props;
         this.chart = highcharts[constructorType](this.container, options)

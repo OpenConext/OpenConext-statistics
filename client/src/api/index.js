@@ -84,7 +84,8 @@ export function lastLogin() {
 export function loginTimeFrame({
                                    from, to = Math.floor(new Date().getTime() / 1000), scale = "day",
                                    include_unique = true,
-                                   idp_entity_id, sp_entity_id, group_by
+                                   idp_id, sp_id, group_by,
+                                   epoch = "ms"
                                }) {
     const query = queryParam(arguments);
     return fetchJson(`/api/stats/login_time_frame${query}`)
@@ -93,7 +94,7 @@ export function loginTimeFrame({
 export function loginPeriod({
                                 period = new Date().getFullYear(), include_unique = true,
                                 from = undefined, to = undefined,
-                                idp_entity_id, sp_entity_id, group_by
+                                idp_id, sp_id, group_by
                             }) {
     const query = queryParam(arguments);
     return fetchJson(`/api/stats/login_period${query}`)
