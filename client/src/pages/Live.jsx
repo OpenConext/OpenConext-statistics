@@ -62,7 +62,7 @@ export default class Live extends React.PureComponent {
     };
 
     onChangeTo = val => {
-        this.setState({data: [], to: val},
+        this.setState({data: [], to: val, scale: this.state.aggregate && val ? "none" : this.state.scale},
             () => this.componentDidMount());
     };
 
@@ -77,7 +77,11 @@ export default class Live extends React.PureComponent {
     };
 
     onChangeScale = scale => {
-        this.setState({data: [], scale: scale},
+        this.setState({
+                data: [],
+                scale: scale,
+                to: scale !== "none" && this.state.aggregate ? undefined : this.state.to
+            },
             () => this.componentDidMount());
     };
 
@@ -101,6 +105,27 @@ export default class Live extends React.PureComponent {
     onChangeGroupByIdp = e => {
         this.setState({data: [], groupedByIdp: e.target.checked},
             () => this.componentDidMount());
+    };
+
+    title = (from, to, scale, sp, idp, aggregate, groupedByIdp, groupedBySp) => {
+        if (from && to && !aggregate) {
+            return I18n.t("live.chartTitle", {
+                from: from.format('MMMM Do YYYY, h:mm:ss a'),
+                to: to.format('MMMM Do YYYY, h:mm:ss a'),
+                scale: scale
+            });
+        }
+        if (from && to && aggregate) {
+            return I18n.t("live.aggregatedChartTitle", {
+                from: from.format('MMMM Do YYYY, h:mm:ss a'),
+                to: to.format('MMMM Do YYYY, h:mm:ss a')
+            });
+        }
+        if (scale && scale !== "none" && from && aggregate) {
+            return I18n.t("live.aggregatedChartTitlePeriod", {
+                period: getPeriod(from, scale)
+            });
+        }
     };
 
     render() {
@@ -132,7 +157,7 @@ export default class Live extends React.PureComponent {
                 <Chart data={data}
                        scale={scale}
                        includeUniques={!user.guest}
-                       title={I18n.t("live.chartTitle", {scale: scale})}
+                       title={this.title(from, to, scale, sp, idp, aggregate, groupedByIdp, groupedBySp)}
                        groupedBySp={groupedBySp}
                        groupedByIdp={groupedByIdp}
                        aggregate={aggregate}/>

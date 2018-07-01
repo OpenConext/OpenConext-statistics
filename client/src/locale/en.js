@@ -24,10 +24,9 @@ I18n.translations.en = {
     },
 
     navigation: {
+        live: "Stats",
         overview: "Overview",
-        idps: "Institutions",
-        sps: "Services",
-        advanced: "Advanced"
+        connected_identity_providers: "Institutions",
     },
 
     index: {
@@ -62,7 +61,7 @@ I18n.translations.en = {
         day: "Day",
         hour: "Hour",
         minute: "Minute",
-        none: "NONE",
+        none: "N/A",
         date: "Date"
     },
     chart: {
@@ -77,7 +76,9 @@ I18n.translations.en = {
         uniqueLogins: "Unique logins"
     },
     live: {
-        chartTitle: "Total logins per {{scale}}"
+        chartTitle: "Total logins from {{from}} until {{to}} grouped by {{scale}}",
+        aggregatedChartTitle: "Aggregated logins from {{from}} until {{to}}",
+        aggregatedChartTitlePeriod: "Aggregated logins for the period {{period}}"
     },
     error_dialog: {
         title: "Unexpected error",

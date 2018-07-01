@@ -44,11 +44,11 @@ export default class Chart extends React.PureComponent {
         series: [{
             color: "#15A300",
             name: 'Unique logins',
-            data: data.map(p => [p.time, p.distinct_count_user_id])
+            data: data.filter(p => p.distinct_count_user_id).map(p => [p.time, p.distinct_count_user_id])
         }, {
             color: "#D4AF37",
             name: 'Total logins',
-            data: data.map(p => [p.time, p.count_user_id])
+            data: data.filter(p => p.count_user_id).map(p => [p.time, p.count_user_id])
         }]
     });
 
@@ -81,8 +81,9 @@ export default class Chart extends React.PureComponent {
         const userCount = data.filter(p => aggregate ? p.sum_count_user_id : p.count_user_id);
         const uniqueUserCount = includeUniques ? data.filter(p => aggregate ? p.sum_distinct_count_user_id : p.distinct_count_user_id) : [];
         const groupedByBoth = groupedByIdp && groupedBySp;
-        const yValues = userCount.map(p => groupedByBoth ? `${p.sp_entity_id}-${p.idp_entity_id}` :
-            groupedBySp ? p.sp_entity_id : groupedByIdp ? p.idp_entity_id : I18n.t("chart.allLogins"));
+        const yValues = aggregate ? Array.from(new Set(userCount.map(p => groupedByBoth ? `${p.sp_entity_id}-${p.idp_entity_id}` :
+            groupedBySp ? p.sp_entity_id : groupedByIdp ? p.idp_entity_id : I18n.t("chart.allLogins")))) : [];
+
         const options = aggregate ? this.aggregatedOptions(data, yValues, userCount, uniqueUserCount) : this.nonAggregatedOptions(data);
         return (
             <section className="chart">

@@ -11,13 +11,9 @@ import {identityProviders, me, reportError, serviceProviders} from "../api";
 import "../locale/en";
 import "../locale/nl";
 import Dummy from "./Dummy";
-import Index from "./Index";
 import Live from "./Live";
 import ConnectedIdentityProviders from "./ConnectedIdentityProviders";
 import Overview from "./Overview";
-import IdentityProviders from "./IdentityProviders";
-import ServiceProviders from "./ServiceProviders";
-import Advanced from "./Advanced";
 
 const S4 = () => (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 
@@ -101,8 +97,8 @@ class App extends React.PureComponent {
                                      close={errorDialogAction}/>
                     </div>}
                     <Switch>
-                        <Route exact path="/" render={() => <Redirect to="/index"/>}/>
-                        <Route path={"/index"} component={Index}/>
+                        <Route exact path="/" render={() => <Redirect to="/live"/>}/>
+                        {/*<Route path={"/index"} component={Index}/>*/}
                         <Route path="/live"
                                render={props => <Live serviceProviders={allServiceProviders}
                                                       identityProviders={allIdentityProviders}
@@ -110,20 +106,11 @@ class App extends React.PureComponent {
                                                       {...props}/>}/>
                         <Route path="/connected-identity-providers"
                                render={props => <ConnectedIdentityProviders {...props}/>}/>
-                        <ProtectedRoute path="/dashboard/overview"
+                        <ProtectedRoute path="/overview"
                                         user={currentUser}
                                         render={props => <Overview serviceProviders={allServiceProviders}
                                                                    identityProviders={allIdentityProviders}
                                                                    {...props}/>}/>
-                        <ProtectedRoute path="/dashboard/identity-providers"
-                                        user={currentUser}
-                                        render={props => <IdentityProviders {...props}/>}/>
-                        <ProtectedRoute path="/dashboard/service-providers"
-                                        user={currentUser}
-                                        render={props => <ServiceProviders {...props}/>}/>
-                        <ProtectedRoute path="/dashboard/advanced"
-                                        user={currentUser}
-                                        render={props => <Advanced {...props}/>}/>
                         <Route path="/error"
                                render={props => <ServerError {...props}/>}/>
                         <Route path="/dummy"
