@@ -1,8 +1,12 @@
 import datetime
 
 from dateutil import tz
+from flask import current_app
+from urllib3_mock import Responses
 
 from server.test.abstract_test import AbstractTest
+
+responses = Responses("requests.packages.urllib3")
 
 
 class TestStats(AbstractTest):
@@ -11,13 +15,32 @@ class TestStats(AbstractTest):
         dt = datetime.datetime.fromtimestamp(milliseconds / 1000, tz=tz.tzutc())
         self.assertEquals(date_str, dt.strftime("%Y-%m-%dT%H:%M:%SZ"))
 
+    def mock_manage(self, type):
+        responses.add("POST", f"/manage/api/internal/search/saml20_{type}",
+                      body=AbstractTest.read_file(f"mock/manage_metadata_{type}.json"), status=200,
+                      content_type="application/json")
+
+    @responses.activate
     def test_service_providers(self):
+        self.mock_manage("sp")
         json = self.get("service_providers")
         self.assertEqual(5, len(json))
 
+    @responses.activate
     def test_identity_providers(self):
+        self.mock_manage("idp")
         json = self.get("identity_providers")
         self.assertEqual(3, len(json))
+
+    def test_identity_providers_local(self):
+        current_app.app_config["profile"] = "local"
+        json = self.get("identity_providers")
+        self.assertEqual(3, len(json))
+
+    def test_service_providers_local(self):
+        current_app.app_config["profile"] = "local"
+        json = self.get("service_providers")
+        self.assertEqual(5, len(json))
 
     def test_first_login(self):
         json = self.get("first_login")

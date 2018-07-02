@@ -5,8 +5,9 @@ from dateutil import tz
 from flask import Blueprint, current_app, request
 
 from server.api.base import json_endpoint
-from server.influx.repo import min_time, max_time, service_providers, identity_providers, login_by_time_frame, \
-    login_by_time_period
+from server.influx.repo import min_time, max_time, login_by_time_frame, \
+    login_by_time_period, service_providers_tags, identity_providers_tags
+from server.manage.manage import service_providers, identity_providers
 
 stats_api = Blueprint("stats_api", __name__, url_prefix="/api/stats")
 period_regex = r"\d{4}[QMWD]{0,1}\d{0,3}$"
@@ -26,14 +27,16 @@ def last_login():
 
 @stats_api.route("/service_providers", strict_slashes=False)
 @json_endpoint
-def service_provider_tags():
-    return list(map(lambda p: {"id": p, "name": p}, service_providers(current_app.app_config.log.sp_id))), 200
+def service_provider_data():
+    return (service_providers_tags(current_app.app_config.log.measurement, current_app.app_config.log.sp_id), 200) \
+        if current_app.app_config.profile == "local" else (service_providers(), 200)
 
 
 @stats_api.route("/identity_providers", strict_slashes=False)
 @json_endpoint
-def identity_provider_tags():
-    return list(map(lambda p: {"id": p, "name": p}, identity_providers(current_app.app_config.log.idp_id))), 200
+def identity_provider_data():
+    return (identity_providers_tags(current_app.app_config.log.measurement, current_app.app_config.log.idp_id), 200) \
+        if current_app.app_config.profile == "local" else (identity_providers(), 200)
 
 
 def _options():

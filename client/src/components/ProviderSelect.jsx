@@ -14,7 +14,10 @@ export default function ProviderSelect({
             <span className={`${first ? 'first ' : ''}sub-title`}>{I18n.t(`providers.${i18nKey}`)}</span>
             <Select onChange={option => option ? onChange(option.value) : null}
                     options={[{value: "", label: I18n.t(`providers.all.${i18nKey}`)}]
-                        .concat(providers.map(p => ({value: p.name, label: p.id})))}
+                        .concat(providers.map(p => ({
+                            value: p.id,
+                            label: I18n.locale === "en" ? p.name_en : p.name_nl || p.id
+                        })))}
                     value={selectedProvider}
                     searchable={true}
                     clearable={false}/>

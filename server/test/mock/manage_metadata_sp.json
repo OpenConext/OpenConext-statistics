@@ -1,0 +1,61 @@
+[
+  {
+    "_id": "2cc71508-1b68-4a3e-b553-f04b6b2a689c",
+    "version": 11,
+    "data": {
+      "entityid": "urn:thki:sid:ee1",
+      "state": "prodaccepted",
+      "metaDataFields": {
+        "name:en": "thki sid sp",
+        "name:nl": "thki sid sp"
+      }
+    }
+  },
+  {
+    "_id": "c9002374-7e5a-4c82-bb36-8c6ae47ed745",
+    "version": 1,
+    "data": {
+      "entityid": "https://test.domein.nl",
+      "state": "testaccepted",
+      "metaDataFields": {
+        "name:en": "123",
+        "name:nl": "123"
+      }
+    }
+  },
+  {
+    "_id": "d4e7de27-c9af-4f80-8d1f-c0832225fa8c",
+    "version": 1,
+    "data": {
+      "entityid": "https://teams.example.nl/shibboleth",
+      "state": "testaccepted",
+      "metaDataFields": {
+        "name:en": "testbart2",
+        "name:nl": "Testbart 2"
+      }
+    }
+  },
+  {
+    "_id": "74ff2a7c-3f10-494c-a7be-3d76f6d8d2cf",
+    "version": 1,
+    "data": {
+      "entityid": "urn:ee:thki:3",
+      "state": "prodaccepted",
+      "metaDataFields": {
+        "name:en": "thki test acs"
+      }
+    }
+  },
+  {
+    "_id": "cecc2974-e6fc-4fb7-a7a0-a0708d6cfa9a",
+    "version": 0,
+    "data": {
+      "entityid": "https://engine.test2_andre.surfconext.nl/authentication/sp/metadata",
+      "state": "prodaccepted",
+      "metaDataFields": {
+        "name:en": "OpenConext Engine",
+        "name:nl": "OpenConext Engine"
+      }
+    }
+  }
+]

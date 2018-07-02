@@ -19,3 +19,8 @@ api_users:
     password: "secret"
   - name: "sysadmin"
     password: "secret"
+
+manage:
+  url: https://manage.test2.surfconext.nl
+  user: sysadmin
+  password: secret

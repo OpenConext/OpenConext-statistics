@@ -19,12 +19,17 @@ def _query(s, transform=None, group_by=None, epoch=None):
     return list(points)
 
 
-def service_providers(log_sp_tag):
-    return set(_query(f"show tag values with key = {log_sp_tag}", lambda res: res["value"]))
+def _mock_metadata(res):
+    tag_value = res["value"]
+    return {"id": tag_value, "name_en": tag_value, "name_nl": tag_value, "status": "prodaccepted"}
 
 
-def identity_providers(log_idp_tag):
-    return set(_query(f"show tag values with key = {log_idp_tag}", lambda res: res["value"]))
+def service_providers_tags(measurement, log_sp_tag):
+    return _query(f"show tag values from {measurement} with key = {log_sp_tag}", _mock_metadata)
+
+
+def identity_providers_tags(measurement, log_idp_tag):
+    return _query(f"show tag values from {measurement} with key = {log_idp_tag}", _mock_metadata)
 
 
 def min_time(log_measurement_name, log_user_id_field):

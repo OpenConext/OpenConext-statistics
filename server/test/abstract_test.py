@@ -36,3 +36,9 @@ class AbstractTest(TestCase):
                                        query_string=query_data)
             self.assertEqual(response_status_code, response.status_code, msg=str(response.json))
             return response.json
+
+    @staticmethod
+    def read_file(path):
+        file = f"{os.path.dirname(os.path.realpath(__file__))}/{path}"
+        with open(file) as f:
+            return f.read()
