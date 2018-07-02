@@ -32,12 +32,11 @@ To create a GUI production build:
 ```
 yarn build
 ```
-Currently this issues the `The bundle size is significantly larger than recommended.` warning .
-The bundle analyze confirms this:
+
+To analyze the bundle:
 ```
 yarn analyze
 ```
-The 2.75 MB `plotly.js` dependency is the cause of this and reducing the file size is an open issue.
 
 ### [API](#api)
 

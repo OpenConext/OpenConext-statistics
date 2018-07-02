@@ -7,7 +7,8 @@
       "state": "prodaccepted",
       "metaDataFields": {
         "name:en": "thki sid sp",
-        "name:nl": "thki sid sp"
+        "name:nl": "thki sid sp",
+        "coin:publish_in_edugain": "1"
       }
     }
   },
@@ -19,7 +20,8 @@
       "state": "testaccepted",
       "metaDataFields": {
         "name:en": "123",
-        "name:nl": "123"
+        "name:nl": "123",
+        "coin:guest_qualifier": "None"
       }
     }
   },
@@ -31,7 +33,8 @@
       "state": "testaccepted",
       "metaDataFields": {
         "name:en": "testbart2",
-        "name:nl": "Testbart 2"
+        "name:nl": "Testbart 2",
+        "coin:guest_qualifier": "All"
       }
     }
   }

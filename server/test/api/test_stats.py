@@ -32,6 +32,15 @@ class TestStats(AbstractTest):
         json = self.get("identity_providers")
         self.assertEqual(3, len(json))
 
+    @responses.activate
+    def test_connected_identity_providers(self):
+        self.mock_manage("idp")
+        json = self.get("connected_identity_providers")
+        self.assertEqual(3, len(json))
+
+        self.assertEquals("1", json[0]["coin:publish_in_edugain"])
+        self.assertEquals("None", json[1]["coin:guest_qualifier"])
+
     def test_identity_providers_local(self):
         current_app.app_config["profile"] = "local"
         json = self.get("identity_providers")
@@ -76,7 +85,8 @@ class TestStats(AbstractTest):
         json = self.get("login_time_frame",
                         query_data={"from": "2016-10-01", "to": "2017-01-01", "scale": "quarter", "epoch": "ms"})
         self.assertListEqual(
-            [{'count_user_id': 6, 'time': 1475280000000}, {'distinct_count_user_id': 6, 'time': 1475280000000}], json)
+            [{'count_user_id': 6, 'time': 1475280000000}, {'distinct_count_user_id': 6, 'time': 1475280000000}],
+            json)
         self._assert_datetime_equals(json[0]["time"], "2016-10-01T00:00:00Z")
 
     def test_login_time_frame_group_by_quarter(self):
@@ -147,8 +157,10 @@ class TestStats(AbstractTest):
                         query_data={"from": "2017-01-01", "to": "2017-03-31", "scale": "quarter",
                                     "group_by": " idp_id, sp_id , bogus", "include_unique": "false"})
         self.assertListEqual(
-            [{'count_user_id': 1, 'idp_entity_id': 'https://idp/1', 'sp_entity_id': 'https://sp/5', 'time': '2017Q1'},
-             {'count_user_id': 1, 'idp_entity_id': 'https://idp/2', 'sp_entity_id': 'https://sp/4', 'time': '2017Q1'}],
+            [{'count_user_id': 1, 'idp_entity_id': 'https://idp/1', 'sp_entity_id': 'https://sp/5',
+              'time': '2017Q1'},
+             {'count_user_id': 1, 'idp_entity_id': 'https://idp/2', 'sp_entity_id': 'https://sp/4',
+              'time': '2017Q1'}],
             json)
 
     def test_login_period_by_year(self):
@@ -192,14 +204,16 @@ class TestStats(AbstractTest):
                               {"sp_entity_id": "https://sp/2", "sum_distinct_count_user_id": 2, "time": "2017"},
                               {"sp_entity_id": "https://sp/3", "sum_distinct_count_user_id": 2, "time": "2017"},
                               {"sp_entity_id": "https://sp/4", "sum_distinct_count_user_id": 1, "time": "2017"},
-                              {"sp_entity_id": "https://sp/5", "sum_distinct_count_user_id": 1, "time": "2017"}], json)
+                              {"sp_entity_id": "https://sp/5", "sum_distinct_count_user_id": 1, "time": "2017"}],
+                             json)
 
     def test_login_period_year_group_by_sp_and_idp(self):
         json = self.get("login_period",
                         query_data={"period": "2017", "idp_id": "https://idp/1",
                                     "sp_id": "https://sp/1", "group_by": "sp_id,idp_id"})
         self.assertListEqual(
-            [{'idp_entity_id': 'https://idp/1', 'sp_entity_id': 'https://sp/1', 'sum_count_user_id': 1, 'time': '2017'},
+            [{'idp_entity_id': 'https://idp/1', 'sp_entity_id': 'https://sp/1', 'sum_count_user_id': 1,
+              'time': '2017'},
              {'idp_entity_id': 'https://idp/1', 'sp_entity_id': 'https://sp/1', 'sum_distinct_count_user_id': 1,
               'time': '2017'}], json)
 
