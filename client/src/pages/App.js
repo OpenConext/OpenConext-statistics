@@ -2,7 +2,6 @@ import React from "react";
 import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
 import "./App.css";
 import ErrorDialog from "../components/ErrorDialog";
-import ProtectedRoute from "../components/ProtectedRoute";
 import NotFound from "../pages/NotFound";
 import ServerError from "../pages/ServerError";
 import Header from "../components/Header";
@@ -10,10 +9,8 @@ import Navigation from "../components/Navigation";
 import {identityProviders, me, reportError, serviceProviders} from "../api";
 import "../locale/en";
 import "../locale/nl";
-import Dummy from "./Dummy";
 import Live from "./Live";
 import ConnectedIdentityProviders from "./ConnectedIdentityProviders";
-import Overview from "./Overview";
 
 const S4 = () => (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 
@@ -106,15 +103,8 @@ class App extends React.PureComponent {
                                                       {...props}/>}/>
                         <Route path="/connected-identity-providers"
                                render={props => <ConnectedIdentityProviders {...props}/>}/>
-                        <ProtectedRoute path="/overview"
-                                        user={currentUser}
-                                        render={props => <Overview serviceProviders={allServiceProviders}
-                                                                   identityProviders={allIdentityProviders}
-                                                                   {...props}/>}/>
                         <Route path="/error"
                                render={props => <ServerError {...props}/>}/>
-                        <Route path="/dummy"
-                               render={props => <Dummy {...props}/>}/>
                         <Route component={NotFound}/>
                     </Switch>
                 </div>

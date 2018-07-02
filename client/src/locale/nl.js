@@ -10,34 +10,88 @@ I18n.translations.nl = {
     name: "Nederlands",
     select_locale: "Selecteer Nederlands",
 
+    todo: "Nog niet geimplementeerd....",
+
     header: {
-        title: "Statistics",
+        title: "Statistieken",
+        OpenConext: "OpenConext Statistieken",
+        SURFConext: "SURFConext Statistieken",
         links: {
-            help_html: "<a href=\"https://wiki.surfnet.nl/pages/viewpage.action?pageId=35422637\" target=\"_blank\">Help</a>",
-            logout: "Logout",
+            help_html: "<a href=\"https://github.com/OpenConext/OpenConext-statistics/wiki\" target=\"_blank\">Help</a>",
+            logout: "Uitloggen",
             exit: "Exit"
         },
-        role: "Role"
+        role: "Rol"
     },
 
     navigation: {
+        live: "Stats",
         overview: "Overzicht",
-        idps: "Instellingen",
-        sps: "Diensten",
-        advanced: "Geavanceerd"
+        connected_identity_providers: "Instellingen",
+    },
+    index: {
+        availability: "Beschikbaarheid SURFconext",
+        connectedIdentityProviders: "List of connected Identity Providers",
     },
 
-    error_dialog: {
-        title: "Onverwachte fout",
-        body: "Dit is genant; een onverwachte fout is opgetreden. De fout is geraporteerd. Probeer het aub opnieuw..",
-        ok: "Close"
+    providers: {
+        title: "Instellingen",
+        sp: "Diensten",
+        idp: "Instellingen",
+        all: {
+            sp: "Alle Diensten",
+            idp: "Alle Instellingen"
+        },
+        aggregate: "Aggregeer",
+        groupBy: "Groepeer"
     },
     period: {
         title: "Periode",
-        scale: "Tijdsduur",
+        scale: "Tijdsspanne",
         from: "Van",
-        to: "Tot"
+        to: "Tot",
+        zoom: "",
+        today: "Vandag",
+        year: "Jaar",
+        quarter: "Kwartaal",
+        month: "Maand",
+        week: "Week",
+        day: "Dag",
+        hour: "Uur",
+        minute: "Minuut",
+        none: "N/A",
+        date: "Datum"
     },
+    chart: {
+        title: "Logins en gebruikers per dag",
+        userCount: "Totale logins",
+        uniqueUserCount: "Unieke gebruikers",
+        loading: "Data ophalen....",
+        noResults: "Geen logins voor de opgegeven periode.",
+        date: "Datum",
+        logins: "Logins per {{scale}}",
+        allLogins: "Totale logins",
+        uniqueLogins: "Unieke logins"
+    },
+    live: {
+        chartTitle: "Totale logins van {{from}} tot {{to}} gegroepeerd op {{scale}}",
+        aggregatedChartTitle: "Geaggregeerde logins van {{from}} tot {{to}}",
+        aggregatedChartTitlePeriod: "Geaggregeerde logins in de periode {{period}}"
+    },
+    error_dialog: {
+        title: "Onverwachte fout",
+        body: "Dit is gênant; er is een onverwachte fout opgetreden. De fout is gerapporteerd. Probeer het nogmaals. Blijft de fout aan? Klik op 'Help'.",
+        ok: "Sluiten"
+    },
+    not_found: {
+        title: "404",
+        description_html: "Deze pagina kan niet worden gevonden."
+    },
+    server_error: {
+        title: "500 Onverwachte fout",
+    }
+
+
 };
 
 export default I18n.translations.nl;

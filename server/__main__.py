@@ -24,7 +24,7 @@ def _init_logging(is_local):
     logger = logging.getLogger()
     if is_local:
         logging.basicConfig()
-        logger.setLevel(logging.DEBUG)
+        logger.setLevel(logging.INFO)
     else:
         handler = TimedRotatingFileHandler(f"{os.path.dirname(os.path.realpath(__file__))}/../log/stats.log",
                                            when="midnight", backupCount=15)

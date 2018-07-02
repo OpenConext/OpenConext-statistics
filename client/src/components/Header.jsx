@@ -8,6 +8,7 @@ import logoOpenConext from "../images/open-conext-logo.png";
 import {logOut} from "../api";
 import "./Header.css";
 import {isEmpty} from "../utils/Utils";
+import LanguageSelector from "./LanguageSelector";
 
 export default class Header extends React.PureComponent {
 
@@ -26,10 +27,6 @@ export default class Header extends React.PureComponent {
             </p>
         );
     }
-
-    renderExitLogout = () =>
-        <li className="border-left"><a onClick={this.stop}>{I18n.t("header.links.logout")}</a>
-        </li>;
 
     stop = e => {
         e.preventDefault();
@@ -51,12 +48,17 @@ export default class Header extends React.PureComponent {
                     <Link to="/" className="logo"><img src={logo} alt=""/></Link>
                     <p className="title">{I18n.t(`header.${currentUser.product.organization || "OpenConext"}`)}</p>
                     <ul className="links">
-                        <li className="profile"
+                        <li className="item profile"
                             tabIndex="1" onBlur={() => this.setState({dropDownActive: false})}>
                             {this.renderProfileLink(currentUser)}
                         </li>
-                        <li dangerouslySetInnerHTML={{__html: I18n.t("header.links.help_html")}}></li>
-                        {this.renderExitLogout()}
+                        <li className="item" dangerouslySetInnerHTML={{__html: I18n.t("header.links.help_html")}}></li>
+                        <li className="item border-left">
+                            <a onClick={this.stop}>{I18n.t("header.links.logout")}</a>
+                        </li>
+                        <li>
+                            <LanguageSelector/>
+                        </li>
                     </ul>
                 </div>
             </div>

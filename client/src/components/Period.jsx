@@ -50,6 +50,7 @@ export default class Period extends React.PureComponent {
         if (newScale !== scale) {
             onChangeScale(newScale);
         }
+        propCallback(val.startOf("day"));
     };
 
 

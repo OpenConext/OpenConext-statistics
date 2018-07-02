@@ -9,6 +9,9 @@ import PropTypes from "prop-types";
 import Providers from "../components/Providers";
 import {isEmpty} from "../utils/Utils";
 import {getPeriod} from "../utils/Time";
+import "moment/locale/nl";
+
+moment.locale(I18n.locale);
 
 export default class Live extends React.PureComponent {
 
@@ -28,7 +31,8 @@ export default class Live extends React.PureComponent {
     }
 
     componentDidMount() {
-        const {from, to, scale, idp, sp, aggregate, groupedBySp, groupedByIdp} = this.state;
+        const {from, to, scale, idp, sp, aggregate, groupedBySp, groupedByIdp} =
+            this.state;
         const {user} = this.props;
         const groupBy = aggregate && (isEmpty(sp) || isEmpty(idp)) ? `${groupedByIdp ? "idp_id" : ""},${groupedBySp ? "sp_id" : ""}` : undefined;
         const period = getPeriod(from, scale);
@@ -41,11 +45,36 @@ export default class Live extends React.PureComponent {
                 idp_id: idp,
                 sp_id: sp,
                 group_by: groupBy
-            }).then(res => this.setState({data: res}));
+            }).then(res => {
+                if (isEmpty(res)) {
+                    this.setState({data: res});
+                } else if (groupedBySp || groupedByIdp) {
+                    const sorted = res.filter(p => p.sum_count_user_id).sort((a, b) => b.sum_count_user_id - a.sum_count_user_id);
+                    const uniqueOnes = res.filter(p => p.sum_distinct_count_user_id).reduce((acc, p) => {
+                        const key = (groupedByIdp && groupedBySp) ? `${p.sp_entity_id}${p.idp_entity_id}` : groupedBySp ? p.sp_entity_id : p.idp_entity_id;
+                        acc[key] = p.sum_distinct_count_user_id;
+                        return acc;
+                    }, {});
+                    const data = sorted.map(p => {
+                        const key = (groupedByIdp && groupedBySp) ? `${p.sp_entity_id}${p.idp_entity_id}` : groupedBySp ? p.sp_entity_id : p.idp_entity_id;
+                        p.sum_distinct_count_user_id = uniqueOnes[key] || 0;
+                        return p;
+                    });
+                    this.setState({data: data});
+                } else {
+                    this.setState({
+                        data: [{
+                            sum_count_user_id: (res.filter(p => p.sum_count_user_id)[0] || {}).sum_count_user_id || 0,
+                            sum_distinct_count_user_id: (res.filter(p => p.sum_distinct_count_user_id)[0] || {}).sum_distinct_count_user_id || 0,
+                            time: res[0].time
+                        }]
+                    })
+                }
+            });
         } else {
             loginTimeFrame({
                 from: from.utc().unix(),
-                to: to.utc().unix(),
+                to: to ? to.utc().unix() : moment().utc().startOf("day").unix(),
                 include_unique: !user.guest,
                 scale: scale,
                 idp_id: idp,
@@ -90,7 +119,7 @@ export default class Live extends React.PureComponent {
         this.setState({
                 data: [],
                 aggregate: aggregate,
-                scale: aggregate ? "none" : this.state.scale,
+                scale: aggregate ? "none" : this.state.scale === "none" ? "day" : this.state.scale,
                 groupedBySp: aggregate ? this.state.groupedBySp : false,
                 groupedByIdp: aggregate ? this.state.groupedByIdp : false
             },
@@ -112,7 +141,7 @@ export default class Live extends React.PureComponent {
             return I18n.t("live.chartTitle", {
                 from: from.format('MMMM Do YYYY, h:mm:ss a'),
                 to: to.format('MMMM Do YYYY, h:mm:ss a'),
-                scale: scale
+                scale: I18n.t(`period.${scale}`)
             });
         }
         if (from && to && aggregate) {

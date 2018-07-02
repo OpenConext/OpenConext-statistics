@@ -16,7 +16,7 @@ I18n.translations.en = {
         OpenConext: "OpenConext Statistics",
         SURFConext: "SURFConext Statistics",
         links: {
-            help_html: "<a href=\"https://github.com/OpenConext/OpenConext-statistics\" target=\"_blank\">Help</a>",
+            help_html: "<a href=\"https://github.com/OpenConext/OpenConext-statistics/wiki\" target=\"_blank\">Help</a>",
             logout: "Logout",
             exit: "Exit"
         },
@@ -30,12 +30,8 @@ I18n.translations.en = {
     },
 
     index: {
-        public: "Public",
         availability: "Availability SURFconext",
-        live: "Live usage statistics",
         connectedIdentityProviders: "List of connected Identity Providers",
-        surfOnly: "SURF only",
-        dashboard: "Statistics Overview"
     },
     providers: {
         title: "Providers",
@@ -54,6 +50,7 @@ I18n.translations.en = {
         from: "From",
         to: "To",
         today: "Today",
+        zoom: "",
         year: "Year",
         quarter: "Quarter",
         month: "Month",
@@ -96,4 +93,4 @@ I18n.translations.en = {
 
 };
 
-export default I18n.translations.nl;
+export default I18n.translations.en;

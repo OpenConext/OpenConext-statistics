@@ -45,6 +45,7 @@ export function replaceQueryParameter(windowLocationSearch, name, value) {
 }
 
 export function getParameterByName(name, windowLocationSearch) {
+     // eslint-disable-next-line
     const replacedName = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     const regex = new RegExp("[\\?&]" + replacedName + "=([^&#]*)"),
         results = regex.exec(windowLocationSearch);

@@ -61,7 +61,6 @@ export default class Navigation extends React.PureComponent {
             <div className="navigation-container">
                 <div className="navigation">
                     {this.renderItem("/live", "live")}
-                    {this.renderItem("/overview", "overview")}
                     {this.renderItem("/connected-identity-providers", "connected_identity_providers")}
                     <a href="https://wiki.surfnet.nl/display/surfconextdev/Availability+SURFconext"
                        target="_blank"

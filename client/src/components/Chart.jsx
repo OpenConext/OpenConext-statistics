@@ -1,10 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import * as HighChart from "highcharts";
-import * as HighStock from 'highcharts/highstock'
+import * as HighStock from "highcharts/highstock"
 import HighChartContainer from "./HighChartContainer";
 import I18n from "i18n-js";
 import "./Chart.css";
+import moment from "moment";
+import "moment/locale/nl";
+
+moment.locale(I18n.locale);
 
 export default class Chart extends React.PureComponent {
 
@@ -17,13 +21,16 @@ export default class Chart extends React.PureComponent {
             plotLines: [{
                 value: 0,
                 width: 2,
-                color: 'silver'
+                color: "silver"
             }]
         },
         xAxis: {
             type: "datetime"
         },
         legend: {verticalAlign: "top"},
+        rangeSelector: {
+            buttons: []
+        },
         credits: {enabled: false},
         plotOptions: {
             series: {
@@ -43,19 +50,19 @@ export default class Chart extends React.PureComponent {
         },
         series: [{
             color: "#15A300",
-            name: 'Unique logins',
+            name: I18n.t("chart.uniqueUserCount"),
             data: data.filter(p => p.distinct_count_user_id).map(p => [p.time, p.distinct_count_user_id])
         }, {
             color: "#D4AF37",
-            name: 'Total logins',
+            name: I18n.t("chart.userCount"),
             data: data.filter(p => p.count_user_id).map(p => [p.time, p.count_user_id])
         }]
     });
 
-    aggregatedOptions = (data, yValues, userCount, uniqueUserCount) => ({
+    aggregatedOptions = (data, yValues) => ({
         chart: {
-            type: 'bar',
-            height: data.length * 25 + 120
+            type: "bar",
+            height: data.length * 50 + 120
         },
         title: {text: null},
         xAxis: {
@@ -67,8 +74,8 @@ export default class Chart extends React.PureComponent {
         legend: {verticalAlign: "top"},
         credits: {enabled: false},
         series: [
-            {name: 'Total logins', color: "#15A300", data: userCount.map(p => p.sum_count_user_id)},
-            {name: 'Unique logins', color: "#D4AF37", data: uniqueUserCount.map(p => p.sum_distinct_count_user_id)}
+            {name: I18n.t("chart.userCount"), color: "#15A300", data: data.map(p => p.sum_count_user_id)},
+            {name: I18n.t("chart.uniqueUserCount"), color: "#D4AF37", data: data.map(p => p.sum_distinct_count_user_id)}
         ]
     });
 
@@ -79,12 +86,11 @@ export default class Chart extends React.PureComponent {
             </section>;
         }
         const userCount = data.filter(p => aggregate ? p.sum_count_user_id : p.count_user_id);
-        const uniqueUserCount = includeUniques ? data.filter(p => aggregate ? p.sum_distinct_count_user_id : p.distinct_count_user_id) : [];
         const groupedByBoth = groupedByIdp && groupedBySp;
-        const yValues = aggregate ? Array.from(new Set(userCount.map(p => groupedByBoth ? `${p.sp_entity_id}-${p.idp_entity_id}` :
-            groupedBySp ? p.sp_entity_id : groupedByIdp ? p.idp_entity_id : I18n.t("chart.allLogins")))) : [];
+        const yValues = aggregate ? userCount.map(p => groupedByBoth ? `${p.sp_entity_id}-${p.idp_entity_id}` :
+            groupedBySp ? p.sp_entity_id : groupedByIdp ? p.idp_entity_id : I18n.t("chart.allLogins")) : [];
 
-        const options = aggregate ? this.aggregatedOptions(data, yValues, userCount, uniqueUserCount) : this.nonAggregatedOptions(data);
+        const options = aggregate ? this.aggregatedOptions(data, yValues) : this.nonAggregatedOptions(data);
         return (
             <section className="chart">
                 {title && <span className="title">{title}</span>}
