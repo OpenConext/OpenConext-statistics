@@ -23,7 +23,7 @@ def _data(entity_type, requested_fields=[]):
             for field in requested_fields:
                 sub = field[len("metaDataFields."):]
                 if sub in metadata:
-                    res[field.replace("metaDataFields.","")] = metadata[sub]
+                    res[field.replace("metaDataFields.", "")] = metadata[sub]
             result.append(res)
         return result
 
