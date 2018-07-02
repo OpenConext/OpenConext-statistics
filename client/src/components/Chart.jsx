@@ -13,7 +13,10 @@ moment.locale(I18n.locale);
 export default class Chart extends React.PureComponent {
 
     nonAggregatedOptions = (data) => ({
-        chart: {zoomType: "x"},
+        chart: {
+            zoomType: "x",
+            height: 525
+        },
         title: {text: null},
         yAxis: {
             title: {text: "Logins"},
@@ -37,9 +40,9 @@ export default class Chart extends React.PureComponent {
                 showInNavigator: true,
                 marker: {
                     enabled: true,
-                    radius: data.length < 3 ? 12 : data.length > 31 ? 0 : 2
+                    radius: data.length < 3 ? 12 : data.length > 31 ? 0 : 5
                 },
-                lineWidth: 1,
+                lineWidth: 3,
                 states: {
                     hover: {
                         lineWidth: 1
