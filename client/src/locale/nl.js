@@ -84,6 +84,19 @@ I18n.translations.nl = {
         aggregatedChartTitle: "Geaggregeerde logins van {{from}} tot {{to}}",
         aggregatedChartTitlePeriod: "Geaggregeerde logins in de periode {{period}}"
     },
+    eduGain: {
+        loading: "Loading...",
+        title: "Identity providers",
+        info: "The following organizations are members of the SURFconext federation. The eduGAIN column indicates whether the organization is also available in <a href=\"https://wiki.surfnet.nl/display/surfconextdev/International+collaboration+through+eduGAIN\" target=\"_blank\">eduGAIN.</a>",
+        organizationName: "Organization name",
+        surfConext: "SURFconext",
+        eduGAIN: "EduGAIN",
+        guest: "non-member / guest organizations",
+        nonMember: "non-member IdP",
+        notFullMembers: "There are a number of Identity Providers available in SURFconext that are not full members of the federation. The following IdPs and organization can only use a limited set of services (which set may differ per IdP). They will not be published in eduGAIN.",
+        footer: "For technical details about connected IdPs please refer to <a href=\"https://engine.surfconext.nl/\" target=\"_blank\">our IdPs metadata</a>. For more information about SURFconext please see www.surfconext.nl."
+    },
+
     error_dialog: {
         title: "Onverwachte fout",
         body: "Dit is gênant; er is een onverwachte fout opgetreden. De fout is gerapporteerd. Probeer het nogmaals. Blijft de fout aan? Klik op 'Help'.",

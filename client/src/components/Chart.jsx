@@ -137,9 +137,6 @@ export default class Chart extends React.PureComponent {
                 <HighChartContainer highcharts={aggregate ? HighChart : HighStock}
                                     constructorType={aggregate ? "chart" : "stockChart"}
                                     options={options}/>
-                {/*<HighChartContainer highcharts={Highcharts}*/}
-                {/*constructorType={aggregate ? "chart" : "stockChart"}*/}
-                {/*options={options}/>*/}
             </section>
             //
         );

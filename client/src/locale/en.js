@@ -81,6 +81,20 @@ I18n.translations.en = {
         aggregatedChartTitle: "Aggregated logins from {{from}} until {{to}}",
         aggregatedChartTitlePeriod: "Aggregated logins for the period {{period}}"
     },
+    eduGain: {
+        loading: "Loading...",
+        title: "Identity providers",
+        info: "The following organizations are members of the SURFconext federation. The eduGAIN column indicates whether the organization is also available in <a href=\"https://wiki.surfnet.nl/display/surfconextdev/International+collaboration+through+eduGAIN\" target=\"_blank\">eduGAIN.</a>",
+        organizationName: "Organization name",
+        surfConext: "SURFconext",
+        eduGAIN: "EduGAIN",
+        guest: "non-member / guest organizations",
+        total: "Total: {{count}} organizations",
+        totalNonMembers : "Total: {{count}} non-member / guest organizations",
+        nonMember: "non-member IdP",
+        notFullMembers: "There are a number of Identity Providers available in SURFconext that are not full members of the federation. The following IdPs and organization can only use a limited set of services (which set may differ per IdP). They will not be published in eduGAIN.",
+        footer: "For technical details about connected IdPs please refer to <a href=\"https://engine.surfconext.nl/\" target=\"_blank\">our IdPs metadata</a>. For more information about SURFconext please see www.surfconext.nl."
+    },
     error_dialog: {
         title: "Unexpected error",
         body: "This is embarrassing; an unexpected error has occurred. It has been logged and reported. Please try again. Still doesn't work? Please click 'Help'.",

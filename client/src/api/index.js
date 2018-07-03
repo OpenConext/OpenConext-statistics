@@ -77,6 +77,10 @@ export function serviceProviders() {
     return fetchJson("/api/stats/service_providers");
 }
 
+export function connectedIdentityProviders() {
+    return fetchJson("/api/stats//connected_identity_providers");
+}
+
 export function lastLogin() {
     return fetchJson("/api/stats/last_login");
 }
