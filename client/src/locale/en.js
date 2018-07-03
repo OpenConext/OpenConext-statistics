@@ -16,7 +16,6 @@ I18n.translations.en = {
         OpenConext: "OpenConext Statistics",
         SURFConext: "SURFConext Statistics",
         links: {
-            help_html: "<a href=\"https://github.com/OpenConext/OpenConext-statistics/wiki\" target=\"_blank\">Help</a>",
             logout: "Logout",
             exit: "Exit"
         },
@@ -97,7 +96,7 @@ I18n.translations.en = {
     },
     error_dialog: {
         title: "Unexpected error",
-        body: "This is embarrassing; an unexpected error has occurred. It has been logged and reported. Please try again. Still doesn't work? Please click 'Help'.",
+        body: "This is embarrassing; an unexpected error has occurred. It has been logged and reported. Please try again...",
         ok: "Close"
     },
     not_found: {

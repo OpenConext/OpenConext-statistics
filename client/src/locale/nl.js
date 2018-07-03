@@ -17,7 +17,6 @@ I18n.translations.nl = {
         OpenConext: "OpenConext Statistieken",
         SURFConext: "SURFConext Statistieken",
         links: {
-            help_html: "<a href=\"https://github.com/OpenConext/OpenConext-statistics/wiki\" target=\"_blank\">Help</a>",
             logout: "Uitloggen",
             exit: "Exit"
         },
@@ -99,7 +98,7 @@ I18n.translations.nl = {
 
     error_dialog: {
         title: "Onverwachte fout",
-        body: "Dit is gênant; er is een onverwachte fout opgetreden. De fout is gerapporteerd. Probeer het nogmaals. Blijft de fout aan? Klik op 'Help'.",
+        body: "Dit is gênant; er is een onverwachte fout opgetreden. De fout is gerapporteerd. Probeer het nogmaals...",
         ok: "Sluiten"
     },
     not_found: {

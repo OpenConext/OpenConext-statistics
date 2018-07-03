@@ -52,7 +52,6 @@ export default class Header extends React.PureComponent {
                             tabIndex="1" onBlur={() => this.setState({dropDownActive: false})}>
                             {this.renderProfileLink(currentUser)}
                         </li>
-                        <li className="item" dangerouslySetInnerHTML={{__html: I18n.t("header.links.help_html")}}></li>
                         <li className="item border-left">
                             <a onClick={this.stop}>{I18n.t("header.links.logout")}</a>
                         </li>

@@ -37,4 +37,5 @@ def identity_providers():
 
 
 def connected_identity_providers():
-    return _data("idp", ["metaDataFields.coin:publish_in_edugain", "metaDataFields.coin:guest_qualifier"])
+    return _data("idp", ["metaDataFields.coin:publish_in_edugain", "metaDataFields.coin:guest_qualifier",
+                         "metaDataFields.coin:institution_type"])
