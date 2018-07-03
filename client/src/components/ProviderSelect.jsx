@@ -22,7 +22,7 @@ export default function ProviderSelect({
                     searchable={true}
                     clearable={false}/>
             <CheckBox name={i18nKey} value={groupedBy}
-                      info={I18n.t("providers.groupBy")}
+                      info={I18n.t("providers.groupBy", {type: I18n.t(`providers.${i18nKey}`)})}
                       onChange={onChangeGroupBy}
                       readOnly={selectedProvider !== "" || !aggregate}/>
         </section>);

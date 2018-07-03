@@ -1,16 +1,49 @@
 import React from "react";
 import PropTypes from "prop-types";
 import * as HighChart from "highcharts";
-import * as HighStock from "highcharts/highstock"
+import * as HighStock from "highcharts/highstock";
 import HighChartContainer from "./HighChartContainer";
 import I18n from "i18n-js";
 import "./Chart.css";
 import moment from "moment";
 import "moment/locale/nl";
 
+import Exporter from 'highcharts/modules/exporting';
+import ExportData from 'highcharts/modules/export-data';
+
+Exporter(HighChart);
+Exporter(HighStock);
+ExportData(HighChart);
+ExportData(HighStock);
+
+
 moment.locale(I18n.locale);
 
 export default class Chart extends React.PureComponent {
+
+    navigation = () => (
+        {
+            buttonOptions: {
+                symbolSize: 18,
+                symbolStrokeWidth: 4
+            }
+        }
+    );
+
+    exporting = () => ({
+        enabled: true,
+        buttons: {
+            contextButton: {
+                symbolStroke: '#4DB2CF',
+                menuItems: [
+                    'downloadCSV',
+                    'separator',
+                    'downloadPNG',
+                    'downloadPDF',
+                ]
+            }
+        }
+    });
 
     nonAggregatedOptions = (data) => ({
         chart: {
@@ -34,6 +67,8 @@ export default class Chart extends React.PureComponent {
         rangeSelector: {
             buttons: []
         },
+        navigation: this.navigation(),
+        exporting: this.exporting(),
         credits: {enabled: false},
         plotOptions: {
             series: {
@@ -65,7 +100,7 @@ export default class Chart extends React.PureComponent {
     aggregatedOptions = (data, yValues) => ({
         chart: {
             type: "bar",
-            height: data.length * 50 + 120
+            height: Math.max(data.length * 50 + 120, 375)
         },
         title: {text: null},
         xAxis: {
@@ -75,6 +110,8 @@ export default class Chart extends React.PureComponent {
         tooltip: {valueSuffix: " logins"},
         plotOptions: {bar: {dataLabels: {enabled: true}}},
         legend: {verticalAlign: "top"},
+        navigation: this.navigation(),
+        exporting: this.exporting(),
         credits: {enabled: false},
         series: [
             {name: I18n.t("chart.userCount"), color: "#15A300", data: data.map(p => p.sum_count_user_id)},
@@ -100,6 +137,9 @@ export default class Chart extends React.PureComponent {
                 <HighChartContainer highcharts={aggregate ? HighChart : HighStock}
                                     constructorType={aggregate ? "chart" : "stockChart"}
                                     options={options}/>
+                {/*<HighChartContainer highcharts={Highcharts}*/}
+                {/*constructorType={aggregate ? "chart" : "stockChart"}*/}
+                {/*options={options}/>*/}
             </section>
             //
         );

@@ -28,7 +28,11 @@ I18n.translations.en = {
         overview: "Overview",
         connected_identity_providers: "Institutions",
     },
-
+    export: {
+        downloadCSV: "Download as CSV",
+        downloadPNG: "Download as PNG",
+        downloadPDF: "Download as PDF"
+    },
     index: {
         availability: "Availability SURFconext",
         connectedIdentityProviders: "List of connected Identity Providers",
@@ -42,7 +46,7 @@ I18n.translations.en = {
             idp: "All Institutions"
         },
         aggregate: "Aggregate",
-        groupBy: "Group by"
+        groupBy: "Group by {{type}}"
     },
     period: {
         title: "Period",

@@ -32,5 +32,20 @@ section.chart {
         font-size: 18px;
         color: $darker-blue;
     }
-
+    div.highcharts-menu {
+        border: 1px solid $blue !important;
+        box-shadow: none !important;
+        border-radius: 3px !important;
+        hr {
+            border-top: 1px solid $blue;
+        }
+    }
+    div.highcharts-menu-item {
+        font-size: 14px !important;
+        color: $blue !important;
+        &:hover {
+            color: $hover !important;
+            background: $blue !important;
+        }
+    }
 }

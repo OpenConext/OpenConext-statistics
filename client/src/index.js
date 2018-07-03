@@ -29,7 +29,10 @@ import * as HighStock from "highcharts/highstock"
         lang: {
             months: moment.months(),
             weekdays: moment.weekdays(),
-            shortMonths: moment.monthsShort()
+            shortMonths: moment.monthsShort(),
+            downloadCSV: I18n.t("export.downloadCSV"),
+            downloadPNG: I18n.t("export.downloadPNG"),
+            downloadPDF: I18n.t("export.downloadPDF"),
         }
 
     });
@@ -41,6 +44,9 @@ import * as HighStock from "highcharts/highstock"
             rangeSelectorFrom: I18n.t("period.from"),
             rangeSelectorTo: I18n.t("period.to"),
             rangeSelectorZoom:I18n.t("period.zoom"),
+            downloadCSV: I18n.t("export.downloadCSV"),
+            downloadPNG: I18n.t("export.downloadPNG"),
+            downloadPDF: I18n.t("export.downloadPDF"),
         }
 
     });

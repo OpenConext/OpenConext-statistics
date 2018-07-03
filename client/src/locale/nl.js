@@ -29,6 +29,12 @@ I18n.translations.nl = {
         overview: "Overzicht",
         connected_identity_providers: "Instellingen",
     },
+    export: {
+        downloadCSV: "Download als CSV",
+        downloadPNG: "Download als PNG",
+        downloadPDF: "Download als PDF"
+    },
+
     index: {
         availability: "Beschikbaarheid SURFconext",
         connectedIdentityProviders: "List of connected Identity Providers",
@@ -43,7 +49,7 @@ I18n.translations.nl = {
             idp: "Alle Instellingen"
         },
         aggregate: "Aggregeer",
-        groupBy: "Groepeer"
+        groupBy: "Groepeer per {{type}}"
     },
     period: {
         title: "Periode",
