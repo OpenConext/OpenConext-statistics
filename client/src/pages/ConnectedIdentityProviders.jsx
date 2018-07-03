@@ -10,32 +10,26 @@ export default class ConnectedIdentityProviders extends React.PureComponent {
         super(props);
         this.state = {
             connectedIdentityProviders: [],
-            guestIdentityProviders: [],
-            sorted: "organizationName",
-            reverse: false
+            guestIdentityProviders: []
         };
     }
 
     componentDidMount() {
         connectedIdentityProviders().then(res => this.setState({
-            connectedIdentityProviders: res.filter(p => (p["coin:guest_qualifier"] || "None") === "None"),
-            guestIdentityProviders: res.filter(p => (p["coin:guest_qualifier"] || "None") !== "None"),
-        }));
+            connectedIdentityProviders: res.filter(p => (p["coin:guest_qualifier"] || "None") === "None")
+                .sort((a, b) => this.organizationName(a).toLowerCase().localeCompare(this.organizationName(b).toLowerCase())),
+            guestIdentityProviders: res.filter(p => (p["coin:guest_qualifier"] || "None") !== "None")
+                .sort((a, b) => this.organizationName(a).toLowerCase().localeCompare(this.organizationName(b).toLowerCase()))
+        }))
+        ;
     }
 
-    sortTable = name => () => {
-        // const {connectedIdentityProviders, sorted, reverse} = this.state;
-    };
+    organizationName = provider => I18n.locale === "en" ? provider.name_en || provider.name_nl || provider.entityid :
+        provider.name_nl || provider.name_en || provider.entityid;
 
     render() {
-        const {connectedIdentityProviders, guestIdentityProviders, sorted, reverse} = this.state;
+        const {connectedIdentityProviders, guestIdentityProviders} = this.state;
         const loading = connectedIdentityProviders.length === 0;
-        const columns = ["organizationName", "surfConext", "eduGAIN"];
-        const icon = name => {
-            return name === sorted ? (reverse ? <i className="fa fa-arrow-up reverse"></i> :
-                <i className="fa fa-arrow-down current"></i>)
-                : <i className="fa fa-arrow-down"></i>;
-        };
         return (
             <div className="connected-identity-providers">
                 {loading && <section className="loading">
@@ -44,36 +38,65 @@ export default class ConnectedIdentityProviders extends React.PureComponent {
                 </section>}
                 {!loading && <div className="providers">
                     <span className="title">{I18n.t("eduGain.title")}</span>
-                    <div className="content">
-                        <p className="info" dangerouslySetInnerHTML={{__html: I18n.t("eduGain.info")}}></p>
-                        <table>
-                            <thead>
-                            <tr>
-                                {columns.map(c =>
-                                    <th key={c} className={c}
-                                        onClick={this.sortTable(c)}>{I18n.t(`eduGain.${c}`)}{icon(c)}</th>
-                                )}
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {connectedIdentityProviders.map((p, i) => <tr key={i}>
-                                <td className="organizationName">{p.name_en}</td>
-                                <td className="surfConext"><CheckBox name={p.name_en} value={true} readOnly={true}/>
-                                </td>
-                                <td className="eduGAIN"><CheckBox name={p.name_en} value={p["coin:publish_in_edugain"]}
-                                                                  readOnly={true}/></td>
-                            </tr>)}
-
-                            </tbody>
-                        </table>
-                        <p className="total">{I18n.t("eduGain.total", {total: connectedIdentityProviders.length})}</p>
-                        <p className="not-full-members"
-                           dangerouslySetInnerHTML={{__html: I18n.t("eduGain.notFullMembers")}}></p>
-                        {guestIdentityProviders.length > 0 &&
-                        <p className="totalNonMembers">{I18n.t("eduGain.totalNonMembers", {total: guestIdentityProviders.length})}</p>}
+                    {this.renderConnectedProviders(["organizationName", "surfConext", "eduGAIN"], connectedIdentityProviders)}
+                    {this.renderGuestProviders(["organizationName", "surfConext"], guestIdentityProviders)}
+                    <div className="footer">
+                    <p dangerouslySetInnerHTML={{__html: I18n.t("eduGain.footer")}}></p>
                     </div>
                 </div>}
             </div>
         );
     }
+
+    renderConnectedProviders(columns, connectedIdentityProviders) {
+        return <div className="connected-providers">
+            <p className="info" dangerouslySetInnerHTML={{__html: I18n.t("eduGain.info")}}></p>
+            <table>
+                <thead>
+                <tr>
+                    {columns.map(c =>
+                        <th key={c} className={c}>{I18n.t(`eduGain.${c}`)}</th>
+                    )}
+                </tr>
+                </thead>
+                <tbody>
+                {connectedIdentityProviders.map((p, i) => <tr key={i}>
+                    <td className="organizationName">{p.name_en}</td>
+                    <td className="surfConext"><CheckBox name={p.name_en} value={true} readOnly={true}/>
+                    </td>
+                    <td className="eduGAIN"><CheckBox name={p.name_en}
+                                                      value={p["coin:publish_in_edugain"] === "1" ? true : false}
+                                                      readOnly={true}/></td>
+                </tr>)}
+
+                </tbody>
+            </table>
+            <p className="total">{I18n.t("eduGain.total", {count: connectedIdentityProviders.length})}</p>
+        </div>;
+    }
+
+    renderGuestProviders(columns, guestIdentityProviders) {
+        return <div className="guests">
+            <p className="info" dangerouslySetInnerHTML={{__html: I18n.t("eduGain.notFullMembers")}}></p>
+            <table>
+                <thead>
+                <tr>
+                    {columns.map(c =>
+                        <th key={c} className={c}>{I18n.t(`eduGain.${c}`)}</th>
+                    )}
+                </tr>
+                </thead>
+                <tbody>
+                {guestIdentityProviders.map((p, i) => <tr key={i}>
+                    <td className="organizationName">{p.name_en}</td>
+                    <td className="surfConext">{I18n.t("eduGain.nonMember")}
+                    </td>
+                </tr>)}
+
+                </tbody>
+            </table>
+            <p className="total">{I18n.t("eduGain.totalNonMembers", {count: guestIdentityProviders.length})}</p>
+        </div>;
+    }
+
 }
