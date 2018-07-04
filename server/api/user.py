@@ -33,7 +33,8 @@ def me():
 @json_endpoint
 def logout():
     if session:
-        session.clear()
+        session.pop("user", None)
+
     return {}, 200
 
 

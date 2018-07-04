@@ -67,7 +67,7 @@ class App extends React.PureComponent {
                 .then(currentUser => {
                     if (currentUser && currentUser.uid) {
                         this.setState({currentUser: currentUser, loading: false},
-                            () => Promise.all([identityProviders(), serviceProviders()]).then(res =>
+                            () => !currentUser.guest && Promise.all([identityProviders(), serviceProviders()]).then(res =>
                                 this.setState({allIdentityProviders: res[0], allServiceProviders: res[1]})
                             ));
                     } else {

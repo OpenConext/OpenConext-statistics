@@ -1,5 +1,6 @@
 import spinner from "../lib/Spin";
 import {isEmpty} from "../utils/Utils";
+import Cookies from "js-cookie";
 
 function validateResponse(showErrorDialog) {
     return res => {
@@ -78,7 +79,7 @@ export function serviceProviders() {
 }
 
 export function connectedIdentityProviders() {
-    return fetchJson("/api/stats//connected_identity_providers");
+    return fetchJson("/api/stats/connected_identity_providers");
 }
 
 export function lastLogin() {
@@ -92,7 +93,7 @@ export function loginTimeFrame({
                                    epoch = "ms"
                                }) {
     const query = queryParam(arguments);
-    return fetchJson(`/api/stats/login_time_frame${query}`)
+    return fetchJson(`/api/stats/public/login_time_frame${query}`)
 }
 
 export function loginPeriod({
@@ -101,7 +102,7 @@ export function loginPeriod({
                                 idp_id, sp_id, group_by
                             }) {
     const query = queryParam(arguments);
-    return fetchJson(`/api/stats/login_period${query}`)
+    return fetchJson(`/api/stats/public/login_period${query}`)
 }
 
 export function health() {
@@ -117,6 +118,8 @@ export function reportError(error) {
 }
 
 export function logOut() {
-    return fetchDelete("/api/users/logout");
+    const promise = fetchDelete("/api/users/logout");
+    Cookies.remove("session", {path: "/"});
+    return promise;
 }
 
