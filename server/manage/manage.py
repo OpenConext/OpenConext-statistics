@@ -17,7 +17,7 @@ def _data(entity_type, requested_fields=[]):
             metadata = data_["metaDataFields"] if "metaDataFields" in data_ else {}
             entity_id = data_["entityid"]
             res = {"id": entity_id,
-                   "status": data_["state"],
+                   "state": data_["state"],
                    "name_en": metadata["name:en"] if "name:en" in metadata else entity_id,
                    "name_nl": metadata["name:nl"] if "name:nl" in metadata else entity_id}
             for field in requested_fields:

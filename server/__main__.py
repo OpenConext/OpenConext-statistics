@@ -49,17 +49,20 @@ def main(config_file_location="config/config.yml"):
 
     app.register_error_handler(404, page_not_found)
 
+    db_name = config.database.name
     app.influx_client = InfluxDBClient(host=config.database.host,
                                        port=config.database.port,
                                        username=config.database.username,
                                        password=config.database.password,
-                                       database=config.database.name)
+                                       database=db_name)
     app.app_config = config
-    if len(list(filter(lambda m: m["name"] == config.database.name, app.influx_client.get_list_database()))) != 0:
-        app.influx_client.switch_database(config.database.name)
-        measurements_count = len(list(app.influx_client.get_list_measurements()))
-        if measurements_count < 29:
-            backfill_login_measurements(config, app.influx_client)
+    app.influx_client.switch_database(db_name)
+    result_set = app.influx_client.query("show continuous queries")
+    series = list(filter(lambda s: s["name"] == db_name,
+                         result_set.raw["series"] if "series" in result_set.raw else []))[0]
+
+    if "values" not in series or len(series["values"]) < 84:
+        backfill_login_measurements(config, app.influx_client)
 
     profile = os.environ.get("PROFILE")
     test = os.environ.get("TEST")

@@ -3,7 +3,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/4",
-      "idp_entity_id": "https://idp/3"
+      "idp_entity_id": "https://idp/3",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_9"
@@ -14,7 +15,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/4",
-      "idp_entity_id": "https://idp/2"
+      "idp_entity_id": "https://idp/2",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_1"
@@ -25,7 +27,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/2",
-      "idp_entity_id": "https://idp/2"
+      "idp_entity_id": "https://idp/2",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_1"
@@ -36,7 +39,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/3",
-      "idp_entity_id": "https://idp/2"
+      "idp_entity_id": "https://idp/2",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_7"
@@ -47,7 +51,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/2",
-      "idp_entity_id": "https://idp/2"
+      "idp_entity_id": "https://idp/2",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_9"
@@ -58,7 +63,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/3",
-      "idp_entity_id": "https://idp/2"
+      "idp_entity_id": "https://idp/2",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_8"
@@ -69,7 +75,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/1",
-      "idp_entity_id": "https://idp/3"
+      "idp_entity_id": "https://idp/3",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_3"
@@ -80,7 +87,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/5",
-      "idp_entity_id": "https://idp/1"
+      "idp_entity_id": "https://idp/1",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_10"
@@ -91,7 +99,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/4",
-      "idp_entity_id": "https://idp/2"
+      "idp_entity_id": "https://idp/2",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_7"
@@ -102,7 +111,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/4",
-      "idp_entity_id": "https://idp/1"
+      "idp_entity_id": "https://idp/1",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_5"
@@ -113,7 +123,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/3",
-      "idp_entity_id": "https://idp/2"
+      "idp_entity_id": "https://idp/2",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_4"
@@ -124,7 +135,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/5",
-      "idp_entity_id": "https://idp/1"
+      "idp_entity_id": "https://idp/1",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_6"
@@ -135,7 +147,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/1",
-      "idp_entity_id": "https://idp/1"
+      "idp_entity_id": "https://idp/1",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_9"
@@ -146,7 +159,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/2",
-      "idp_entity_id": "https://idp/1"
+      "idp_entity_id": "https://idp/1",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_10"
@@ -157,7 +171,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/3",
-      "idp_entity_id": "https://idp/2"
+      "idp_entity_id": "https://idp/2",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_1"
@@ -168,7 +183,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/2",
-      "idp_entity_id": "https://idp/1"
+      "idp_entity_id": "https://idp/1",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_8"
@@ -179,7 +195,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/3",
-      "idp_entity_id": "https://idp/1"
+      "idp_entity_id": "https://idp/1",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_10"
@@ -190,7 +207,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/3",
-      "idp_entity_id": "https://idp/3"
+      "idp_entity_id": "https://idp/3",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_6"
@@ -201,7 +219,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/5",
-      "idp_entity_id": "https://idp/3"
+      "idp_entity_id": "https://idp/3",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_7"
@@ -212,7 +231,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/2",
-      "idp_entity_id": "https://idp/2"
+      "idp_entity_id": "https://idp/2",
+      "state": "prodaccepted"
     },
     "fields": {
       "user_id": "user_6"
@@ -223,7 +243,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/2",
-      "idp_entity_id": "https://idp/1"
+      "idp_entity_id": "https://idp/1",
+      "state": "testaccepted"
     },
     "fields": {
       "user_id": "user_4"
@@ -234,7 +255,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/1",
-      "idp_entity_id": "https://idp/2"
+      "idp_entity_id": "https://idp/2",
+      "state": "testaccepted"
     },
     "fields": {
       "user_id": "user_2"
@@ -245,7 +267,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/4",
-      "idp_entity_id": "https://idp/1"
+      "idp_entity_id": "https://idp/1",
+      "state": "testaccepted"
     },
     "fields": {
       "user_id": "user_5"
@@ -256,7 +279,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/5",
-      "idp_entity_id": "https://idp/1"
+      "idp_entity_id": "https://idp/1",
+      "state": "testaccepted"
     },
     "fields": {
       "user_id": "user_6"
@@ -267,7 +291,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/4",
-      "idp_entity_id": "https://idp/3"
+      "idp_entity_id": "https://idp/3",
+      "state": "testaccepted"
     },
     "fields": {
       "user_id": "user_5"
@@ -278,7 +303,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/2",
-      "idp_entity_id": "https://idp/3"
+      "idp_entity_id": "https://idp/3",
+      "state": "testaccepted"
     },
     "fields": {
       "user_id": "user_8"
@@ -289,7 +315,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/2",
-      "idp_entity_id": "https://idp/3"
+      "idp_entity_id": "https://idp/3",
+      "state": "testaccepted"
     },
     "fields": {
       "user_id": "user_10"
@@ -300,7 +327,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/3",
-      "idp_entity_id": "https://idp/1"
+      "idp_entity_id": "https://idp/1",
+      "state": "testaccepted"
     },
     "fields": {
       "user_id": "user_10"
@@ -311,7 +339,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/3",
-      "idp_entity_id": "https://idp/1"
+      "idp_entity_id": "https://idp/1",
+      "state": "testaccepted"
     },
     "fields": {
       "user_id": "user_8"
@@ -322,7 +351,8 @@
     "measurement": "eb_logins_tst",
     "tags": {
       "sp_entity_id": "https://sp/1",
-      "idp_entity_id": "https://idp/1"
+      "idp_entity_id": "https://idp/1",
+      "state": "testaccepted"
     },
     "fields": {
       "user_id": "user_10"

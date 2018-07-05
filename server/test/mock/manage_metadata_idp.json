@@ -3,12 +3,13 @@
     "_id": "2cc71508-1b68-4a3e-b553-f04b6b2a689c",
     "version": 11,
     "data": {
-      "entityid": "urn:thki:sid:ee1",
+      "entityid": "https://idp/1",
       "state": "prodaccepted",
       "metaDataFields": {
-        "name:en": "thki sid sp",
-        "name:nl": "thki sid sp",
-        "coin:publish_in_edugain": "1"
+        "name:en": "IDP1-en",
+        "name:nl": "IDP1-nl",
+        "coin:publish_in_edugain": "1",
+        "coin:institution_type": "HBO"
       }
     }
   },
@@ -16,25 +17,12 @@
     "_id": "c9002374-7e5a-4c82-bb36-8c6ae47ed745",
     "version": 1,
     "data": {
-      "entityid": "https://test.domein.nl",
+      "entityid": "https://idp/2",
       "state": "testaccepted",
       "metaDataFields": {
-        "name:en": "123",
-        "name:nl": "123",
+        "name:en": "IDP2-en",
+        "name:nl": "IDP2-nl",
         "coin:guest_qualifier": "None"
-      }
-    }
-  },
-  {
-    "_id": "d4e7de27-c9af-4f80-8d1f-c0832225fa8c",
-    "version": 1,
-    "data": {
-      "entityid": "https://teams.example.nl/shibboleth",
-      "state": "testaccepted",
-      "metaDataFields": {
-        "name:en": "testbart2",
-        "name:nl": "Testbart 2",
-        "coin:guest_qualifier": "All"
       }
     }
   }

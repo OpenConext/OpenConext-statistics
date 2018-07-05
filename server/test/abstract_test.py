@@ -1,26 +1,10 @@
-import json
 import os
 
 import requests
 from flask_testing import TestCase
 
-from server.influx.cq import backfill_login_measurements
-
 
 class AbstractTest(TestCase):
-
-    def setUp(self):
-        db_name = self.app.app_config.database.name
-        influx_client = self.app.influx_client
-        if len(list(filter(lambda m: m["name"] == db_name, influx_client.get_list_database()))) == 0:
-            influx_client.drop_database(db_name)
-            influx_client.create_database(db_name)
-            influx_client.switch_database(db_name)
-            file = f"{os.path.dirname(os.path.realpath(__file__))}/seed/seed.json"
-            with open(file) as f:
-                json_body = json.loads(f.read())
-                influx_client.write_points(json_body)
-            backfill_login_measurements(self.app.app_config, influx_client)
 
     def create_app(self):
         from server.__main__ import main

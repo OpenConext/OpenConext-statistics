@@ -19,17 +19,16 @@ def _query(s, transform=None, group_by=None, epoch=None):
     return list(points)
 
 
-def _mock_metadata(res):
-    tag_value = res["value"]
-    return {"id": tag_value, "name_en": tag_value, "name_nl": tag_value, "status": "prodaccepted"}
+def _transform_tags(res):
+    return res["value"]
 
 
 def service_providers_tags(measurement, log_sp_tag):
-    return _query(f"show tag values from {measurement} with key = {log_sp_tag}", _mock_metadata)
+    return _query(f"show tag values from {measurement} with key = {log_sp_tag}", _transform_tags)
 
 
 def identity_providers_tags(measurement, log_idp_tag):
-    return _query(f"show tag values from {measurement} with key = {log_idp_tag}", _mock_metadata)
+    return _query(f"show tag values from {measurement} with key = {log_idp_tag}", _transform_tags)
 
 
 def min_time(log_measurement_name, log_user_id_field):
@@ -46,7 +45,7 @@ def _get_time(log_measurement_name, log_user_id_field, ascending=True):
                   f" order by time {order_by} limit 1")[0]["time"]
 
 
-def _determine_measurement(config, group_by, idp_entity_id, sp_entity_id, measurement_scale):
+def _determine_measurement(config, group_by, idp_entity_id, sp_entity_id, measurement_scale, state):
     include_sp = sp_entity_id or config.log.sp_id in group_by
     include_idp = idp_entity_id or config.log.idp_id in group_by
 
@@ -54,14 +53,15 @@ def _determine_measurement(config, group_by, idp_entity_id, sp_entity_id, measur
     measurement += "sp_" if include_sp else ""
     measurement += "idp_" if include_idp else ""
     measurement += "total_" if not include_idp and not include_sp else ""
+    measurement += "pa_" if state == "prodaccepted" else "ta_" if state == "testaccepted" else ""
     measurement += f"users_{measurement_scale}"
     return measurement
 
 
 def login_by_time_frame(config, scale="day", from_seconds=None, to_seconds=None, idp_entity_id=None, sp_entity_id=None,
-                        include_unique=True, group_by=[], epoch=None):
+                        include_unique=True, group_by=[], epoch=None, state=None):
     measurement_scale = scale if scale in ["minute", "hour", "day", "week"] else "day"
-    measurement = _determine_measurement(config, group_by, idp_entity_id, sp_entity_id, measurement_scale)
+    measurement = _determine_measurement(config, group_by, idp_entity_id, sp_entity_id, measurement_scale, state)
 
     q = f"select * from {measurement} where 1=1"
     q += f" and time >= {from_seconds}s" if from_seconds else ""
@@ -86,11 +86,11 @@ def login_by_time_frame(config, scale="day", from_seconds=None, to_seconds=None,
 
 
 def login_by_time_period(config, period, idp_entity_id=None, sp_entity_id=None, include_unique=True, group_by=[],
-                         from_s=None, to_s=None, epoch=None):
+                         from_s=None, to_s=None, epoch=None, state=None):
     p = start_end_period(period) if period else (from_s, to_s)
     from_seconds, to_seconds = p
     measurement_scale = "day" if not period or len(period) == 4 else "week" if period[4:5] == "w" else "day"
-    measurement = _determine_measurement(config, group_by, idp_entity_id, sp_entity_id, measurement_scale)
+    measurement = _determine_measurement(config, group_by, idp_entity_id, sp_entity_id, measurement_scale, state)
 
     q = f"select sum(count_user_id) as sum_count_user_id from {measurement} " \
         f"where 1=1 and time >= {from_seconds}s and time < {to_seconds}s "

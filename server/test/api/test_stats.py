@@ -20,26 +20,42 @@ class TestStats(AbstractTest):
                       body=AbstractTest.read_file(f"mock/manage_metadata_{type}.json"), status=200,
                       content_type="application/json")
 
+    def mock_influx(self, type):
+        responses.add("GET", "/query",
+                      body=AbstractTest.read_file(f"mock/influx_tag_values_{type}.json"), status=200,
+                      content_type="application/json")
+
     @responses.activate
     def test_service_providers(self):
         self.mock_manage("sp")
+        self.mock_influx("sp")
         json = self.get("service_providers")
-        self.assertEqual(5, len(json))
+        self.assertListEqual([{'id': 'https://sp/1', 'name_en': 'SP1-en', 'name_nl': 'SP1-nl', 'state': 'prodaccepted'},
+                              {'id': 'https://sp/2', 'name_en': 'SP2-en', 'name_nl': 'SP2-nl', 'state': 'testaccepted'},
+                              {'id': 'https://sp/3', 'name_en': 'SP3-en', 'name_nl': 'SP3-nl', 'state': 'prodaccepted'},
+                              {'id': 'https://sp/4', 'name_en': 'https://sp/4', 'name_nl': 'https://sp/4',
+                               'state': None},
+                              {'id': 'https://sp/5', 'name_en': 'https://sp/5', 'name_nl': 'https://sp/5',
+                               'state': None}], json)
 
     @responses.activate
     def test_identity_providers(self):
         self.mock_manage("idp")
+        self.mock_influx("idp")
         json = self.get("identity_providers")
-        self.assertEqual(3, len(json))
+        self.assertListEqual(
+            [{'id': 'https://idp/1', 'name_en': 'IDP1-en', 'name_nl': 'IDP1-nl', 'state': 'prodaccepted'},
+             {'id': 'https://idp/2', 'name_en': 'IDP2-en', 'name_nl': 'IDP2-nl', 'state': 'testaccepted'},
+             {'id': 'https://idp/3', 'name_en': 'https://idp/3', 'name_nl': 'https://idp/3', 'state': None}], json)
 
     @responses.activate
     def test_connected_identity_providers(self):
         self.mock_manage("idp")
         json = self.get("public/connected_identity_providers")
-        self.assertEqual(3, len(json))
-
-        self.assertEqual("1", json[0]["coin:publish_in_edugain"])
-        self.assertEqual("None", json[1]["coin:guest_qualifier"])
+        self.assertListEqual([{'coin:institution_type': 'HBO', 'coin:publish_in_edugain': '1', 'id': 'https://idp/1',
+                               'name_en': 'IDP1-en', 'name_nl': 'IDP1-nl', 'state': 'prodaccepted'},
+                              {'coin:guest_qualifier': 'None', 'id': 'https://idp/2', 'name_en': 'IDP2-en',
+                               'name_nl': 'IDP2-nl', 'state': 'testaccepted'}], json)
 
     def test_identity_providers_local(self):
         current_app.app_config["profile"] = "local"
@@ -239,6 +255,18 @@ class TestStats(AbstractTest):
         json = self.get("public/login_period", query_data={"from": "2017-1-1", "to": "2018-1-1"})
         self.assertListEqual([{'sum_count_user_id': 14, 'time': '2017-01-01T00:00:00Z'},
                               {'sum_distinct_count_user_id': 14, 'time': '2017-01-01T00:00:00Z'}], json)
+
+    def test_login_period_test_accepted(self):
+        json = self.get("public/login_period",
+                        query_data={"from": "2017-1-1", "to": "2018-1-1", "state": "testaccepted"})
+        self.assertListEqual([{'sum_count_user_id': 6, 'time': '2017-01-01T00:00:00Z'},
+                              {'sum_distinct_count_user_id': 6, 'time': '2017-01-01T00:00:00Z'}], json)
+
+    def test_login_period_prod_accepted(self):
+        json = self.get("public/login_period",
+                        query_data={"from": "2017-1-1", "to": "2018-1-1", "state": "prodaccepted"})
+        self.assertListEqual([{'sum_count_user_id': 8, 'time': '2017-01-01T00:00:00Z'},
+                              {'sum_distinct_count_user_id': 8, 'time': '2017-01-01T00:00:00Z'}], json)
 
     def test_login_period_from_to_seconds(self):
         json = self.get("public/login_period", query_data={"from": "1483228800", "to": "1514764800"})

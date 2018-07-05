@@ -26,18 +26,28 @@ def last_login():
     return max_time(current_app.app_config.log.measurement, current_app.app_config.log.user_id), 200
 
 
+def _add_manage_metadata(value, provider):
+    return provider if provider else {"id": value, "state": None, "name_en": value, "name_nl": value}
+
+
 @stats_api.route("/service_providers", strict_slashes=False)
 @json_endpoint
 def service_provider_data():
-    return (service_providers_tags(current_app.app_config.log.measurement, current_app.app_config.log.sp_id), 200) \
-        if current_app.app_config.profile == "local" else (service_providers(), 200)
+    sp_manage = [] if current_app.app_config.profile == "local" else service_providers()
+    sp_influx = service_providers_tags(current_app.app_config.log.measurement, current_app.app_config.log.sp_id)
+    sp_manage_dict = {sp["id"]: sp for sp in sp_manage}
+    return list(map(lambda sp: _add_manage_metadata(sp, sp_manage_dict[sp] if sp in sp_manage_dict else None),
+                    sp_influx)), 200
 
 
 @stats_api.route("/identity_providers", strict_slashes=False)
 @json_endpoint
 def identity_providers_data():
-    return (identity_providers_tags(current_app.app_config.log.measurement, current_app.app_config.log.idp_id), 200) \
-        if current_app.app_config.profile == "local" else (identity_providers(), 200)
+    idp_manage = [] if current_app.app_config.profile == "local" else identity_providers()
+    idp_influx = identity_providers_tags(current_app.app_config.log.measurement, current_app.app_config.log.idp_id)
+    idp_manage_dict = {idp["id"]: idp for idp in idp_manage}
+    return list(map(lambda idp: _add_manage_metadata(idp, idp_manage_dict[idp] if idp in idp_manage_dict else {}),
+                    idp_influx)), 200
 
 
 @stats_api.route("/public/connected_identity_providers", strict_slashes=False)
@@ -56,10 +66,11 @@ def _options(blacklisted_args=["idp_entity_id", "sp_entity_id", "group_by"]):
                     "include_unique": "true" == args.get("include_unique", default="true").lower(),
                     "group_by": list(map(lambda s: log[s],
                                          filter(lambda s: s in valid_group_by, map(lambda s: s.strip(), group_by)))),
-                    "epoch": args.get("epoch")}
+                    "epoch": args.get("epoch"),
+                    "state": args.get("state", None)}
     is_authorized_api_call = request_context.get("is_authorized_api_call", False)
 
-    if not("user" in session or is_authorized_api_call):
+    if not ("user" in session or is_authorized_api_call):
         for a in blacklisted_args:
             if request_args.get(a):
                 raise Unauthorized(description="Forbidden")
