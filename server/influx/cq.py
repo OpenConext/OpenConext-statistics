@@ -58,8 +58,15 @@ def create_continuous_query(db, db_name, duration, is_unique, include_total, mea
 def backfill_login_measurements(config, db: InfluxDBClient):
     db_name = config.database.name
     log_source = config.log.measurement
+
     sp = config.log.sp_id
     idp = config.log.idp_id
+
+    databases = list(map(lambda p: p["name"], db.get_list_database()))
+
+    if db_name not in databases:
+        # we assume a test is running and we don't proceed with back filling
+        return
 
     for measurement in get_measurements():
         db.drop_measurement(measurement)
