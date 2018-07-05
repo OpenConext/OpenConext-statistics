@@ -59,9 +59,9 @@ def main(config_file_location="config/config.yml"):
     app.influx_client.switch_database(db_name)
     result_set = app.influx_client.query("show continuous queries")
     series = list(filter(lambda s: s["name"] == db_name,
-                         result_set.raw["series"] if "series" in result_set.raw else []))[0]
+                         result_set.raw["series"] if "series" in result_set.raw else []))
 
-    if "values" not in series or len(series["values"]) < 84:
+    if len(series) == 0 or "values" not in series[0] or len(series[0]["values"]) < 84:
         backfill_login_measurements(config, app.influx_client)
 
     profile = os.environ.get("PROFILE")
