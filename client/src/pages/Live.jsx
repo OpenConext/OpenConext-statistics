@@ -172,7 +172,7 @@ export default class Live extends React.PureComponent {
 
     render() {
         const {data, from, to, scale, sp, idp, aggregate, groupedByIdp, groupedBySp, providerState, includeUniques} = this.state;
-        const {identityProviders, serviceProviders, user} = this.props;
+        const {identityProviders, serviceProviders, user, identityProvidersDict, serviceProvidersDict} = this.props;
         return (
             <div className="live">
                 <section className="container">
@@ -202,11 +202,13 @@ export default class Live extends React.PureComponent {
                 </section>
                 <Chart data={data}
                        scale={scale}
-                       includeUniques={!user.guest}
+                       includeUniques={includeUniques}
                        title={this.title(from, to, scale, sp, idp, aggregate)}
                        groupedBySp={groupedBySp}
                        groupedByIdp={groupedByIdp}
-                       aggregate={aggregate}/>
+                       aggregate={aggregate}
+                       identityProvidersDict={identityProvidersDict}
+                       serviceProvidersDict={serviceProvidersDict}/>
             </div>
         );
     }
@@ -215,5 +217,7 @@ export default class Live extends React.PureComponent {
 Live.propTypes = {
     identityProviders: PropTypes.array.isRequired,
     serviceProviders: PropTypes.array.isRequired,
+    serviceProvidersDict: PropTypes.object.isRequired,
+    identityProvidersDict: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired
 };

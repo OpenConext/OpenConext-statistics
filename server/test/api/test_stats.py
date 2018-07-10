@@ -30,13 +30,13 @@ class TestStats(AbstractTest):
         self.mock_manage("sp")
         self.mock_influx("sp")
         json = self.get("service_providers")
-        self.assertListEqual([{"id": "https://sp/1", "name_en": "SP1-en", "name_nl": "SP1-nl", "state": "prodaccepted"},
-                              {"id": "https://sp/2", "name_en": "SP2-en", "name_nl": "SP2-nl", "state": "testaccepted"},
-                              {"id": "https://sp/3", "name_en": "SP3-en", "name_nl": "SP3-nl", "state": "prodaccepted"},
-                              {"id": "https://sp/4", "name_en": "https://sp/4", "name_nl": "https://sp/4",
-                               "state": None},
-                              {"id": "https://sp/5", "name_en": "https://sp/5", "name_nl": "https://sp/5",
-                               "state": None}], json)
+        self.assertEquals([{'id': 'https://sp/1', 'name_en': 'SP1-en', 'name_nl': 'SP1-nl', 'state': 'prodaccepted'},
+                           {'id': 'https://sp/2', 'name_en': 'SP2-en', 'name_nl': 'SP2-nl', 'state': 'testaccepted'},
+                           {'id': 'https://sp/3', 'name_en': 'SP3-en', 'name_nl': 'SP3-nl', 'state': 'prodaccepted'},
+                           {'id': 'https://sp/4', 'name_en': 'Name EN: https://sp/4',
+                            'name_nl': 'Name NL: https://sp/4', 'state': None},
+                           {'id': 'https://sp/5', 'name_en': 'Name EN: https://sp/5',
+                            'name_nl': 'Name NL: https://sp/5', 'state': None}], json)
 
     @responses.activate
     def test_identity_providers(self):
@@ -44,18 +44,19 @@ class TestStats(AbstractTest):
         self.mock_influx("idp")
         json = self.get("identity_providers")
         self.assertListEqual(
-            [{"id": "https://idp/1", "name_en": "IDP1-en", "name_nl": "IDP1-nl", "state": "prodaccepted"},
-             {"id": "https://idp/2", "name_en": "IDP2-en", "name_nl": "IDP2-nl", "state": "testaccepted"},
-             {"id": "https://idp/3", "name_en": "https://idp/3", "name_nl": "https://idp/3", "state": None}], json)
+            [{'id': 'https://idp/1', 'name_en': 'IDP1-en', 'name_nl': 'IDP1-nl', 'state': 'prodaccepted'},
+             {'id': 'https://idp/2', 'name_en': 'IDP2-en', 'name_nl': 'IDP2-nl', 'state': 'testaccepted'},
+             {'id': 'https://idp/3', 'name_en': 'Name EN: https://idp/3', 'name_nl': 'Name NL: https://idp/3',
+              'state': None}], json)
 
     @responses.activate
     def test_connected_identity_providers(self):
         self.mock_manage("idp")
         json = self.get("public/connected_identity_providers")
-        self.assertListEqual([{"coin:institution_type": "HBO", "coin:publish_in_edugain": "1", "id": "https://idp/1",
-                               "name_en": "IDP1-en", "name_nl": "IDP1-nl", "state": "prodaccepted"},
-                              {"coin:guest_qualifier": "None", "id": "https://idp/2", "name_en": "IDP2-en",
-                               "name_nl": "IDP2-nl", "state": "testaccepted"}], json)
+        self.assertListEqual([{'coin:institution_type': 'HBO', 'coin:publish_in_edugain': '1', 'id': 'https://idp/1',
+                               'name_en': 'IDP1-en', 'name_nl': 'IDP1-nl', 'state': 'prodaccepted'},
+                              {'coin:guest_qualifier': 'None', 'id': 'https://idp/2', 'name_en': 'IDP2-en',
+                               'name_nl': 'IDP2-nl', 'state': 'testaccepted'}], json)
 
     def test_identity_providers_local(self):
         current_app.app_config["profile"] = "local"

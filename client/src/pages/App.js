@@ -23,6 +23,8 @@ class App extends React.PureComponent {
             currentUser: {},
             allServiceProviders: [],
             allIdentityProviders: [],
+            identityProvidersDict: {},
+            serviceProvidersDict: {},
             error: false,
             errorDialogOpen: false,
             errorDialogAction: () => this.setState({errorDialogOpen: false})
@@ -68,7 +70,17 @@ class App extends React.PureComponent {
                     if (currentUser && currentUser.uid) {
                         this.setState({currentUser: currentUser, loading: false},
                             () => !currentUser.guest && Promise.all([identityProviders(), serviceProviders()]).then(res =>
-                                this.setState({allIdentityProviders: res[0], allServiceProviders: res[1]})
+                                this.setState({
+                                    allIdentityProviders: res[0], allServiceProviders: res[1],
+                                    identityProvidersDict: res[0].reduce((acc, p) => {
+                                        acc[p.id] = p;
+                                        return acc;
+                                    }, {}),
+                                    serviceProvidersDict: res[1].reduce((acc, p) => {
+                                        acc[p.id] = p;
+                                        return acc;
+                                    }, {})
+                                })
                             ));
                     } else {
                         this.handleBackendDown();
@@ -79,8 +91,10 @@ class App extends React.PureComponent {
 
 
     render() {
-        const {loading, errorDialogAction, errorDialogOpen, currentUser, allIdentityProviders, allServiceProviders}
-            = this.state;
+        const {
+            loading, errorDialogAction, errorDialogOpen, currentUser, allIdentityProviders, allServiceProviders,
+            serviceProvidersDict, identityProvidersDict
+        } = this.state;
         if (loading) {
             return null; // render null when app is not ready yet
         }
@@ -99,6 +113,8 @@ class App extends React.PureComponent {
                         <Route path="/live"
                                render={props => <Live serviceProviders={allServiceProviders}
                                                       identityProviders={allIdentityProviders}
+                                                      serviceProvidersDict={serviceProvidersDict}
+                                                      identityProvidersDict={identityProvidersDict}
                                                       user={currentUser}
                                                       {...props}/>}/>
                         <Route path="/connected-identity-providers"

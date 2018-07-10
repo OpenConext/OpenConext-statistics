@@ -30,7 +30,8 @@ def last_login():
 
 
 def _add_manage_metadata(value, provider):
-    return provider if provider else {"id": value, "state": None, "name_en": value, "name_nl": value}
+    return provider if provider else {"id": value, "state": None, "name_en": "Name EN: " + value,
+                                      "name_nl": "Name NL: " + value}
 
 
 @stats_api.route("/service_providers", strict_slashes=False)
@@ -39,8 +40,9 @@ def service_provider_data():
     sp_manage = [] if current_app.app_config.profile == "local" else service_providers()
     sp_influx = service_providers_tags(current_app.app_config.log.measurement, current_app.app_config.log.sp_id)
     sp_manage_dict = {sp["id"]: sp for sp in sp_manage}
-    return list(map(lambda sp: _add_manage_metadata(sp, sp_manage_dict[sp] if sp in sp_manage_dict else None),
-                    sp_influx)), 200
+    return list(
+        map(lambda sp_id: _add_manage_metadata(sp_id, sp_manage_dict[sp_id] if sp_id in sp_manage_dict else None),
+            sp_influx)), 200
 
 
 @stats_api.route("/identity_providers", strict_slashes=False)
