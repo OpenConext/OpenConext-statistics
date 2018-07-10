@@ -12,8 +12,8 @@
         display: flex;
         flex-direction: column;
 
-        div.providers {
-            margin-bottom: 36px;
+        div.providers, div.filters {
+            margin-bottom: 15px;
         }
     }
 }

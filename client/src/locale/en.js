@@ -80,6 +80,16 @@ I18n.translations.en = {
         aggregatedChartTitle: "Aggregated logins from {{from}} until {{to}}",
         aggregatedChartTitlePeriod: "Aggregated logins for the period {{period}}"
     },
+    filters: {
+        title: "Filters",
+        state: "Provider status",
+        stateValues: {
+            all: "All",
+            prodaccepted: "prodaccepted",
+            testaccepted: "testaccepted"
+        },
+        uniques: "Include unique user count"
+    },
     eduGain: {
         loading: "Loading...",
         title: "Identity providers",
@@ -87,13 +97,12 @@ I18n.translations.en = {
         organizationName: "Organization name",
         surfConext: "SURFconext",
         eduGAIN: "EduGAIN",
-        guest: "non-member / guest organizations",
         total: "Total: {{count}} organizations",
-        totalNonMembers : "Total: {{count}} non-member / guest organizations",
+        totalNonMembers: "Total: {{count}} non-member / guest organizations",
+        guest: "non-member / guest organizations",
         nonMember: "non-member IdP",
         notFullMembers: "There are a number of Identity Providers available in SURFconext that are not full members of the federation. The following IdPs and organization can only use a limited set of services (which set may differ per IdP). They will not be published in eduGAIN.",
         footer: "For technical details about connected IdPs please refer to <a href=\"https://engine.surfconext.nl/\" target=\"_blank\">our IdPs metadata</a>. For more information about SURFconext please see www.surfconext.nl.",
-
     },
     error_dialog: {
         title: "Unexpected error",

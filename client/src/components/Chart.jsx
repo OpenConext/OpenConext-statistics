@@ -48,7 +48,7 @@ export default class Chart extends React.PureComponent {
     nonAggregatedOptions = (data) => ({
         chart: {
             zoomType: "x",
-            height: 525
+            height: true ? 525 : 625
         },
         title: {text: null},
         yAxis: {
@@ -114,8 +114,8 @@ export default class Chart extends React.PureComponent {
         exporting: this.exporting(),
         credits: {enabled: false},
         series: [
-            {name: I18n.t("chart.userCount"), color: "#15A300", data: data.map(p => p.sum_count_user_id)},
-            {name: I18n.t("chart.uniqueUserCount"), color: "#D4AF37", data: data.map(p => p.sum_distinct_count_user_id)}
+            {name: I18n.t("chart.userCount"), color: "#15A300", data: data.map(p => p.count_user_id)},
+            {name: I18n.t("chart.uniqueUserCount"), color: "#D4AF37", data: data.map(p => p.distinct_count_user_id)}
         ]
     });
 
@@ -125,7 +125,7 @@ export default class Chart extends React.PureComponent {
                 <em>{I18n.t("chart.noResults")}</em>
             </section>;
         }
-        const userCount = data.filter(p => aggregate ? p.sum_count_user_id : p.count_user_id);
+        const userCount = data.filter(p => p.count_user_id);
         const groupedByBoth = groupedByIdp && groupedBySp;
         const yValues = aggregate ? userCount.map(p => groupedByBoth ? `${p.sp_entity_id}-${p.idp_entity_id}` :
             groupedBySp ? p.sp_entity_id : groupedByIdp ? p.idp_entity_id : I18n.t("chart.allLogins")) : [];
@@ -138,7 +138,6 @@ export default class Chart extends React.PureComponent {
                                     constructorType={aggregate ? "chart" : "stockChart"}
                                     options={options}/>
             </section>
-            //
         );
     };
 

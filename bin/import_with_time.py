@@ -23,17 +23,21 @@ state = ["prodaccepted", "testaccepted"]
 
 
 def import_test_data(host="localhost", port=8086, username="", password=""):
-    logger = logging.getLogger()
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger("import")
 
     db_name = "eb_logs_poc"
 
     client = InfluxDBClient(host=host, port=port, username=username, password=password, database=db_name)
     measurement = "eb_logins_tst"
 
-    client.drop_measurement(measurement)
+    client.drop_database(db_name)
+    client.create_database(db_name)
+    client.switch_database(db_name)
+
     logger.info("Started importing records")
 
-    for i in range(0, 10_000_000):
+    for i in range(0, 1_00_000):
         r = random.randint(seconds_2015, seconds_now)
         rd = datetime.datetime.utcfromtimestamp(r)
         json_body = [
@@ -42,7 +46,10 @@ def import_test_data(host="localhost", port=8086, username="", password=""):
                 "tags": {
                     "sp_entity_id": random.choice(service_providers),
                     "idp_entity_id": random.choice(identity_providers),
-                    "state": state[0] if random.randint(0, 5) < 4 else state[1]
+                    "state": state[0] if random.randint(0, 5) < 4 else state[1],
+                    "month": f"{rd.month}",
+                    "quarter": f"{((rd.month-1)//3) + 1}",
+                    "year": f"{rd.year}"
                 },
                 "fields": {
                     "user_id": random.choice(users)
@@ -51,10 +58,10 @@ def import_test_data(host="localhost", port=8086, username="", password=""):
             }
         ]
         client.write_points(json_body)
-        if i % 50000 is 0 and i is not 0:
-            logger.info("Created another 50000 records")
+        if i % 5000 is 0 and i is not 0:
+            logger.info("Created another 5000 records")
 
-    logger.info("Finished importing records")
+    logger.warn("Finished importing records")
 
 
 if __name__ == "__main__":

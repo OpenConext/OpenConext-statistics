@@ -7,8 +7,11 @@ from werkzeug.exceptions import Unauthorized
 
 from server.api.base import json_endpoint
 from server.influx.repo import min_time, max_time, login_by_time_frame, \
-    login_by_time_period, service_providers_tags, identity_providers_tags
+    service_providers_tags, identity_providers_tags, login_by_aggregated
 from server.manage.manage import service_providers, connected_identity_providers, identity_providers
+
+VALID_GROUP_BY = ["idp_id", "sp_id"]
+VALID_STATE = ["prodaccepted", "testaccepted"]
 
 stats_api = Blueprint("stats_api", __name__, url_prefix="/api/stats")
 period_regex = r"\d{4}[QMWD]{0,1}\d{0,3}$"
@@ -56,18 +59,22 @@ def identity_provider_data():
     return connected_identity_providers(), 200
 
 
-def _options(blacklisted_args=["idp_entity_id", "sp_entity_id", "group_by"]):
+def _options(include_group_by=True, blacklisted_args=["idp_entity_id", "sp_entity_id", "group_by"]):
     args = current_request.args
     log = current_app.app_config.log
-    valid_group_by = ["idp_id", "sp_id"]
-    group_by = args.get("group_by", default="").split(",")
     request_args = {"idp_entity_id": args.get("idp_id"),
                     "sp_entity_id": args.get("sp_id"),
                     "include_unique": "true" == args.get("include_unique", default="true").lower(),
-                    "group_by": list(map(lambda s: log[s],
-                                         filter(lambda s: s in valid_group_by, map(lambda s: s.strip(), group_by)))),
-                    "epoch": args.get("epoch"),
-                    "state": args.get("state", None)}
+                    "epoch": args.get("epoch")
+                    }
+    if include_group_by:
+        group_by = args.get("group_by", default="").split(",")
+        request_args["group_by"] = list(map(lambda s: log[s],
+                                            filter(lambda s: s in VALID_GROUP_BY, map(lambda s: s.strip(), group_by))))
+    state = args.get("state")
+    if state and state in VALID_STATE:
+        request_args["state"] = state
+
     is_authorized_api_call = request_context.get("is_authorized_api_call", False)
 
     if not ("user" in session or is_authorized_api_call):
@@ -95,13 +102,13 @@ def login_time_frame():
     scale = current_request.args.get("scale", default="day")
 
     results = login_by_time_frame(current_app.app_config, scale=scale, from_seconds=from_arg, to_seconds=to_arg,
-                                  **_options())
+                                  **_options(False))
     return results if len(results) > 0 else ["no_results"], 200
 
 
-@stats_api.route("/public/login_period", strict_slashes=False)
+@stats_api.route("/public/login_aggregated", strict_slashes=False)
 @json_endpoint
-def login_time_period():
+def login_aggregated():
     period = current_request.args.get("period", "")
     if period and not re.match(period_regex, period, re.IGNORECASE):
         raise ValueError(f"Invalid period {period}. Must match {period_regex}")
@@ -110,5 +117,5 @@ def login_time_period():
     if not period and (not from_arg or not to_arg):
         raise ValueError("Must either specify period or from and to")
 
-    results = login_by_time_period(current_app.app_config, period, **_options(), from_s=from_arg, to_s=to_arg)
+    results = login_by_aggregated(current_app.app_config, period, **_options(), from_s=from_arg, to_s=to_arg)
     return results if len(results) > 0 else ["no_results"], 200

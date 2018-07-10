@@ -1,6 +1,4 @@
 import datetime
-import math
-from collections import OrderedDict
 
 from dateutil import tz
 
@@ -54,49 +52,27 @@ def start_end_period(period):
     return periods[period[4:5].lower()](year, int(period[5:]))
 
 
-def period_to_scale(period):
-    periods = {"d": "day", "w": "week", "m": "month", "q": "quarter"}
-    if len(period) == 4:
-        return "year"
-    return periods[period[4:5].lower()]
+def _month_quarter_year_to_start(epoch):
+    def it(point):
+        month = point.get("month", None)
+        quarter = point.get("quarter", None)
+        year = point.get("year", None)
+        res = None
+        if month:
+            res = datetime.datetime(year=int(year), month=int(month), day=1, tzinfo=tz.tzutc())
+        elif quarter:
+            res = datetime.datetime(year=int(year), month=1 + ((int(quarter) - 1) * 3), day=1, tzinfo=tz.tzutc())
+        elif year:
+            res = datetime.datetime(year=int(year), month=1, day=1, tzinfo=tz.tzutc())
+        if res:
+            point["time"] = int(res.timestamp() * 1000) if epoch else res.strftime("%Y-%m-%dT%H:%M:%SZ")
+        return point
+    return it
 
 
-def _bucket(point, scale, group_by, epoch):
-    date = datetime.datetime.fromtimestamp(point["time"] / 1000, tz=tz.tzutc()) \
-        if epoch == "ms" else datetime.datetime.strptime(point["time"], "%Y-%m-%dT%H:%M:%SZ")
-    postfix = "".join(map(lambda k: point[k], group_by)) if group_by else ""
-    if scale == "year":
-        return str(date.year) + postfix
-    if scale == "month":
-        return f"{date.year}M{date.month}" + postfix
-    if scale == "quarter":
-        return f"{date.year}Q{math.ceil(date.month/3)}" + postfix
-
-
-def datetime_to_start_scale(dt, scale):
-    if scale == "year":
-        return year_start_end_seconds(dt.year)[0] * 1000
-    if scale == "month":
-        return month_start_end_seconds(dt.year, dt.month)[0] * 1000
-    if scale == "quarter":
-        return quarter_start_end_seconds(dt.year, math.ceil(dt.month / 3))[0] * 1000
-
-
-def _group_points(points, scale, count_user_identifier, epoch):
-    common_time = datetime_to_start_scale(datetime.datetime.fromtimestamp(points[0]["time"] / 1000, tz=tz.tzutc()),
-                                          scale) if epoch else _bucket(points[0], scale, None, epoch)
-    aggregated = {"time": common_time, count_user_identifier: sum(p[count_user_identifier] for p in points)}
-    return {**points[0], **aggregated}
-
-
-def grouping(points, scale, count_user_identifier, group_by=None, epoch=None):
+def adjust_time(points, epoch):
     if len(points) == 0:
         return points
-    results = OrderedDict()
-    for p in points:
-        bucket = _bucket(p, scale, group_by, epoch)
-        if bucket in results:
-            results[bucket].append(p)
-        else:
-            results[bucket] = [p]
-    return [_group_points(v, scale, count_user_identifier, epoch) for _, v in results.items()]
+    res = list(map(_month_quarter_year_to_start(epoch), points))
+    res.sort(key=lambda point: point["time"])
+    return res

@@ -79,7 +79,7 @@ export function serviceProviders() {
 }
 
 export function connectedIdentityProviders() {
-    return fetchJson("/api/stats/connected_identity_providers");
+    return fetchJson("/api/stats/public/connected_identity_providers");
 }
 
 export function lastLogin() {
@@ -87,26 +87,30 @@ export function lastLogin() {
 }
 
 export function loginTimeFrame({
-                                   from, to = Math.floor(new Date().getTime() / 1000), scale = "day",
+                                   from, to = Math.floor(new Date().getTime() / 1000),
+                                   scale = "day",
                                    include_unique = true,
-                                   idp_id, sp_id, group_by,
-                                   epoch = "ms"
+                                   idp_id,
+                                   sp_id,
+                                   epoch = "ms",
+                                   state = "all"
                                }) {
     const query = queryParam(arguments);
     return fetchJson(`/api/stats/public/login_time_frame${query}`)
 }
 
-export function loginPeriod({
-                                period = new Date().getFullYear(), include_unique = true,
-                                from = undefined, to = undefined,
-                                idp_id, sp_id, group_by
-                            }) {
+export function loginAggregated({
+                                    period = new Date().getFullYear(),
+                                    include_unique = true,
+                                    from = undefined,
+                                    to = undefined,
+                                    idp_id,
+                                    sp_id,
+                                    group_by,
+                                    state = "all"
+                                }) {
     const query = queryParam(arguments);
-    return fetchJson(`/api/stats/public/login_period${query}`)
-}
-
-export function health() {
-    return fetchJson("/health");
+    return fetchJson(`/api/stats/public/login_aggregated${query}`)
 }
 
 export function me() {

@@ -43,6 +43,7 @@ def create_continuous_query(db, db_name, duration, is_unique, include_total, mea
     state_value = "prodaccepted" if state == "pa" else "testaccepted" if state == "ta" else None
     q += f" WHERE state = '{state_value}' " if state_value else ""
     group_by.append(f"time({duration})")
+    group_by += ["year", "month", "quarter"]
     q += f"GROUP BY {', '.join(group_by)} "
 
     cq = f"CREATE CONTINUOUS QUERY \"{measurement_name}_cq\" " \

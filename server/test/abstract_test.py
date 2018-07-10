@@ -1,3 +1,4 @@
+import datetime
 import json
 import os
 
@@ -32,9 +33,18 @@ class AbstractTest(TestCase):
         db.create_database(db_name)
         db.switch_database(db_name)
         file = f"{os.path.dirname(os.path.realpath(__file__))}/seed/seed.json"
+
+        def add_date_tags(entry):
+            rd = datetime.datetime.utcfromtimestamp(entry["time"] // 1000000000)
+            entry["tags"]["year"] = f"{rd.year}"
+            entry["tags"]["quarter"] = f"{((rd.month-1)//3) + 1}"
+            entry["tags"]["month"] = f"{rd.month}"
+            return entry
+
         with open(file) as f:
             json_body = json.loads(f.read())
-            db.write_points(json_body)
+            json_body_with_data_tags = list(map(add_date_tags, json_body))
+            db.write_points(json_body_with_data_tags)
 
         backfill_login_measurements(config, db)
 

@@ -83,6 +83,17 @@ I18n.translations.nl = {
         aggregatedChartTitle: "Geaggregeerde logins van {{from}} tot {{to}}",
         aggregatedChartTitlePeriod: "Geaggregeerde logins in de periode {{period}}"
     },
+    filters: {
+        title: "Filters",
+        state: "Provider status",
+        stateValues: {
+            all: "Alle",
+            prodaccepted: "prodaccepted",
+            testaccepted: "testaccepted"
+        },
+        uniques: "Inclusief unieke gebruikers"
+    },
+
     eduGain: {
         loading: "Loading...",
         title: "Identity providers",
@@ -90,6 +101,8 @@ I18n.translations.nl = {
         organizationName: "Organization name",
         surfConext: "SURFconext",
         eduGAIN: "EduGAIN",
+        total: "Totaal",
+        totalNonMembers: "Total: {{count}} non-member / guest organizations",
         guest: "non-member / guest organizations",
         nonMember: "non-member IdP",
         notFullMembers: "There are a number of Identity Providers available in SURFconext that are not full members of the federation. The following IdPs and organization can only use a limited set of services (which set may differ per IdP). They will not be published in eduGAIN.",

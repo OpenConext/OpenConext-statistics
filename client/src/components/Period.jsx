@@ -7,11 +7,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-select/dist/react-select.css";
 import "./Period.css";
-// import "moment/locale/nl";
 import moment from "moment";
 import {isEmpty} from "../utils/Utils";
-
-// moment("nl-nl");
 
 const defaultScales = ["year", "quarter", "month", "week", "day", "hour", "minute"];
 const allowedAggregatedScales = ["year", "quarter", "month", "week", "day"];
