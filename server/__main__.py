@@ -37,10 +37,10 @@ def page_not_found(_):
     return jsonify({"message": f"{current_request.base_url} not found"}), 404
 
 
-def main(config_file_location="config/config.yml"):
+def main(config_file_location="config/config.yml", **kwargs):
     config = munchify(yaml.load(read_file(config_file_location)))
 
-    app = Flask(__name__)
+    app = Flask(__name__, **kwargs)
     app.secret_key = config.secret_key
 
     app.register_blueprint(base_api)

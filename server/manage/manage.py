@@ -9,10 +9,10 @@ def _auth():
 
 def _data(entity_type, requested_fields=[]):
     with requests.Session() as s:
-        response = s.post(f"{current_app.app_config.manage.url}/manage/api/internal/search/saml20_{entity_type}",
-                          json={"REQUESTED_ATTRIBUTES": requested_fields}, auth=_auth())
+        providers = s.post(f"{current_app.app_config.manage.url}/manage/api/internal/search/saml20_{entity_type}",
+                           json={"REQUESTED_ATTRIBUTES": requested_fields}, auth=_auth()).json()
         result = []
-        for provider in response.json():
+        for provider in providers:
             data_ = provider["data"]
             metadata = data_["metaDataFields"] if "metaDataFields" in data_ else {}
             entity_id = data_["entityid"]

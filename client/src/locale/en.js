@@ -72,7 +72,7 @@ I18n.translations.en = {
         noResults: "No logins are recorded for the given period.",
         date: "Date",
         logins: "Logins per {{scale}}",
-        allLogins: "Total logins",
+        allLogins: "# Logins",
         uniqueLogins: "Unique logins"
     },
     live: {

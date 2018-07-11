@@ -9,9 +9,7 @@ import "react-select/dist/react-select.css";
 import "./Period.css";
 import moment from "moment";
 import {isEmpty} from "../utils/Utils";
-
-const defaultScales = ["year", "quarter", "month", "week", "day", "hour", "minute"];
-const allowedAggregatedScales = ["year", "quarter", "month", "week", "day"];
+import {defaultScales, allowedAggregatedScales} from "../utils/Time";
 
 export default class Period extends React.PureComponent {
 
@@ -21,6 +19,9 @@ export default class Period extends React.PureComponent {
     }
 
     invariant = (propCallback, propertyName) => val => {
+        if (!isEmpty(this.props.allowedScales)) {
+            return;
+        }
         if (isEmpty(this.props[propertyName])) {
             propCallback(val.startOf("day"));
             return;
@@ -52,8 +53,8 @@ export default class Period extends React.PureComponent {
 
 
     render() {
-        const {scale, onChangeScale, onChangeFrom, from, to, onChangeTo, aggregate} = this.props;
-        const scales = aggregate ? [...this.state.scales].filter(s => allowedAggregatedScales.indexOf(s) > -1).concat(["none"]) :
+        const {scale, onChangeScale, onChangeFrom, from, to, onChangeTo, aggregate, allowedScales} = this.props;
+        const scales = allowedScales || aggregate ? [...this.state.scales].filter(s => allowedAggregatedScales.indexOf(s) > -1).concat(["none"]) :
             this.state.scales;
         const noScaleSelected = scale === "none";
         return (
@@ -65,7 +66,6 @@ export default class Period extends React.PureComponent {
                         selected={from}
                         onChange={this.invariant(onChangeFrom, "from")}
                         showYearDropdown
-                        // locale="nl-nl"
                         showMonthDropdown
                         todayButton={I18n.t("period.today")}
                         maxDate={to}
@@ -100,5 +100,6 @@ Period.propTypes = {
     from: PropTypes.object,
     onChangeTo: PropTypes.func.isRequired,
     to: PropTypes.object,
-    aggregate: PropTypes.bool
+    aggregate: PropTypes.bool,
+    allowedScales: PropTypes.array
 };

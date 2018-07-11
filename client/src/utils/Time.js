@@ -14,3 +14,7 @@ export function getPeriod(m, scale) {
             return undefined;
     }
 }
+
+export const defaultScales = ["year", "quarter", "month", "week", "day", "hour", "minute"];
+export const allowedAggregatedScales = ["year", "quarter", "month", "week", "day"];
+

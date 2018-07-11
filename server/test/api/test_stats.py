@@ -76,6 +76,10 @@ class TestStats(AbstractTest):
         json = self.get("last_login")
         self.assertEqual("2018-05-24T08:53:07Z", json)
 
+    def test_first_login_period(self):
+        json = self.get("first_login_period", query_data={"period": "2016M5", "state": None, "provider": "idp"})
+        print(json)
+
     def test_login_time_frame_group_by_year_no_uniques(self):
         json = self.get("public/login_time_frame",
                         query_data={"from": "2014-01-01", "to": "2020-01-01", "scale": "year",

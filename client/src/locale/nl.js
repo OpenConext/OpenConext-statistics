@@ -75,7 +75,7 @@ I18n.translations.nl = {
         noResults: "Geen logins voor de opgegeven periode.",
         date: "Datum",
         logins: "Logins per {{scale}}",
-        allLogins: "Totale logins",
+        allLogins: "# Logins",
         uniqueLogins: "Unieke logins"
     },
     live: {

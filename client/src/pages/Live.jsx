@@ -208,7 +208,8 @@ export default class Live extends React.PureComponent {
                        groupedByIdp={groupedByIdp}
                        aggregate={aggregate}
                        identityProvidersDict={identityProvidersDict}
-                       serviceProvidersDict={serviceProvidersDict}/>
+                       serviceProvidersDict={serviceProvidersDict}
+                       guest={user.guest}/>
             </div>
         );
     }

@@ -45,7 +45,7 @@ export default class Chart extends React.PureComponent {
         }
     });
 
-    nonAggregatedOptions = (data, includeUniques) => {
+    nonAggregatedOptions = (data, includeUniques, guest) => {
         const series = [{
             color: "#D4AF37",
             name: I18n.t("chart.userCount"),
@@ -61,7 +61,7 @@ export default class Chart extends React.PureComponent {
         return {
             chart: {
                 zoomType: "x",
-                height: true ? 525 : 625
+                height: guest ? 525 : 682
             },
             title: {text: null},
             yAxis: {
@@ -103,7 +103,7 @@ export default class Chart extends React.PureComponent {
         }
     };
 
-    aggregatedOptions = (data, yValues, includeUniques) => {
+    aggregatedOptions = (data, yValues, includeUniques, guest) => {
         const series = [
             {name: I18n.t("chart.userCount"), color: "#15A300", data: data.map(p => p.count_user_id)}
         ];
@@ -117,7 +117,7 @@ export default class Chart extends React.PureComponent {
         return {
             chart: {
                 type: "bar",
-                height: Math.max(data.length * 50 + 120, 375)
+                height: Math.max(data.length * 50 + 120, guest ? 575 : 350)
             },
             title: {text: null},
             xAxis: {
@@ -161,16 +161,19 @@ export default class Chart extends React.PureComponent {
             groupedBySp ? `<span>${this.providerName(sp, point.sp_entity_id)}</span>` : `<span>${this.providerName(idp, point.idp_entity_id)}</span>`;
     };
 
-    renderChart = (data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict, serviceProvidersDict) => {
+    renderChart = (data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict, serviceProvidersDict, guest) => {
         if (data.length === 1 && data[0] === "no_results") {
             return <section className="loading">
                 <em>{I18n.t("chart.noResults")}</em>
             </section>;
         }
         const userCount = data.filter(p => p.count_user_id);
-        const yValues = aggregate ? userCount.map(p => this.renderYvalue(p, groupedByIdp, groupedBySp, identityProvidersDict, serviceProvidersDict)) : [];
+        const yValues = aggregate ? userCount.map(p => this.renderYvalue(p, groupedByIdp, groupedBySp,
+            identityProvidersDict, serviceProvidersDict)) : [];
 
-        const options = aggregate ? this.aggregatedOptions(data, yValues, includeUniques) : this.nonAggregatedOptions(data, includeUniques);
+        const options = aggregate ? this.aggregatedOptions(data, yValues, includeUniques, guest) :
+            this.nonAggregatedOptions(data, includeUniques, guest);
+
         return (
             <section className="chart">
                 {title && <span className="title">{title}</span>}
@@ -182,14 +185,15 @@ export default class Chart extends React.PureComponent {
     };
 
     render() {
-        const {data, includeUniques, title, aggregate, groupedBySp, groupedByIdp, identityProvidersDict, serviceProvidersDict} = this.props;
+        const {data, includeUniques, title, aggregate, groupedBySp, groupedByIdp, identityProvidersDict, serviceProvidersDict, guest} = this.props;
         if (data.length === 0) {
             return <section className="loading">
                 <em>{I18n.t("chart.loading")}</em>
                 <i className="fa fa-refresh fa-spin fa-2x fa-fw"></i>
             </section>;
         }
-        return this.renderChart(data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict, serviceProvidersDict);
+        return this.renderChart(data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
+            serviceProvidersDict, guest);
     };
 
 
@@ -203,5 +207,6 @@ Chart.propTypes = {
     groupedByIdp: PropTypes.bool,
     aggregate: PropTypes.bool,
     serviceProvidersDict: PropTypes.object.isRequired,
-    identityProvidersDict: PropTypes.object.isRequired
+    identityProvidersDict: PropTypes.object.isRequired,
+    guest: PropTypes.bool
 };

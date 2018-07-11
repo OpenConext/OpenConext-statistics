@@ -60,6 +60,24 @@ def _determine_measurement(config, idp_entity_id, sp_entity_id, measurement_scal
     return measurement
 
 
+def first_login_from_to(config, from_seconds=None, to_seconds=None, state=None, provider="sp"):
+    _sp = provider == "sp"
+    measurement = _determine_measurement(config, not _sp, _sp, "day", state)
+    q = f"select * from {measurement} group by {config.log.sp_id if _sp else config.log.idp_id} limit 1"
+
+    records = _query(q, group_by=False, epoch="ms")
+    return list(filter(lambda p: int(from_seconds * 1000) <= p["time"] < int(to_seconds * 1000), records))
+
+
+def unused_login_from_to(config, from_seconds=None, to_seconds=None, state=None, provider="sp"):
+    _sp = provider == "sp"
+    measurement = _determine_measurement(config, not _sp, _sp, "day", state)
+    q = f"select * from {measurement} group by {config.log.sp_id if _sp else config.log.idp_id} limit 1"
+
+    records = _query(q, group_by=False, epoch="ms")
+    return list(filter(lambda p: int(from_seconds * 1000) <= p["time"] < int(to_seconds * 1000), records))
+
+
 def login_by_time_frame(config, scale="day", from_seconds=None, to_seconds=None, idp_entity_id=None, sp_entity_id=None,
                         include_unique=True, epoch=None, state=None):
     measurement_scale = scale if scale in ["minute", "hour", "day", "week"] else "day"

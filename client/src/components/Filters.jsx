@@ -13,7 +13,7 @@ const STATES = ["all", "prodaccepted", "testaccepted"];
 export default class Filters extends React.PureComponent {
 
     render() {
-        const {onChangeState, state, onChangeUniques, uniques} = this.props;
+        const {onChangeState, state, onChangeUniques, uniques, hideUniques} = this.props;
         return (
             <div className="filters">
                 <span className="title">{I18n.t("filters.title")}</span>
@@ -25,10 +25,10 @@ export default class Filters extends React.PureComponent {
                             searchable={false}
                             clearable={false}
                     />
-                    <CheckBox name="uniques" value={uniques || false}
+                    {!hideUniques && <CheckBox name="uniques" value={uniques || false}
                               info={I18n.t("filters.uniques")}
                               onChange={onChangeUniques}
-                    />
+                    />}
                 </section>
             </div>
         );
@@ -38,6 +38,7 @@ export default class Filters extends React.PureComponent {
 Filters.propTypes = {
     onChangeState: PropTypes.func.isRequired,
     state: PropTypes.string,
-    onChangeUniques: PropTypes.func.isRequired,
-    uniques: PropTypes.bool
+    onChangeUniques: PropTypes.func,
+    uniques: PropTypes.bool,
+    hideUniques: PropTypes.bool
 };

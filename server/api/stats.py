@@ -7,11 +7,13 @@ from werkzeug.exceptions import Unauthorized
 
 from server.api.base import json_endpoint
 from server.influx.repo import min_time, max_time, login_by_time_frame, \
-    service_providers_tags, identity_providers_tags, login_by_aggregated
+    service_providers_tags, identity_providers_tags, login_by_aggregated, first_login_from_to
+from server.influx.time import start_end_period
 from server.manage.manage import service_providers, connected_identity_providers, identity_providers
 
 VALID_GROUP_BY = ["idp_id", "sp_id"]
 VALID_STATE = ["prodaccepted", "testaccepted"]
+VALID_PROVIDER = ["sp", "idp"]
 
 stats_api = Blueprint("stats_api", __name__, url_prefix="/api/stats")
 period_regex = r"\d{4}[QMWD]{0,1}\d{0,3}$"
@@ -27,6 +29,36 @@ def first_login():
 @json_endpoint
 def last_login():
     return max_time(current_app.app_config.log.measurement, current_app.app_config.log.user_id), 200
+
+
+@stats_api.route("/first_login_period", strict_slashes=False)
+@json_endpoint
+def first_login_period():
+    args = current_request.args
+    period = args.get("period", "")
+    if period and not re.match(period_regex, period, re.IGNORECASE):
+        raise ValueError(f"Invalid period {period}. Must match {period_regex}")
+    from_arg = _parse_date("from")
+    to_arg = _parse_date("to")
+    if not period and (not from_arg or not to_arg):
+        raise ValueError("Must either specify period or from and to")
+
+    p = start_end_period(period) if period else (from_arg, to_arg)
+    from_seconds, to_seconds = p
+
+    request_args = {
+        "from_seconds": from_seconds,
+        "to_seconds": to_seconds
+    }
+    state = args.get("state")
+    if state and state in VALID_STATE:
+        request_args["state"] = state
+
+    provider = args.get("provider")
+    if provider and provider in VALID_PROVIDER:
+        request_args["provider"] = provider
+
+    return first_login_from_to(current_app.app_config, **request_args), 200
 
 
 def _add_manage_metadata(value, provider):
