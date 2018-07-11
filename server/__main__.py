@@ -37,48 +37,42 @@ def page_not_found(_):
     return jsonify({"message": f"{current_request.base_url} not found"}), 404
 
 
-def main(config_file_location="config/config.yml", **kwargs):
-    config = munchify(yaml.load(read_file(config_file_location)))
+config_file_location="config/config.yml"
+config = munchify(yaml.load(read_file(config_file_location)))
 
-    app = Flask(__name__, **kwargs)
-    app.secret_key = config.secret_key
+app = Flask(__name__)
+app.secret_key = config.secret_key
 
-    app.register_blueprint(base_api)
-    app.register_blueprint(stats_api)
-    app.register_blueprint(user_api)
+app.register_blueprint(base_api)
+app.register_blueprint(stats_api)
+app.register_blueprint(user_api)
 
-    app.register_error_handler(404, page_not_found)
+app.register_error_handler(404, page_not_found)
 
-    db_name = config.database.name
-    app.influx_client = InfluxDBClient(host=config.database.host,
-                                       port=config.database.port,
-                                       username=config.database.username,
-                                       password=config.database.password,
-                                       database=db_name)
-    app.app_config = config
-    app.influx_client.switch_database(db_name)
-    result_set = app.influx_client.query("show continuous queries")
-    series = list(filter(lambda s: s["name"] == db_name,
-                         result_set.raw["series"] if "series" in result_set.raw else []))
+db_name = config.database.name
+app.influx_client = InfluxDBClient(host=config.database.host,
+                                   port=config.database.port,
+                                   username=config.database.username,
+                                   password=config.database.password,
+                                   database=db_name)
+app.app_config = config
+app.influx_client.switch_database(db_name)
+result_set = app.influx_client.query("show continuous queries")
+series = list(filter(lambda s: s["name"] == db_name,
+                     result_set.raw["series"] if "series" in result_set.raw else []))
 
-    if len(series) == 0 or "values" not in series[0] or len(series[0]["values"]) < 84:
-        backfill_login_measurements(config, app.influx_client)
+if len(series) == 0 or "values" not in series[0] or len(series[0]["values"]) < 84:
+    backfill_login_measurements(config, app.influx_client)
 
-    profile = os.environ.get("PROFILE")
-    test = os.environ.get("TEST")
-    app.app_config["profile"] = profile
+profile = os.environ.get("PROFILE")
+test = os.environ.get("TEST")
+app.app_config["profile"] = profile
 
-    is_local = profile is not None and profile == "local"
-    is_test = test is not None and bool(int(test))
+is_local = profile is not None and profile == "local"
+is_test = test is not None and bool(int(test))
 
-    _init_logging(is_local or is_test)
+_init_logging(is_local or is_test)
 
-    # WSGI production mode dictates that no flask app is actually running
-    if is_local:
-        app.run(port=8080, debug=False, host="0.0.0.0", threaded=True)
-    else:
-        return app
-
-
-if __name__ == "__main__":
-    main()
+# WSGI production mode dictates that no flask app is actually running
+if is_local:
+    app.run(port=8080, debug=False, host="0.0.0.0", threaded=True)

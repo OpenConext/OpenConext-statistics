@@ -11,9 +11,9 @@ from server.influx.cq import backfill_login_measurements
 class AbstractTest(TestCase):
 
     def create_app(self):
-        from server.__main__ import main
+        from server.__main__ import app
         os.environ["TEST"] = "1"
-        app = main("config/test_config.yml")
+        # app = main("config/test_config.yml")
         config = app.app_config
         config.test = True
         db = app.influx_client
