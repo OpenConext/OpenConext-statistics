@@ -21,11 +21,21 @@ I18n.translations.en = {
         },
         role: "Role"
     },
-
+    newcomers: {
+        title: "All new {{provider}} from {{from}} until {{to}}"
+    },
+    providerTable: {
+        noResults: "No first-logins found for providers in the given period.",
+        name: "Name",
+        logins: "Number of logins",
+        date: "Date",
+        state: "State"
+    },
     navigation: {
         live: "Stats",
         overview: "Overview",
         connected_identity_providers: "Institutions",
+        new_comers: "Newcomers"
     },
     export: {
         downloadCSV: "Download as CSV",
@@ -87,6 +97,11 @@ I18n.translations.en = {
             all: "All",
             prodaccepted: "prodaccepted",
             testaccepted: "testaccepted"
+        },
+        provider: "Entity type",
+        providerValues: {
+            sp: "Service Providers",
+            idp: "Identity Providers"
         },
         uniques: "Include unique user count"
     },

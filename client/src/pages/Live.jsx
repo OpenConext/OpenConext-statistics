@@ -191,7 +191,8 @@ export default class Live extends React.PureComponent {
                     {!user.guest && <Filters onChangeState={this.onChangeState}
                                              onChangeUniques={this.onChangeUniques}
                                              state={providerState}
-                                             uniques={includeUniques}/>}
+                                             uniques={includeUniques}
+                                             displayUniques={true}/>}
                     <Period onChangeFrom={this.onChangeFrom}
                             onChangeTo={this.onChangeTo}
                             onChangeScale={this.onChangeScale}

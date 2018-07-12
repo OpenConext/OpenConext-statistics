@@ -10,6 +10,7 @@ import "moment/locale/nl";
 
 import Exporter from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
+import {providerName} from "../utils/Utils";
 
 Exporter(HighChart);
 Exporter(HighStock);
@@ -137,14 +138,6 @@ export default class Chart extends React.PureComponent {
         };
     };
 
-    providerName = (provider, fallback) => {
-        if (!provider) {
-            return fallback;
-        }
-        const alt = I18n.locale === "en" ? "nl" : "en";
-        return provider[`name_${I18n.locale}`] || provider[`name_${alt}`] || fallback;
-    };
-
     renderYvalue = (point, groupedByIdp, groupedBySp, identityProvidersDict, serviceProvidersDict) => {
         if (!groupedBySp && !groupedByIdp) {
             return I18n.t("chart.allLogins");
@@ -157,8 +150,8 @@ export default class Chart extends React.PureComponent {
             idp = identityProvidersDict[point.idp_entity_id];
         }
         const groupedByBoth = groupedByIdp && groupedBySp;
-        return groupedByBoth ? `<span>${this.providerName(sp, point.sp_entity_id)}</span><br><span>${this.providerName(idp, point.idp_entity_id)}<span>` :
-            groupedBySp ? `<span>${this.providerName(sp, point.sp_entity_id)}</span>` : `<span>${this.providerName(idp, point.idp_entity_id)}</span>`;
+        return groupedByBoth ? `<span>${providerName(sp, point.sp_entity_id)}</span><br><span>${providerName(idp, point.idp_entity_id)}<span>` :
+            groupedBySp ? `<span>${providerName(sp, point.sp_entity_id)}</span>` : `<span>${providerName(idp, point.idp_entity_id)}</span>`;
     };
 
     renderChart = (data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict, serviceProvidersDict, guest) => {

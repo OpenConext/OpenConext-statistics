@@ -20,13 +20,23 @@ I18n.translations.nl = {
             logout: "Uitloggen",
             exit: "Exit"
         },
-        role: "Rol"
+        role: "Role"
     },
-
+    newcomers: {
+        title: "Alle nieuwe {{provider}} van {{from}} tot {{to}}"
+    },
+    providerTable: {
+        noResults: "Geen first-logins gevonden voor de providers in de opgegeven periode.",
+        name: "Name",
+        logins: "Number of logins",
+        date: "Date",
+        state: "State"
+    },
     navigation: {
         live: "Stats",
         overview: "Overzicht",
         connected_identity_providers: "Instellingen",
+        new_comers: "Nieuwe providers"
     },
     export: {
         downloadCSV: "Download als CSV",
@@ -90,6 +100,11 @@ I18n.translations.nl = {
             all: "Alle",
             prodaccepted: "prodaccepted",
             testaccepted: "testaccepted"
+        },
+        provider: "Entity type",
+        providerValues: {
+            sp: "Service Providers",
+            idp: "Identity Providers"
         },
         uniques: "Inclusief unieke gebruikers"
     },

@@ -9,7 +9,7 @@ import "react-select/dist/react-select.css";
 import "./Period.css";
 import moment from "moment";
 import {isEmpty} from "../utils/Utils";
-import {defaultScales, allowedAggregatedScales} from "../utils/Time";
+import {allowedAggregatedScales, defaultScales} from "../utils/Time";
 
 export default class Period extends React.PureComponent {
 
@@ -19,10 +19,7 @@ export default class Period extends React.PureComponent {
     }
 
     invariant = (propCallback, propertyName) => val => {
-        if (!isEmpty(this.props.allowedScales)) {
-            return;
-        }
-        if (isEmpty(this.props[propertyName])) {
+        if (!isEmpty(this.props.allowedScales || isEmpty(this.props[propertyName]))) {
             propCallback(val.startOf("day"));
             return;
         }
@@ -54,14 +51,20 @@ export default class Period extends React.PureComponent {
 
     render() {
         const {scale, onChangeScale, onChangeFrom, from, to, onChangeTo, aggregate, allowedScales} = this.props;
-        const scales = allowedScales || aggregate ? [...this.state.scales].filter(s => allowedAggregatedScales.indexOf(s) > -1).concat(["none"]) :
-            this.state.scales;
+        let scales;
+        if (isEmpty(allowedScales)) {
+            scales = aggregate ? [...this.state.scales].filter(s => allowedAggregatedScales.indexOf(s) > -1).concat(["none"]) :
+                this.state.scales;
+        } else {
+            scales = allowedScales;
+        }
         const noScaleSelected = scale === "none";
+        const fromTitle = I18n.t(noScaleSelected && isEmpty(allowedScales) ? "period.date" : "period.from");
         return (
             <div className="period">
                 <span className="title">{I18n.t("period.title")}</span>
                 <section className="controls">
-                    <span className="sub-title">{I18n.t(noScaleSelected ? "period.date" : "period.from")}</span>
+                    <span className="sub-title">{fromTitle}</span>
                     <DatePicker
                         selected={from}
                         onChange={this.invariant(onChangeFrom, "from")}

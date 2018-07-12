@@ -82,10 +82,6 @@ export function connectedIdentityProviders() {
     return fetchJson("/api/stats/public/connected_identity_providers");
 }
 
-export function lastLogin() {
-    return fetchJson("/api/stats/last_login");
-}
-
 export function loginTimeFrame({
                                    from, to = Math.floor(new Date().getTime() / 1000),
                                    scale = "day",
@@ -111,6 +107,16 @@ export function loginAggregated({
                                 }) {
     const query = queryParam(arguments);
     return fetchJson(`/api/stats/public/login_aggregated${query}`)
+}
+
+export function firstLoginTime({
+                                    from = undefined,
+                                    to = undefined,
+                                    state = "all",
+                                    provider
+                                }) {
+    const query = queryParam(arguments);
+    return fetchJson(`/api/stats/first_login_time${query}`)
 }
 
 export function me() {

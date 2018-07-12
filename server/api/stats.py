@@ -6,8 +6,8 @@ from flask import Blueprint, current_app, request as current_request, session, g
 from werkzeug.exceptions import Unauthorized
 
 from server.api.base import json_endpoint
-from server.influx.repo import min_time, max_time, login_by_time_frame, \
-    service_providers_tags, identity_providers_tags, login_by_aggregated, first_login_from_to
+from server.influx.repo import login_by_time_frame, \
+    service_providers_tags, identity_providers_tags, login_by_aggregated, first_login_from_to, last_login_providers
 from server.influx.time import start_end_period
 from server.manage.manage import service_providers, connected_identity_providers, identity_providers
 
@@ -19,21 +19,9 @@ stats_api = Blueprint("stats_api", __name__, url_prefix="/api/stats")
 period_regex = r"\d{4}[QMWD]{0,1}\d{0,3}$"
 
 
-@stats_api.route("/first_login", strict_slashes=False)
+@stats_api.route("/first_login_time", strict_slashes=False)
 @json_endpoint
-def first_login():
-    return min_time(current_app.app_config.log.measurement, current_app.app_config.log.user_id), 200
-
-
-@stats_api.route("/last_login", strict_slashes=False)
-@json_endpoint
-def last_login():
-    return max_time(current_app.app_config.log.measurement, current_app.app_config.log.user_id), 200
-
-
-@stats_api.route("/first_login_period", strict_slashes=False)
-@json_endpoint
-def first_login_period():
+def first_login_time():
     args = current_request.args
     period = args.get("period", "")
     if period and not re.match(period_regex, period, re.IGNORECASE):
@@ -57,8 +45,40 @@ def first_login_period():
     provider = args.get("provider")
     if provider and provider in VALID_PROVIDER:
         request_args["provider"] = provider
+    else:
+        raise ValueError(f"Must specify provider: {VALID_PROVIDER}")
 
     return first_login_from_to(current_app.app_config, **request_args), 200
+
+
+@stats_api.route("/last_login_time", strict_slashes=False)
+@json_endpoint
+def last_login_time():
+    args = current_request.args
+    from_arg = _parse_date("from")
+    if not from_arg:
+        raise ValueError("Must specify from")
+
+    request_args = {}
+    state = args.get("state")
+    if state and state in VALID_STATE:
+        request_args["state"] = state
+
+    provider = args.get("provider")
+    if provider and provider in VALID_PROVIDER:
+        request_args["provider"] = provider
+    else:
+        raise ValueError(f"Must specify provider: {VALID_PROVIDER}")
+
+    last_logins = last_login_providers(current_app.app_config, **request_args)
+    entity_ids = list(map(lambda p: p["sp_entity_id"] if provider == "sp" else p["idp_entity_id"], last_logins))
+    manage_providers = [] if current_app.app_config.profile == "local" else service_providers() \
+        if provider == "sp" else identity_providers()
+
+    manage_providers = list(filter(lambda p: p["id"] not in entity_ids and p["state"] == state, manage_providers))
+    last_logins_before_from = list(filter(lambda p: p["time"] < int(from_arg * 1000), last_logins))
+
+    return manage_providers + last_logins_before_from, 200
 
 
 def _add_manage_metadata(value, provider):

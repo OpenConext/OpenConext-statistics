@@ -33,20 +33,6 @@ def identity_providers_tags(measurement, log_idp_tag):
     return _query(f"show tag values from {measurement} with key = {log_idp_tag}", _transform_tags)
 
 
-def min_time(log_measurement_name, log_user_id_field):
-    return _get_time(log_measurement_name, log_user_id_field, ascending=True)
-
-
-def max_time(log_measurement_name, log_user_id_field):
-    return _get_time(log_measurement_name, log_user_id_field, ascending=False)
-
-
-def _get_time(log_measurement_name, log_user_id_field, ascending=True):
-    order_by = "asc" if ascending else "desc"
-    return _query(f"select time, {log_user_id_field} from {log_measurement_name}"
-                  f" order by time {order_by} limit 1")[0]["time"]
-
-
 def _determine_measurement(config, idp_entity_id, sp_entity_id, measurement_scale, state, group_by=None):
     include_sp = sp_entity_id or (group_by and config.log.sp_id in group_by)
     include_idp = idp_entity_id or (group_by and config.log.idp_id in group_by)
@@ -63,19 +49,22 @@ def _determine_measurement(config, idp_entity_id, sp_entity_id, measurement_scal
 def first_login_from_to(config, from_seconds=None, to_seconds=None, state=None, provider="sp"):
     _sp = provider == "sp"
     measurement = _determine_measurement(config, not _sp, _sp, "day", state)
-    q = f"select * from {measurement} group by {config.log.sp_id if _sp else config.log.idp_id} limit 1"
+    q = f"select * from {measurement} group by {config.log.sp_id if _sp else config.log.idp_id} " \
+        f"order by time asc limit 1"
 
-    records = _query(q, group_by=False, epoch="ms")
-    return list(filter(lambda p: int(from_seconds * 1000) <= p["time"] < int(to_seconds * 1000), records))
+    records = _query(q, group_by=True, epoch="ms")
+    fs = int(from_seconds) * 1000
+    ts = int(to_seconds) * 1000
+    return list(filter(lambda p: fs <= p["time"] < ts, records))
 
 
-def unused_login_from_to(config, from_seconds=None, to_seconds=None, state=None, provider="sp"):
+def last_login_providers(config, state=None, provider="sp"):
     _sp = provider == "sp"
     measurement = _determine_measurement(config, not _sp, _sp, "day", state)
-    q = f"select * from {measurement} group by {config.log.sp_id if _sp else config.log.idp_id} limit 1"
+    q = f"select * from {measurement} group by {config.log.sp_id if _sp else config.log.idp_id} " \
+        f"order by time desc limit 1"
 
-    records = _query(q, group_by=False, epoch="ms")
-    return list(filter(lambda p: int(from_seconds * 1000) <= p["time"] < int(to_seconds * 1000), records))
+    return _query(q, group_by=True, epoch="ms")
 
 
 def login_by_time_frame(config, scale="day", from_seconds=None, to_seconds=None, idp_entity_id=None, sp_entity_id=None,

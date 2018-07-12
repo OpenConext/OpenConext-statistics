@@ -11,10 +11,13 @@ from server.influx.cq import backfill_login_measurements
 class AbstractTest(TestCase):
 
     def create_app(self):
-        from server.__main__ import app
+        os.environ["CONFIG"] = "config/test_config.yml"
         os.environ["TEST"] = "1"
-        # app = main("config/test_config.yml")
+
+        from server.__main__ import app
+
         config = app.app_config
+        config["profile"] = None
         config.test = True
         db = app.influx_client
 

@@ -11,6 +11,7 @@ import "../locale/en";
 import "../locale/nl";
 import Live from "./Live";
 import ConnectedIdentityProviders from "./ConnectedIdentityProviders";
+import NewComers from "./NewComers";
 
 const S4 = () => (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 
@@ -109,7 +110,7 @@ class App extends React.PureComponent {
                     </div>}
                     <Switch>
                         <Route exact path="/" render={() => <Redirect to="/live"/>}/>
-                        {/*<Route path={"/index"} component={Index}/>*/}
+
                         <Route path="/live"
                                render={props => <Live serviceProviders={allServiceProviders}
                                                       identityProviders={allIdentityProviders}
@@ -119,6 +120,11 @@ class App extends React.PureComponent {
                                                       {...props}/>}/>
                         <Route path="/connected-identity-providers"
                                render={props => <ConnectedIdentityProviders {...props}/>}/>
+                        {!currentUser.guest && <Route path="/new-comers"
+                                                      render={props =>
+                                                          <NewComers serviceProvidersDict={serviceProvidersDict}
+                                                                     identityProvidersDict={identityProvidersDict}
+                                                                     {...props}/>}/>}
                         <Route path="/error"
                                render={props => <ServerError {...props}/>}/>
                         <Route component={NotFound}/>

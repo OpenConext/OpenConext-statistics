@@ -1,12 +1,11 @@
 import datetime
+import json
 
+import responses
 from dateutil import tz
 from flask import current_app
-from urllib3_mock import Responses
 
 from server.test.abstract_test import AbstractTest
-
-responses = Responses("requests.packages.urllib3")
 
 
 class TestStats(AbstractTest):
@@ -15,48 +14,43 @@ class TestStats(AbstractTest):
         dt = datetime.datetime.fromtimestamp(milliseconds / 1000, tz=tz.tzutc())
         self.assertEqual(date_str, dt.strftime("%Y-%m-%dT%H:%M:%SZ"))
 
-    def mock_manage(self, type):
-        responses.add("POST", f"/manage/api/internal/search/saml20_{type}",
-                      body=AbstractTest.read_file(f"mock/manage_metadata_{type}.json"), status=200,
-                      content_type="application/json")
-
-    def mock_influx(self, type):
-        responses.add("GET", "/query",
-                      body=AbstractTest.read_file(f"mock/influx_tag_values_{type}.json"), status=200,
-                      content_type="application/json")
+    def mock_manage(self, type=None, file=None):
+        responses.add_passthru("http://localhost:8086")
+        url = f"https://manage.example.surfconext.nl/manage/api/internal/search/saml20_{type}"
+        responses.add(responses.POST, url,
+                      json=json.loads(AbstractTest.read_file(file if file else f"mock/manage_metadata_{type}.json")),
+                      status=200)
 
     @responses.activate
     def test_service_providers(self):
-        self.mock_manage("sp")
-        self.mock_influx("sp")
+        self.mock_manage(type="sp")
         json = self.get("service_providers")
-        self.assertEquals([{'id': 'https://sp/1', 'name_en': 'SP1-en', 'name_nl': 'SP1-nl', 'state': 'prodaccepted'},
-                           {'id': 'https://sp/2', 'name_en': 'SP2-en', 'name_nl': 'SP2-nl', 'state': 'testaccepted'},
-                           {'id': 'https://sp/3', 'name_en': 'SP3-en', 'name_nl': 'SP3-nl', 'state': 'prodaccepted'},
-                           {'id': 'https://sp/4', 'name_en': 'Name EN: https://sp/4',
-                            'name_nl': 'Name NL: https://sp/4', 'state': None},
-                           {'id': 'https://sp/5', 'name_en': 'Name EN: https://sp/5',
-                            'name_nl': 'Name NL: https://sp/5', 'state': None}], json)
+        self.assertListEqual([{"id": "https://sp/1", "name_en": "SP1-en", "name_nl": "SP1-nl", "state": "prodaccepted"},
+                              {"id": "https://sp/2", "name_en": "SP2-en", "name_nl": "SP2-nl", "state": "testaccepted"},
+                              {"id": "https://sp/3", "name_en": "SP3-en", "name_nl": "SP3-nl", "state": "prodaccepted"},
+                              {"id": "https://sp/4", "name_en": "Name EN: https://sp/4",
+                               "name_nl": "Name NL: https://sp/4", "state": None},
+                              {"id": "https://sp/5", "name_en": "Name EN: https://sp/5",
+                               "name_nl": "Name NL: https://sp/5", "state": None}], json)
 
     @responses.activate
     def test_identity_providers(self):
-        self.mock_manage("idp")
-        self.mock_influx("idp")
+        self.mock_manage(type="idp")
         json = self.get("identity_providers")
         self.assertListEqual(
-            [{'id': 'https://idp/1', 'name_en': 'IDP1-en', 'name_nl': 'IDP1-nl', 'state': 'prodaccepted'},
-             {'id': 'https://idp/2', 'name_en': 'IDP2-en', 'name_nl': 'IDP2-nl', 'state': 'testaccepted'},
-             {'id': 'https://idp/3', 'name_en': 'Name EN: https://idp/3', 'name_nl': 'Name NL: https://idp/3',
-              'state': None}], json)
+            [{"id": "https://idp/1", "name_en": "IDP1-en", "name_nl": "IDP1-nl", "state": "prodaccepted"},
+             {"id": "https://idp/2", "name_en": "IDP2-en", "name_nl": "IDP2-nl", "state": "testaccepted"},
+             {"id": "https://idp/3", "name_en": "Name EN: https://idp/3", "name_nl": "Name NL: https://idp/3",
+              "state": None}], json)
 
     @responses.activate
     def test_connected_identity_providers(self):
-        self.mock_manage("idp")
+        self.mock_manage(type="idp")
         json = self.get("public/connected_identity_providers")
-        self.assertListEqual([{'coin:institution_type': 'HBO', 'coin:publish_in_edugain': '1', 'id': 'https://idp/1',
-                               'name_en': 'IDP1-en', 'name_nl': 'IDP1-nl', 'state': 'prodaccepted'},
-                              {'coin:guest_qualifier': 'None', 'id': 'https://idp/2', 'name_en': 'IDP2-en',
-                               'name_nl': 'IDP2-nl', 'state': 'testaccepted'}], json)
+        self.assertListEqual([{"coin:institution_type": "HBO", "coin:publish_in_edugain": "1", "id": "https://idp/1",
+                               "name_en": "IDP1-en", "name_nl": "IDP1-nl", "state": "prodaccepted"},
+                              {"coin:guest_qualifier": "None", "id": "https://idp/2", "name_en": "IDP2-en",
+                               "name_nl": "IDP2-nl", "state": "testaccepted"}], json)
 
     def test_identity_providers_local(self):
         current_app.app_config["profile"] = "local"
@@ -68,17 +62,21 @@ class TestStats(AbstractTest):
         json = self.get("service_providers")
         self.assertEqual(5, len(json))
 
-    def test_first_login(self):
-        json = self.get("first_login")
-        self.assertEqual("2016-03-29T05:20:19Z", json)
-
-    def test_last_login(self):
-        json = self.get("last_login")
-        self.assertEqual("2018-05-24T08:53:07Z", json)
-
     def test_first_login_period(self):
-        json = self.get("first_login_period", query_data={"period": "2016M5", "state": None, "provider": "idp"})
-        print(json)
+        json = self.get("first_login_time", query_data={"period": "2016M5", "state": None, "provider": "idp"})
+        self.assertListEqual([{"count_user_id": 1, "idp_entity_id": "https://idp/1", "month": "5", "quarter": "2",
+                               "state": "prodaccepted", "time": 1463356800000, "year": "2016"}], json)
+
+    @responses.activate
+    def test_last_login_time(self):
+        self.mock_manage(type="sp", file="mock/manage_metadata_sp_no_logins.json")
+        json = self.get("last_login_time", query_data={"from": "2018-01-01", "state": "prodaccepted", "provider": "sp"})
+        self.assertListEqual(
+            [{"id": "https://sp/no_logins", "name_en": "SP1-en", "name_nl": "SP1-nl", "state": "prodaccepted"},
+             {"count_user_id": 1, "month": "9", "quarter": "3", "sp_entity_id": "https://sp/5", "state": "prodaccepted",
+              "time": 1505260800000, "year": "2017"},
+             {"count_user_id": 1, "month": "10", "quarter": "4", "sp_entity_id": "https://sp/1",
+              "state": "prodaccepted", "time": 1509235200000, "year": "2017"}], json)
 
     def test_login_time_frame_group_by_year_no_uniques(self):
         json = self.get("public/login_time_frame",
@@ -138,7 +136,6 @@ class TestStats(AbstractTest):
         json = self.get("public/login_time_frame",
                         query_data={"from": "2014-01-01", "to": "2020-01-01", "scale": "quarter"})
         # 4 quarter in 2016, 2017 and two in 2018 => 10 quarters * 2 for including unique ones
-        print(json)
         self.assertListEqual(
             [{"count_user_id": 1, "quarter": "1", "time": "2016-01-01T00:00:00Z", "year": "2016"},
              {"distinct_count_user_id": 1, "quarter": "1", "time": "2016-01-01T00:00:00Z", "year": "2016"},
@@ -178,7 +175,6 @@ class TestStats(AbstractTest):
         json = self.get("public/login_time_frame",
                         query_data={"from": "2014-01-01", "to": "2020-01-01", "scale": "month",
                                     "include_unique": "false"})
-        print(json)
         self.assertListEqual(
             [{"count_user_id": 1, "month": "3", "quarter": "1", "time": "2016-03-01T00:00:00Z", "year": "2016"},
              {"count_user_id": 1, "month": "4", "quarter": "2", "time": "2016-04-01T00:00:00Z", "year": "2016"},

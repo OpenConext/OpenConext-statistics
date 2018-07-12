@@ -9,15 +9,26 @@ import "./Filters.css";
 import CheckBox from "./CheckBox";
 
 const STATES = ["all", "prodaccepted", "testaccepted"];
+const PROVIDERS = ["sp", "idp"];
 
 export default class Filters extends React.PureComponent {
 
     render() {
-        const {onChangeState, state, onChangeUniques, uniques, hideUniques} = this.props;
+        const {displayProvider, onChangeProvider, provider, onChangeState, state, onChangeUniques, uniques, displayUniques} = this.props;
         return (
             <div className="filters">
                 <span className="title">{I18n.t("filters.title")}</span>
                 <section className="controls">
+                    {displayProvider && <span className="sub-title">{I18n.t("filters.provider")}</span>}
+                    {displayProvider && <Select onChange={option => option ? onChangeProvider(option.value) : null}
+                                              options={PROVIDERS.map(s => ({
+                                                  value: s,
+                                                  label: I18n.t(`filters.providerValues.${s}`)
+                                              }))}
+                                              value={provider || PROVIDERS[0]}
+                                              searchable={false}
+                                              clearable={false}
+                    />}
                     <span className="sub-title">{I18n.t("filters.state")}</span>
                     <Select onChange={option => option ? onChangeState(option.value) : null}
                             options={STATES.map(s => ({value: s, label: I18n.t(`filters.stateValues.${s}`)}))}
@@ -25,9 +36,9 @@ export default class Filters extends React.PureComponent {
                             searchable={false}
                             clearable={false}
                     />
-                    {!hideUniques && <CheckBox name="uniques" value={uniques || false}
-                              info={I18n.t("filters.uniques")}
-                              onChange={onChangeUniques}
+                    {displayUniques && <CheckBox name="uniques" value={uniques || false}
+                                               info={I18n.t("filters.uniques")}
+                                               onChange={onChangeUniques}
                     />}
                 </section>
             </div>
@@ -36,9 +47,12 @@ export default class Filters extends React.PureComponent {
 }
 
 Filters.propTypes = {
+    displayProvider: PropTypes.bool,
+    onChangeProvider: PropTypes.func,
+    provider: PropTypes.string,
     onChangeState: PropTypes.func.isRequired,
     state: PropTypes.string,
     onChangeUniques: PropTypes.func,
     uniques: PropTypes.bool,
-    hideUniques: PropTypes.bool
+    displayUniques: PropTypes.bool
 };

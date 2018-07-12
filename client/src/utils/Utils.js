@@ -1,3 +1,5 @@
+import I18n from "i18n-js";
+
 export function stop(e) {
     if (e !== undefined && e !== null) {
         e.preventDefault();
@@ -31,3 +33,12 @@ export function copyToClip(elementId) {
     document.execCommand("copy");
     document.removeEventListener("copy", listener);
 }
+
+export function providerName(provider, fallback) {
+    if (!provider) {
+        return fallback;
+    }
+    const alt = I18n.locale === "en" ? "nl" : "en";
+    return provider[`name_${I18n.locale}`] || provider[`name_${alt}`] || fallback;
+}
+
