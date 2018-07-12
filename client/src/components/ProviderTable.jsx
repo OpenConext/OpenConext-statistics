@@ -6,6 +6,7 @@ import I18n from "i18n-js";
 import "./ProviderTable.css";
 
 const columns = [{
+    id: "name",
     Header: I18n.t("providerTable.name"),
     accessor: "name"
 }, {
@@ -25,7 +26,7 @@ const columns = [{
 }];
 
 export default function ProviderTable({data}) {
-        return <ReactTable className="-striped" data={data}
-                           showPagination={false} minRows={0} defaultPageSize={data.length}
-                           columns={columns}/>
+    return <ReactTable className="-striped" data={data}
+                       showPagination={false} minRows={0} defaultPageSize={data.length}
+                       columns={columns} defaultSorted={[{id: "name", desc: false}]}/>
 }

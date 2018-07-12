@@ -19,6 +19,10 @@ export default class Period extends React.PureComponent {
     }
 
     invariant = (propCallback, propertyName) => val => {
+        if (isEmpty(val)) {
+            propCallback(val);
+            return;
+        }
         if (!isEmpty(this.props.allowedScales || isEmpty(this.props[propertyName]))) {
             propCallback(val.startOf("day"));
             return;

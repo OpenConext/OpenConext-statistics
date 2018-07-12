@@ -55,11 +55,21 @@ def first_login_time():
 @json_endpoint
 def last_login_time():
     args = current_request.args
+    period = args.get("period", "")
+    if period and not re.match(period_regex, period, re.IGNORECASE):
+        raise ValueError(f"Invalid period {period}. Must match {period_regex}")
     from_arg = _parse_date("from")
-    if not from_arg:
-        raise ValueError("Must specify from")
+    to_arg = _parse_date("to")
+    if not period and (not from_arg or not to_arg):
+        raise ValueError("Must either specify period or from and to")
 
-    request_args = {}
+    p = start_end_period(period) if period else (from_arg, to_arg)
+    from_seconds, to_seconds = p
+
+    request_args = {
+        "from_seconds": from_seconds,
+        "to_seconds": to_seconds
+    }
     state = args.get("state")
     if state and state in VALID_STATE:
         request_args["state"] = state
@@ -75,8 +85,10 @@ def last_login_time():
     manage_providers = [] if current_app.app_config.profile == "local" else service_providers() \
         if provider == "sp" else identity_providers()
 
+    fs = int(from_seconds) * 1000
+    ts = int(to_seconds) * 1000
     manage_providers = list(filter(lambda p: p["id"] not in entity_ids and p["state"] == state, manage_providers))
-    last_logins_before_from = list(filter(lambda p: p["time"] < int(from_arg * 1000), last_logins))
+    last_logins_before_from = list(filter(lambda p: p["time"] < fs, last_logins))
 
     return manage_providers + last_logins_before_from, 200
 

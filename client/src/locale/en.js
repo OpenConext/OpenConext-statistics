@@ -21,8 +21,13 @@ I18n.translations.en = {
         },
         role: "Role"
     },
-    newcomers: {
-        title: "All new {{provider}} from {{from}} until {{to}}"
+    advanced: {
+        newcomers: {
+            title: "All new {{provider}} from {{from}} until {{to}}"
+        },
+        notused: {
+            title: "All not used {{provider}} from {{from}} until {{to}}"
+        },
     },
     providerTable: {
         noResults: "No first-logins found for providers in the given period.",
@@ -35,7 +40,7 @@ I18n.translations.en = {
         live: "Stats",
         overview: "Overview",
         connected_identity_providers: "Institutions",
-        new_comers: "Newcomers"
+        system: "System"
     },
     export: {
         downloadCSV: "Download as CSV",

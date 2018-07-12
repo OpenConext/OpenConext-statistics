@@ -68,7 +68,7 @@ export default class Navigation extends React.PureComponent {
                        rel="noopener noreferrer">
                         {I18n.t("index.availability")}
                     </a>
-                    {!currentUser.guest && this.renderItem("/new-comers", "new_comers")}
+                    {!currentUser.guest && this.renderItem("/system", "system")}
                     {/*{this.renderSpinner()}*/}
                 </div>
             </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import I18n from "i18n-js";
-import "./NewComers.css";
+import "./Advanced.css";
 import PropTypes from "prop-types";
 import Period from "../components/Period";
 import moment from "moment";
@@ -13,7 +13,7 @@ import {isEmpty, providerName} from "../utils/Utils";
 
 moment.locale(I18n.locale);
 
-export default class NewComers extends React.PureComponent {
+export default class Advanced extends React.PureComponent {
 
     constructor(props) {
         super(props);
@@ -26,7 +26,8 @@ export default class NewComers extends React.PureComponent {
             scale: "none",
             provider: "sp",
             state: "all",
-            loaded: false
+            loaded: false,
+            modus: "newcomers"
         };
     }
 
@@ -80,15 +81,15 @@ export default class NewComers extends React.PureComponent {
     };
 
     render() {
-        const {data, from, to, scale, state, provider, loaded} = this.state;
+        const {data, from, to, scale, state, provider, loaded, modus} = this.state;
         const {identityProvidersDict, serviceProvidersDict} = this.props;
-        const title = I18n.t("newcomers.title", {
+        const title = I18n.t(`advanced.${modus}.title`, {
             from: from.format('MMMM Do YYYY, h:mm:ss a'),
             to: to.format('MMMM Do YYYY, h:mm:ss a'),
             provider: I18n.t(`providers.${provider}`)
         });
         return (
-            <div className="newcomers">
+            <div className="advanced">
                 <section className="container">
                     <Period onChangeFrom={this.onChangeFrom}
                             onChangeTo={this.onChangeTo}
@@ -120,7 +121,7 @@ export default class NewComers extends React.PureComponent {
 
 }
 
-NewComers.propTypes = {
+Advanced.propTypes = {
     serviceProvidersDict: PropTypes.object.isRequired,
     identityProvidersDict: PropTypes.object.isRequired
 };

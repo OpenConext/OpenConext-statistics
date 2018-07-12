@@ -22,8 +22,13 @@ I18n.translations.nl = {
         },
         role: "Role"
     },
-    newcomers: {
-        title: "Alle nieuwe {{provider}} van {{from}} tot {{to}}"
+    advanced: {
+        newcomers: {
+            title: "Alle nieuwe {{provider}} van {{from}} tot {{to}}"
+        },
+        notused: {
+            title: "Alle niet gebruikte {{provider}} van {{from}} tot {{to}}"
+        }
     },
     providerTable: {
         noResults: "Geen first-logins gevonden voor de providers in de opgegeven periode.",
@@ -36,7 +41,7 @@ I18n.translations.nl = {
         live: "Stats",
         overview: "Overzicht",
         connected_identity_providers: "Instellingen",
-        new_comers: "Nieuwe providers"
+        system: "System"
     },
     export: {
         downloadCSV: "Download als CSV",

@@ -11,7 +11,7 @@ import "../locale/en";
 import "../locale/nl";
 import Live from "./Live";
 import ConnectedIdentityProviders from "./ConnectedIdentityProviders";
-import NewComers from "./NewComers";
+import Advanced from "./Advanced";
 
 const S4 = () => (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 
@@ -120,9 +120,9 @@ class App extends React.PureComponent {
                                                       {...props}/>}/>
                         <Route path="/connected-identity-providers"
                                render={props => <ConnectedIdentityProviders {...props}/>}/>
-                        {!currentUser.guest && <Route path="/new-comers"
+                        {!currentUser.guest && <Route path="/system"
                                                       render={props =>
-                                                          <NewComers serviceProvidersDict={serviceProvidersDict}
+                                                          <Advanced serviceProvidersDict={serviceProvidersDict}
                                                                      identityProvidersDict={identityProvidersDict}
                                                                      {...props}/>}/>}
                         <Route path="/error"
