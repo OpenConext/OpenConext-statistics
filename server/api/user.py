@@ -26,7 +26,7 @@ def me():
         session["user"] = user
         return user, 200
 
-    return {"uid": "anonymous", "display_name": "Anonymous", "guest": True, "product": "OpenConext"}, 200
+    return {"uid": "anonymous", "display_name": "Anonymous", "guest": False, "product": "OpenConext"}, 200
 
 
 @user_api.route("/logout", strict_slashes=False)
