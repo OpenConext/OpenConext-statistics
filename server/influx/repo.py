@@ -95,7 +95,7 @@ def login_by_time_frame(config, scale="day", from_seconds=None, to_seconds=None,
         if not needs_grouping:
             q += f" group by time(1{measurement_scale[0:1]})"
         unique_records = _query(q, group_by=needs_grouping, epoch=epoch)
-        records.extend(unique_records)
+        records.extend(list(filter(lambda p: p["distinct_count_user_id"] != 0, unique_records)))
     return adjust_time(records, epoch) if needs_grouping else records
 
 
@@ -122,5 +122,5 @@ def login_by_aggregated(config, period, idp_entity_id=None, sp_entity_id=None, i
         if state:
             q = q.replace("where 1=1", f"where 1=1 and state = '{state}'")
         unique_records = _query(q, group_by=group_by, epoch=epoch)
-        records.extend(unique_records)
+        records.extend(list(filter(lambda p: p["distinct_count_user_id"] != 0, unique_records)))
     return records

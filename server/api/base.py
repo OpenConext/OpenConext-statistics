@@ -30,6 +30,11 @@ def auth_filter(config):
     request_context.is_authorized_api_call = is_authorized_api_call
 
 
+def _add_custom_header(response):
+    response.headers.set("x-session-alive", "true")
+    response.headers["server"] = ""
+
+
 def json_endpoint(f):
     @wraps(f)
     def json(*args, **kwargs):
@@ -37,13 +42,13 @@ def json_endpoint(f):
             auth_filter(current_app.app_config)
             body, status = f(*args, **kwargs)
             response = jsonify(body)
-            response.headers.set("x-session-alive", "true")
+            _add_custom_header(response)
             return response, status
         except Exception as e:
             response = jsonify(message=e.description if isinstance(e, HTTPException) else str(e))
             logging.getLogger().exception("Message")
             response.status_code = e.code if isinstance(e, HTTPException) else 500
-            response.headers.set("x-session-alive", "true")
+            _add_custom_header(response)
             if response.status_code == 401:
                 response.headers.set("WWW-Authenticate", "Basic realm=\"Please login\"")
             return response

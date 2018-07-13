@@ -64,19 +64,19 @@ class TestStats(AbstractTest):
 
     def test_first_login_period(self):
         json = self.get("first_login_time", query_data={"period": "2016M5", "state": None, "provider": "idp"})
-        self.assertListEqual([{"count_user_id": 1, "idp_entity_id": "https://idp/1", "month": "5", "quarter": "2",
-                               "state": "prodaccepted", "time": 1463356800000, "year": "2016"}], json)
+        self.assertListEqual([{'count_user_id': 1, 'idp_entity_id': 'https://idp/1', 'month': '5', 'quarter': '2',
+                               'time': 1463356800000, 'year': '2016'}], json)
 
     @responses.activate
     def test_last_login_time(self):
         self.mock_manage(type="sp", file="mock/manage_metadata_sp_no_logins.json")
         json = self.get("last_login_time", query_data={"from": "2018-01-01", "state": "prodaccepted", "provider": "sp"})
         self.assertListEqual(
-            [{"id": "https://sp/no_logins", "name_en": "SP1-en", "name_nl": "SP1-nl", "state": "prodaccepted"},
-             {"count_user_id": 1, "month": "9", "quarter": "3", "sp_entity_id": "https://sp/5", "state": "prodaccepted",
-              "time": 1505260800000, "year": "2017"},
-             {"count_user_id": 1, "month": "10", "quarter": "4", "sp_entity_id": "https://sp/1",
-              "state": "prodaccepted", "time": 1509235200000, "year": "2017"}], json)
+            [{'id': 'https://sp/no_logins', 'name_en': 'SP1-en', 'name_nl': 'SP1-nl', 'state': 'prodaccepted'},
+             {'count_user_id': 1, 'month': '9', 'quarter': '3', 'sp_entity_id': 'https://sp/5', 'time': 1505260800000,
+              'year': '2017'},
+             {'count_user_id': 1, 'month': '10', 'quarter': '4', 'sp_entity_id': 'https://sp/1', 'time': 1509235200000,
+              'year': '2017'}], json)
 
     def test_login_time_frame_group_by_year_no_uniques(self):
         json = self.get("public/login_time_frame",
@@ -130,7 +130,9 @@ class TestStats(AbstractTest):
     def test_login_time_frame_group_by_day_multiple_distincts(self):
         json = self.get("public/login_time_frame",
                         query_data={"from": "2016-08-01", "to": "2016-08-10", "scale": "day"})
-        print(json)
+        expected = [{'count_user_id': 1, 'time': '2016-08-09T00:00:00Z'},
+                    {'distinct_count_user_id': 1, 'time': '2016-08-09T00:00:00Z'}]
+        self.assertListEqual(expected, json)
 
     def test_login_time_frame_group_by_quarter(self):
         json = self.get("public/login_time_frame",

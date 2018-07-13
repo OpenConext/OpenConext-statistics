@@ -24,7 +24,7 @@ export default class Period extends React.PureComponent {
             return;
         }
         if (!isEmpty(this.props.allowedScales || isEmpty(this.props[propertyName]))) {
-            propCallback(val.startOf("day"));
+            propCallback(val.utc().startOf("day"));
             return;
         }
         const {scale, onChangeScale} = this.props;
@@ -49,12 +49,12 @@ export default class Period extends React.PureComponent {
         if (newScale !== scale) {
             onChangeScale(newScale);
         }
-        propCallback(val.startOf("day"));
+        propCallback(val.utc().startOf("day"));
     };
 
 
     render() {
-        const {scale, onChangeScale, onChangeFrom, from, to, onChangeTo, aggregate, allowedScales} = this.props;
+        const {scale, onChangeScale, onChangeFrom, from, to, onChangeTo, aggregate, allowedScales, disabled = []} = this.props;
         let scales;
         if (isEmpty(allowedScales)) {
             scales = aggregate ? [...this.state.scales].filter(s => allowedAggregatedScales.indexOf(s) > -1).concat(["none"]) :
@@ -74,8 +74,10 @@ export default class Period extends React.PureComponent {
                         onChange={this.invariant(onChangeFrom, "from")}
                         showYearDropdown
                         showMonthDropdown
+                        utcOffset={moment().utcOffset() / 60}
                         todayButton={I18n.t("period.today")}
                         maxDate={to}
+                        disabled={disabled.indexOf("from") > -1}
                     />
                     <span key="1" className="sub-title">{I18n.t("period.to")}</span>
                     <DatePicker key="2"
@@ -85,7 +87,8 @@ export default class Period extends React.PureComponent {
                                 onChange={this.invariant(onChangeTo, "to")}
                                 minDate={from}
                                 todayButton={I18n.t("period.today")}
-                                maxDate={moment()}
+                                maxDate={moment().utc().add(1, "day")}
+                                disabled={disabled.indexOf("tp") > -1}
                     />
                     <span className="sub-title">{I18n.t("period.scale")}</span>
                     <Select onChange={option => option ? onChangeScale(option.value) : null}
@@ -93,6 +96,7 @@ export default class Period extends React.PureComponent {
                             value={scale || "day"}
                             searchable={false}
                             clearable={false}
+                            disabled={disabled.indexOf("scale") > -1}
                     />
                 </section>
             </div>
@@ -108,5 +112,6 @@ Period.propTypes = {
     onChangeTo: PropTypes.func.isRequired,
     to: PropTypes.object,
     aggregate: PropTypes.bool,
-    allowedScales: PropTypes.array
+    allowedScales: PropTypes.array,
+    disabled: PropTypes.array
 };

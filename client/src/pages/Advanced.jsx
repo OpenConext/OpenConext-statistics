@@ -72,8 +72,8 @@ export default class Advanced extends React.PureComponent {
         if (scale !== "none") {
             const {from} = this.state;
             const to = moment(from);
-            to.endOf(scale);
-            from.startOf(scale);
+            to.utc().endOf(scale);
+            from.utc().startOf(scale);
             this.setState({scale: scale, to: to, from: from}, () => this.componentDidMount());
         } else {
             this.setState({scale: scale});

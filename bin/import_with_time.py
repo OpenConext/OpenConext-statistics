@@ -37,7 +37,7 @@ def import_test_data(host="localhost", port=8086, username="", password=""):
 
     logger.info("Started importing records")
 
-    for i in range(0, 1_00_000):
+    for i in range(0, 100_000):
         r = random.randint(seconds_2015, seconds_now)
         rd = datetime.datetime.utcfromtimestamp(r)
         json_body = [
@@ -61,7 +61,7 @@ def import_test_data(host="localhost", port=8086, username="", password=""):
         if i % 5000 is 0 and i is not 0:
             logger.info("Created another 5000 records")
 
-    logger.warn("Finished importing records")
+    logger.info("Finished importing records")
 
 
 if __name__ == "__main__":

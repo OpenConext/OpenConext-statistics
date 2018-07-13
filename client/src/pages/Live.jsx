@@ -21,7 +21,7 @@ export default class Live extends React.PureComponent {
         this.state = {
             data: [],
             from: moment().utc().subtract(31, "day").startOf("day"),
-            to: moment().utc().startOf("day"),
+            to: moment().utc().add(1, "day").startOf("day"),
             scale: "day",
             sp: undefined,
             idp: undefined,
@@ -76,8 +76,8 @@ export default class Live extends React.PureComponent {
             });
         } else {
             loginTimeFrame({
-                from: from.utc().unix(),
-                to: to ? to.utc().unix() : moment().utc().startOf("day").unix(),
+                from: from ? from.utc().unix() : moment().utc().startOf("day").unix(),
+                to: to ? to.utc().unix() : moment().utc().endOf("day").unix(),
                 include_unique: includeUniques,
                 scale: scale,
                 idp_id: idp,

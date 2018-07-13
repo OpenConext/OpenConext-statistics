@@ -76,7 +76,7 @@ def last_login_time():
         if provider == "sp" else identity_providers()
 
     manage_providers = list(
-        filter(lambda p: p["id"] not in entity_ids and (p["state"] == "all" or p["state"] == state, manage_providers)))
+        filter(lambda p: p["id"] not in entity_ids and (state == "all" or p["state"] == state), manage_providers))
     last_logins_before_from = list(filter(lambda p: p["time"] < int(from_arg * 1000), last_logins))
 
     return manage_providers + last_logins_before_from, 200

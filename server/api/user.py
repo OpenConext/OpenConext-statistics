@@ -15,7 +15,7 @@ def me():
         return session["user"], 200
 
     name_id = request.headers.get("name-id")
-    if name_id or True:
+    if name_id:
         user = {"uid": name_id, "display_name": request.headers.get("name-id"), "guest": False,
                 "product": current_app.app_config.product}
         session["user"] = user
@@ -26,7 +26,9 @@ def me():
         session["user"] = user
         return user, 200
 
-    return {"uid": "anonymous", "display_name": "Anonymous", "guest": False, "product": "OpenConext"}, 200
+    user = {"uid": "anonymous", "display_name": "Anonymous", "guest": False, "product": "OpenConext"}
+    session["user"] = user
+    return user, 200
 
 
 @user_api.route("/logout", strict_slashes=False)
