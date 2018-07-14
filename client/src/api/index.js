@@ -110,13 +110,22 @@ export function loginAggregated({
 }
 
 export function firstLoginTime({
-                                    from = undefined,
-                                    to = undefined,
-                                    state = "all",
-                                    provider
-                                }) {
+                                   from = undefined,
+                                   to = undefined,
+                                   state = "all",
+                                   provider
+                               }) {
     const query = queryParam(arguments);
     return fetchJson(`/api/stats/first_login_time${query}`)
+}
+
+export function lastLoginTime({
+                                  from = undefined,
+                                  state = "all",
+                                  provider
+                              }) {
+    const query = queryParam(arguments);
+    return fetchJson(`/api/stats/last_login_time${query}`)
 }
 
 export function me() {

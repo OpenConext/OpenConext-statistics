@@ -25,15 +25,17 @@ I18n.translations.en = {
         newcomers: {
             title: "All new {{provider}} from {{from}} until {{to}}"
         },
-        notused: {
+        unused: {
             title: "All not used {{provider}} from {{from}} until {{to}}"
         },
     },
     providerTable: {
-        noResults: "No first-logins found for providers in the given period.",
+        newcomersNoResults: "No first-logins found for providers in the specified period.",
+        unusedNoResults: "No unused providers found in the specified period.",
         name: "Name",
         logins: "Number of logins",
-        date: "Date",
+        newcomers: "First login",
+        unused: "Last login",
         state: "State"
     },
     navigation: {
@@ -78,6 +80,11 @@ I18n.translations.en = {
         minute: "Minute",
         none: "N/A",
         date: "Date"
+    },
+    reporting: {
+        title: "Reporting",
+        newcomers: "New providers",
+        unused: "Unused providers"
     },
     chart: {
         title: "Logins and users per day",

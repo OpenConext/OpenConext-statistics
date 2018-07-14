@@ -26,15 +26,17 @@ I18n.translations.nl = {
         newcomers: {
             title: "Alle nieuwe {{provider}} van {{from}} tot {{to}}"
         },
-        notused: {
+        unused: {
             title: "Alle niet gebruikte {{provider}} van {{from}} tot {{to}}"
         }
     },
     providerTable: {
-        noResults: "Geen first-logins gevonden voor de providers in de opgegeven periode.",
+        newcomersNoResults: "Geen first-logins gevonden voor de providers in de opgegeven periode.",
+        unusedNoResults: "Geen ongebruikte providers gevonden in de opgegeven periode.",
         name: "Name",
         logins: "Number of logins",
-        date: "Date",
+        newcomers: "Eerste login",
+        unused: "Laatste login",
         state: "State"
     },
     navigation: {
@@ -82,6 +84,12 @@ I18n.translations.nl = {
         none: "N/A",
         date: "Datum"
     },
+    reporting: {
+        title: "Reporting",
+        newcomers: "Nieuwe providers",
+        unused: "Ongebruikte providers"
+    },
+
     chart: {
         title: "Logins en gebruikers per dag",
         userCount: "Totale logins",

@@ -58,6 +58,11 @@ div.period {
             border: 1px solid #d9d9d8;
             margin-top: 5px;
             line-height: 33px;
+
+            &[disabled] {
+                cursor: not-allowed;
+                background: darken($lightest-grey, 5);
+            }
         }
     }
 

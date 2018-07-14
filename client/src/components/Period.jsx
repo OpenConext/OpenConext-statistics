@@ -88,7 +88,7 @@ export default class Period extends React.PureComponent {
                                 minDate={from}
                                 todayButton={I18n.t("period.today")}
                                 maxDate={moment().utc().add(1, "day")}
-                                disabled={disabled.indexOf("tp") > -1}
+                                disabled={disabled.indexOf("to") > -1}
                     />
                     <span className="sub-title">{I18n.t("period.scale")}</span>
                     <Select onChange={option => option ? onChangeScale(option.value) : null}
