@@ -4,7 +4,7 @@ from unittest import TestCase
 from dateutil import tz
 
 from server.influx.time import month_start_end_seconds, week_start_end_seconds, \
-    quarter_start_end_seconds, day_start_end_seconds, year_start_end_seconds, start_end_period
+    quarter_start_end_seconds, day_start_end_seconds, year_start_end_seconds, start_end_period, combine_time_duplicates
 
 
 class TestTime(TestCase):
@@ -105,3 +105,20 @@ class TestTime(TestCase):
 
         res = start_end_period("2017")
         self._assert_dates(expected, res)
+
+    def test_combine_time_duplicates(self):
+        records = [{"count_user_id": 536, "time": 1433980800000},
+                   {"count_user_id": 544, "time": 1434585600000},
+                   {"count_user_id": 430, "time": 1435190400000},
+                   {"count_user_id": 80, "time": 1435190400000},
+                   {"count_user_id": 503, "time": 1435795200000},
+                   {"count_user_id": 534, "time": 1436400000000}]
+        res = combine_time_duplicates(records)
+        self.assertListEqual(res, [{"count_user_id": 536, "time": 1433980800000},
+                                   {"count_user_id": 544, "time": 1434585600000},
+                                   {"count_user_id": 510, "time": 1435190400000},
+                                   {"count_user_id": 503, "time": 1435795200000},
+                                   {"count_user_id": 534, "time": 1436400000000}])
+
+    def test_combine_time_duplicates_empty_array(self):
+        self.assertListEqual([], combine_time_duplicates([]))

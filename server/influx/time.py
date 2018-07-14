@@ -1,4 +1,5 @@
 import datetime
+from itertools import groupby
 
 from dateutil import tz
 
@@ -67,6 +68,7 @@ def _month_quarter_year_to_start(epoch):
         if res:
             point["time"] = int(res.timestamp() * 1000) if epoch else res.strftime("%Y-%m-%dT%H:%M:%SZ")
         return point
+
     return it
 
 
@@ -76,3 +78,8 @@ def adjust_time(points, epoch):
     res = list(map(_month_quarter_year_to_start(epoch), points))
     res.sort(key=lambda point: point["time"])
     return res
+
+
+def combine_time_duplicates(records):
+    res = groupby(records, key=lambda p: p["time"])
+    return [{"time": k, "count_user_id": sum(map(lambda p: p["count_user_id"], v))} for k, v in res]

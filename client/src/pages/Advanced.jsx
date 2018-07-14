@@ -45,9 +45,9 @@ export default class Advanced extends React.PureComponent {
             const property = isSp ? "sp_entity_id" : "idp_entity_id";
             const dict = isSp ? serviceProvidersDict : identityProvidersDict;
             data.forEach(p => {
-                p.name = providerName(dict[p[property]], p[property])
+                p.name = providerName(dict[p[property]], p[property]);
+                p.state = state === "all" ? "" : state;
             });
-
             this.setState({data: data, loaded: true});
         });
     }

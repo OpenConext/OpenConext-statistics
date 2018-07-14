@@ -1,7 +1,7 @@
 from flask import current_app
 from influxdb.resultset import ResultSet
 
-from server.influx.time import start_end_period, adjust_time
+from server.influx.time import start_end_period, adjust_time, combine_time_duplicates
 
 GROUPING_SCALES = ["month", "quarter", "year"]
 
@@ -86,6 +86,9 @@ def login_by_time_frame(config, scale="day", from_seconds=None, to_seconds=None,
         q += f" group by {group_by}"
 
     records = _query(q, group_by=needs_grouping, epoch=epoch)
+    # weeks are not bound in months, quarters and result in duplicates as we group by month, quarter, year
+    if scale == "week":
+        records = combine_time_duplicates(records)
 
     if include_unique and scale != "minute":
         q = q.replace(f"select {part} from {measurement}",
