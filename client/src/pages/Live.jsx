@@ -88,30 +88,22 @@ export default class Live extends React.PureComponent {
         }
     }
 
-    onChangeFrom = val => {
-        this.setState({data: [], from: val},
-            () => this.componentDidMount());
-    };
+    onChangeFrom = val => this.setState({data: [], from: val}, () => this.componentDidMount());
 
-    onChangeTo = val => {
-        this.setState({data: [], to: val, scale: this.state.aggregate && val ? "none" : this.state.scale},
-            () => this.componentDidMount());
-    };
+    onChangeTo = val => this.setState({
+            data: [],
+            to: val,
+            scale: this.state.aggregate && val ? "none" : this.state.scale
+        },
+        () => this.componentDidMount());
 
-    onChangeSp = val => {
-        this.setState({data: [], sp: val, groupedBySp: val === "" ? this.state.groupedBySp : false},
-            () => this.componentDidMount());
-    };
+    onChangeSp = val => this.setState({data: [], sp: val, groupedBySp: val === "" ? this.state.groupedBySp : false},
+        () => this.componentDidMount());
 
-    onChangeState = val => {
-        this.setState({data: [], providerState: val},
-            () => this.componentDidMount());
-    };
+    onChangeState = val => this.setState({data: [], providerState: val}, () => this.componentDidMount());
 
-    onChangeIdP = val => {
-        this.setState({data: [], idp: val, groupedByIdp: val === "" ? this.state.groupedByIdp : false},
-            () => this.componentDidMount());
-    };
+    onChangeIdP = val => this.setState({data: [], idp: val, groupedByIdp: val === "" ? this.state.groupedByIdp : false},
+        () => this.componentDidMount());
 
     onChangeScale = scale => {
         this.setState({
@@ -134,20 +126,11 @@ export default class Live extends React.PureComponent {
             () => this.componentDidMount());
     };
 
-    onChangeUniques = e => {
-        this.setState({data: [], includeUniques: e.target.checked},
-            () => this.componentDidMount());
-    };
+    onChangeUniques = e => this.setState({data: [], includeUniques: e.target.checked}, () => this.componentDidMount());
 
-    onChangeGroupBySp = e => {
-        this.setState({data: [], groupedBySp: e.target.checked},
-            () => this.componentDidMount());
-    };
+    onChangeGroupBySp = e => this.setState({data: [], groupedBySp: e.target.checked}, () => this.componentDidMount());
 
-    onChangeGroupByIdp = e => {
-        this.setState({data: [], groupedByIdp: e.target.checked},
-            () => this.componentDidMount());
-    };
+    onChangeGroupByIdp = e => this.setState({data: [], groupedByIdp: e.target.checked}, () => this.componentDidMount());
 
     title = (from, to, scale, sp, idp, aggregate) => {
         if (from && to && !aggregate) {

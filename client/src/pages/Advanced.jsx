@@ -69,7 +69,6 @@ export default class Advanced extends React.PureComponent {
 
     onChangeFrom = val => this.setState({from: val, scale: "none"}, () => this.componentDidMount());
 
-
     onChangeTo = val => this.setState({to: val, scale: "none"}, () => this.componentDidMount());
 
     onChangeProvider = val => this.setState({provider: val}, () => this.componentDidMount());
