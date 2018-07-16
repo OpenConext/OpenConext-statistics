@@ -43,14 +43,20 @@ I18n.translations.nl = {
         live: "Stats",
         overview: "Overzicht",
         connected_identity_providers: "Instellingen",
-        system: "System"
+        system: "Explore",
+        db: "DB"
+    },
+    db: {
+        title:"Alle measurements in {{db}}. De live measurement is {{measurement}}. Ophalen van de data duurde ~{{time}} seconden.",
+        loading: "Ophalen metadata. Dit duurt lang...",
+        name: "Naam",
+        records: "# Series"
     },
     export: {
         downloadCSV: "Download als CSV",
         downloadPNG: "Download als PNG",
         downloadPDF: "Download als PDF"
     },
-
     index: {
         availability: "Beschikbaarheid SURFconext",
         connectedIdentityProviders: "List of connected Identity Providers",

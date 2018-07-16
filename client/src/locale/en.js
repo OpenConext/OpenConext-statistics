@@ -42,7 +42,14 @@ I18n.translations.en = {
         live: "Stats",
         overview: "Overview",
         connected_identity_providers: "Institutions",
-        system: "System"
+        system: "Explore",
+        db: "DB"
+    },
+    db: {
+        title:"All measurements from database {{db}}. The live measurement is named {{measurement}}. Loading took ~{{time}} seconds.",
+        loading: "Fetch metadata. This takes time...",
+        name: "Name",
+        records: "# Series"
     },
     export: {
         downloadCSV: "Download as CSV",

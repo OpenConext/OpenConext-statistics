@@ -132,6 +132,10 @@ export function me() {
     return fetchJson("/api/users/me", {}, {}, false);
 }
 
+export function databaseStats() {
+    return fetchJson("/api/stats/database_stats")
+}
+
 export function reportError(error) {
     return postPutJson("/api/users/error", error, "post");
 }

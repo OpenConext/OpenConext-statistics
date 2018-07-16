@@ -7,7 +7,8 @@ from werkzeug.exceptions import Unauthorized
 
 from server.api.base import json_endpoint
 from server.influx.repo import login_by_time_frame, \
-    service_providers_tags, identity_providers_tags, login_by_aggregated, first_login_from_to, last_login_providers
+    service_providers_tags, identity_providers_tags, login_by_aggregated, first_login_from_to, last_login_providers, \
+    database_stats
 from server.influx.time import start_end_period
 from server.manage.manage import service_providers, connected_identity_providers, identity_providers
 
@@ -86,6 +87,12 @@ def last_login_time():
 def _add_manage_metadata(value, provider):
     return provider if provider else {"id": value, "state": None, "name_en": "Name EN: " + value,
                                       "name_nl": "Name NL: " + value}
+
+
+@stats_api.route("/database_stats", strict_slashes=False)
+@json_endpoint
+def meta_data():
+    return database_stats(), 200
 
 
 @stats_api.route("/service_providers", strict_slashes=False)

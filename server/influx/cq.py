@@ -26,7 +26,7 @@ def append_measurement(l, period, postfix=""):
 
 def get_measurements():
     measurements = []
-    for period in ["minute", "hour", "day", "week"]:
+    for period in ["minute", "hour", "day", "week", "month"]:
         append_measurement(measurements, period)
         if period != "minute":
             append_measurement(measurements, period, postfix="_unique")
@@ -43,7 +43,7 @@ def create_continuous_query(db, db_name, duration, is_unique, include_total, mea
     state_value = "prodaccepted" if state == "pa" else "testaccepted" if state == "ta" else None
     q += f" WHERE state = '{state_value}' " if state_value else ""
     group_by.append(f"time({duration})")
-    group_by += ["year", "month", "quarter"]
+    group_by += ["year", "month", "quarter"] if "week" not in measurement_name else ""
     q += f"GROUP BY {', '.join(group_by)} "
 
     cq = f"CREATE CONTINUOUS QUERY \"{measurement_name}_cq\" " \

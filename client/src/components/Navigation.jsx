@@ -69,6 +69,7 @@ export default class Navigation extends React.PureComponent {
                         {I18n.t("index.availability")}
                     </a>
                     {!currentUser.guest && this.renderItem("/system", "system")}
+                    {!currentUser.guest && this.renderItem("/db", "db")}
                     {/*{this.renderSpinner()}*/}
                 </div>
             </div>

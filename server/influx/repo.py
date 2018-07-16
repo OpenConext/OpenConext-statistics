@@ -33,6 +33,17 @@ def identity_providers_tags(measurement, log_idp_tag):
     return _query(f"show tag values from {measurement} with key = {log_idp_tag}", _transform_tags)
 
 
+def database_stats():
+    client = current_app.influx_client
+    measurements = list(map(lambda m: m["name"], client.get_list_measurements()))
+    res = []
+    for m in measurements:
+        res.append({"name": m, "results": list(client.query(f"select count(*) from {m}").get_points())})
+    config = current_app.app_config
+    res.append({"config": {"database": config.database.name, "measurement": config.log.measurement}})
+    return res
+
+
 def _determine_measurement(config, idp_entity_id, sp_entity_id, measurement_scale, state, group_by=None):
     include_sp = sp_entity_id or (group_by and config.log.sp_id in group_by)
     include_idp = idp_entity_id or (group_by and config.log.idp_id in group_by)
