@@ -2,6 +2,7 @@ import datetime
 from itertools import groupby
 
 from dateutil import tz
+from isoweek import Week
 
 
 def day_start_end_seconds(year_number, day_number):
@@ -20,13 +21,12 @@ def month_start_end_seconds(year_number, month_number):
 
 
 def week_start_end_seconds(year_number, week_number):
-    def week_start(year, week):
-        fourth_jan = datetime.datetime(year=year, month=1, day=4, tzinfo=tz.tzutc())
-        _, fourth_jan_week, fourth_jan_day = fourth_jan.isocalendar()
-        d = fourth_jan + datetime.timedelta(days=1 - fourth_jan_day, weeks=week - fourth_jan_week)
-        return int(d.timestamp())
-
-    return week_start(year_number, week_number), week_start(year_number, week_number + 1)
+    week_start = Week(year_number, week_number)
+    week_end = Week(year_number if week_number < 52 else year_number + 1,
+                    week_number + 1 if week_number < 52 else 1)
+    time = datetime.datetime.min.time()
+    return (int(datetime.datetime.combine(week_start.monday(), time, tzinfo=tz.tzutc()).timestamp()),
+            int(datetime.datetime.combine(week_end.monday(), time, tzinfo=tz.tzutc()).timestamp()))
 
 
 def quarter_start_end_seconds(year_number, quarter):
@@ -66,18 +66,32 @@ def _month_quarter_year_to_start(epoch):
         elif year:
             res = datetime.datetime(year=int(year), month=1, day=1, tzinfo=tz.tzutc())
         if res:
+            point["utc_seconds"] = int(res.timestamp())
             point["time"] = int(res.timestamp() * 1000) if epoch else res.strftime("%Y-%m-%dT%H:%M:%SZ")
         return point
 
     return it
 
 
+def filter_time(from_seconds, to_seconds, records):
+    return list(filter(lambda p: from_seconds <= p["utc_seconds"] < to_seconds, records))
+
+
 def adjust_time(points, epoch):
     if len(points) == 0:
         return points
     res = list(map(_month_quarter_year_to_start(epoch), points))
-    res.sort(key=lambda point: point["time"])
+    res.sort(key=lambda point: point["utc_seconds"])
     return res
+
+
+def remove_aggregated_time_info(points):
+    for p in points:
+        p.pop("year", None)
+        p.pop("quarter", None)
+        p.pop("month", None)
+        p.pop("utc_seconds", None)
+    return points
 
 
 def combine_time_duplicates(records):

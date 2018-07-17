@@ -64,37 +64,43 @@ class TestStats(AbstractTest):
 
     def test_first_login_period(self):
         json = self.get("first_login_time", query_data={"period": "2016M5", "state": None, "provider": "idp"})
-        self.assertListEqual([{'count_user_id': 1, 'idp_entity_id': 'https://idp/1', 'month': '5', 'quarter': '2',
-                               'time': 1463356800000, 'year': '2016'}], json)
+        self.assertListEqual([{"count_user_id": 1, "idp_entity_id": "https://idp/1", "month": "5", "quarter": "2",
+                               "time": 1463356800000, "year": "2016"}], json)
 
     @responses.activate
     def test_last_login_time(self):
         self.mock_manage(type="sp", file="mock/manage_metadata_sp_no_logins.json")
         json = self.get("last_login_time", query_data={"from": "2018-01-01", "state": "prodaccepted", "provider": "sp"})
         self.assertListEqual(
-            [{'id': 'https://sp/no_logins', 'name_en': 'SP1-en', 'name_nl': 'SP1-nl', 'state': 'prodaccepted'},
-             {'count_user_id': 1, 'month': '9', 'quarter': '3', 'sp_entity_id': 'https://sp/5', 'time': 1505260800000,
-              'year': '2017'},
-             {'count_user_id': 1, 'month': '10', 'quarter': '4', 'sp_entity_id': 'https://sp/1', 'time': 1509235200000,
-              'year': '2017'}], json)
+            [{"id": "https://sp/no_logins", "name_en": "SP1-en", "name_nl": "SP1-nl", "state": "prodaccepted"},
+             {"count_user_id": 1, "month": "9", "quarter": "3", "sp_entity_id": "https://sp/5", "time": 1505260800000,
+              "year": "2017"},
+             {"count_user_id": 1, "month": "10", "quarter": "4", "sp_entity_id": "https://sp/1", "time": 1509235200000,
+              "year": "2017"}], json)
+
+    def test_database_stats(self):
+        res = self.get("database_stats")
+        print(res)
+        expected = json.loads(AbstractTest.read_file("seed/counts_after_seed.json"))
+        self.assertListEqual(expected, res)
 
     def test_login_time_frame_group_by_year_no_uniques(self):
         json = self.get("public/login_time_frame",
                         query_data={"from": "2014-01-01", "to": "2020-01-01", "scale": "year",
                                     "include_unique": "false"})
 
-        self.assertListEqual([{"count_user_id": 11, "time": "2016-01-01T00:00:00Z", "year": "2016"},
-                              {"count_user_id": 14, "time": "2017-01-01T00:00:00Z", "year": "2017"},
-                              {"count_user_id": 5, "time": "2018-01-01T00:00:00Z", "year": "2018"}], json)
+        self.assertListEqual([{"count_user_id": 11, "time": "2016-01-01T00:00:00Z"},
+                              {"count_user_id": 14, "time": "2017-01-01T00:00:00Z"},
+                              {"count_user_id": 5, "time": "2018-01-01T00:00:00Z"}], json)
 
     def test_login_time_frame_group_by_year_without_to(self):
         json = self.get("public/login_time_frame",
                         query_data={"from": "2014-01-01", "scale": "year",
                                     "include_unique": "false"})
 
-        self.assertListEqual([{"count_user_id": 11, "time": "2016-01-01T00:00:00Z", "year": "2016"},
-                              {"count_user_id": 14, "time": "2017-01-01T00:00:00Z", "year": "2017"},
-                              {"count_user_id": 5, "time": "2018-01-01T00:00:00Z", "year": "2018"}], json)
+        self.assertListEqual([{"count_user_id": 11, "time": "2016-01-01T00:00:00Z"},
+                              {"count_user_id": 14, "time": "2017-01-01T00:00:00Z"},
+                              {"count_user_id": 5, "time": "2018-01-01T00:00:00Z"}], json)
 
     def test_login_time_frame_group_by_year_without_to_ms(self):
         json = self.get("public/login_time_frame",
@@ -102,9 +108,9 @@ class TestStats(AbstractTest):
                                     "include_unique": "false", "epoch": "ms"})
 
         self.assertListEqual(
-            [{"count_user_id": 11, "time": 1451606400000, "year": "2016"},
-             {"count_user_id": 14, "time": 1483228800000, "year": "2017"},
-             {"count_user_id": 5, "time": 1514764800000, "year": "2018"}], json)
+            [{"count_user_id": 11, "time": 1451606400000},
+             {"count_user_id": 14, "time": 1483228800000},
+             {"count_user_id": 5, "time": 1514764800000}], json)
         self._assert_datetime_equals(json[0]["time"], "2016-01-01T00:00:00Z")
         self._assert_datetime_equals(json[1]["time"], "2017-01-01T00:00:00Z")
         self._assert_datetime_equals(json[2]["time"], "2018-01-01T00:00:00Z")
@@ -121,8 +127,8 @@ class TestStats(AbstractTest):
                         query_data={"from": "2016-10-01", "to": "2017-01-01", "scale": "quarter", "epoch": "ms"})
 
         self.assertListEqual(
-            [{"count_user_id": 6, "quarter": "4", "time": 1475280000000, "year": "2016"},
-             {"distinct_count_user_id": 5, "quarter": "4", "time": 1475280000000, "year": "2016"}],
+            [{"count_user_id": 6, "time": 1475280000000},
+             {"distinct_count_user_id": 5, "time": 1475280000000}],
             json)
         for p in json:
             self._assert_datetime_equals(p["time"], "2016-10-01T00:00:00Z")
@@ -130,8 +136,8 @@ class TestStats(AbstractTest):
     def test_login_time_frame_group_by_day_multiple_distincts(self):
         json = self.get("public/login_time_frame",
                         query_data={"from": "2016-08-01", "to": "2016-08-10", "scale": "day"})
-        expected = [{'count_user_id': 1, 'time': '2016-08-09T00:00:00Z'},
-                    {'distinct_count_user_id': 1, 'time': '2016-08-09T00:00:00Z'}]
+        expected = [{"count_user_id": 1, "time": "2016-08-09T00:00:00Z"},
+                    {"distinct_count_user_id": 1, "time": "2016-08-09T00:00:00Z"}]
         self.assertListEqual(expected, json)
 
     def test_login_time_frame_group_by_quarter(self):
@@ -139,78 +145,65 @@ class TestStats(AbstractTest):
                         query_data={"from": "2014-01-01", "to": "2020-01-01", "scale": "quarter"})
         # 4 quarter in 2016, 2017 and two in 2018 => 10 quarters * 2 for including unique ones
         self.assertListEqual(
-            [{"count_user_id": 1, "quarter": "1", "time": "2016-01-01T00:00:00Z", "year": "2016"},
-             {"distinct_count_user_id": 1, "quarter": "1", "time": "2016-01-01T00:00:00Z", "year": "2016"},
-             {"count_user_id": 2, "quarter": "2", "time": "2016-04-01T00:00:00Z", "year": "2016"},
-             {"distinct_count_user_id": 2, "quarter": "2", "time": "2016-04-01T00:00:00Z", "year": "2016"},
-             {"count_user_id": 2, "quarter": "3", "time": "2016-07-01T00:00:00Z", "year": "2016"},
-             {"distinct_count_user_id": 2, "quarter": "3", "time": "2016-07-01T00:00:00Z", "year": "2016"},
-             {"count_user_id": 6, "quarter": "4", "time": "2016-10-01T00:00:00Z", "year": "2016"},
-             {"distinct_count_user_id": 5, "quarter": "4", "time": "2016-10-01T00:00:00Z", "year": "2016"},
-             {"count_user_id": 2, "quarter": "1", "time": "2017-01-01T00:00:00Z", "year": "2017"},
-             {"distinct_count_user_id": 2, "quarter": "1", "time": "2017-01-01T00:00:00Z", "year": "2017"},
-             {"count_user_id": 4, "quarter": "2", "time": "2017-04-01T00:00:00Z", "year": "2017"},
-             {"distinct_count_user_id": 3, "quarter": "2", "time": "2017-04-01T00:00:00Z", "year": "2017"},
-             {"count_user_id": 6, "quarter": "3", "time": "2017-07-01T00:00:00Z", "year": "2017"},
-             {"distinct_count_user_id": 6, "quarter": "3", "time": "2017-07-01T00:00:00Z", "year": "2017"},
-             {"count_user_id": 2, "quarter": "4", "time": "2017-10-01T00:00:00Z", "year": "2017"},
-             {"distinct_count_user_id": 2, "quarter": "4", "time": "2017-10-01T00:00:00Z", "year": "2017"},
-             {"count_user_id": 4, "quarter": "1", "time": "2018-01-01T00:00:00Z", "year": "2018"},
-             {"distinct_count_user_id": 4, "quarter": "1", "time": "2018-01-01T00:00:00Z", "year": "2018"},
-             {"count_user_id": 1, "quarter": "2", "time": "2018-04-01T00:00:00Z", "year": "2018"},
-             {"distinct_count_user_id": 1, "quarter": "2", "time": "2018-04-01T00:00:00Z", "year": "2018"}], json)
+            [{"count_user_id": 1, "time": "2016-01-01T00:00:00Z"},
+             {"count_user_id": 2, "time": "2016-04-01T00:00:00Z"},
+             {"count_user_id": 2, "time": "2016-07-01T00:00:00Z"},
+             {"count_user_id": 6, "time": "2016-10-01T00:00:00Z"},
+             {"count_user_id": 2, "time": "2017-01-01T00:00:00Z"},
+             {"count_user_id": 4, "time": "2017-04-01T00:00:00Z"},
+             {"count_user_id": 6, "time": "2017-07-01T00:00:00Z"},
+             {"count_user_id": 2, "time": "2017-10-01T00:00:00Z"},
+             {"count_user_id": 4, "time": "2018-01-01T00:00:00Z"},
+             {"count_user_id": 1, "time": "2018-04-01T00:00:00Z"},
+             {"distinct_count_user_id": 1, "time": "2016-01-01T00:00:00Z"},
+             {"distinct_count_user_id": 2, "time": "2016-04-01T00:00:00Z"},
+             {"distinct_count_user_id": 2, "time": "2016-07-01T00:00:00Z"},
+             {"distinct_count_user_id": 5, "time": "2016-10-01T00:00:00Z"},
+             {"distinct_count_user_id": 2, "time": "2017-01-01T00:00:00Z"},
+             {"distinct_count_user_id": 3, "time": "2017-04-01T00:00:00Z"},
+             {"distinct_count_user_id": 6, "time": "2017-07-01T00:00:00Z"},
+             {"distinct_count_user_id": 2, "time": "2017-10-01T00:00:00Z"},
+             {"distinct_count_user_id": 4, "time": "2018-01-01T00:00:00Z"},
+             {"distinct_count_user_id": 1, "time": "2018-04-01T00:00:00Z"}], json)
         self.assertEqual(20, len(json))
         self.assertEqual(30 + 28, sum(
             map(lambda p: p["count_user_id"] if "count_user_id" in p else p["distinct_count_user_id"], json)))
 
     def test_login_time_frame_group_by_month_ms(self):
         json = self.get("public/login_time_frame",
-                        query_data={"from": "2017-10-15", "to": "2017-11-16", "scale": "month", "epoch": "ms"})
-
+                        query_data={"from": "2017-08-15", "to": "2017-09-05", "scale": "month", "epoch": "ms"})
         self.assertListEqual(
-            [{"count_user_id": 2, "month": "10", "quarter": "4", "time": 1506816000000, "year": "2017"},
-             {"distinct_count_user_id": 2, "month": "10", "quarter": "4", "time": 1506816000000, "year": "2017"}],
+            [{"count_user_id": 4, "time": 1504224000000},
+             {"distinct_count_user_id": 4, "time": 1504224000000}],
             json)
-        self._assert_datetime_equals(json[0]["time"], "2017-10-01T00:00:00Z")
+        self._assert_datetime_equals(json[0]["time"], "2017-09-01T00:00:00Z")
 
     def test_login_time_frame_group_by_month(self):
         json = self.get("public/login_time_frame",
                         query_data={"from": "2014-01-01", "to": "2020-01-01", "scale": "month",
                                     "include_unique": "false"})
         self.assertListEqual(
-            [{"count_user_id": 1, "month": "3", "quarter": "1", "time": "2016-03-01T00:00:00Z", "year": "2016"},
-             {"count_user_id": 1, "month": "4", "quarter": "2", "time": "2016-04-01T00:00:00Z", "year": "2016"},
-             {"count_user_id": 1, "month": "5", "quarter": "2", "time": "2016-05-01T00:00:00Z", "year": "2016"},
-             {"count_user_id": 1, "month": "7", "quarter": "3", "time": "2016-07-01T00:00:00Z", "year": "2016"},
-             {"count_user_id": 1, "month": "8", "quarter": "3", "time": "2016-08-01T00:00:00Z", "year": "2016"},
-             {"count_user_id": 2, "month": "10", "quarter": "4", "time": "2016-10-01T00:00:00Z", "year": "2016"},
-             {"count_user_id": 2, "month": "11", "quarter": "4", "time": "2016-11-01T00:00:00Z", "year": "2016"},
-             {"count_user_id": 2, "month": "12", "quarter": "4", "time": "2016-12-01T00:00:00Z", "year": "2016"},
-             {"count_user_id": 1, "month": "2", "quarter": "1", "time": "2017-02-01T00:00:00Z", "year": "2017"},
-             {"count_user_id": 1, "month": "3", "quarter": "1", "time": "2017-03-01T00:00:00Z", "year": "2017"},
-             {"count_user_id": 2, "month": "4", "quarter": "2", "time": "2017-04-01T00:00:00Z", "year": "2017"},
-             {"count_user_id": 1, "month": "5", "quarter": "2", "time": "2017-05-01T00:00:00Z", "year": "2017"},
-             {"count_user_id": 1, "month": "6", "quarter": "2", "time": "2017-06-01T00:00:00Z", "year": "2017"},
-             {"count_user_id": 1, "month": "7", "quarter": "3", "time": "2017-07-01T00:00:00Z", "year": "2017"},
-             {"count_user_id": 1, "month": "8", "quarter": "3", "time": "2017-08-01T00:00:00Z", "year": "2017"},
-             {"count_user_id": 4, "month": "9", "quarter": "3", "time": "2017-09-01T00:00:00Z", "year": "2017"},
-             {"count_user_id": 2, "month": "10", "quarter": "4", "time": "2017-10-01T00:00:00Z", "year": "2017"},
-             {"count_user_id": 1, "month": "1", "quarter": "1", "time": "2018-01-01T00:00:00Z", "year": "2018"},
-             {"count_user_id": 3, "month": "3", "quarter": "1", "time": "2018-03-01T00:00:00Z", "year": "2018"},
-             {"count_user_id": 1, "month": "5", "quarter": "2", "time": "2018-05-01T00:00:00Z", "year": "2018"}],
-            json)
+            [{"count_user_id": 1, "time": "2016-03-01T00:00:00Z"}, {"count_user_id": 1, "time": "2016-04-01T00:00:00Z"},
+             {"count_user_id": 1, "time": "2016-05-01T00:00:00Z"}, {"count_user_id": 1, "time": "2016-07-01T00:00:00Z"},
+             {"count_user_id": 1, "time": "2016-08-01T00:00:00Z"}, {"count_user_id": 2, "time": "2016-10-01T00:00:00Z"},
+             {"count_user_id": 2, "time": "2016-11-01T00:00:00Z"}, {"count_user_id": 2, "time": "2016-12-01T00:00:00Z"},
+             {"count_user_id": 1, "time": "2017-02-01T00:00:00Z"}, {"count_user_id": 1, "time": "2017-03-01T00:00:00Z"},
+             {"count_user_id": 2, "time": "2017-04-01T00:00:00Z"}, {"count_user_id": 1, "time": "2017-05-01T00:00:00Z"},
+             {"count_user_id": 1, "time": "2017-06-01T00:00:00Z"}, {"count_user_id": 1, "time": "2017-07-01T00:00:00Z"},
+             {"count_user_id": 1, "time": "2017-08-01T00:00:00Z"}, {"count_user_id": 4, "time": "2017-09-01T00:00:00Z"},
+             {"count_user_id": 2, "time": "2017-10-01T00:00:00Z"}, {"count_user_id": 1, "time": "2018-01-01T00:00:00Z"},
+             {"count_user_id": 3, "time": "2018-03-01T00:00:00Z"}, {"count_user_id": 1, "time": "2018-05-01T00:00:00Z"}]
+            , json)
         self.assertEqual(30, sum(map(lambda p: p["count_user_id"], json)))
 
     def test_login_time_frame_group_by_quarter_and_sp(self):
         json = self.get("public/login_time_frame",
-                        query_data={"from": "2016-08-01", "to": "2017-05-20", "scale": "quarter",
-                                    "group_by": "idp_id", "include_unique": "false"})
-
+                        query_data={"from": "2016-09-01", "to": "2017-05-20", "scale": "quarter",
+                                    "include_unique": "false"})
         self.assertListEqual(
-            [{"count_user_id": 1, "quarter": "3", "time": "2016-07-01T00:00:00Z", "year": "2016"},
-             {"count_user_id": 6, "quarter": "4", "time": "2016-10-01T00:00:00Z", "year": "2016"},
-             {"count_user_id": 2, "quarter": "1", "time": "2017-01-01T00:00:00Z", "year": "2017"},
-             {"count_user_id": 3, "quarter": "2", "time": "2017-04-01T00:00:00Z", "year": "2017"}],
+            [{"count_user_id": 6, "time": "2016-10-01T00:00:00Z"},
+             {"count_user_id": 2, "time": "2017-01-01T00:00:00Z"},
+             {"count_user_id": 4, "time": "2017-04-01T00:00:00Z"}],
             json)
 
     def test_login_time_frame_group_by_quarter_and_sp_idp(self):
@@ -219,8 +212,20 @@ class TestStats(AbstractTest):
                                     "group_by": " idp_id, sp_id , bogus", "include_unique": "false"})
 
         self.assertListEqual(
-            [{"count_user_id": 2, "quarter": "1", "time": "2017-01-01T00:00:00Z", "year": "2017"}],
+            [{"count_user_id": 2, "time": "2017-01-01T00:00:00Z"}],
             json)
+
+    def test_login_aggregated_by_week(self):
+        json = self.get("public/login_aggregated", query_data={"period": "2016W41"})
+        self.assertListEqual([{'count_user_id': 1, 'time': '2016-10-10T00:00:00Z'},
+                              {'distinct_count_user_id': 1, 'time': '2016-10-10T00:00:00Z'}], json)
+
+        json = self.get("public/login_aggregated", query_data={"period": "2016W46"})
+        self.assertListEqual([{'count_user_id': 2, 'time': '2016-11-14T00:00:00Z'},
+                              {'distinct_count_user_id': 2, 'time': '2016-11-14T00:00:00Z'}], json)
+
+        json = self.get("public/login_aggregated", query_data={"period": "2017W35"})
+        self.assertListEqual(["no_results"], json)
 
     def test_login_aggregated_by_year(self):
         json = self.get("public/login_aggregated", query_data={"period": "2018"})
@@ -246,30 +251,39 @@ class TestStats(AbstractTest):
         json = self.get("public/login_aggregated",
                         query_data={"period": "2017", "sp_id": "https://sp/1", "group_by": "idp_id"})
         self.assertListEqual(
-            [{"idp_entity_id": "https://idp/1", "count_user_id": 1, "time": "2017-01-01T00:00:00Z"},
-             {"idp_entity_id": "https://idp/2", "count_user_id": 1, "time": "2017-01-01T00:00:00Z"},
-             {"idp_entity_id": "https://idp/1", "distinct_count_user_id": 1, "time": "2017-01-01T00:00:00Z"},
-             {"idp_entity_id": "https://idp/2", "distinct_count_user_id": 1, "time": "2017-01-01T00:00:00Z"}],
+            [{"count_user_id": 1, "idp_entity_id": "https://idp/1", "sp_entity_id": "https://sp/1",
+              "time": "2017-01-01T00:00:00Z"},
+             {"count_user_id": 1, "idp_entity_id": "https://idp/2", "sp_entity_id": "https://sp/1",
+              "time": "2017-01-01T00:00:00Z"},
+             {"distinct_count_user_id": 1, "idp_entity_id": "https://idp/1", "sp_entity_id": "https://sp/1",
+              "time": "2017-01-01T00:00:00Z"},
+             {"distinct_count_user_id": 1, "idp_entity_id": "https://idp/2", "sp_entity_id": "https://sp/1",
+              "time": "2017-01-01T00:00:00Z"}],
             json)
 
     def test_login_aggregated_year_group_by_sp(self):
         json = self.get("public/login_aggregated",
                         query_data={"period": "2017", "idp_id": "https://idp/1", "group_by": "sp_id"})
-        self.assertListEqual([{"sp_entity_id": "https://sp/1", "count_user_id": 1, "time": "2017-01-01T00:00:00Z"},
-                              {"sp_entity_id": "https://sp/2", "count_user_id": 2, "time": "2017-01-01T00:00:00Z"},
-                              {"sp_entity_id": "https://sp/3", "count_user_id": 2, "time": "2017-01-01T00:00:00Z"},
-                              {"sp_entity_id": "https://sp/4", "count_user_id": 1, "time": "2017-01-01T00:00:00Z"},
-                              {"sp_entity_id": "https://sp/5", "count_user_id": 1, "time": "2017-01-01T00:00:00Z"},
-                              {"sp_entity_id": "https://sp/1", "distinct_count_user_id": 1,
+        self.assertListEqual([{"count_user_id": 1, "idp_entity_id": "https://idp/1", "sp_entity_id": "https://sp/1",
                                "time": "2017-01-01T00:00:00Z"},
-                              {"sp_entity_id": "https://sp/2", "distinct_count_user_id": 2,
+                              {"count_user_id": 2, "idp_entity_id": "https://idp/1", "sp_entity_id": "https://sp/2",
                                "time": "2017-01-01T00:00:00Z"},
-                              {"sp_entity_id": "https://sp/3", "distinct_count_user_id": 2,
+                              {"count_user_id": 2, "idp_entity_id": "https://idp/1", "sp_entity_id": "https://sp/3",
                                "time": "2017-01-01T00:00:00Z"},
-                              {"sp_entity_id": "https://sp/4", "distinct_count_user_id": 1,
+                              {"count_user_id": 1, "idp_entity_id": "https://idp/1", "sp_entity_id": "https://sp/4",
                                "time": "2017-01-01T00:00:00Z"},
-                              {"sp_entity_id": "https://sp/5", "distinct_count_user_id": 1,
-                               "time": "2017-01-01T00:00:00Z"}],
+                              {"count_user_id": 1, "idp_entity_id": "https://idp/1", "sp_entity_id": "https://sp/5",
+                               "time": "2017-01-01T00:00:00Z"},
+                              {"distinct_count_user_id": 1, "idp_entity_id": "https://idp/1",
+                               "sp_entity_id": "https://sp/1", "time": "2017-01-01T00:00:00Z"},
+                              {"distinct_count_user_id": 2, "idp_entity_id": "https://idp/1",
+                               "sp_entity_id": "https://sp/2", "time": "2017-01-01T00:00:00Z"},
+                              {"distinct_count_user_id": 2, "idp_entity_id": "https://idp/1",
+                               "sp_entity_id": "https://sp/3", "time": "2017-01-01T00:00:00Z"},
+                              {"distinct_count_user_id": 1, "idp_entity_id": "https://idp/1",
+                               "sp_entity_id": "https://sp/4", "time": "2017-01-01T00:00:00Z"},
+                              {"distinct_count_user_id": 1, "idp_entity_id": "https://idp/1",
+                               "sp_entity_id": "https://sp/5", "time": "2017-01-01T00:00:00Z"}],
                              json)
 
     def test_login_aggregated_year_group_by_sp_and_idp(self):
@@ -295,29 +309,19 @@ class TestStats(AbstractTest):
     def test_login_aggregated_invalid(self):
         self.get("public/login_aggregated", response_status_code=500)
 
-    def test_login_aggregated_from_to(self):
-        json = self.get("public/login_aggregated", query_data={"from": "2017-01-01", "to": "2018-01-01"})
-        self.assertListEqual([{"count_user_id": 14, "time": "2017-01-01T00:00:00Z"},
-                              {"distinct_count_user_id": 9, "time": "2017-01-01T00:00:00Z"}], json)
-
-    def test_login_aggregated_from_to_simple_date(self):
-        json = self.get("public/login_aggregated", query_data={"from": "2017-1-1", "to": "2018-1-1"})
+    def test_login_aggregated_period(self):
+        json = self.get("public/login_aggregated", query_data={"period": "2017"})
         self.assertListEqual([{"count_user_id": 14, "time": "2017-01-01T00:00:00Z"},
                               {"distinct_count_user_id": 9, "time": "2017-01-01T00:00:00Z"}], json)
 
     def test_login_aggregated_test_accepted(self):
         json = self.get("public/login_aggregated",
-                        query_data={"from": "2017-1-1", "to": "2018-1-1", "state": "testaccepted"})
+                        query_data={"period": "2017", "state": "testaccepted"})
         self.assertListEqual([{"count_user_id": 6, "time": "2017-01-01T00:00:00Z"},
                               {"distinct_count_user_id": 5, "time": "2017-01-01T00:00:00Z"}], json)
 
     def test_login_aggregated_prod_accepted(self):
         json = self.get("public/login_aggregated",
-                        query_data={"from": "2017-1-1", "to": "2018-1-1", "state": "prodaccepted"})
+                        query_data={"period": "2017", "state": "prodaccepted"})
         self.assertListEqual([{"count_user_id": 8, "time": "2017-01-01T00:00:00Z"},
                               {"distinct_count_user_id": 7, "time": "2017-01-01T00:00:00Z"}], json)
-
-    def test_login_aggregated_from_to_seconds(self):
-        json = self.get("public/login_aggregated", query_data={"from": "1483228800", "to": "1514764800"})
-        self.assertListEqual([{"count_user_id": 14, "time": "2017-01-01T00:00:00Z"},
-                              {"distinct_count_user_id": 9, "time": "2017-01-01T00:00:00Z"}], json)

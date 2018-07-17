@@ -57,13 +57,11 @@ export default class Period extends React.PureComponent {
         const {scale, onChangeScale, onChangeFrom, from, to, onChangeTo, aggregate, allowedScales, disabled = []} = this.props;
         let scales;
         if (isEmpty(allowedScales)) {
-            scales = aggregate ? [...this.state.scales].filter(s => allowedAggregatedScales.indexOf(s) > -1).concat(["none"]) :
-                this.state.scales;
+            scales = aggregate ? [...this.state.scales].filter(s => allowedAggregatedScales.indexOf(s) > -1) : this.state.scales;
         } else {
             scales = allowedScales;
         }
-        const noScaleSelected = scale === "none";
-        const fromTitle = I18n.t(noScaleSelected && isEmpty(allowedScales) ? "period.date" : "period.from");
+        const fromTitle = I18n.t(isEmpty(allowedScales) ? "period.date" : "period.from");
         return (
             <div className="period">
                 <span className="title">{I18n.t("period.title")}</span>
@@ -81,14 +79,14 @@ export default class Period extends React.PureComponent {
                     />
                     <span key="1" className="sub-title">{I18n.t("period.to")}</span>
                     <DatePicker key="2"
-                                selected={to}
+                                selected={aggregate ? undefined : to}
                                 showYearDropdown
                                 showMonthDropdown
                                 onChange={this.invariant(onChangeTo, "to")}
                                 minDate={from}
                                 todayButton={I18n.t("period.today")}
                                 maxDate={moment().utc().add(1, "day")}
-                                disabled={disabled.indexOf("to") > -1}
+                                disabled={aggregate || disabled.indexOf("to") > -1}
                     />
                     <span className="sub-title">{I18n.t("period.scale")}</span>
                     <Select onChange={option => option ? onChangeScale(option.value) : null}

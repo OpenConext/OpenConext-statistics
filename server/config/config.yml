@@ -20,7 +20,7 @@ api_users:
     scope: "read"
   - name: "sysadmin"
     password: "secret"
-      scope: "read, write"
+    scope: "read, write"
 
 manage:
   url: https://manage.test2.surfconext.nl

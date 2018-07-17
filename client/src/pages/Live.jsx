@@ -28,7 +28,7 @@ export default class Live extends React.PureComponent {
             aggregate: false,
             groupedByIdp: false,
             groupedBySp: false,
-            includeUniques: false,
+            includeUniques: !this.props.user.guest,
             providerState: "all"
         };
     }
@@ -43,7 +43,7 @@ export default class Live extends React.PureComponent {
                 period: period,
                 include_unique: includeUniques,
                 from: period ? undefined : from.utc().unix(),
-                to: period ? undefined : to.utc().unix(),
+                to: period ? undefined : to ? to.utc().unix() : undefined,
                 idp_id: idp,
                 sp_id: sp,
                 group_by: groupBy,
@@ -119,7 +119,8 @@ export default class Live extends React.PureComponent {
         this.setState({
                 data: [],
                 aggregate: aggregate,
-                scale: aggregate ? "none" : this.state.scale === "none" ? "day" : this.state.scale,
+                to: aggregate ? undefined : moment().utc().add(1, "day").startOf("day"),
+                scale: aggregate ? "year" : "day",
                 groupedBySp: aggregate ? this.state.groupedBySp : false,
                 groupedByIdp: aggregate ? this.state.groupedByIdp : false
             },

@@ -46,10 +46,9 @@ def create_continuous_query(db, db_name, duration, period, is_unique, include_to
     state_value = "prodaccepted" if state == "pa" else "testaccepted" if state == "ta" else None
     q += f" WHERE state = '{state_value}' " if state_value else ""
     if period in VALID_GROUP_BY:
-        group_by += ["year", "month", "quarter", f"time({duration})"]
+        group_by += ["year", "month", "quarter", f"time({duration if period != 'week' else '1w,4d'})"]
 
     if period in ["month", "quarter", "year"]:
-
         group_by.append("time(15250w)")
         group_by.append("year")
         if period in ["month", "quarter"]:

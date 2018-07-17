@@ -17,8 +17,10 @@ product: OpenConext
 api_users:
   - name: "dashboard"
     password: "secret"
+    scope: "read"
   - name: "sysadmin"
     password: "secret"
+    scope: "read, write"
 
 manage:
   url: https://manage.example.surfconext.nl

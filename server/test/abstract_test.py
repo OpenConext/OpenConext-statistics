@@ -23,12 +23,9 @@ class AbstractTest(TestCase):
 
         databases = list(map(lambda p: p["name"], db.get_list_database()))
         db_name = config.database.name
-        if db_name not in databases or self.force_init_database():
+        if db_name not in databases:
             self.init_database(db, config, db_name)
         return app
-
-    def force_init_database(self):
-        return False
 
     @staticmethod
     def init_database(db, config, db_name):

@@ -96,7 +96,7 @@ def meta_data():
     return database_stats(), 200
 
 
-@stats_api.route("/admin/drop_measurements_and_cq", strict_slashes=False, methods=["DELETE"])
+@stats_api.route("/admin/reinitialize_measurements_and_cq", strict_slashes=False, methods=["DELETE"])
 @json_endpoint
 def drop_measurements():
     cfg = current_app.app_config
@@ -158,23 +158,27 @@ def _options(include_group_by=True, blacklisted_args=["idp_entity_id", "sp_entit
     return request_args
 
 
-def _parse_date(key):
+def _parse_date(key, required=False):
     date = current_request.args.get(key)
     if date:
         res = re.match(r"(\d{4})[/.-](\d{1,2})[/.-](\d{1,2})$", date)
         if res:
-            return int(datetime.datetime(*(map(int, res.groups())), tzinfo=tz.tzutc()).timestamp())
-    return date
+            date = datetime.datetime(*(map(int, res.groups())), tzinfo=tz.tzutc())
+    else:
+        if required:
+            raise ValueError(f"{key} is required.")
+        date = datetime.datetime.utcnow()
+    return int(date.timestamp()) if isinstance(date, datetime.datetime) else int(date)
 
 
 @stats_api.route("/public/login_time_frame", strict_slashes=False)
 @json_endpoint
 def login_time_frame():
-    from_arg = _parse_date("from")
-    to_arg = _parse_date("to")
+    from_seconds = _parse_date("from", required=True)
+    to_seconds = _parse_date("to")
     scale = current_request.args.get("scale", default="day")
 
-    results = login_by_time_frame(current_app.app_config, scale=scale, from_seconds=from_arg, to_seconds=to_arg,
+    results = login_by_time_frame(current_app.app_config, from_seconds, to_seconds, scale=scale,
                                   **_options(False))
     return results if len(results) > 0 else ["no_results"], 200
 
@@ -183,12 +187,8 @@ def login_time_frame():
 @json_endpoint
 def login_aggregated():
     period = current_request.args.get("period", "")
-    if period and not re.match(period_regex, period, re.IGNORECASE):
+    if not re.match(period_regex, period, re.IGNORECASE):
         raise ValueError(f"Invalid period {period}. Must match {period_regex}")
-    from_arg = _parse_date("from")
-    to_arg = _parse_date("to")
-    if not period and (not from_arg or not to_arg):
-        raise ValueError("Must either specify period or from and to")
 
-    results = login_by_aggregated(current_app.app_config, period, **_options(), from_s=from_arg, to_s=to_arg)
+    results = login_by_aggregated(current_app.app_config, period, **_options())
     return results if len(results) > 0 else ["no_results"], 200

@@ -1,9 +1,10 @@
 from flask import current_app
 from influxdb.resultset import ResultSet
 
-from server.influx.time import start_end_period, adjust_time, combine_time_duplicates
+from server.influx.time import start_end_period, adjust_time, remove_aggregated_time_info, filter_time
 
 GROUPING_SCALES = ["month", "quarter", "year"]
+MEASUREMENT_SCALES = {"d": "day", "w": "week", "m": "month", "q": "quarter"}
 
 
 def get_points_with_tags(result_set: ResultSet):
@@ -89,63 +90,64 @@ def last_login_providers(config, state=None, provider="sp"):
     return _query(q, group_by=True, epoch="ms")
 
 
-def login_by_time_frame(config, scale="day", from_seconds=None, to_seconds=None, idp_entity_id=None, sp_entity_id=None,
+def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entity_id=None, sp_entity_id=None,
                         include_unique=True, epoch=None, state=None):
-    measurement_scale = scale if scale in ["minute", "hour", "day", "week"] else "day"
-    measurement = _determine_measurement(config, idp_entity_id, sp_entity_id, measurement_scale, state)
+    measurement = _determine_measurement(config, idp_entity_id, sp_entity_id, scale, state)
+    q = f"select * from {measurement} where 1=1"
     needs_grouping = scale in GROUPING_SCALES
-    part = "sum(count_user_id) as count_user_id" if needs_grouping else "count_user_id as count_user_id"
-    if scale == "minute":
-        part += ", distinct_count_user_id as distinct_count_user_id"
-    q = f"select {part} from {measurement} where 1=1"
-    q += f" and time >= {from_seconds}s" if from_seconds else ""
-    q += f" and time < {to_seconds}s" if to_seconds else ""
+
+    if not needs_grouping:
+        q += f" and time >= {from_seconds}s and time < {to_seconds}s"
+
     q += f" and {config.log.sp_id} = '{sp_entity_id}'" if sp_entity_id else ""
     q += f" and {config.log.idp_id} = '{idp_entity_id}'" if idp_entity_id else ""
 
+    records = _query(q, epoch=epoch)
+    # the actual time for non-supported date literals is nonsense in the influx database
     if needs_grouping:
-        group_by = "month, quarter, year" if scale == "month" else "quarter, year" if scale == "quarter" else "year"
-        q += f" group by {group_by}"
-
-    records = _query(q, group_by=needs_grouping, epoch=epoch)
-    # weeks are not bound in months, quarters and result in duplicates as we group by month, quarter, year
-    if scale == "week":
-        records = combine_time_duplicates(records)
+        records = filter_time(from_seconds, to_seconds, adjust_time(records, epoch))
 
     if include_unique and scale != "minute":
-        q = q.replace(f"select {part} from {measurement}",
-                      f"select count(distinct(\"user_id\")) as distinct_count_user_id from {config.log.measurement}")
-        if state:
-            q = q.replace("where 1=1", f"where 1=1 and state = '{state}'")
-        if not needs_grouping:
-            q += f" group by time(1{measurement_scale[0:1]})"
-        unique_records = _query(q, group_by=needs_grouping, epoch=epoch)
-        records.extend(list(filter(lambda p: p["distinct_count_user_id"] != 0, unique_records)))
-    return adjust_time(records, epoch) if needs_grouping else records
+        q = q.replace(f"from {measurement}",
+                      f"from {measurement}_unique")
+        unique_records = _query(q, epoch=epoch)
+        if needs_grouping:
+            unique_records = filter_time(from_seconds, to_seconds, adjust_time(unique_records, epoch))
+        records.extend(unique_records)
+    return remove_aggregated_time_info(records)
 
 
 def login_by_aggregated(config, period, idp_entity_id=None, sp_entity_id=None, include_unique=True, group_by=[],
-                        from_s=None, to_s=None, epoch=None, state=None):
-    p = start_end_period(period) if period else (from_s, to_s)
-    from_seconds, to_seconds = p
-    measurement_scale = "day" if not period or len(period) == 4 else "week" if period[4:5] == "w" else "day"
+                        epoch=None, state=None):
+    measurement_scale = "year" if len(period) == 4 else MEASUREMENT_SCALES[period[4:5].lower()]
     measurement = _determine_measurement(config, idp_entity_id, sp_entity_id, measurement_scale, state, group_by)
 
-    q = f"select sum(count_user_id) as count_user_id from {measurement}"
-    q += f" where 1=1 and time >= {from_seconds}s and time < {to_seconds}s "
+    q = f"select * from {measurement}"
+    needs_grouping = measurement_scale in GROUPING_SCALES
+    if needs_grouping:
+        q += f" where 1=1 and year = '{period[0:4]}'"
+        if measurement_scale != "year":
+            q += f" and {measurement_scale} = '{int(period[5:])}'"
+    else:
+        from_seconds, to_seconds = start_end_period(period)
+        q += f" where 1=1 and time >= {from_seconds}s and time < {to_seconds}s "
+
     q += f" and {config.log.sp_id} = '{sp_entity_id}'" if sp_entity_id else ""
     q += f" and {config.log.idp_id} = '{idp_entity_id}'" if idp_entity_id else ""
+
     if group_by:
         group_by_tags = ",".join(group_by)
         q += f" group by {group_by_tags}"
 
     records = _query(q, group_by=group_by, epoch=epoch)
+    if needs_grouping:
+        records = adjust_time(records, epoch)
 
     if include_unique:
-        q = q.replace(f"sum(count_user_id) as count_user_id from {measurement}",
-                      f"count(distinct(user_id)) as distinct_count_user_id from {config.log.measurement}")
-        if state:
-            q = q.replace("where 1=1", f"where 1=1 and state = '{state}'")
+        q = q.replace(f"from {measurement}",
+                      f"from {measurement}_unique")
         unique_records = _query(q, group_by=group_by, epoch=epoch)
-        records.extend(list(filter(lambda p: p["distinct_count_user_id"] != 0, unique_records)))
-    return records
+        if needs_grouping:
+            unique_records = adjust_time(unique_records, epoch)
+        records.extend(unique_records)
+    return remove_aggregated_time_info(records)
