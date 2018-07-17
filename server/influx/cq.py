@@ -72,10 +72,6 @@ def create_continuous_query(db, db_name, duration, period, is_unique, include_to
     db.query(q)
 
 
-def backfill_not_supported_group_by_periods(config, db: InfluxDBClient):
-    pass
-
-
 def backfill_login_measurements(config, db: InfluxDBClient):
     db_name = config.database.name
     log_source = config.log.measurement

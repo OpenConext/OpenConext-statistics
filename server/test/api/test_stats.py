@@ -192,8 +192,8 @@ class TestStats(AbstractTest):
              {"count_user_id": 1, "time": "2017-06-01T00:00:00Z"}, {"count_user_id": 1, "time": "2017-07-01T00:00:00Z"},
              {"count_user_id": 1, "time": "2017-08-01T00:00:00Z"}, {"count_user_id": 4, "time": "2017-09-01T00:00:00Z"},
              {"count_user_id": 2, "time": "2017-10-01T00:00:00Z"}, {"count_user_id": 1, "time": "2018-01-01T00:00:00Z"},
-             {"count_user_id": 3, "time": "2018-03-01T00:00:00Z"}, {"count_user_id": 1, "time": "2018-05-01T00:00:00Z"}]
-            , json)
+             {"count_user_id": 3, "time": "2018-03-01T00:00:00Z"},
+             {"count_user_id": 1, "time": "2018-05-01T00:00:00Z"}], json)
         self.assertEqual(30, sum(map(lambda p: p["count_user_id"], json)))
 
     def test_login_time_frame_group_by_quarter_and_sp(self):
