@@ -6,9 +6,10 @@ from flask import Blueprint, current_app, request as current_request, session, g
 from werkzeug.exceptions import Unauthorized
 
 from server.api.base import json_endpoint
+from server.influx.cq import backfill_login_measurements
 from server.influx.repo import login_by_time_frame, \
     service_providers_tags, identity_providers_tags, login_by_aggregated, first_login_from_to, last_login_providers, \
-    database_stats
+    database_stats, drop_measurements_and_cq
 from server.influx.time import start_end_period
 from server.manage.manage import service_providers, connected_identity_providers, identity_providers
 
@@ -93,6 +94,15 @@ def _add_manage_metadata(value, provider):
 @json_endpoint
 def meta_data():
     return database_stats(), 200
+
+
+@stats_api.route("/admin/drop_measurements_and_cq", strict_slashes=False, methods=["DELETE"])
+@json_endpoint
+def drop_measurements():
+    cfg = current_app.app_config
+    drop_measurements_and_cq(cfg.log.measurement, cfg.database.name)
+    backfill_login_measurements(cfg, current_app.influx_client)
+    return [], 201
 
 
 @stats_api.route("/service_providers", strict_slashes=False)

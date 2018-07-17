@@ -44,6 +44,17 @@ def database_stats():
     return res
 
 
+def drop_measurements_and_cq(main_measurement, database):
+    client = current_app.influx_client
+    measurements = list(map(lambda m: m["name"], client.get_list_measurements()))
+    for m in measurements:
+        if m != main_measurement:
+            client.drop_measurement(m)
+    continuous_queries = list(map(lambda m: m["name"], client.query("show continuous queries").get_points()))
+    for cq in continuous_queries:
+        client.query(f"drop continuous query {cq} on {database}")
+
+
 def _determine_measurement(config, idp_entity_id, sp_entity_id, measurement_scale, state, group_by=None):
     include_sp = sp_entity_id or (group_by and config.log.sp_id in group_by)
     include_idp = idp_entity_id or (group_by and config.log.idp_id in group_by)

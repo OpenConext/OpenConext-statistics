@@ -8,4 +8,5 @@ class CqBase(AbstractTest):
 
     def test_cq(self):
         measurements_count = len(list(self.app.influx_client.get_list_measurements()))
-        self.assertEqual((28 * 3) + 1, measurements_count)
+        self.assertEqual((24 * len(["hour", "day", "week", "month", "quarter", "year"])) + 12 * len(["minute"]) + 1,
+                         measurements_count)

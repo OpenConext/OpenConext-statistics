@@ -6,7 +6,8 @@ from werkzeug.exceptions import HTTPException, Unauthorized
 
 base_api = Blueprint("base_api", __name__, url_prefix="/")
 
-whitelisting = ["health", "api/users/me", "/api/stats/public"]
+white_listing = ["health", "api/users/me", "/api/stats/public"]
+admin_listing = ["api/stats/admin"]
 
 
 def auth_filter(config):
@@ -16,18 +17,30 @@ def auth_filter(config):
         return
 
     is_whitelisted_url = False
-    for u in whitelisting:
+    for u in white_listing:
         if u in url:
             is_whitelisted_url = True
 
     auth = current_request.authorization
-    is_authorized_api_call = bool(auth and len(
-        list(filter(lambda user: user.name == auth.username and user.password == auth.password, config.api_users))) > 0)
+    is_authorized_api_call = bool(auth and len(get_user(config, auth)) > 0)
 
     if not (is_whitelisted_url or is_authorized_api_call):
         raise Unauthorized(description="Invalid username or password")
 
     request_context.is_authorized_api_call = is_authorized_api_call
+
+    is_write_access_required = False
+    for u in admin_listing:
+        if u in url:
+            is_write_access_required = True
+
+    if is_write_access_required:
+        if "write" not in get_user(config, auth)[0].scope:
+            raise Unauthorized(description=f"No write access for user")
+
+
+def get_user(config, auth):
+    return list(filter(lambda user: user.name == auth.username and user.password == auth.password, config.api_users))
 
 
 def _add_custom_header(response):

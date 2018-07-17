@@ -6,6 +6,9 @@ import logging
 
 from influxdb import InfluxDBClient
 
+VALID_PERIODS = ["minute", "hour", "day", "week", "month", "quarter", "year"]
+VALID_GROUP_BY = ["minute", "hour", "day", "week"]
+
 logger = logging.getLogger()
 
 
@@ -26,14 +29,14 @@ def append_measurement(l, period, postfix=""):
 
 def get_measurements():
     measurements = []
-    for period in ["minute", "hour", "day", "week", "month"]:
+    for period in VALID_PERIODS:
         append_measurement(measurements, period)
         if period != "minute":
             append_measurement(measurements, period, postfix="_unique")
     return measurements
 
 
-def create_continuous_query(db, db_name, duration, is_unique, include_total, measurement_name, parent_name,
+def create_continuous_query(db, db_name, duration, period, is_unique, include_total, measurement_name, parent_name,
                             group_by=[], state=None):
     q = "SELECT "
     q += "count(distinct(\"user_id\")) as distinct_count_user_id " \
@@ -42,18 +45,36 @@ def create_continuous_query(db, db_name, duration, is_unique, include_total, mea
     q += f"INTO \"{measurement_name}\" FROM \"{parent_name}\" "
     state_value = "prodaccepted" if state == "pa" else "testaccepted" if state == "ta" else None
     q += f" WHERE state = '{state_value}' " if state_value else ""
-    group_by.append(f"time({duration})")
-    group_by += ["year", "month", "quarter"] if "week" not in measurement_name else ""
-    q += f"GROUP BY {', '.join(group_by)} "
+    if period in VALID_GROUP_BY:
+        group_by += ["year", "month", "quarter", f"time({duration})"]
 
-    cq = f"CREATE CONTINUOUS QUERY \"{measurement_name}_cq\" " \
-         f"ON \"{db_name}\" BEGIN {q} END"
-    logger.warning(f"{cq}")
-    db.query(cq)
+    if period in ["month", "quarter", "year"]:
+
+        group_by.append("time(15250w)")
+        group_by.append("year")
+        if period in ["month", "quarter"]:
+            group_by.append(period)
+
+    if len(group_by) > 0:
+        q += f"GROUP BY {', '.join(group_by)} "
+
+    # See https://community.influxdata.com/t/dependent-continuous-queries-at-multiple-resolutions/638/3
+    every = "1" + period[:1] if period in ["minute", "hour"] else "1d"
+    # _for = "FOR 1h" if period == "minute" else "FOR 2" + period[:1] if period in VALID_GROUP_BY else ""
+    _for = "FOR 2" + period[:1] if period in VALID_GROUP_BY else ""
+    if period in VALID_GROUP_BY:
+        cq = f"CREATE CONTINUOUS QUERY \"{measurement_name}_cq\" " \
+             f"ON \"{db_name}\" RESAMPLE EVERY {every} {_for} BEGIN {q} END"
+        logger.info(f"{cq}")
+        db.query(cq)
 
     # backfill the history
-    logger.warning(f"{q}")
+    logger.info(f"{q}")
     db.query(q)
+
+
+def backfill_not_supported_group_by_periods(config, db: InfluxDBClient):
+    pass
 
 
 def backfill_login_measurements(config, db: InfluxDBClient):
@@ -77,33 +98,33 @@ def backfill_login_measurements(config, db: InfluxDBClient):
         db.query(f"drop continuous query {cq} on {db_name}")
 
     # First create all the unique count queries that have to run against the log_source
-    for p in ["minute", "hour", "day", "week"]:
+    for p in VALID_PERIODS:
         for state in ["pa", "ta", None]:
             duration = "1" + p[:1]
             include_total = p == "minute"
             unique_postfix = "_unique" if p != "minute" else ""
-            create_continuous_query(db=db, db_name=db_name, duration=duration, is_unique=True,
+            create_continuous_query(db=db, db_name=db_name, duration=duration, period=p, is_unique=True,
                                     include_total=include_total,
                                     measurement_name=f"sp_idp_{state}_users_{p}{unique_postfix}"
                                     if state else f"sp_idp_users_{p}{unique_postfix}",
                                     parent_name=log_source,
                                     group_by=[sp, idp],
                                     state=state)
-            create_continuous_query(db=db, db_name=db_name, duration=duration, is_unique=True,
+            create_continuous_query(db=db, db_name=db_name, duration=duration, period=p, is_unique=True,
                                     include_total=include_total,
                                     measurement_name=f"idp_{state}_users_{p}{unique_postfix}"
                                     if state else f"idp_users_{p}{unique_postfix}",
                                     parent_name=log_source,
                                     group_by=[idp],
                                     state=state)
-            create_continuous_query(db=db, db_name=db_name, duration=duration, is_unique=True,
+            create_continuous_query(db=db, db_name=db_name, duration=duration, period=p, is_unique=True,
                                     include_total=include_total,
                                     measurement_name=f"sp_{state}_users_{p}{unique_postfix}"
                                     if state else f"sp_users_{p}{unique_postfix}",
                                     parent_name=log_source,
                                     group_by=[sp],
                                     state=state)
-            create_continuous_query(db=db, db_name=db_name, duration=duration, is_unique=True,
+            create_continuous_query(db=db, db_name=db_name, duration=duration, period=p, is_unique=True,
                                     include_total=include_total,
                                     measurement_name=f"total_{state}_users_{p}{unique_postfix}"
                                     if state else f"total_users_{p}{unique_postfix}",
@@ -111,28 +132,33 @@ def backfill_login_measurements(config, db: InfluxDBClient):
                                     group_by=[],
                                     state=state)
 
-    for d, p in (("hour", "minute"), ("day", "hour"), ("week", "day")):
+    for d, p in (("hour", "minute"), ("day", "hour"), ("week", "day"), ("month", "week"), ("quarter", "week"),
+                 ("year", "week")):
         duration = "1" + d[:1]
         for state in ["pa", "ta", None]:
-            create_continuous_query(db=db, db_name=db_name, duration=duration, is_unique=False, include_total=False,
+            create_continuous_query(db=db, db_name=db_name, duration=duration, period=d, is_unique=False,
+                                    include_total=False,
                                     measurement_name=f"sp_idp_{state}_users_{d}"
                                     if state else f"sp_idp_users_{d}",
                                     parent_name=f"sp_idp_{state}_users_{p}"
                                     if state else f"sp_idp_users_{p}",
                                     group_by=[sp, idp])
-            create_continuous_query(db=db, db_name=db_name, duration=duration, is_unique=False, include_total=False,
+            create_continuous_query(db=db, db_name=db_name, duration=duration, period=d, is_unique=False,
+                                    include_total=False,
                                     measurement_name=f"idp_{state}_users_{d}"
                                     if state else f"idp_users_{d}",
                                     parent_name=f"idp_{state}_users_{p}"
                                     if state else f"idp_users_{p}",
                                     group_by=[idp])
-            create_continuous_query(db=db, db_name=db_name, duration=duration, is_unique=False, include_total=False,
+            create_continuous_query(db=db, db_name=db_name, duration=duration, period=d, is_unique=False,
+                                    include_total=False,
                                     measurement_name=f"sp_{state}_users_{d}"
                                     if state else f"sp_users_{d}",
                                     parent_name=f"sp_{state}_users_{p}"
                                     if state else f"sp_users_{p}",
                                     group_by=[sp])
-            create_continuous_query(db=db, db_name=db_name, duration=duration, is_unique=False, include_total=False,
+            create_continuous_query(db=db, db_name=db_name, duration=duration, period=d, is_unique=False,
+                                    include_total=False,
                                     measurement_name=f"total_{state}_users_{d}"
                                     if state else f"total_users_{d}",
                                     parent_name=f"total_{state}_users_{p}"
