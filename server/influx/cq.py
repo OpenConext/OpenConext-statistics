@@ -3,6 +3,8 @@ Will drop and re-create all measurements and continuous queries and backfill the
 from the main login measurement
 """
 import logging
+import os
+import time
 
 from influxdb import InfluxDBClient
 
@@ -46,7 +48,7 @@ def create_continuous_query(db, db_name, duration, period, is_unique, include_to
     state_value = "prodaccepted" if state == "pa" else "testaccepted" if state == "ta" else None
     q += f" WHERE state = '{state_value}' " if state_value else ""
     if period in VALID_GROUP_BY:
-        group_by += ["year", "month", "quarter", f"time({duration if period != 'week' else '1w,4d'})"]
+        group_by += ["year", "month", "quarter", f"time({'1w,4d' if period == 'week' else duration })"]
 
     if period in ["month", "quarter", "year"]:
         group_by.append("time(15250w)")
@@ -58,18 +60,29 @@ def create_continuous_query(db, db_name, duration, period, is_unique, include_to
         q += f"GROUP BY {', '.join(group_by)} "
 
     # See https://community.influxdata.com/t/dependent-continuous-queries-at-multiple-resolutions/638/3
-    every = "1" + period[:1] if period in ["minute", "hour"] else "1d"
-    # _for = "FOR 1h" if period == "minute" else "FOR 2" + period[:1] if period in VALID_GROUP_BY else ""
-    _for = "FOR 2" + period[:1] if period in VALID_GROUP_BY else ""
+    every = "1d"
+    if period in ["minute", "hour"]:
+        every = "5m" if period == "minute" else "1h"
+    # See https://docs.influxdata.com/influxdb/v1.6/query_language/continuous_queries/#examples-of-advanced-syntax
+    _for = ""
     if period in VALID_GROUP_BY:
-        cq = f"CREATE CONTINUOUS QUERY \"{measurement_name}_cq\" " \
-             f"ON \"{db_name}\" RESAMPLE EVERY {every} {_for} BEGIN {q} END"
-        logger.info(f"{cq}")
-        db.query(cq)
+        if period == "minute":
+            _for = "FOR 10m"
+        else:
+            _for = "FOR 2" + period[:1]
+
+    cq = f"CREATE CONTINUOUS QUERY \"{measurement_name}_cq\" " \
+         f"ON \"{db_name}\" RESAMPLE EVERY {every} {_for} BEGIN {q} END"
+    logger.info(f"{cq}")
+    db.query(cq)
 
     # backfill the history
     logger.info(f"{q}")
     db.query(q)
+
+    if not os.environ.get("TEST"):
+        # need to give influx some time to index
+        time.sleep(10 * 60 if "minute" in measurement_name else 5 * 60 if "hour" in measurement_name else 60)
 
 
 def backfill_login_measurements(config, db: InfluxDBClient):

@@ -8,7 +8,9 @@ def main(host="localhost", port=8086, username="", password=""):
     for m in measurements:
         res = list(client.query(f"select count(*) from {m}").get_points())[0]
         res.pop("time")
-        print(f"{m}:{res}")
+        # print(f"{m}:{res}")
+        if "day" in m:
+            print(m)
 
 
 if __name__ == "__main__":

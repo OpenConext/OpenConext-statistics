@@ -54,7 +54,9 @@ app.influx_client = InfluxDBClient(host=config.database.host,
                                    port=config.database.port,
                                    username=config.database.username,
                                    password=config.database.password,
-                                   database=db_name)
+                                   database=db_name,
+                                   timeout=60 * 60,
+                                   retries=5)
 app.app_config = config
 app.influx_client.switch_database(db_name)
 result_set = app.influx_client.query("show continuous queries")
