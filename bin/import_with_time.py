@@ -16,8 +16,8 @@ def random_string(prefix="", k=15):
     return prefix + "".join(random.choices(string.ascii_uppercase + string.digits, k=k))
 
 
-identity_providers = ["https://identity-provider/" + random_string() for _ in range(1, 15)]
-service_providers = ["https://service-provider/" + random_string() for _ in range(1, 50)]
+identity_providers = ["https://identity-provider/" + random_string() for _ in range(1, 150)]
+service_providers = ["https://service-provider/" + random_string() for _ in range(1, 350)]
 users = ["urn:collab:person:example.com:" + random_string(k=10) for _ in range(1, 15000)]
 state = ["prodaccepted", "testaccepted"]
 
@@ -37,7 +37,7 @@ def import_test_data(host="localhost", port=8086, username="", password=""):
 
     logger.info("Started importing records")
 
-    for i in range(0, 100_000):
+    for i in range(0, 1_000_000):
         r = random.randint(seconds_2015, seconds_now)
         rd = datetime.datetime.utcfromtimestamp(r)
         json_body = [
