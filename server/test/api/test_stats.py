@@ -63,9 +63,18 @@ class TestStats(AbstractTest):
         self.assertEqual(5, len(json))
 
     def test_first_login_period(self):
-        json = self.get("first_login_time", query_data={"period": "2016M5", "state": None, "provider": "idp"})
+        json = self.get("first_login_time", query_data={"period": "2016M5", "provider": "idp", "state": "prodaccepted"})
         self.assertListEqual([{"count_user_id": 1, "idp_entity_id": "https://idp/1", "month": "5", "quarter": "2",
                                "time": 1463356800000, "year": "2016"}], json)
+
+    def test_first_login_invalid_period(self):
+        self.get("first_login_time", query_data={"period": "bogus"}, response_status_code=500)
+
+    def test_first_login_no_period_and_to(self):
+        self.get("first_login_time", query_data={"from": "2016-08-14"}, response_status_code=500)
+
+    def test_first_login_invalid_provider(self):
+        self.get("first_login_time", query_data={"period": "2016M5", "provider": "bogus"}, response_status_code=500)
 
     @responses.activate
     def test_last_login_time(self):
@@ -78,9 +87,15 @@ class TestStats(AbstractTest):
              {"count_user_id": 1, "month": "10", "quarter": "4", "sp_entity_id": "https://sp/1", "time": 1509235200000,
               "year": "2017"}], json)
 
+    def test_last_login_invalid_from(self):
+        self.get("last_login_time", query_data={}, response_status_code=500)
+
+    def test_last_login_invalid_provider(self):
+        self.get("last_login_time", query_data={"period": "2016M1", "from": "2016-08-16", "provider": "bogus"},
+                 response_status_code=500)
+
     def test_database_stats(self):
         res = self.get("database_stats")
-        print(res)
         expected = json.loads(AbstractTest.read_file("seed/counts_after_seed.json"))
         self.assertListEqual(expected, res)
 
@@ -216,15 +231,31 @@ class TestStats(AbstractTest):
             json)
 
     def test_login_aggregated_by_week(self):
-        json = self.get("public/login_aggregated", query_data={"period": "2016W41"})
-        self.assertListEqual([{'count_user_id': 1, 'time': '2016-10-10T00:00:00Z'},
-                              {'distinct_count_user_id': 1, 'time': '2016-10-10T00:00:00Z'}], json)
+        json = self.get("public/login_aggregated", query_data={"period": "2016W41", "sp_id": "https://sp/2",
+                                                               "idp_id": "https://idp/1"})
+        self.assertListEqual([{"count_user_id": 1, "idp_entity_id": "https://idp/1", "sp_entity_id": "https://sp/2",
+                               "time": "2016-10-10T00:00:00Z"},
+                              {"distinct_count_user_id": 1, "idp_entity_id": "https://idp/1",
+                               "sp_entity_id": "https://sp/2", "time": "2016-10-10T00:00:00Z"}], json)
 
         json = self.get("public/login_aggregated", query_data={"period": "2016W46"})
-        self.assertListEqual([{'count_user_id': 2, 'time': '2016-11-14T00:00:00Z'},
-                              {'distinct_count_user_id': 2, 'time': '2016-11-14T00:00:00Z'}], json)
+        self.assertListEqual([{"count_user_id": 2, "time": "2016-11-14T00:00:00Z"},
+                              {"distinct_count_user_id": 2, "time": "2016-11-14T00:00:00Z"}], json)
 
         json = self.get("public/login_aggregated", query_data={"period": "2017W35"})
+        self.assertListEqual(["no_results"], json)
+
+    def test_login_aggregated_by_day(self):
+        json = self.get("public/login_aggregated", query_data={"period": "2016D287"})
+        self.assertListEqual([{"count_user_id": 1, "time": "2016-10-13T00:00:00Z"},
+                              {"distinct_count_user_id": 1, "time": "2016-10-13T00:00:00Z"}], json)
+
+        json = self.get("public/login_aggregated", query_data={"period": "2016D287", "sp_id": "https://sp/2"})
+        self.assertListEqual([{"count_user_id": 1, "sp_entity_id": "https://sp/2", "time": "2016-10-13T00:00:00Z"},
+                              {"distinct_count_user_id": 1, "sp_entity_id": "https://sp/2",
+                               "time": "2016-10-13T00:00:00Z"}], json)
+
+        json = self.get("public/login_aggregated", query_data={"period": "2016D48"})
         self.assertListEqual(["no_results"], json)
 
     def test_login_aggregated_by_year(self):

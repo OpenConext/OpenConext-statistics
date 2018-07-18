@@ -25,13 +25,11 @@ period_regex = r"\d{4}[QMWD]{0,1}\d{0,3}$"
 @json_endpoint
 def first_login_time():
     args = current_request.args
-    period = args.get("period", "")
+    period = args.get("period")
     if period and not re.match(period_regex, period, re.IGNORECASE):
         raise ValueError(f"Invalid period {period}. Must match {period_regex}")
-    from_arg = _parse_date("from")
+    from_arg = _parse_date("from", required=not period, message="Must either specify period or from and to")
     to_arg = _parse_date("to")
-    if not period and (not from_arg or not to_arg):
-        raise ValueError("Must either specify period or from and to")
 
     p = start_end_period(period) if period else (from_arg, to_arg)
     from_seconds, to_seconds = p
@@ -57,9 +55,7 @@ def first_login_time():
 @json_endpoint
 def last_login_time():
     args = current_request.args
-    from_arg = _parse_date("from")
-    if not from_arg:
-        raise ValueError("Must specify from")
+    from_arg = _parse_date("from", required=True)
 
     request_args = {}
     state = args.get("state")
@@ -158,7 +154,7 @@ def _options(include_group_by=True, blacklisted_args=["idp_entity_id", "sp_entit
     return request_args
 
 
-def _parse_date(key, required=False):
+def _parse_date(key, required=False, message=None):
     date = current_request.args.get(key)
     if date:
         res = re.match(r"(\d{4})[/.-](\d{1,2})[/.-](\d{1,2})$", date)
@@ -166,7 +162,7 @@ def _parse_date(key, required=False):
             date = datetime.datetime(*(map(int, res.groups())), tzinfo=tz.tzutc())
     else:
         if required:
-            raise ValueError(f"{key} is required.")
+            raise ValueError(message if message else f"{key} is required.")
         date = datetime.datetime.utcnow()
     return int(date.timestamp()) if isinstance(date, datetime.datetime) else int(date)
 
