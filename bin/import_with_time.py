@@ -59,7 +59,7 @@ def import_test_data(host="localhost", port=8086, username="", password=""):
         ]
         client.write_points(json_body)
         if i % 5000 is 0 and i is not 0:
-            logger.info("Created another 5000 records")
+            logger.info(f"Created another 5000 records total now {i}")
 
     logger.info("Finished importing records")
 
