@@ -2,16 +2,16 @@
 Will drop and re-create all measurements and continuous queries and backfill the measurements
 from the main login measurement
 """
-import logging
 import os
 import time
+import logging
 
 from influxdb import InfluxDBClient
 
-VALID_PERIODS = ["minute", "hour", "day", "week", "month", "quarter", "year"]
-VALID_GROUP_BY = ["minute", "hour", "day", "week"]
-
-logger = logging.getLogger()
+# VALID_PERIODS = ["minute", "hour", "day", "week", "month", "quarter", "year"]
+# VALID_GROUP_BY = ["minute", "hour", "day", "week"]
+VALID_PERIODS = ["day", "week", "month", "quarter", "year"]
+VALID_GROUP_BY = ["day", "week"]
 
 
 def append_measurement(l, period, postfix=""):
@@ -33,8 +33,9 @@ def get_measurements():
     measurements = []
     for period in VALID_PERIODS:
         append_measurement(measurements, period)
-        if period != "minute":
-            append_measurement(measurements, period, postfix="_unique")
+        # if period != "minute":
+        if period != "day":
+                append_measurement(measurements, period, postfix="_unique")
     return measurements
 
 
@@ -73,6 +74,9 @@ def create_continuous_query(db, db_name, duration, period, is_unique, include_to
 
     cq = f"CREATE CONTINUOUS QUERY \"{measurement_name}_cq\" " \
          f"ON \"{db_name}\" RESAMPLE EVERY {every} {_for} BEGIN {q} END"
+
+    logger = logging.getLogger()
+
     logger.info(f"{cq}")
     db.query(cq)
 
@@ -109,8 +113,10 @@ def backfill_login_measurements(config, db: InfluxDBClient):
     for p in VALID_PERIODS:
         for state in ["pa", "ta", None]:
             duration = "1" + p[:1]
-            include_total = p == "minute"
-            unique_postfix = "_unique" if p != "minute" else ""
+            # include_total = p == "minute"
+            include_total = p == "day"
+            # unique_postfix = "_unique" if p != "minute" else ""
+            unique_postfix = "_unique" if p != "day" else ""
             create_continuous_query(db=db, db_name=db_name, duration=duration, period=p, is_unique=True,
                                     include_total=include_total,
                                     measurement_name=f"sp_idp_{state}_users_{p}{unique_postfix}"
@@ -140,7 +146,8 @@ def backfill_login_measurements(config, db: InfluxDBClient):
                                     group_by=[],
                                     state=state)
 
-    for d, p in (("hour", "minute"), ("day", "hour"), ("week", "day"), ("month", "week"), ("quarter", "week"),
+    # put ("hour", "minute"), ("day", "hour") in front if minutes/hours need to supported
+    for d, p in (("week", "day"), ("month", "week"), ("quarter", "week"),
                  ("year", "week")):
         duration = "1" + d[:1]
         for state in ["pa", "ta", None]:

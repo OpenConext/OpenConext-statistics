@@ -21,14 +21,13 @@ def read_file(file_name):
 
 def _init_logging(is_local):
     formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
-    logger = logging.getLogger()
     if is_local:
-        logging.basicConfig()
-        logger.setLevel(logging.INFO)
+        logging.basicConfig(level=logging.INFO)
     else:
         handler = TimedRotatingFileHandler(f"{os.path.dirname(os.path.realpath(__file__))}/../log/stats.log",
                                            when="midnight", backupCount=15)
         handler.setFormatter(formatter)
+        logger = logging.getLogger()
         logger.setLevel(logging.INFO)
         logger.addHandler(handler)
 

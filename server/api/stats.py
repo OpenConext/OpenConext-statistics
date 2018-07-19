@@ -92,7 +92,7 @@ def meta_data():
     return database_stats(), 200
 
 
-@stats_api.route("/admin/reinitialize_measurements_and_cq", strict_slashes=False, methods=["DELETE"])
+@stats_api.route("/admin/reinitialize_measurements_and_cq", strict_slashes=False, methods=["PUT"])
 @json_endpoint
 def drop_measurements():
     cfg = current_app.app_config
