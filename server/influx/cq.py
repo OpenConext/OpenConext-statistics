@@ -75,7 +75,7 @@ def create_continuous_query(db, db_name, duration, period, is_unique, include_to
     cq = f"CREATE CONTINUOUS QUERY \"{measurement_name}_cq\" " \
          f"ON \"{db_name}\" RESAMPLE EVERY {every} {_for} BEGIN {q} END"
 
-    logger = logging.getLogger()
+    logger = logging.getLogger("backfill")
 
     logger.info(f"{cq}")
     db.query(cq)

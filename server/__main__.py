@@ -1,3 +1,4 @@
+import datetime
 import logging
 import os
 from logging.handlers import TimedRotatingFileHandler
@@ -19,13 +20,13 @@ def read_file(file_name):
         return f.read()
 
 
-def _init_logging(is_local):
-    formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
-    if is_local:
+def _init_logging(basic_config):
+    if basic_config:
         logging.basicConfig(level=logging.INFO)
     else:
         handler = TimedRotatingFileHandler(f"{os.path.dirname(os.path.realpath(__file__))}/../log/stats.log",
                                            when="midnight", backupCount=15)
+        formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
         handler.setFormatter(formatter)
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
@@ -62,9 +63,6 @@ result_set = app.influx_client.query("show continuous queries")
 series = list(filter(lambda s: s["name"] == db_name,
                      result_set.raw["series"] if "series" in result_set.raw else []))
 
-if len(series) == 0 or "values" not in series[0] or len(series[0]["values"]) < 84:
-    backfill_login_measurements(config, app.influx_client)
-
 profile = os.environ.get("PROFILE")
 test = os.environ.get("TEST")
 app.app_config["profile"] = profile
@@ -73,6 +71,14 @@ is_local = profile is not None and profile == "local"
 is_test = test is not None and bool(int(test))
 
 _init_logging(is_local or is_test)
+
+if len(series) == 0 or "values" not in series[0] or len(series[0]["values"]) < 15:
+    logger = logging.getLogger("main")
+    now = datetime.datetime.now()
+    logger.info(f"start back-filling {now}")
+    backfill_login_measurements(config, app.influx_client)
+    logger.info(f"ended back-filling {datetime.datetime.now() - now}")
+
 
 # WSGI production mode dictates that no flask app is actually running
 if is_local:

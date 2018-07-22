@@ -6,7 +6,7 @@ import time
 
 from influxdb import InfluxDBClient
 
-number_of_records = 10_000
+number_of_records = 1_000_000
 batch_size = 5_000
 
 epoch = datetime.datetime.utcfromtimestamp(0)
@@ -58,7 +58,7 @@ def import_test_data(host="localhost", port=8086, username="", password=""):
                     "year": f"{rd.year}"
                 },
                 "fields": {
-                    "user_id": "urn:collab:person:example.com:" + random_string(k=3)
+                    "user_id": "urn:collab:person:example.com:" + random_string(k=5)
                 },
                 "time": rd
             })
