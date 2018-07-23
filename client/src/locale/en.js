@@ -43,7 +43,7 @@ I18n.translations.en = {
         overview: "Overview",
         connected_identity_providers: "Institutions",
         system: "Explore",
-        db: "DB"
+        db: "Measurements"
     },
     db: {
         title:"All measurements from database {{db}}. The live measurement is named {{measurement}}. Loading took ~{{time}} seconds.",
