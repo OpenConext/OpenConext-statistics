@@ -72,8 +72,10 @@ is_test = test is not None and bool(int(test))
 
 _init_logging(is_local or is_test)
 
+logger = logging.getLogger("main")
+logger.info("Received call....")
+
 if (is_local or is_test) and (len(series) == 0 or "values" not in series[0] or len(series[0]["values"]) < 15):
-    logger = logging.getLogger("main")
     now = datetime.datetime.now()
     logger.info(f"start back-filling {now}")
     backfill_login_measurements(config, app.influx_client)

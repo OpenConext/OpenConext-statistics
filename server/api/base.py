@@ -25,6 +25,8 @@ def auth_filter(config):
     is_authorized_api_call = bool(auth and len(get_user(config, auth)) > 0)
 
     if not (is_whitelisted_url or is_authorized_api_call):
+        logger = logging.getLogger("main")
+        logger.info(str(config.api_users))
         raise Unauthorized(description="Invalid username or password")
 
     request_context.is_authorized_api_call = is_authorized_api_call
