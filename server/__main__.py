@@ -40,6 +40,18 @@ def page_not_found(_):
 config_file_location = os.environ.get("CONFIG", "config/config.yml")
 config = munchify(yaml.load(read_file(config_file_location)))
 
+test = os.environ.get("TEST")
+profile = os.environ.get("PROFILE")
+
+is_local = profile is not None and profile == "local"
+is_test = test is not None and bool(int(test))
+
+_init_logging(is_local or is_test)
+
+logger = logging.getLogger("main")
+logger.info("Initialize server...")
+
+
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
@@ -58,21 +70,13 @@ app.influx_client = InfluxDBClient(host=config.database.host,
                                    timeout=60 * 60,
                                    retries=5)
 app.app_config = config
+app.app_config["profile"] = profile
+
 app.influx_client.switch_database(db_name)
 result_set = app.influx_client.query("show continuous queries")
 series = list(filter(lambda s: s["name"] == db_name,
                      result_set.raw["series"] if "series" in result_set.raw else []))
 
-profile = os.environ.get("PROFILE")
-test = os.environ.get("TEST")
-app.app_config["profile"] = profile
-
-is_local = profile is not None and profile == "local"
-is_test = test is not None and bool(int(test))
-
-_init_logging(is_local or is_test)
-
-logger = logging.getLogger("main")
 
 if (is_local or is_test) and (len(series) == 0 or "values" not in series[0] or len(series[0]["values"]) < 15):
     now = datetime.datetime.now()
