@@ -10,7 +10,8 @@ export default class ConnectedIdentityProviders extends React.PureComponent {
         super(props);
         this.state = {
             connectedIdentityProviders: [],
-            guestIdentityProviders: []
+            guestIdentityProviders: [],
+            loading: true
         };
     }
 
@@ -19,7 +20,8 @@ export default class ConnectedIdentityProviders extends React.PureComponent {
             connectedIdentityProviders: res.filter(p => (p["coin:guest_qualifier"] || "None") === "None")
                 .sort((a, b) => this.organizationName(a).toLowerCase().localeCompare(this.organizationName(b).toLowerCase())),
             guestIdentityProviders: res.filter(p => (p["coin:guest_qualifier"] || "None") !== "None")
-                .sort((a, b) => this.organizationName(a).toLowerCase().localeCompare(this.organizationName(b).toLowerCase()))
+                .sort((a, b) => this.organizationName(a).toLowerCase().localeCompare(this.organizationName(b).toLowerCase())),
+            loading: false
         }))
         ;
     }
@@ -28,8 +30,7 @@ export default class ConnectedIdentityProviders extends React.PureComponent {
         provider.name_nl || provider.name_en || provider.entityid;
 
     render() {
-        const {connectedIdentityProviders, guestIdentityProviders} = this.state;
-        const loading = connectedIdentityProviders.length === 0;
+        const {connectedIdentityProviders, guestIdentityProviders, loading} = this.state;
         return (
             <div className="connected-identity-providers">
                 {loading && <section className="loading">

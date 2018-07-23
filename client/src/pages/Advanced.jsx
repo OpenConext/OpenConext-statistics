@@ -20,10 +20,10 @@ export default class Advanced extends React.PureComponent {
         super(props);
         this.state = {
             data: [],
-            // from: moment().utc().startOf("quarter"),
-            // to: moment().utc().add(1, "day").startOf("day"),
-            from: moment().utc().year(2015).startOf("year"),
-            to: moment().utc().year(2015).endOf("year"),
+            from: moment().utc().startOf("quarter"),
+            to: moment().utc().add(1, "day").startOf("day"),
+            // from: moment().utc().year(2015).startOf("year"),
+            // to: moment().utc().year(2015).endOf("year"),
             scale: "none",
             provider: "sp",
             state: "all",
@@ -121,6 +121,10 @@ export default class Advanced extends React.PureComponent {
                              state={state}
                              displayUniques={false}/>
                 </section>
+                {!loaded && <section className="loading">
+                    <em>{I18n.t("eduGain.loading")}</em>
+                    <i className="fa fa-refresh fa-spin fa-2x fa-fw"></i>
+                </section>}
                 {(isEmpty(data) && loaded) && <span>{I18n.t(`providerTable.${modus}NoResults`)}</span>}
                 {(!isEmpty(data) && loaded) &&
                 <section className="content">
