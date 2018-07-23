@@ -34,6 +34,7 @@ export default class Advanced extends React.PureComponent {
 
     componentDidMount() {
         const {from, to, provider, state, modus} = this.state;
+        this.setState({"loaded":false});
         const promise = modus === "newcomers" ?
             firstLoginTime({
                 from: from.utc().unix(),
