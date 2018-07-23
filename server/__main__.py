@@ -25,7 +25,7 @@ def _init_logging(basic_config):
         logging.basicConfig(level=logging.INFO)
     else:
         handler = TimedRotatingFileHandler(f"{os.path.dirname(os.path.realpath(__file__))}/../log/stats.log",
-                                           when="midnight", backupCount=15)
+                                           when="midnight", backupCount=30)
         formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
         handler.setFormatter(formatter)
         logger = logging.getLogger()
@@ -73,7 +73,6 @@ is_test = test is not None and bool(int(test))
 _init_logging(is_local or is_test)
 
 logger = logging.getLogger("main")
-logger.info("Received call....")
 
 if (is_local or is_test) and (len(series) == 0 or "values" not in series[0] or len(series[0]["values"]) < 15):
     now = datetime.datetime.now()
