@@ -72,13 +72,12 @@ is_test = test is not None and bool(int(test))
 
 _init_logging(is_local or is_test)
 
-if len(series) == 0 or "values" not in series[0] or len(series[0]["values"]) < 15:
+if (is_local or is_test) and (len(series) == 0 or "values" not in series[0] or len(series[0]["values"]) < 15):
     logger = logging.getLogger("main")
     now = datetime.datetime.now()
     logger.info(f"start back-filling {now}")
     backfill_login_measurements(config, app.influx_client)
     logger.info(f"ended back-filling {datetime.datetime.now() - now}")
-
 
 # WSGI production mode dictates that no flask app is actually running
 if is_local:

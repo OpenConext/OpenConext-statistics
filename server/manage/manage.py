@@ -13,18 +13,19 @@ def _data(entity_type, requested_fields=[]):
                            json={"REQUESTED_ATTRIBUTES": requested_fields}, auth=_auth()).json()
         result = []
         for provider in providers:
-            data_ = provider["data"]
-            metadata = data_["metaDataFields"] if "metaDataFields" in data_ else {}
-            entity_id = data_["entityid"]
-            res = {"id": entity_id,
-                   "state": data_["state"],
-                   "name_en": metadata["name:en"] if "name:en" in metadata else entity_id,
-                   "name_nl": metadata["name:nl"] if "name:nl" in metadata else entity_id}
-            for field in requested_fields:
-                sub = field[len("metaDataFields."):]
-                if sub in metadata:
-                    res[field.replace("metaDataFields.", "")] = metadata[sub]
-            result.append(res)
+            if "data" in provider:
+                data_ = provider["data"]
+                metadata = data_["metaDataFields"] if "metaDataFields" in data_ else {}
+                entity_id = data_["entityid"]
+                res = {"id": entity_id,
+                       "state": data_["state"],
+                       "name_en": metadata["name:en"] if "name:en" in metadata else entity_id,
+                       "name_nl": metadata["name:nl"] if "name:nl" in metadata else entity_id}
+                for field in requested_fields:
+                    sub = field[len("metaDataFields."):]
+                    if sub in metadata:
+                        res[field.replace("metaDataFields.", "")] = metadata[sub]
+                result.append(res)
         return result
 
 
