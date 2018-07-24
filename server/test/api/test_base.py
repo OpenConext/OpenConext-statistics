@@ -7,6 +7,10 @@ class TestBase(AbstractTest):
         res = self.client.get("/health")
         self.assertDictEqual({"status": "UP"}, res.json)
 
+    def test_shibboleth(self):
+        res = self.client.get("shibboleth")
+        self.assertEqual(302, res.status_code)
+
     def test_401(self):
         res = self.client.get("/api/stats/first_login_time")
         self.assertEqual(401, res.status_code)
