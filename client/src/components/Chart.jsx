@@ -62,7 +62,8 @@ export default class Chart extends React.PureComponent {
         return {
             chart: {
                 zoomType: "x",
-                height: guest ? 525 : 682
+                height: guest ? 525 : 682,
+                type: 'column'
             },
             title: {text: null},
             yAxis: {
@@ -86,6 +87,12 @@ export default class Chart extends React.PureComponent {
             credits: {enabled: false},
             plotOptions: {
                 series: {
+                    column: {
+                        pointPadding: 0,
+                        borderWidth: 0,
+                        groupPadding: 0,
+                        shadow: false
+                    },
                     showInNavigator: true,
                     marker: {
                         enabled: true,

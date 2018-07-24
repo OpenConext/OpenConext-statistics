@@ -2,9 +2,9 @@
 Will drop and re-create all measurements and continuous queries and backfill the measurements
 from the main login measurement
 """
+import logging
 import os
 import time
-import logging
 
 from influxdb import InfluxDBClient
 
@@ -62,15 +62,10 @@ def create_continuous_query(db, db_name, duration, period, is_unique, include_to
 
     # See https://community.influxdata.com/t/dependent-continuous-queries-at-multiple-resolutions/638/3
     every = "1d"
-    if period in ["minute", "hour"]:
-        every = "5m" if period == "minute" else "1h"
     # See https://docs.influxdata.com/influxdb/v1.6/query_language/continuous_queries/#examples-of-advanced-syntax
     _for = ""
     if period in VALID_GROUP_BY:
-        if period == "minute":
-            _for = "FOR 10m"
-        else:
-            _for = "FOR 2" + period[:1]
+        _for = "FOR 2" + period[:1]
 
     cq = f"CREATE CONTINUOUS QUERY \"{measurement_name}_cq\" " \
          f"ON \"{db_name}\" RESAMPLE EVERY {every} {_for} BEGIN {q} END"

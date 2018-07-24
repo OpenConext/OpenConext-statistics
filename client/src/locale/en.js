@@ -69,7 +69,8 @@ I18n.translations.en = {
             idp: "All Institutions"
         },
         aggregate: "Aggregate",
-        groupBy: "Group by {{type}}"
+        groupBy: "Group by {{type}}",
+        matrix: "Download IdP-SP matrix"
     },
     period: {
         title: "Period",

@@ -135,18 +135,14 @@ def login_by_aggregated(config, period, idp_entity_id=None, sp_entity_id=None, i
     q += f" and {config.log.sp_id} = '{sp_entity_id}'" if sp_entity_id else ""
     q += f" and {config.log.idp_id} = '{idp_entity_id}'" if idp_entity_id else ""
 
-    if group_by:
-        group_by_tags = ",".join(group_by)
-        q += f" group by {group_by_tags}"
-
-    records = _query(q, group_by=group_by, epoch=epoch)
+    records = _query(q, group_by=False, epoch=epoch)
     if needs_grouping:
         records = adjust_time(records, epoch)
 
     if include_unique:
         q = q.replace(f"from {measurement}",
                       f"from {measurement}_unique")
-        unique_records = _query(q, group_by=group_by, epoch=epoch)
+        unique_records = _query(q, group_by=False, epoch=epoch)
         if needs_grouping:
             unique_records = adjust_time(unique_records, epoch)
         records.extend(unique_records)

@@ -285,27 +285,27 @@ class TestStats(AbstractTest):
     def test_login_aggregated_year_group_by_sp(self):
         json = self.get("public/login_aggregated",
                         query_data={"period": "2017", "idp_id": "https://idp/1", "group_by": "sp_id"})
+        json = list(sorted(json, key=lambda p: p["sp_entity_id"]))
         self.assertListEqual([{"count_user_id": 1, "idp_entity_id": "https://idp/1", "sp_entity_id": "https://sp/1",
-                               "time": "2017-01-01T00:00:00Z"},
-                              {"count_user_id": 2, "idp_entity_id": "https://idp/1", "sp_entity_id": "https://sp/2",
-                               "time": "2017-01-01T00:00:00Z"},
-                              {"count_user_id": 2, "idp_entity_id": "https://idp/1", "sp_entity_id": "https://sp/3",
-                               "time": "2017-01-01T00:00:00Z"},
-                              {"count_user_id": 1, "idp_entity_id": "https://idp/1", "sp_entity_id": "https://sp/4",
-                               "time": "2017-01-01T00:00:00Z"},
-                              {"count_user_id": 1, "idp_entity_id": "https://idp/1", "sp_entity_id": "https://sp/5",
                                "time": "2017-01-01T00:00:00Z"},
                               {"distinct_count_user_id": 1, "idp_entity_id": "https://idp/1",
                                "sp_entity_id": "https://sp/1", "time": "2017-01-01T00:00:00Z"},
+                              {"count_user_id": 2, "idp_entity_id": "https://idp/1", "sp_entity_id": "https://sp/2",
+                               "time": "2017-01-01T00:00:00Z"},
                               {"distinct_count_user_id": 2, "idp_entity_id": "https://idp/1",
                                "sp_entity_id": "https://sp/2", "time": "2017-01-01T00:00:00Z"},
+                              {"count_user_id": 2, "idp_entity_id": "https://idp/1", "sp_entity_id": "https://sp/3",
+                               "time": "2017-01-01T00:00:00Z"},
                               {"distinct_count_user_id": 2, "idp_entity_id": "https://idp/1",
                                "sp_entity_id": "https://sp/3", "time": "2017-01-01T00:00:00Z"},
+                              {"count_user_id": 1, "idp_entity_id": "https://idp/1", "sp_entity_id": "https://sp/4",
+                               "time": "2017-01-01T00:00:00Z"},
                               {"distinct_count_user_id": 1, "idp_entity_id": "https://idp/1",
                                "sp_entity_id": "https://sp/4", "time": "2017-01-01T00:00:00Z"},
+                              {"count_user_id": 1, "idp_entity_id": "https://idp/1", "sp_entity_id": "https://sp/5",
+                               "time": "2017-01-01T00:00:00Z"},
                               {"distinct_count_user_id": 1, "idp_entity_id": "https://idp/1",
-                               "sp_entity_id": "https://sp/5", "time": "2017-01-01T00:00:00Z"}],
-                             json)
+                               "sp_entity_id": "https://sp/5", "time": "2017-01-01T00:00:00Z"}], json)
 
     def test_login_aggregated_year_group_by_sp_and_idp(self):
         json = self.get("public/login_aggregated",
