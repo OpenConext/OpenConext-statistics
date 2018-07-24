@@ -15,7 +15,7 @@ export default class Period extends React.PureComponent {
 
     constructor(props) {
         super(props);
-        this.state = {scales: [...defaultScales]}
+        this.state = {scales: [...defaultScales], displayDetails: true}
     }
 
     invariant = (propCallback, propertyName) => val => {
@@ -54,6 +54,7 @@ export default class Period extends React.PureComponent {
 
 
     render() {
+        const {displayDetails} = this.state;
         const {scale, onChangeScale, onChangeFrom, from, to, onChangeTo, aggregate, allowedScales, disabled = []} = this.props;
         let scales;
         if (isEmpty(allowedScales)) {
@@ -64,8 +65,10 @@ export default class Period extends React.PureComponent {
         const fromTitle = I18n.t(isEmpty(allowedScales) ? "period.date" : "period.from");
         return (
             <div className="period">
-                <span className="title">{I18n.t("period.title")}</span>
-                <section className="controls">
+                <span className={`title ${displayDetails ? "" : "hide"} `}
+                      onClick={() => this.setState({displayDetails: !this.state.displayDetails})}
+                >{I18n.t("period.title")}</span>
+                {displayDetails && <section className="controls">
                     <span className="sub-title">{fromTitle}</span>
                     <DatePicker
                         selected={from}
@@ -96,7 +99,7 @@ export default class Period extends React.PureComponent {
                             clearable={false}
                             disabled={disabled.indexOf("scale") > -1}
                     />
-                </section>
+                </section>}
             </div>
         );
     }

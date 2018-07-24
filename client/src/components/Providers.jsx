@@ -25,7 +25,7 @@ export default class Providers extends React.PureComponent {
         const check = (spSelect || idpSelect);
         return (
             <div className="providers">
-                <span className="title"
+                <span className={`title ${displayDetails ? "" : "hide"} `}
                       onClick={() => this.setState({displayDetails: !this.state.displayDetails})}>
                     {I18n.t("providers.title")}
                     </span>

@@ -31,6 +31,9 @@ section.chart {
         font-weight: bold;
         font-size: 18px;
         color: $darker-blue;
+        &.hide {
+            border-radius: 5px;
+        }
     }
     div.highcharts-menu {
         border: 1px solid $blue !important;

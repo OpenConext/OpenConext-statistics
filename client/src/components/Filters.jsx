@@ -12,22 +12,30 @@ const STATES = ["all", "prodaccepted", "testaccepted"];
 const PROVIDERS = ["sp", "idp"];
 
 export default class Filters extends React.PureComponent {
+    constructor() {
+        super();
+        this.state = {
+            displayDetails: true
+        };
+    }
 
     render() {
+        const {displayDetails} = this.state;
         const {displayProvider, onChangeProvider, provider, onChangeState, state, onChangeUniques, uniques, displayUniques} = this.props;
         return (
             <div className="filters">
-                <span className="title">{I18n.t("filters.title")}</span>
-                <section className="controls">
+                <span className={`title ${displayDetails ? "" : "hide"} `}
+                      onClick={() => this.setState({displayDetails: !this.state.displayDetails})}>{I18n.t("filters.title")}</span>
+                {displayDetails && <section className="controls">
                     {displayProvider && <span className="sub-title">{I18n.t("filters.provider")}</span>}
                     {displayProvider && <Select onChange={option => option ? onChangeProvider(option.value) : null}
-                                              options={PROVIDERS.map(s => ({
-                                                  value: s,
-                                                  label: I18n.t(`filters.providerValues.${s}`)
-                                              }))}
-                                              value={provider || PROVIDERS[0]}
-                                              searchable={false}
-                                              clearable={false}
+                                                options={PROVIDERS.map(s => ({
+                                                    value: s,
+                                                    label: I18n.t(`filters.providerValues.${s}`)
+                                                }))}
+                                                value={provider || PROVIDERS[0]}
+                                                searchable={false}
+                                                clearable={false}
                     />}
                     <span className="sub-title">{I18n.t("filters.state")}</span>
                     <Select onChange={option => option ? onChangeState(option.value) : null}
@@ -37,10 +45,10 @@ export default class Filters extends React.PureComponent {
                             clearable={false}
                     />
                     {displayUniques && <CheckBox name="uniques" value={uniques || false}
-                                               info={I18n.t("filters.uniques")}
-                                               onChange={onChangeUniques}
+                                                 info={I18n.t("filters.uniques")}
+                                                 onChange={onChangeUniques}
                     />}
-                </section>
+                </section>}
             </div>
         );
     }
