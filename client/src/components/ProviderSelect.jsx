@@ -12,7 +12,8 @@ export default function ProviderSelect({
     return (
         <section className="select-provider">
             <span className={`${first ? 'first ' : ''}sub-title`}>{I18n.t(`providers.${i18nKey}`)}</span>
-            <Select onChange={option => option ? onChange(option.value) : null}
+            <Select className={selectedProvider === "" ? "non-clearable" : ""}
+                    onChange={option => option ? onChange(option.value) : onChange("")}
                     options={[{value: "", label: I18n.t(`providers.all.${i18nKey}`)}]
                         .concat(providers.map(p => ({
                             value: p.id,
@@ -20,7 +21,7 @@ export default function ProviderSelect({
                         })))}
                     value={selectedProvider}
                     searchable={true}
-                    clearable={false}/>
+                    clearable={true}/>
             <CheckBox name={i18nKey} value={groupedBy}
                       info={I18n.t("providers.groupBy", {type: I18n.t(`providers.${i18nKey}`)})}
                       onChange={onChangeGroupBy}

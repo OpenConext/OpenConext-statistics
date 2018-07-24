@@ -116,8 +116,10 @@ export default class Live extends React.PureComponent {
 
     onChangeState = val => this.setState({data: [], providerState: val}, () => this.componentDidMount());
 
-    onChangeIdP = val => this.setState({data: [], idp: val, groupedByIdp: val === "" ? this.state.groupedByIdp : false},
-        () => this.componentDidMount());
+    onChangeIdP = val => {
+        this.setState({data: [], idp: val, groupedByIdp: val === "" ? this.state.groupedByIdp : false},
+            () => this.componentDidMount());
+    };
 
     onChangeScale = scale => {
         this.setState({

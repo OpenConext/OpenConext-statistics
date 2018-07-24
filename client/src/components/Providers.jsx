@@ -7,8 +7,15 @@ import CheckBox from "./CheckBox";
 import {CSVDownload} from "react-csv";
 
 export default class Providers extends React.PureComponent {
+    constructor() {
+        super();
+        this.state = {
+            displayDetails: true
+        };
+    }
 
     render() {
+        const {displayDetails} = this.state;
         const {
             onChangeIdp, onChangeSp, serviceProviders, identityProviders, sp, idp, aggregate, onChangeAggregate,
             groupedBySp, groupedByIdp, onChangeGroupBySp, onChangeGroupByIdp, download, matrix, onDownload
@@ -18,8 +25,11 @@ export default class Providers extends React.PureComponent {
         const check = (spSelect || idpSelect);
         return (
             <div className="providers">
-                <span className="title">{I18n.t("providers.title")}</span>
-                <section className="controls">
+                <span className="title"
+                      onClick={() => this.setState({displayDetails: !this.state.displayDetails})}>
+                    {I18n.t("providers.title")}
+                    </span>
+                {displayDetails && <section className="controls">
                     {check && <CheckBox name="aggregate" value={aggregate}
                                         info={I18n.t("providers.aggregate")}
                                         onChange={onChangeAggregate}/>}
@@ -43,9 +53,11 @@ export default class Providers extends React.PureComponent {
                                     aggregate={aggregate}
                                     onChangeGroupBy={onChangeGroupByIdp}
                     />}
-                    {<a href="/download" className="download button blue" onClick={onDownload}>{I18n.t("providers.matrix")}</a>}
-                    {download && <CSVDownload target="_parent" data={matrix} filename="sp-idp-matrix.csv"></CSVDownload>}
-                </section>
+                    {<a href="/download" className="download button blue"
+                        onClick={onDownload}>{I18n.t("providers.matrix")}</a>}
+                    {download &&
+                    <CSVDownload target="_parent" data={matrix} filename="sp-idp-matrix.csv"></CSVDownload>}
+                </section>}
             </div>
         );
     }
