@@ -37,10 +37,6 @@ def _influx_client():
     return client
 
 
-def _db_connection():
-    return pymysql.connect(host="localhost", user="root", password="", db="statsdb", charset="utf8mb4")
-
-
 def _serie_skeleton(measurement, _from, time):
     return {
         "measurement": measurement,
@@ -126,7 +122,7 @@ def import_history():
     now = datetime.datetime.now()
     logger.info(f"start importing at {now}")
 
-    con = _db_connection()
+    con = pymysql.connect(host="localhost", user="root", password="", db="statsdb", charset="utf8mb4")
     try:
         with con.cursor(pymysql.cursors.DictCursor) as cursor:
             cursor.execute("SELECT distinct(entityid) FROM statsview_sp")
