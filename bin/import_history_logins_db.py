@@ -37,8 +37,14 @@ def _influx_client():
     return client
 
 
-def _serie_skeleton(measurement, _from, time):
-    return {
+def append_chunk(serie, chunks):
+    chunks.append(serie)
+    if len(chunks) % 5000 is 0:
+        _write_to_influx(chunks)
+
+
+def _serie_skeleton(measurement, _from, time, row):
+    serie = {
         "measurement": measurement,
         "tags": {
             "year": f"{_from.year}"
@@ -46,12 +52,13 @@ def _serie_skeleton(measurement, _from, time):
         "fields": {},
         "time": time
     }
-
-
-def append_chunk(serie, chunks):
-    chunks.append(serie)
-    if len(chunks) % 5000 is 0:
-        _write_to_influx(chunks)
+    if "idp_entityid" in row:
+        serie["tags"]["idp_entity_id"] = row["idp_entityid"]
+    if "sp_entityid" in row:
+        serie["tags"]["sp_entity_id"] = row["sp_entityid"]
+    serie["tags"]["month"] = _from.month
+    serie["tags"]["quarter"] = math.floor((_from.month + 2) / 3)
+    return serie
 
 
 def _influx_serie(chunks, row, prefix, state, test_accepted_chunks={}):
@@ -60,11 +67,6 @@ def _influx_serie(chunks, row, prefix, state, test_accepted_chunks={}):
     measurement = f"{prefix}{prefix_state}_users_{period_type}"
     _from = row["period_from"]
     time = _local_seconds_to_utc_nano(_from) if period_type in ["day", "week"] else 0
-    serie = _serie_skeleton(measurement, _from, time)
-    if "idp_entityid" in row:
-        serie["tags"]["idp_entity_id"] = row["idp_entityid"]
-    if "sp_entityid" in row:
-        serie["tags"]["sp_entity_id"] = row["sp_entityid"]
 
     # we need to add the test_accepted value if it is not pa or ta
     addendum_logins = 0
@@ -77,16 +79,13 @@ def _influx_serie(chunks, row, prefix, state, test_accepted_chunks={}):
         elif state == "" and key in test_accepted_chunks:
             addendum_logins = test_accepted_chunks[key]
 
+    serie = _serie_skeleton(measurement, _from, time, row)
     serie["fields"]["count_user_id"] = row["logins"] + addendum_logins
-    serie["tags"]["month"] = _from.month
-    serie["tags"]["quarter"] = math.floor((_from.month + 2) / 3)
     if period_type == "day":
         serie["fields"]["distinct_count_user_id"] = row["users"]
     else:
-        unique_serie = _serie_skeleton(f"{measurement}_unique", _from, time)
+        unique_serie = _serie_skeleton(f"{measurement}_unique", _from, time, row)
         unique_serie["fields"]["distinct_count_user_id"] = row["users"]
-        unique_serie["tags"]["month"] = _from.month
-        unique_serie["tags"]["quarter"] = math.floor((_from.month + 2) / 3)
         append_chunk(unique_serie, chunks)
     append_chunk(serie, chunks)
 
