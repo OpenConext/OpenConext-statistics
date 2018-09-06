@@ -90,6 +90,8 @@ def last_login_providers(config, state=None, provider="sp"):
     return _query(q, group_by=True, epoch="ms")
 
 
+#TODO
+# We need to support hours & 1 minute group by against live measurements - max nbr of days is 7
 def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entity_id=None, sp_entity_id=None,
                         include_unique=True, epoch=None, state=None):
     measurement = _determine_measurement(config, idp_entity_id, sp_entity_id, scale, state)

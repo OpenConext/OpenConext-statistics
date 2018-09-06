@@ -21,11 +21,6 @@ export default function ProviderTable({data, modus, user}) {
         accessor: "state",
         maxWidth: 200
     }, {
-        Header: I18n.t("providerTable.logins"),
-        accessor: "count_user_id",
-        Cell: props => <span className="number">{modus === "newcomers" ? props.value : 0}</span>,
-        maxWidth: 165
-    }, {
         id: "date", // Required because this accessor is not a string
         Header: I18n.t(`providerTable.${modus}`),
         accessor: p => p.time ? moment(p.time).format() : I18n.t("providerTable.noTime"),

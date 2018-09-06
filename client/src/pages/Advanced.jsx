@@ -36,7 +36,7 @@ export default class Advanced extends React.PureComponent {
     }
 
     componentDidMount() {
-        const {from, to, provider, state, modus} = this.state;
+        const {from, to, provider, state, modus, managePresent} = this.state;
         this.setState({"loaded": false});
         const promise = modus === "newcomers" ?
             firstLoginTime({
@@ -66,7 +66,11 @@ export default class Advanced extends React.PureComponent {
                     p.state = state === "all" ? "" : state;
                 }
             });
-            this.setState({data: data, filteredData: data, loaded: true});
+            this.setState({
+                data: data,
+                filteredData: managePresent ? data.filter(entity => entity.manage_id) : data,
+                loaded: true
+            });
         });
     }
 
