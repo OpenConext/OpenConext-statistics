@@ -26,7 +26,7 @@ I18n.translations.en = {
             title: "All new {{provider}} from {{from}} until {{to}}"
         },
         unused: {
-            title: "All not used {{provider}} from {{from}} until {{to}}"
+            title: "All {{provider}} that were NOT used after {{from}}"
         },
     },
     providerTable: {
@@ -36,7 +36,8 @@ I18n.translations.en = {
         logins: "Number of logins",
         newcomers: "First login",
         unused: "Last login",
-        state: "State"
+        state: "State",
+        noTime: "Never"
     },
     navigation: {
         live: "Stats",
@@ -93,6 +94,10 @@ I18n.translations.en = {
         title: "Reporting",
         newcomers: "New providers",
         unused: "Unused providers"
+    },
+    managePresent: {
+        title: "Manage",
+        present: "Hide not present in Manage?"
     },
     chart: {
         title: "Logins and users per day",

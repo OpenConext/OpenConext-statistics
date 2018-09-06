@@ -125,6 +125,7 @@ class App extends React.PureComponent {
                                                       render={props =>
                                                           <Advanced serviceProvidersDict={serviceProvidersDict}
                                                                     identityProvidersDict={identityProvidersDict}
+                                                                    user={currentUser}
                                                                     {...props}/>}/>}
                         {!currentUser.guest && <Route path="/db"
                                                       render={props =>

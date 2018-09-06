@@ -5,11 +5,17 @@ import moment from "moment/moment";
 import I18n from "i18n-js";
 import "./ProviderTable.css";
 
-export default function ProviderTable({data, modus}) {
+export default function ProviderTable({data, modus, user}) {
     const columns = [{
         id: "name",
         Header: I18n.t("providerTable.name"),
-        accessor: "name"
+        accessor: "name",
+        Cell: props => {
+            const manage_id = props.original.manage_id;
+            return manage_id ? <a target="_blank"
+                                  href={`${user.manage_url}/metadata/saml20_sp/${manage_id}`}>{props.value}</a> :
+                <span className="invalid">{props.value}</span>
+        },
     }, {
         Header: I18n.t("providerTable.state"),
         accessor: "state",
@@ -22,7 +28,7 @@ export default function ProviderTable({data, modus}) {
     }, {
         id: "date", // Required because this accessor is not a string
         Header: I18n.t(`providerTable.${modus}`),
-        accessor: p => moment(p.time).format(),
+        accessor: p => p.time ? moment(p.time).format() : I18n.t("providerTable.noTime"),
         maxWidth: 200
     }];
 

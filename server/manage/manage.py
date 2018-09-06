@@ -19,8 +19,10 @@ def _data(entity_type, requested_fields=[]):
                 entity_id = data_["entityid"]
                 res = {"id": entity_id,
                        "state": data_["state"],
+                       "manage_id": provider["_id"],
                        "name_en": metadata["name:en"] if "name:en" in metadata else entity_id,
-                       "name_nl": metadata["name:nl"] if "name:nl" in metadata else entity_id}
+                       "name_nl": metadata["name:nl"] if "name:nl" in metadata else entity_id,
+                       "present_in_manage": True}
                 for field in requested_fields:
                     sub = field[len("metaDataFields."):]
                     if sub in metadata:

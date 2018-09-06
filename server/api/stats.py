@@ -28,6 +28,7 @@ def first_login_time():
     period = args.get("period")
     if period and not re.match(period_regex, period, re.IGNORECASE):
         raise ValueError(f"Invalid period {period}. Must match {period_regex}")
+
     from_arg = _parse_date("from", required=not period, message="Must either specify period or from and to")
     to_arg = _parse_date("to")
 
@@ -70,20 +71,23 @@ def last_login_time():
 
     last_logins = last_login_providers(current_app.app_config, **request_args)
     entity_ids = list(map(lambda p: p["sp_entity_id"] if provider == "sp" else p["idp_entity_id"], last_logins))
+
     manage_providers = [] if current_app.app_config.profile == "local" else service_providers() \
         if provider == "sp" else identity_providers()
 
     manage_providers = list(
         filter(lambda p: p["id"] not in entity_ids and (state == "all" or p["state"] == state), manage_providers))
+
     ft = int(from_arg) * 1000
+    # All logins before from
     last_logins_before_from = list(filter(lambda p: p["time"] < ft, last_logins))
 
     return manage_providers + last_logins_before_from, 200
 
 
 def _add_manage_metadata(value, provider):
-    return provider if provider else {"id": value, "state": None, "name_en": "Name EN: " + value,
-                                      "name_nl": "Name NL: " + value}
+    return provider if provider else {"id": value, "state": None, "name_en": value,
+                                                                         "name_nl": value, "present_in_manage": False}
 
 
 @stats_api.route("/database_stats", strict_slashes=False)
@@ -118,7 +122,7 @@ def identity_providers_data():
     idp_manage = [] if current_app.app_config.profile == "local" else identity_providers()
     idp_influx = identity_providers_tags(current_app.app_config.log.measurement, current_app.app_config.log.idp_id)
     idp_manage_dict = {idp["id"]: idp for idp in idp_manage}
-    return list(map(lambda idp: _add_manage_metadata(idp, idp_manage_dict[idp] if idp in idp_manage_dict else {}),
+    return list(map(lambda idp: _add_manage_metadata(idp, idp_manage_dict[idp] if idp in idp_manage_dict else None),
                     idp_influx)), 200
 
 
