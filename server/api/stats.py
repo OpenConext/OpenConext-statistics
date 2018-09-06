@@ -87,7 +87,7 @@ def last_login_time():
 
 def _add_manage_metadata(value, provider):
     return provider if provider else {"id": value, "state": None, "name_en": value,
-                                                                         "name_nl": value, "present_in_manage": False}
+                                      "name_nl": value, "present_in_manage": False}
 
 
 @stats_api.route("/database_stats", strict_slashes=False)
