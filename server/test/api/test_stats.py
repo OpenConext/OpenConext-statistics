@@ -25,32 +25,51 @@ class TestStats(AbstractTest):
     def test_service_providers(self):
         self.mock_manage(type="sp")
         json = self.get("service_providers")
-        self.assertListEqual([{"id": "https://sp/1", "name_en": "SP1-en", "name_nl": "SP1-nl", "state": "prodaccepted"},
-                              {"id": "https://sp/2", "name_en": "SP2-en", "name_nl": "SP2-nl", "state": "testaccepted"},
-                              {"id": "https://sp/3", "name_en": "SP3-en", "name_nl": "SP3-nl", "state": "prodaccepted"},
-                              {"id": "https://sp/4", "name_en": "Name EN: https://sp/4",
-                               "name_nl": "Name NL: https://sp/4", "state": None},
-                              {"id": "https://sp/5", "name_en": "Name EN: https://sp/5",
-                               "name_nl": "Name NL: https://sp/5", "state": None}], json)
+        self.assertListEqual([{"id": "https://sp/1", "manage_id": "2cc71508-1b68-4a3e-b553-f04b6b2a689c",
+                               "name_en": "SP1-en", "name_nl": "SP1-nl", "present_in_manage": True,
+                               "state": "prodaccepted"},
+                              {"id": "https://sp/2", "manage_id": "c9002374-7e5a-4c82-bb36-8c6ae47ed745",
+                               "name_en": "SP2-en", "name_nl": "SP2-nl", "present_in_manage": True,
+                               "state": "testaccepted"},
+                              {"id": "https://sp/3", "manage_id": "d4e7de27-c9af-4f80-8d1f-c0832225fa8c",
+                               "name_en": "SP3-en", "name_nl": "SP3-nl", "present_in_manage": True,
+                               "state": "prodaccepted"},
+                              {"id": "https://sp/4", "name_en": "https://sp/4", "name_nl": "https://sp/4",
+                               "present_in_manage": False, "state": None},
+                              {"id": "https://sp/5", "name_en": "https://sp/5", "name_nl": "https://sp/5",
+                               "present_in_manage": False, "state": None}], json)
 
     @responses.activate
     def test_identity_providers(self):
         self.mock_manage(type="idp")
         json = self.get("identity_providers")
         self.assertListEqual(
-            [{"id": "https://idp/1", "name_en": "IDP1-en", "name_nl": "IDP1-nl", "state": "prodaccepted"},
-             {"id": "https://idp/2", "name_en": "IDP2-en", "name_nl": "IDP2-nl", "state": "testaccepted"},
-             {"id": "https://idp/3", "name_en": "Name EN: https://idp/3", "name_nl": "Name NL: https://idp/3",
+            [{"id": "https://idp/1", "manage_id": "2cc71508-1b68-4a3e-b553-f04b6b2a689c", "name_en": "IDP1-en",
+              "name_nl": "IDP1-nl", "present_in_manage": True, "state": "prodaccepted"},
+             {"id": "https://idp/2", "manage_id": "c9002374-7e5a-4c82-bb36-8c6ae47ed745", "name_en": "IDP2-en",
+              "name_nl": "IDP2-nl", "present_in_manage": True, "state": "testaccepted"},
+             {"id": "https://idp/3", "name_en": "https://idp/3", "name_nl": "https://idp/3", "present_in_manage": False,
               "state": None}], json)
 
     @responses.activate
     def test_connected_identity_providers(self):
         self.mock_manage(type="idp")
         json = self.get("public/connected_identity_providers")
-        self.assertListEqual([{"coin:institution_type": "HBO", "coin:publish_in_edugain": "1", "id": "https://idp/1",
-                               "name_en": "IDP1-en", "name_nl": "IDP1-nl", "state": "prodaccepted"},
-                              {"coin:guest_qualifier": "None", "id": "https://idp/2", "name_en": "IDP2-en",
-                               "name_nl": "IDP2-nl", "state": "testaccepted"}], json)
+        self.assertListEqual([{"coin:institution_type": "HBO",
+                               "coin:publish_in_edugain": "1",
+                               "id": "https://idp/1",
+                               "manage_id": "2cc71508-1b68-4a3e-b553-f04b6b2a689c",
+                               "name_en": "IDP1-en",
+                               "name_nl": "IDP1-nl",
+                               "present_in_manage": True,
+                               "state": "prodaccepted"},
+                              {"coin:guest_qualifier": "None",
+                               "id": "https://idp/2",
+                               "manage_id": "c9002374-7e5a-4c82-bb36-8c6ae47ed745",
+                               "name_en": "IDP2-en",
+                               "name_nl": "IDP2-nl",
+                               "present_in_manage": True,
+                               "state": "testaccepted"}], json)
 
     def test_identity_providers_local(self):
         current_app.app_config["profile"] = "local"
@@ -80,12 +99,13 @@ class TestStats(AbstractTest):
     def test_last_login_time(self):
         self.mock_manage(type="sp", file="mock/manage_metadata_sp_no_logins.json")
         json = self.get("last_login_time", query_data={"from": "2018-01-01", "state": "prodaccepted", "provider": "sp"})
-        self.assertListEqual(
-            [{"id": "https://sp/no_logins", "name_en": "SP1-en", "name_nl": "SP1-nl", "state": "prodaccepted"},
-             {"count_user_id": 1, "distinct_count_user_id": 1, "month": "9", "quarter": "3",
-              "sp_entity_id": "https://sp/5", "time": 1505260800000, "year": "2017"},
-             {"count_user_id": 1, "distinct_count_user_id": 1, "month": "10", "quarter": "4",
-              "sp_entity_id": "https://sp/1", "time": 1509235200000, "year": "2017"}], json)
+        self.assertListEqual([{'id': 'https://sp/no_logins', 'manage_id': '2cc71508-1b68-4a3e-b553-f04b6b2a689c',
+                               'name_en': 'SP1-en', 'name_nl': 'SP1-nl', 'present_in_manage': True,
+                               'state': 'prodaccepted'},
+                              {'count_user_id': 1, 'distinct_count_user_id': 1, 'month': '9', 'quarter': '3',
+                               'sp_entity_id': 'https://sp/5', 'time': 1505260800000, 'year': '2017'},
+                              {'count_user_id': 1, 'distinct_count_user_id': 1, 'month': '10', 'quarter': '4',
+                               'sp_entity_id': 'https://sp/1', 'time': 1509235200000, 'year': '2017'}], json)
 
     def test_last_login_invalid_from(self):
         self.get("last_login_time", query_data={}, response_status_code=500)
