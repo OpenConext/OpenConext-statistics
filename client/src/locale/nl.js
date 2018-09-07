@@ -37,7 +37,8 @@ I18n.translations.nl = {
         logins: "Number of logins",
         newcomers: "Eerste login",
         unused: "Laatste login",
-        state: "State"
+        state: "State",
+        noTime: "Nooit"
     },
     navigation: {
         live: "Stats",
@@ -61,7 +62,6 @@ I18n.translations.nl = {
         availability: "Beschikbaarheid SURFconext",
         connectedIdentityProviders: "List of connected Identity Providers",
     },
-
     providers: {
         title: "Instellingen",
         sp: "Diensten",
@@ -96,7 +96,10 @@ I18n.translations.nl = {
         newcomers: "Nieuwe providers",
         unused: "Ongebruikte providers"
     },
-
+    managePresent: {
+        title: "Manage",
+        present: "Verberg diensten niet in Manage?"
+    },
     chart: {
         title: "Logins en gebruikers per dag",
         userCount: "Totale logins",
