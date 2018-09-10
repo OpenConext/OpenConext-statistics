@@ -100,7 +100,6 @@ class TestStats(AbstractTest):
     def test_last_login_time(self):
         self.mock_manage(type="sp", file="mock/manage_metadata_sp_no_logins.json")
         json = self.get("last_login_time", query_data={"from": "2018-01-01", "state": "prodaccepted", "provider": "sp"})
-        print(json)
         self.assertListEqual([{'id': 'https://sp/no_logins', 'manage_id': '2cc71508-1b68-4a3e-b553-f04b6b2a689c',
                                'name_en': 'SP1-en', 'name_nl': 'SP1-nl', 'present_in_manage': True,
                                'state': 'prodaccepted'},
