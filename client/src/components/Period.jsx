@@ -9,7 +9,7 @@ import "react-select/dist/react-select.css";
 import "./Period.css";
 import moment from "moment";
 import {isEmpty} from "../utils/Utils";
-import {allowedAggregatedScales, defaultScales} from "../utils/Time";
+import {allowedAggregatedScales, defaultScales, getDateTimeFormat} from "../utils/Time";
 
 export default class Period extends React.PureComponent {
 
@@ -24,7 +24,7 @@ export default class Period extends React.PureComponent {
             return;
         }
         if (!isEmpty(this.props.allowedScales || isEmpty(this.props[propertyName]))) {
-            propCallback(val.utc().startOf("day"));
+            propCallback(val.startOf("day"));
             return;
         }
         const {scale, onChangeScale} = this.props;
@@ -49,7 +49,7 @@ export default class Period extends React.PureComponent {
         if (newScale !== scale) {
             onChangeScale(newScale);
         }
-        propCallback(val.utc().startOf("day"));
+        propCallback(val.startOf("day"));
     };
 
 
@@ -62,7 +62,8 @@ export default class Period extends React.PureComponent {
         } else {
             scales = allowedScales;
         }
-        const fromTitle = I18n.t(isEmpty(allowedScales) ? "period.date" : "period.from");
+        const fromTitle = I18n.t(aggregate ? "period.date" : "period.from");
+        const dateFormat =  aggregate ? getDateTimeFormat(scale || "day") : "L";
         return (
             <div className="period">
                 <span className={`title ${displayDetails ? "" : "hide"} `}
@@ -75,10 +76,10 @@ export default class Period extends React.PureComponent {
                         onChange={this.invariant(onChangeFrom, "from")}
                         showYearDropdown
                         showMonthDropdown
-                        utcOffset={moment().utcOffset() / 60}
                         todayButton={I18n.t("period.today")}
                         maxDate={to}
                         disabled={disabled.indexOf("from") > -1}
+                        dateFormat={dateFormat}
                     />
                     <span key="1" className="sub-title">{I18n.t("period.to")}</span>
                     <DatePicker key="2"
@@ -86,9 +87,9 @@ export default class Period extends React.PureComponent {
                                 showYearDropdown
                                 showMonthDropdown
                                 onChange={this.invariant(onChangeTo, "to")}
-                                minDate={from}
+                                minDate={moment(from).add(1, "day")}
                                 todayButton={I18n.t("period.today")}
-                                maxDate={moment().utc().add(1, "day")}
+                                maxDate={moment().add(1, "day")}
                                 disabled={aggregate || disabled.indexOf("to") > -1}
                     />
                     <span className="sub-title">{I18n.t("period.scale")}</span>

@@ -57,6 +57,9 @@ def drop_measurements_and_cq(main_measurement, database):
 
 
 def _determine_measurement(config, idp_entity_id, sp_entity_id, measurement_scale, state, group_by=None):
+    if measurement_scale in ["minute", "hour"]:
+        return config.log.measurement
+
     include_sp = sp_entity_id or (group_by and config.log.sp_id in group_by)
     include_idp = idp_entity_id or (group_by and config.log.idp_id in group_by)
 
@@ -90,13 +93,13 @@ def last_login_providers(config, state=None, provider="sp"):
     return _query(q, group_by=True, epoch="ms")
 
 
-# TODO
-# We need to support hours & 1 minute group by against live measurements - max nbr of days is 7
-# Select count(*) from eb_logins_tst where time > 1522110440888744192 group by time(5m)
 def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entity_id=None, sp_entity_id=None,
                         include_unique=True, epoch=None, state=None):
     measurement = _determine_measurement(config, idp_entity_id, sp_entity_id, scale, state)
-    q = f"select * from {measurement} where 1=1"
+    if scale in ["minute", "hour"]:
+        q = f"select count(user_id) as count_user_id from {measurement} where 1=1"
+    else:
+        q = f"select * from {measurement} where 1=1"
     needs_grouping = scale in GROUPING_SCALES
 
     if not needs_grouping:
@@ -105,12 +108,17 @@ def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entit
     q += f" and {config.log.sp_id} = '{sp_entity_id}'" if sp_entity_id else ""
     q += f" and {config.log.idp_id} = '{idp_entity_id}'" if idp_entity_id else ""
 
+    # we don't have aggregated measurements for these
+    if scale in ["minute", "hour"]:
+        time_scale = "1m" if scale == "minute" else "1h"
+        q += f" group by time({time_scale})"
+
     records = _query(q, epoch=epoch)
     # the actual time for non-supported date literals is nonsense in the influx database
     if needs_grouping:
         records = filter_time(from_seconds, to_seconds, adjust_time(records, epoch))
 
-    if include_unique and scale != "minute":
+    if include_unique and scale not in ["minute", "hour"]:
         q = q.replace(f"from {measurement}",
                       f"from {measurement}_unique")
         unique_records = _query(q, epoch=epoch)

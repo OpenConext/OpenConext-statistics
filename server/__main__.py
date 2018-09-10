@@ -78,7 +78,7 @@ series = list(filter(lambda s: s["name"] == db_name,
                      result_set.raw["series"] if "series" in result_set.raw else []))
 
 
-if (is_test) and (len(series) == 0 or "values" not in series[0] or len(series[0]["values"]) < 15):
+if is_test and (len(series) == 0 or "values" not in series[0] or len(series[0]["values"]) < 15):
     now = datetime.datetime.now()
     logger.info(f"start back-filling {now}")
     backfill_login_measurements(config, app.influx_client)

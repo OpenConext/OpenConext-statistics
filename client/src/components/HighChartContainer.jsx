@@ -5,6 +5,7 @@ export default class HighChartContainer extends React.Component {
 
     componentDidMount() {
         const {highcharts, constructorType = "chart", options} = this.props;
+        options.time = {timezoneOffset: new Date().getTimezoneOffset()}
         this.chart = highcharts[constructorType](this.container, options)
     }
 

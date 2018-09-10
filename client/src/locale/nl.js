@@ -51,7 +51,8 @@ I18n.translations.nl = {
         title:"Alle measurements in {{db}}. De live measurement is {{measurement}}. Ophalen van de data duurde ~{{time}} seconden.",
         loading: "Ophalen metadata. Dit duurt lang...",
         name: "Naam",
-        records: "# Series"
+        records: "# Series",
+        timeout: "Timeout"
     },
     export: {
         downloadCSV: "Download als CSV",
@@ -60,7 +61,7 @@ I18n.translations.nl = {
     },
     index: {
         availability: "Beschikbaarheid SURFconext",
-        connectedIdentityProviders: "List of connected Identity Providers",
+        connectedIdentityProviders: "List of connected Identity GroupBy",
     },
     providers: {
         title: "Instellingen",
@@ -112,9 +113,8 @@ I18n.translations.nl = {
         uniqueLogins: "Unieke logins"
     },
     live: {
-        chartTitle: "Totale logins van {{from}} tot {{to}} gegroepeerd op {{scale}}",
-        aggregatedChartTitle: "Geaggregeerde logins van {{from}} tot {{to}}",
-        aggregatedChartTitlePeriod: "Geaggregeerde logins in de periode {{period}}"
+        chartTitle: "Logins van {{from}} tot {{to}} gegroepeerd op {{scale}}",
+        aggregatedChartTitlePeriod: "Logins in de periode {{period}} gegroepeerd op {{group}}"
     },
     filters: {
         title: "Filters",
@@ -126,8 +126,8 @@ I18n.translations.nl = {
         },
         provider: "Entity type",
         providerValues: {
-            sp: "Service Providers",
-            idp: "Identity Providers"
+            sp: "Service GroupBy",
+            idp: "Identity GroupBy"
         },
         uniques: "Inclusief unieke gebruikers"
     },
@@ -143,7 +143,7 @@ I18n.translations.nl = {
         totalNonMembers: "Total: {{count}} non-member / guest organizations",
         guest: "non-member / guest organizations",
         nonMember: "non-member IdP",
-        notFullMembers: "There are a number of Identity Providers available in SURFconext that are not full members of the federation. The following IdPs and organization can only use a limited set of services (which set may differ per IdP). They will not be published in eduGAIN.",
+        notFullMembers: "There are a number of Identity GroupBy available in SURFconext that are not full members of the federation. The following IdPs and organization can only use a limited set of services (which set may differ per IdP). They will not be published in eduGAIN.",
         footer: "For technical details about connected IdPs please refer to <a href=\"https://engine.surfconext.nl/\" target=\"_blank\">our IdPs metadata</a>. For more information about SURFconext please see www.surfconext.nl."
     },
 

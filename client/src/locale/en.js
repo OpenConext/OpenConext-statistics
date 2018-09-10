@@ -50,7 +50,8 @@ I18n.translations.en = {
         title:"All measurements from database {{db}}. The live measurement is named {{measurement}}. Loading took ~{{time}} seconds.",
         loading: "Fetch metadata. This takes time...",
         name: "Name",
-        records: "# Series"
+        records: "# Series",
+        timeout: "Timeout"
     },
     export: {
         downloadCSV: "Download as CSV",
@@ -62,7 +63,7 @@ I18n.translations.en = {
         connectedIdentityProviders: "List of connected Identity Providers",
     },
     providers: {
-        title: "Providers",
+        title: "Group By",
         sp: "Services",
         idp: "Institutions",
         all: {
@@ -111,9 +112,8 @@ I18n.translations.en = {
         uniqueLogins: "Unique logins"
     },
     live: {
-        chartTitle: "Total logins from {{from}} until {{to}} grouped by {{scale}}",
-        aggregatedChartTitle: "Aggregated logins from {{from}} until {{to}}",
-        aggregatedChartTitlePeriod: "Aggregated logins for the period {{period}}"
+        chartTitle: "Logins from {{from}} until {{to}} grouped by {{scale}}",
+        aggregatedChartTitlePeriod: "Logins in the period {{period}} grouped by {{group}}"
     },
     filters: {
         title: "Filters",

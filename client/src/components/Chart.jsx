@@ -69,6 +69,7 @@ export default class Chart extends React.PureComponent {
             yAxis: {
                 title: {text: "Logins"},
                 labels: {},
+                min: 0,
                 plotLines: [{
                     value: 0,
                     width: 2,

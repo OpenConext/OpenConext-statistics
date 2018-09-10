@@ -14,11 +14,11 @@ def main(host="localhost", port=8086, username="", password=""):
         _drop = f"drop continuous query {cq} on {db_name}"
         client.query(_drop)
         logger.info(_drop)
-    measurements = list(map(lambda m: m["name"], client.get_list_measurements()))
-    for m in measurements:
-        if m != "eb_logins_tst" or drop_main_measurement:
-            logger.info(f"dropping measurement {m}")
-            client.drop_measurement(m)
+    # measurements = list(map(lambda m: m["name"], client.get_list_measurements()))
+    # for m in measurements:
+    #     if m != "eb_logins_tst" or drop_main_measurement:
+    #         logger.info(f"dropping measurement {m}")
+    #         client.drop_measurement(m)
 
 
 if __name__ == "__main__":

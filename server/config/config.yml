@@ -1,6 +1,6 @@
 database:
-#  name: eb_logs_poc
-  name: dry_run
+  name: eb_logs_poc
+#  name: dry_run
   host: localhost
   port: 8086
   username: ""

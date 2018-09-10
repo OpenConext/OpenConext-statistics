@@ -14,9 +14,20 @@ export function getPeriod(m, scale) {
             return undefined;
     }
 }
-
-export const defaultScales = ["year", "quarter", "month", "week", "day"];
-// export const defaultScales = ["year", "quarter", "month", "week", "day", "hour", "minute"];
+export function getDateTimeFormat(scale) {
+    switch (scale) {
+        case "month":
+            return "YYYY MMMM"
+        case "quarter":
+            return "YYYY qQ"
+        case "year":
+            return "YYYY";
+        default:
+            return "L";
+    }
+}
+// export const defaultScales = ["year", "quarter", "month", "week", "day"];
+export const defaultScales = ["year", "quarter", "month", "week", "day", "hour", "minute"];
 
 export const allowedAggregatedScales = ["year", "quarter", "month", "week", "day"];
 

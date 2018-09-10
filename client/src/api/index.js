@@ -44,11 +44,11 @@ function validFetch(path, options, headers = {}, showErrorDialog = true) {
     });
     spinner.start();
     return fetch(path, fetchOptions)
+        .then(validateResponse(showErrorDialog))
         .catch(err => {
             spinner.stop();
             throw err;
-        })
-        .then(validateResponse(showErrorDialog));
+        });
 }
 
 function fetchJson(path, options = {}, headers = {}, showErrorDialog = true) {

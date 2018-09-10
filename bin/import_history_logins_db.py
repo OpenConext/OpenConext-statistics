@@ -30,7 +30,7 @@ def _local_seconds_to_utc_nano(dt):
 
 
 def _influx_client():
-    db_name = "dry_run"  # "eb_logs_test"  # "eb_logs_poc"
+    db_name = "eb_logs_poc"
     client = InfluxDBClient(host="localhost", port=8086, username="", password="", database=db_name,
                             timeout=60 * 60, retries=10)
     client.switch_database(db_name)

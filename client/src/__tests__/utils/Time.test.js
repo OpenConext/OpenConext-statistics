@@ -2,7 +2,7 @@ import {getPeriod} from "../../utils/Time";
 import moment from "moment";
 
 function doTest(year, month, day, scale, expected) {
-    const period = getPeriod(moment(new Date(Date.UTC(year, month, day))), scale);
+    const period = getPeriod(moment(new Date(year, month, day)), scale);
     expect(period).toBe(expected);
 }
 

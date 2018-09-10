@@ -25,7 +25,6 @@ import * as HighStock from "highcharts/highstock"
 
     I18n.locale = parameterByName;
     moment.locale(I18n.locale);
-    moment().utc();
     HighChart.setOptions({
         lang: {
             months: moment.months(),

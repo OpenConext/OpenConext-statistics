@@ -22,10 +22,10 @@ export default class Advanced extends React.PureComponent {
         this.state = {
             data: [],
             filteredData: [],
-            from: moment().utc().startOf("quarter"),
-            to: moment().utc().add(1, "day").startOf("day"),
-            // from: moment().utc().year(2015).startOf("year"),
-            // to: moment().utc().year(2015).endOf("year"),
+            from: moment().startOf("quarter"),
+            to: moment().add(1, "day").startOf("day"),
+            // from: moment().year(2015).startOf("year"),
+            // to: moment().year(2015).endOf("year"),
             scale: "none",
             provider: "sp",
             state: "prodaccepted",
@@ -40,13 +40,13 @@ export default class Advanced extends React.PureComponent {
         this.setState({"loaded": false});
         const promise = modus === "newcomers" ?
             firstLoginTime({
-                from: from.utc().unix(),
-                to: to.utc().unix(),
+                from: from.unix(),
+                to: to.unix(),
                 state: state,
                 provider: provider
             }) :
             lastLoginTime({
-                from: from.utc().unix(),
+                from: from.unix(),
                 state: state,
                 provider: provider
 
@@ -76,8 +76,8 @@ export default class Advanced extends React.PureComponent {
 
     toggleModus = val => this.setState({
         modus: val ? "newcomers" : "unused",
-        from: moment().utc().startOf("quarter"),
-        to: moment().utc().add(1, "day").startOf("day")
+        from: moment().startOf("quarter"),
+        to: moment().add(1, "day").startOf("day")
     }, () => this.componentDidMount());
 
     toggleManagePresent = val => {
@@ -101,12 +101,12 @@ export default class Advanced extends React.PureComponent {
             if (this.state.modus === "newcomers") {
                 const {from} = this.state;
                 const to = moment(from);
-                to.utc().endOf(scale);
-                from.utc().startOf(scale);
+                to.endOf(scale);
+                from.startOf(scale);
                 this.setState({scale: scale, to: to, from: from}, () => this.componentDidMount());
             } else {
                 const {from} = this.state;
-                from.utc().startOf(scale);
+                from.startOf(scale);
                 this.setState({scale: scale, from: from}, () => this.componentDidMount());
             }
         } else {

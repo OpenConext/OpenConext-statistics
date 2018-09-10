@@ -38,30 +38,35 @@ export default class DB extends React.PureComponent {
             series: [],
             config: {},
             loaded: false,
-            time: undefined
+            time: undefined,
+            error: false
         };
     }
 
     componentDidMount() {
         const now = moment();
-        databaseStats().then(data => this.setState({
-            series: data.filter(s => s.name),
-            config: data.filter(s => s.config)[0].config,
-            loaded: true,
-            time: Math.ceil((moment() - now) / 1000)
-        }));
+        databaseStats()
+            .then(data => this.setState({
+                series: data.filter(s => s.name),
+                config: data.filter(s => s.config)[0].config,
+                loaded: true,
+                time: Math.ceil((moment() - now) / 1000)
+            })).catch(err => this.setState({error: true, loaded: true}));
     }
 
     render() {
-        const {series, config, loaded, time} = this.state;
+        const {series, config, loaded, time, error} = this.state;
+        const loadedOk = loaded && !error;
         return (
             <div className="db">
                 {!loaded && <section className="loading">
                     <em>{I18n.t("db.loading")}</em>
                     <i className="fa fa-refresh fa-spin fa-2x fa-fw"></i>
                 </section>}
-
-                {loaded &&
+                {!loadedOk && <section>
+                    <h1 className="error">{I18n.t("db.timeout")}</h1>
+                </section>}
+                {loadedOk &&
                 <section className="content">
                     <span className="title">{I18n.t("db.title", {
                         db: config.database,

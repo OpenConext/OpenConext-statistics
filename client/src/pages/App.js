@@ -67,27 +67,26 @@ class App extends React.PureComponent {
         if (location.href.indexOf("error") > -1) {
             this.setState({loading: false});
         } else {
-            me().catch(() => this.handleBackendDown())
-                .then(currentUser => {
-                    if (currentUser && currentUser.uid) {
-                        this.setState({currentUser: currentUser, loading: false},
-                            () => !currentUser.guest && Promise.all([identityProviders(), serviceProviders()]).then(res =>
-                                this.setState({
-                                    allIdentityProviders: res[0], allServiceProviders: res[1],
-                                    identityProvidersDict: res[0].reduce((acc, p) => {
-                                        acc[p.id] = p;
-                                        return acc;
-                                    }, {}),
-                                    serviceProvidersDict: res[1].reduce((acc, p) => {
-                                        acc[p.id] = p;
-                                        return acc;
-                                    }, {})
-                                })
-                            ));
-                    } else {
-                        this.handleBackendDown();
-                    }
-                });
+            me().then(currentUser => {
+                if (currentUser && currentUser.uid) {
+                    this.setState({currentUser: currentUser, loading: false},
+                        () => !currentUser.guest && Promise.all([identityProviders(), serviceProviders()]).then(res =>
+                            this.setState({
+                                allIdentityProviders: res[0], allServiceProviders: res[1],
+                                identityProvidersDict: res[0].reduce((acc, p) => {
+                                    acc[p.id] = p;
+                                    return acc;
+                                }, {}),
+                                serviceProvidersDict: res[1].reduce((acc, p) => {
+                                    acc[p.id] = p;
+                                    return acc;
+                                }, {})
+                            })
+                        ));
+                } else {
+                    this.handleBackendDown();
+                }
+            }).catch(() => this.handleBackendDown());
         }
     }
 

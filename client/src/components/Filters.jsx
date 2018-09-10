@@ -21,12 +21,42 @@ export default class Filters extends React.PureComponent {
 
     render() {
         const {displayDetails} = this.state;
-        const {displayProvider, onChangeProvider, provider, onChangeState, state, onChangeUniques, uniques, displayUniques} = this.props;
+        const {
+            displayProvider, onChangeProvider, provider, onChangeState, state, onChangeUniques, uniques, displayUniques,
+            onChangeSp, onChangeIdp, sp, idp, serviceProviders, identityProviders
+        } = this.props;
         return (
             <div className="filters">
                 <span className={`title ${displayDetails ? "" : "hide"} `}
                       onClick={() => this.setState({displayDetails: !this.state.displayDetails})}>{I18n.t("filters.title")}</span>
                 {displayDetails && <section className="controls">
+                    {onChangeSp && <div>
+                        <span className="first sub-title">{I18n.t("providers.sp")}</span>
+                        <Select className={`${sp ? "" : "select-all"}`}
+                            onChange={option => option ? onChangeSp(option.value) : onChangeSp("")}
+                                options={[{value: "", label: I18n.t("providers.all.sp")}]
+                                    .concat(serviceProviders.map(p => ({
+                                        value: p.id,
+                                        label: I18n.locale === "en" ? p.name_en : p.name_nl || p.id
+                                    })))}
+                                value={sp || ""}
+                                searchable={true}
+                                clearable={true}/>
+                    </div>}
+                    {onChangeIdp && <div>
+                        <span className="sub-title">{I18n.t("providers.idp")}</span>
+                        <Select className={`${idp ? "" : "select-all"}`}
+                                onChange={option => option ? onChangeIdp(option.value) : onChangeIdp("")}
+                                options={[{value: "", label: I18n.t("providers.all.idp")}]
+                                    .concat(identityProviders.map(p => ({
+                                        value: p.id,
+                                        label: I18n.locale === "en" ? p.name_en : p.name_nl || p.id
+                                    })))}
+                                value={idp || ""}
+                                searchable={true}
+                                clearable={true}/>
+                    </div>}
+
                     {displayProvider && <span className="sub-title">{I18n.t("filters.provider")}</span>}
                     {displayProvider && <Select onChange={option => option ? onChangeProvider(option.value) : null}
                                                 options={PROVIDERS.map(s => ({
@@ -62,5 +92,11 @@ Filters.propTypes = {
     state: PropTypes.string,
     onChangeUniques: PropTypes.func,
     uniques: PropTypes.bool,
-    displayUniques: PropTypes.bool
+    displayUniques: PropTypes.bool,
+    onChangeSp: PropTypes.func,
+    onChangeIdp: PropTypes.func,
+    serviceProviders: PropTypes.array,
+    identityProviders: PropTypes.array,
+    sp: PropTypes.string,
+    idp: PropTypes.string
 };
