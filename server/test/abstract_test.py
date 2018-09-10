@@ -18,6 +18,7 @@ class AbstractTest(TestCase):
 
         config = app.app_config
         config["profile"] = None
+        config["manage"]["mock"] = False
         config.test = True
         db = app.influx_client
 
