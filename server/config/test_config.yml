@@ -26,3 +26,4 @@ manage:
   url: https://manage.example.surfconext.nl
   user: user
   password: secret
+  mock: False

@@ -36,7 +36,7 @@ def service_providers():
 
 
 def identity_providers():
-    return _data("idp")
+    return _data("idp", ["metaDataFields.coin:institution_type"])
 
 
 def connected_identity_providers():

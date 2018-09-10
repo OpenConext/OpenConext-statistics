@@ -22,17 +22,19 @@ export default class Live extends React.PureComponent {
             data: [],
             // from: moment().subtract(31, "day").startOf("day"),
             // to: moment().add(1, "day").startOf("day"),
-            from: moment().subtract(31, "day").subtract(1,"year").startOf("day"),
-            to: moment().add(1, "day").subtract(1,"year").startOf("day"),
+            from: moment().subtract(31, "day").subtract(1, "year").startOf("day"),
+            to: moment().add(1, "day").subtract(1, "year").startOf("day"),
             scale: "day",
             sp: undefined,
             idp: undefined,
+            institutionType: undefined,
             groupedByIdp: false,
             groupedBySp: false,
             includeUniques: !this.props.user.guest,
             providerState: "all",
             download: false,
             matrix: [],
+
         };
     }
 
@@ -111,6 +113,8 @@ export default class Live extends React.PureComponent {
 
     onChangeSp = val => this.setState({data: [], sp: val}, () => this.componentDidMount());
 
+    onChangeInstitutionType = val => this.setState({institutionType: val});
+
     onChangeState = val => this.setState({data: [], providerState: val}, () => this.componentDidMount());
 
     onChangeIdP = val => this.setState({data: [], idp: val}, () => this.componentDidMount());
@@ -146,7 +150,8 @@ export default class Live extends React.PureComponent {
 
     onChangeGroupByIdp = e => this.setState({
         data: [], groupedByIdp: e.target.checked,
-        groupedBySp: false
+        groupedBySp: false,
+        institutionType: "",
     }, () => this.componentDidMount());
 
     onDownload = e => {
@@ -159,7 +164,7 @@ export default class Live extends React.PureComponent {
     };
 
     title = (from, to, aggregate, groupedBySp, groupedByIdp, scale) => {
-        const format = scale === "minute" || scale === "hour" ? "L": "L";//'MMMM Do YYYY, h:mm:ss a'
+        const format = scale === "minute" || scale === "hour" ? "L" : "L";//'MMMM Do YYYY, h:mm:ss a'
         if (!aggregate) {
             return I18n.t("live.chartTitle", {
                 from: from.format(format),
@@ -176,9 +181,14 @@ export default class Live extends React.PureComponent {
     };
 
     render() {
-        const {data, from, to, scale, sp, idp, groupedByIdp, groupedBySp, providerState, includeUniques, download, matrix} = this.state;
+        const {data, from, to, scale, sp, idp, groupedByIdp, groupedBySp, providerState, includeUniques, download, matrix, institutionType} = this.state;
         const aggregate = groupedByIdp || groupedBySp;
         const {identityProviders, serviceProviders, user, identityProvidersDict, serviceProvidersDict} = this.props;
+        let dataForChart = data;
+        if (!isEmpty(institutionType)){
+            const entityIds = identityProviders.filter(idp => idp["coin:institution_type"] === institutionType).map(idp => idp.id);
+            dataForChart = data.filter(idp => entityIds.indexOf(idp["idp_entity_id"]) > -1);
+        }
         return (
             <div className="live">
                 <section className="container">
@@ -206,9 +216,12 @@ export default class Live extends React.PureComponent {
                                              identityProviders={identityProviders}
                                              serviceProviders={serviceProviders}
                                              idp={idp}
-                                             sp={sp}/>}
+                                             sp={sp}
+                                             onChangeInstitutionType={this.onChangeInstitutionType}
+                                             institutionType={institutionType}
+                                             groupedByIdp={groupedByIdp}/>}
                 </section>
-                <Chart data={data}
+                <Chart data={dataForChart}
                        scale={scale}
                        includeUniques={includeUniques}
                        title={this.title(from, to, aggregate, groupedBySp, groupedByIdp, scale)}

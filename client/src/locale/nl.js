@@ -48,7 +48,7 @@ I18n.translations.nl = {
         db: "DB"
     },
     db: {
-        title:"Alle measurements in {{db}}. De live measurement is {{measurement}}. Ophalen van de data duurde ~{{time}} seconden.",
+        title: "Alle measurements in {{db}}. De live measurement is {{measurement}}. Ophalen van de data duurde ~{{time}} seconden.",
         loading: "Ophalen metadata. Dit duurt lang...",
         name: "Naam",
         records: "# Series",
@@ -66,10 +66,12 @@ I18n.translations.nl = {
     providers: {
         title: "Instellingen",
         sp: "Diensten",
+        institution_type: "Type instelling",
         idp: "Instellingen",
         all: {
             sp: "Alle Diensten",
-            idp: "Alle Instellingen"
+            idp: "Alle Instellingen",
+            idp_type: "Alle types"
         },
         aggregate: "Aggregeer",
         groupBy: "Groepeer per {{type}}",

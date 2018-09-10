@@ -72,7 +72,7 @@ def last_login_time():
     last_logins = last_login_providers(current_app.app_config, **request_args)
     entity_ids = list(map(lambda p: p["sp_entity_id"] if provider == "sp" else p["idp_entity_id"], last_logins))
 
-    manage_providers = [] if current_app.app_config.profile == "local" else service_providers() \
+    manage_providers = [] if current_app.app_config.manage.get("mock", False) else service_providers() \
         if provider == "sp" else identity_providers()
 
     manage_providers = list(
@@ -108,7 +108,7 @@ def drop_measurements():
 @stats_api.route("/service_providers", strict_slashes=False)
 @json_endpoint
 def service_provider_data():
-    sp_manage = [] if current_app.app_config.profile == "local" else service_providers()
+    sp_manage = [] if current_app.app_config.manage.get("mock", False) else service_providers()
     sp_influx = service_providers_tags(current_app.app_config.log.measurement, current_app.app_config.log.sp_id)
     sp_manage_dict = {sp["id"]: sp for sp in sp_manage}
     return list(
@@ -119,7 +119,7 @@ def service_provider_data():
 @stats_api.route("/identity_providers", strict_slashes=False)
 @json_endpoint
 def identity_providers_data():
-    idp_manage = [] if current_app.app_config.profile == "local" else identity_providers()
+    idp_manage = [] if current_app.app_config.manage.get("mock", False) else identity_providers()
     idp_influx = identity_providers_tags(current_app.app_config.log.measurement, current_app.app_config.log.idp_id)
     idp_manage_dict = {idp["id"]: idp for idp in idp_manage}
     return list(map(lambda idp: _add_manage_metadata(idp, idp_manage_dict[idp] if idp in idp_manage_dict else None),

@@ -65,10 +65,12 @@ I18n.translations.en = {
     providers: {
         title: "Group By",
         sp: "Services",
+        institution_type: "Institution type",
         idp: "Institutions",
         all: {
             sp: "All Services",
-            idp: "All Institutions"
+            idp: "All Institutions",
+            idp_type: "All types"
         },
         aggregate: "Aggregate",
         groupBy: "Group by {{type}}",
