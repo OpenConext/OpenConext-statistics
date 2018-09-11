@@ -5,7 +5,7 @@ import "./GroupBy.css";
 import Select from "react-select";
 import CheckBox from "./CheckBox";
 import {CSVDownload} from "react-csv";
-import {allowedGroupByPeriodScales} from "../utils/Time";
+import {getGroupByPeriod} from "../utils/Time";
 
 export default class GroupBy extends React.PureComponent {
     constructor() {
@@ -19,7 +19,7 @@ export default class GroupBy extends React.PureComponent {
         const {displayDetails} = this.state;
         const {
             groupedBySp, groupedByIdp, onChangeGroupBySp, onChangeGroupByIdp, download, matrix, onDownload,
-            groupByScale, onChangeGroupByScale, groupByScaleEnabled
+            groupByScale, onChangeGroupByScale, groupByScaleEnabled, timeFrame
         } = this.props;
         return (
             <div className="providers">
@@ -40,7 +40,7 @@ export default class GroupBy extends React.PureComponent {
                             onChange={option => option ? onChangeGroupByScale(option.value) : onChangeGroupByScale("")}
                             options={[{value: "", label: I18n.t("providers.scale.none")}]
                                 .concat(
-                                    allowedGroupByPeriodScales.map(s => ({value: s, label: I18n.t(`period.${s}`)})))}
+                                    getGroupByPeriod(timeFrame).map(s => ({value: s, label: I18n.t(`period.${s}`)})))}
                             value={groupByScale || ""}
                             searchable={false}
                             clearable={true}
@@ -66,5 +66,6 @@ GroupBy.propTypes = {
     matrix: PropTypes.array,
     groupByScale: PropTypes.string,
     onChangeGroupByScale: PropTypes.func,
-    groupByScaleEnabled: PropTypes.bool
+    groupByScaleEnabled: PropTypes.bool,
+    timeFrame: PropTypes.string
 };

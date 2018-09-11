@@ -131,13 +131,15 @@ export default class Live extends React.PureComponent {
 
     onChangeTo = val => this.setState({data: [], to: val}, () => this.componentDidMount());
 
-    onChangeSp = val => this.setState({data: [], sp: val}, () => this.componentDidMount());
+    onChangeSp = val => this.setState({data: [], sp: val, groupByScale: isEmpty(val) ? "" : this.state.groupByScale},
+        () => this.componentDidMount());
 
     onChangeInstitutionType = val => this.setState({institutionType: val});
 
     onChangeState = val => this.setState({data: [], providerState: val}, () => this.componentDidMount());
 
-    onChangeIdP = val => this.setState({data: [], idp: val}, () => this.componentDidMount());
+    onChangeIdP = val => this.setState({data: [], idp: val, groupByScale: isEmpty(val) ? "" : this.state.groupByScale},
+        () => this.componentDidMount());
 
     scaleInvariant = (scale = this.state.scale, from = this.state.from) => {
         if (scale === "minute" && from.isBefore(moment().add(-1, "day"))) {
@@ -227,7 +229,8 @@ export default class Live extends React.PureComponent {
                                              matrix={matrix}
                                              groupByScale={groupByScale}
                                              onChangeGroupByScale={this.onChangeGroupScale}
-                                             groupByScaleEnabled={(groupedBySp || groupedByIdp) && (!isEmpty(idp) || !isEmpty(sp))}/>}
+                                             groupByScaleEnabled={(groupedBySp || groupedByIdp) && (!isEmpty(idp) || !isEmpty(sp))}
+                                             timeFrame={scale}/>}
                     {!user.guest && <Filters onChangeState={this.onChangeState}
                                              onChangeUniques={this.onChangeUniques}
                                              state={providerState}

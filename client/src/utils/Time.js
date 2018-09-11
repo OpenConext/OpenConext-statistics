@@ -14,6 +14,7 @@ export function getPeriod(m, scale) {
             return undefined;
     }
 }
+
 export function getDateTimeFormat(scale) {
     switch (scale) {
         case "week":
@@ -28,6 +29,25 @@ export function getDateTimeFormat(scale) {
             return "L";
     }
 }
+
+export function getGroupByPeriod(scale) {
+    console.log("scale "+scale)
+    switch (scale) {
+        case "day":
+            return [];
+        case "week":
+            return ["day"];
+        case "month":
+            return ["day", "week"];
+        case "quarter":
+            return ["day", "week", "month"];
+        case "year":
+            return ["day", "week", "month", "quarter"];
+        default:
+            return [];
+    }
+}
+
 export const defaultScales = ["year", "quarter", "month", "week", "day", "hour", "minute"];
 
 export const allowedAggregatedScales = ["year", "quarter", "month", "week", "day"];
