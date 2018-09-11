@@ -159,9 +159,7 @@ export default class Chart extends React.PureComponent {
         if (groupedByIdp) {
             idp = identityProvidersDict[point.idp_entity_id];
         }
-        const groupedByBoth = groupedByIdp && groupedBySp;
-        return groupedByBoth ? `<span>${providerName(sp, point.sp_entity_id)}</span><br><span>${providerName(idp, point.idp_entity_id)}<span>` :
-            groupedBySp ? `<span>${providerName(sp, point.sp_entity_id)}</span>` : `<span>${providerName(idp, point.idp_entity_id)}</span>`;
+        return groupedBySp ? providerName(sp, point.sp_entity_id) : providerName(idp, point.idp_entity_id);
     };
 
     renderChart = (data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict, serviceProvidersDict, guest) => {
