@@ -92,7 +92,9 @@ export default class Chart extends React.PureComponent {
                         pointPadding: 0,
                         borderWidth: 0,
                         groupPadding: 0,
-                        shadow: false
+                    },
+                    dataGrouping: {
+                        enabled: data.length > 74880
                     },
                     showInNavigator: true,
                     marker: {

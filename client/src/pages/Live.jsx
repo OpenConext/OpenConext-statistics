@@ -20,10 +20,10 @@ export default class Live extends React.PureComponent {
         super(props);
         this.state = {
             data: [],
-            // from: moment().subtract(31, "day").startOf("day"),
-            // to: moment().add(1, "day").startOf("day"),
-            from: moment().subtract(31, "day").subtract(1, "year").startOf("day"),
-            to: moment().add(1, "day").subtract(1, "year").startOf("day"),
+            from: moment().subtract(31, "day").startOf("day"),
+            to: moment().add(1, "day").startOf("day"),
+            // from: moment().subtract(31, "day").subtract(1, "year").startOf("day"),
+            // to: moment().add(1, "day").subtract(1, "year").startOf("day"),
             scale: "day",
             sp: undefined,
             idp: undefined,
@@ -107,7 +107,8 @@ export default class Live extends React.PureComponent {
         });
     };
 
-    onChangeFrom = val => this.setState({data: [], from: val}, () => this.componentDidMount());
+    onChangeFrom = val => this.setState({data: [], from: val, ...this.scaleInvariant(this.state.scale, val)},
+        () => this.componentDidMount());
 
     onChangeTo = val => this.setState({data: [], to: val}, () => this.componentDidMount());
 
@@ -119,26 +120,18 @@ export default class Live extends React.PureComponent {
 
     onChangeIdP = val => this.setState({data: [], idp: val}, () => this.componentDidMount());
 
-    onChangeScale = scale => {
-        let from = this.state.from;
-        let to = this.state.to;
-        let includeUniques = this.state.includeUniques;
+    scaleInvariant = (scale = this.state.scale, from = this.state.from) => {
         if (scale === "minute" && from.isBefore(moment().add(-1, "day"))) {
-            from = moment().add(-1, "day");
-            to = moment();
-            includeUniques = false;
+            return {from : moment().add(-1, "day"),  to : moment(), includeUniques : false};
         } else if (scale === "hour" && from.isBefore(moment().add(-7, "day"))) {
-            from = moment().add(-7, "day");
-            to = moment();
-            includeUniques = false;
+            return {from : moment().add(-7, "day"),  to : moment(), includeUniques : false};
         }
-        this.setState({
-            data: [],
-            scale: scale,
-            from: from,
-            to: to,
-            includeUniques: includeUniques
-        }, () => this.componentDidMount());
+        return {};
+    };
+
+    onChangeScale = scale => {
+        const state = {data:[], scale:scale, ...this.scaleInvariant(scale)};
+        this.setState(state, () => this.componentDidMount());
     };
 
     onChangeUniques = e => this.setState({data: [], includeUniques: e.target.checked}, () => this.componentDidMount());
