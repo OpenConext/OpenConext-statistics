@@ -21,7 +21,35 @@ div.providers {
     }
     section.controls {
         padding: 10px 15px;
+        span.sub-title {
+            display: inline-block;
+            margin-top: 10px;
+        }
+
     }
+    div.Select-control {
+        border-radius: $br;
+        border: 1px solid $lighter-grey;
+        margin-top: 5px;
+        display: table;
+        border-spacing: 0;
+        border-collapse: separate;
+        outline: none;
+        overflow: hidden;
+        position: relative;
+    }
+    div.Select {
+        &.select-all {
+            span.Select-clear-zone {
+                display: none;
+            }
+        }
+    }
+    span.Select-arrow-zone {
+        padding: 0 12px;
+        background-color: $light-grey;
+    }
+
     a.download {
         font-size: 12px;
         width: 100%;

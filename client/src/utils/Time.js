@@ -16,18 +16,21 @@ export function getPeriod(m, scale) {
 }
 export function getDateTimeFormat(scale) {
     switch (scale) {
+        case "week":
+            return "YYYY ww";
         case "month":
-            return "YYYY MMMM"
+            return "YYYY MMMM";
         case "quarter":
-            return "YYYY qQ"
+            return "YYYY qQ";
         case "year":
             return "YYYY";
         default:
             return "L";
     }
 }
-// export const defaultScales = ["year", "quarter", "month", "week", "day"];
 export const defaultScales = ["year", "quarter", "month", "week", "day", "hour", "minute"];
 
 export const allowedAggregatedScales = ["year", "quarter", "month", "week", "day"];
+
+export const allowedGroupByPeriodScales = ["quarter", "month", "week", "day"];
 

@@ -10,7 +10,8 @@ import "moment/locale/nl";
 
 import Exporter from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
-import {providerName} from "../utils/Utils";
+import {isEmpty, providerName} from "../utils/Utils";
+import {getDateTimeFormat} from "../utils/Time";
 
 Exporter(HighChart);
 Exporter(HighStock);
@@ -20,31 +21,29 @@ ExportData(HighStock);
 
 moment.locale(I18n.locale);
 
+const navigation = {
+    buttonOptions: {
+        symbolSize: 18,
+        symbolStrokeWidth: 4
+    }
+};
+
+const exporting = {
+    enabled: true,
+    buttons: {
+        contextButton: {
+            symbolStroke: '#4DB2CF',
+            menuItems: [
+                'downloadCSV',
+                'separator',
+                'downloadPNG',
+                'downloadPDF',
+            ]
+        }
+    }
+};
+
 export default class Chart extends React.PureComponent {
-
-    navigation = () => (
-        {
-            buttonOptions: {
-                symbolSize: 18,
-                symbolStrokeWidth: 4
-            }
-        }
-    );
-
-    exporting = () => ({
-        enabled: true,
-        buttons: {
-            contextButton: {
-                symbolStroke: '#4DB2CF',
-                menuItems: [
-                    'downloadCSV',
-                    'separator',
-                    'downloadPNG',
-                    'downloadPDF',
-                ]
-            }
-        }
-    });
 
     nonAggregatedOptions = (data, includeUniques, guest) => {
         const series = [{
@@ -83,8 +82,8 @@ export default class Chart extends React.PureComponent {
             rangeSelector: {
                 buttons: []
             },
-            navigation: this.navigation(),
-            exporting: this.exporting(),
+            navigation: navigation,
+            exporting: exporting,
             credits: {enabled: false},
             plotOptions: {
                 series: {
@@ -134,21 +133,21 @@ export default class Chart extends React.PureComponent {
             xAxis: {
                 categories: yValues, title: {text: null},
                 labels: {
-                    useHTML: true
+                    useHTML: false
                 }
             },
             yAxis: {min: 0, title: {text: null}},
             tooltip: {valueSuffix: " logins"},
             plotOptions: {bar: {dataLabels: {enabled: true}}},
             legend: {verticalAlign: "top"},
-            navigation: this.navigation(),
-            exporting: this.exporting(),
+            navigation: navigation,
+            exporting: exporting,
             credits: {enabled: false},
             series: series
         };
     };
 
-    renderYvalue = (point, groupedByIdp, groupedBySp, identityProvidersDict, serviceProvidersDict) => {
+    renderYvalue = (point, groupedByIdp, groupedBySp, identityProvidersDict, serviceProvidersDict, groupByScale) => {
         if (!groupedBySp && !groupedByIdp) {
             return I18n.t("chart.allLogins");
         }
@@ -159,10 +158,19 @@ export default class Chart extends React.PureComponent {
         if (groupedByIdp) {
             idp = identityProvidersDict[point.idp_entity_id];
         }
-        return groupedBySp ? providerName(sp, point.sp_entity_id) : providerName(idp, point.idp_entity_id);
+        const groupedByBoth = groupedBySp & groupedByIdp;
+        let name = groupedByBoth ? (providerName(sp, point.sp_entity_id) + " - " + providerName(sp, point.idp_entity_id)) :
+            groupedBySp ? providerName(sp, point.sp_entity_id) : providerName(idp, point.idp_entity_id);
+        if (groupByScale) {
+            const time = moment(moment.utc(point["time"]).toDate());
+            name += " - ";
+            name += time.format(getDateTimeFormat(groupByScale))
+        }
+        return name;
     };
 
-    renderChart = (data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict, serviceProvidersDict, guest) => {
+    renderChart = (data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
+                   serviceProvidersDict, guest, groupByScale) => {
         if (data.length === 1 && data[0] === "no_results") {
             return <section className="loading">
                 <em>{I18n.t("chart.noResults")}</em>
@@ -170,9 +178,9 @@ export default class Chart extends React.PureComponent {
         }
         const userCount = data.filter(p => p.count_user_id);
         const yValues = aggregate ? userCount.map(p => this.renderYvalue(p, groupedByIdp, groupedBySp,
-            identityProvidersDict, serviceProvidersDict)) : [];
+            identityProvidersDict, serviceProvidersDict, groupByScale)) : [];
 
-        const options = aggregate ? this.aggregatedOptions(data, yValues, includeUniques, guest) :
+        const options = aggregate ? this.aggregatedOptions(data, yValues, includeUniques, guest, !isEmpty(groupByScale)) :
             this.nonAggregatedOptions(data, includeUniques, guest);
 
         return (
@@ -186,7 +194,10 @@ export default class Chart extends React.PureComponent {
     };
 
     render() {
-        const {data, includeUniques, title, aggregate, groupedBySp, groupedByIdp, identityProvidersDict, serviceProvidersDict, guest} = this.props;
+        const {
+            data, includeUniques, title, aggregate, groupedBySp, groupedByIdp, identityProvidersDict,
+            serviceProvidersDict, guest, groupByScale
+        } = this.props;
         if (data.length === 0) {
             return <section className="loading">
                 <em>{I18n.t("chart.loading")}</em>
@@ -194,7 +205,7 @@ export default class Chart extends React.PureComponent {
             </section>;
         }
         return this.renderChart(data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
-            serviceProvidersDict, guest);
+            serviceProvidersDict, guest, groupByScale);
     };
 
 
@@ -202,6 +213,7 @@ export default class Chart extends React.PureComponent {
 Chart.propTypes = {
     data: PropTypes.array.isRequired,
     scale: PropTypes.string.isRequired,
+    groupByScale: PropTypes.string.isRequired,
     includeUniques: PropTypes.bool,
     title: PropTypes.string,
     groupedBySp: PropTypes.bool,

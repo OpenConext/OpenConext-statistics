@@ -2,8 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import I18n from "i18n-js";
 import "./GroupBy.css";
+import Select from "react-select";
 import CheckBox from "./CheckBox";
 import {CSVDownload} from "react-csv";
+import {allowedGroupByPeriodScales} from "../utils/Time";
 
 export default class GroupBy extends React.PureComponent {
     constructor() {
@@ -16,7 +18,8 @@ export default class GroupBy extends React.PureComponent {
     render() {
         const {displayDetails} = this.state;
         const {
-            groupedBySp, groupedByIdp, onChangeGroupBySp, onChangeGroupByIdp, download, matrix, onDownload
+            groupedBySp, groupedByIdp, onChangeGroupBySp, onChangeGroupByIdp, download, matrix, onDownload,
+            groupByScale, onChangeGroupByScale, groupByScaleEnabled
         } = this.props;
         return (
             <div className="providers">
@@ -32,7 +35,17 @@ export default class GroupBy extends React.PureComponent {
                     <CheckBox name="idp" value={groupedByIdp}
                               info={I18n.t("providers.groupBy", {type: I18n.t("providers.idp")})}
                               onChange={onChangeGroupByIdp}/>
-
+                    <span className="sub-title">{I18n.t("providers.scale.title")}</span>
+                    <Select className={`${groupByScale ? "" : "select-all"}`}
+                            onChange={option => option ? onChangeGroupByScale(option.value) : onChangeGroupByScale("")}
+                            options={[{value: "", label: I18n.t("providers.scale.none")}]
+                                .concat(
+                                    allowedGroupByPeriodScales.map(s => ({value: s, label: I18n.t(`period.${s}`)})))}
+                            value={groupByScale || ""}
+                            searchable={false}
+                            clearable={true}
+                            disabled={!groupByScaleEnabled}
+                    />
                     {<a href="/download" className="download button blue"
                         onClick={onDownload}>{I18n.t("providers.matrix")}</a>}
                     {download &&
@@ -50,5 +63,8 @@ GroupBy.propTypes = {
     onChangeGroupByIdp: PropTypes.func.isRequired,
     onChangeGroupBySp: PropTypes.func.isRequired,
     onDownload: PropTypes.func.isRequired,
-    matrix: PropTypes.array
+    matrix: PropTypes.array,
+    groupByScale: PropTypes.string,
+    onChangeGroupByScale: PropTypes.func,
+    groupByScaleEnabled: PropTypes.bool
 };

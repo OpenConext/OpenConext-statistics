@@ -129,9 +129,12 @@ def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entit
 
 
 def login_by_aggregated(config, period, idp_entity_id=None, sp_entity_id=None, include_unique=True, group_by=[],
-                        epoch=None, state=None):
-    measurement_scale = "year" if len(period) == 4 else MEASUREMENT_SCALES[period[4:5].lower()]
-    measurement = _determine_measurement(config, idp_entity_id, sp_entity_id, measurement_scale, state, group_by)
+                        epoch=None, state=None, group_by_period=None):
+    measurement_scale = "year" if len(period) == 4 \
+        else MEASUREMENT_SCALES[period[4:5].lower()]
+    measurement_adjustment_period = group_by_period if group_by_period else measurement_scale
+    measurement = _determine_measurement(config, idp_entity_id, sp_entity_id, measurement_adjustment_period, state,
+                                         group_by)
 
     q = f"select * from {measurement}"
     needs_grouping = measurement_scale in GROUPING_SCALES
@@ -146,15 +149,17 @@ def login_by_aggregated(config, period, idp_entity_id=None, sp_entity_id=None, i
     q += f" and {config.log.sp_id} = '{sp_entity_id}'" if sp_entity_id else ""
     q += f" and {config.log.idp_id} = '{idp_entity_id}'" if idp_entity_id else ""
 
+    print(q)
     records = _query(q, group_by=False, epoch=epoch)
-    if needs_grouping:
+    if needs_grouping and measurement_adjustment_period in GROUPING_SCALES:
         records = adjust_time(records, epoch)
 
     if include_unique:
         q = q.replace(f"from {measurement}",
                       f"from {measurement}_unique")
+        # unique_records = _query(q, group_by=bool(group_by_period), epoch=epoch)
         unique_records = _query(q, group_by=False, epoch=epoch)
-        if needs_grouping:
+        if needs_grouping and measurement_adjustment_period in GROUPING_SCALES:
             unique_records = adjust_time(unique_records, epoch)
         records.extend(unique_records)
     return remove_aggregated_time_info(records)

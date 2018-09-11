@@ -74,7 +74,11 @@ I18n.translations.en = {
         },
         aggregate: "Aggregate",
         groupBy: "Group by {{type}}",
-        matrix: "Download IdP-SP matrix"
+        matrix: "Download IdP-SP matrix",
+        scale: {
+            title: "Group by period",
+            none: "None"
+        }
     },
     period: {
         title: "Period",

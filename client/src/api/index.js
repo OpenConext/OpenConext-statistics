@@ -103,7 +103,8 @@ export function loginAggregated({
                                     idp_id,
                                     sp_id,
                                     group_by,
-                                    state = "all"
+                                    state = "all",
+                                    group_by_period
                                 }) {
     const query = queryParam(arguments);
     return fetchJson(`/api/stats/public/login_aggregated${query}`)

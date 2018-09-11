@@ -16,6 +16,7 @@ from server.manage.manage import service_providers, connected_identity_providers
 VALID_GROUP_BY = ["idp_id", "sp_id"]
 VALID_STATE = ["prodaccepted", "testaccepted"]
 VALID_PROVIDER = ["sp", "idp"]
+VALID_PERIOD_SCALE = ["month", "quarter", "week", "day"]
 
 stats_api = Blueprint("stats_api", __name__, url_prefix="/api/stats")
 period_regex = r"\d{4}[QMWD]{0,1}\d{0,3}$"
@@ -144,6 +145,16 @@ def _options(include_group_by=True, blacklisted_args=["idp_entity_id", "sp_entit
         group_by = args.get("group_by", default="").split(",")
         request_args["group_by"] = list(map(lambda s: log[s],
                                             filter(lambda s: s in VALID_GROUP_BY, map(lambda s: s.strip(), group_by))))
+
+    group_by_period = args.get("group_by_period")
+    if group_by_period:
+        if group_by_period not in VALID_PERIOD_SCALE:
+            raise ValueError(f"Invalid group_by_period {group_by_period}. Must be on off {VALID_PERIOD_SCALE}")
+        request_args["group_by_period"] = group_by_period
+
+        if "group_by" not in request_args or len(request_args["group_by"]) is not 2:
+            raise ValueError(f"Group_by_period {group_by_period} must be combined with 2 group_by arg")
+
     state = args.get("state")
     if state and state in VALID_STATE:
         request_args["state"] = state
