@@ -24,7 +24,7 @@ export default class Filters extends React.PureComponent {
         const {displayDetails} = this.state;
         const {
             displayProvider, onChangeProvider, provider, onChangeState, state, onChangeUniques, uniques, displayUniques,
-            onChangeSp, onChangeIdp, sp, idp, serviceProviders, identityProviders, onChangeInstitutionType, institutionType,
+            onChangeSp, onChangeIdp, sp, idp, serviceProviders, identityProviders = [], onChangeInstitutionType, institutionType,
             groupedByIdp
         } = this.props;
         const institutionTypes = Array.from(new Set(identityProviders.filter(idp => idp["coin:institution_type"]).map(idp => idp["coin:institution_type"])));

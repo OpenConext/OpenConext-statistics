@@ -31,7 +31,6 @@ export function getDateTimeFormat(scale) {
 }
 
 export function getGroupByPeriod(scale) {
-    console.log("scale "+scale)
     switch (scale) {
         case "day":
             return [];

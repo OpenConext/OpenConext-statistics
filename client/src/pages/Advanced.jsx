@@ -13,7 +13,7 @@ import {isEmpty, providerName} from "../utils/Utils";
 import Reporting from "../components/Reporting";
 import ManagePresent from "../components/ManagePresent";
 
-moment.locale(I18n.locale);
+// moment.locale(I18n.locale);
 
 export default class Advanced extends React.PureComponent {
 
@@ -140,7 +140,8 @@ export default class Advanced extends React.PureComponent {
                              provider={provider}
                              onChangeState={this.onChangeState}
                              state={state}
-                             displayUniques={false}/>
+                             displayUniques={false}
+                    />
                 </section>
                 {!loaded && <section className="loading">
                     <em>{I18n.t("eduGain.loading")}</em>

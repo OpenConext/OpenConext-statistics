@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./pages/App";
 import {getParameterByName} from "./utils/QueryParameters";
 import {isEmpty} from "./utils/Utils";
-import moment from "moment";
+import moment from "moment-timezone";
 import I18n from "i18n-js";
 import Cookies from "js-cookie";
 import * as HighChart from "highcharts";
@@ -25,6 +25,7 @@ import * as HighStock from "highcharts/highstock"
 
     I18n.locale = parameterByName;
     moment.locale(I18n.locale);
+    // moment.tz.setDefault("Greenwich Mean Time");
     HighChart.setOptions({
         lang: {
             months: moment.months(),
@@ -33,8 +34,8 @@ import * as HighStock from "highcharts/highstock"
             downloadCSV: I18n.t("export.downloadCSV"),
             downloadPNG: I18n.t("export.downloadPNG"),
             downloadPDF: I18n.t("export.downloadPDF"),
-        }
-
+        },
+        global: {useUTC: true,timezoneOffset: 5 * 60}
     });
     HighStock.setOptions({
         lang: {
@@ -43,12 +44,12 @@ import * as HighStock from "highcharts/highstock"
             shortMonths: moment.monthsShort(),
             rangeSelectorFrom: I18n.t("period.from"),
             rangeSelectorTo: I18n.t("period.to"),
-            rangeSelectorZoom:I18n.t("period.zoom"),
+            rangeSelectorZoom: I18n.t("period.zoom"),
             downloadCSV: I18n.t("export.downloadCSV"),
             downloadPNG: I18n.t("export.downloadPNG"),
             downloadPDF: I18n.t("export.downloadPDF"),
-        }
-
+        },
+        global: {useUTC: true,timezoneOffset: 5 * 60}
     });
 })();
 

@@ -19,7 +19,7 @@ ExportData(HighChart);
 ExportData(HighStock);
 
 
-moment.locale(I18n.locale);
+// moment.locale(I18n.locale);
 
 const navigation = {
     buttonOptions: {
@@ -78,6 +78,10 @@ export default class Chart extends React.PureComponent {
             xAxis: {
                 type: "datetime"
             },
+            time: {
+                timezoneOffset: -120,
+                useUTC: true
+            },
             legend: {verticalAlign: "top"},
             rangeSelector: {
                 buttons: []
@@ -135,6 +139,10 @@ export default class Chart extends React.PureComponent {
                 labels: {
                     useHTML: false
                 }
+            },
+            time: {
+                timezoneOffset: -120,
+                useUTC: true
             },
             yAxis: {min: 0, title: {text: null}},
             tooltip: {valueSuffix: " logins"},

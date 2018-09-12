@@ -3,7 +3,6 @@ import I18n from "i18n-js";
 import Cookies from "js-cookie";
 import {replaceQueryParameter} from "../utils/QueryParameters";
 import {stop} from "../utils/Utils";
-import moment from "moment";
 import "./LanguageSelector.css"
 
 export default class LanguageSelector extends React.PureComponent {
@@ -12,7 +11,7 @@ export default class LanguageSelector extends React.PureComponent {
         stop(e);
         Cookies.set("lang", locale, {expires: 356, secure: document.location.protocol.endsWith("https")});
         I18n.locale = locale;
-        moment.locale(locale);
+        // moment.locale(locale);
         window.location.search = replaceQueryParameter(window.location.search, "lang", locale);
     };
 

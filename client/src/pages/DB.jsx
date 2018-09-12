@@ -7,7 +7,7 @@ import {databaseStats} from "../api";
 import "react-table/react-table.css";
 import ReactTable from "react-table";
 
-moment.locale(I18n.locale);
+// moment.locale(I18n.locale);
 
 const columns = [{
     id: "name",

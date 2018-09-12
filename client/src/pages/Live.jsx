@@ -12,7 +12,7 @@ import {getPeriod} from "../utils/Time";
 import "moment/locale/nl";
 import Filters from "../components/Filters";
 
-moment.locale(I18n.locale);
+// moment.locale(I18n.locale);
 
 export default class Live extends React.PureComponent {
 
