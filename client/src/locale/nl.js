@@ -78,7 +78,8 @@ I18n.translations.nl = {
         matrix: "Download IdP-SP matrix",
         scale: {
             title: "Groepeer per periode",
-            none: "Geen"
+            none: "Geen",
+            html: "Gebruik dit om te groeperen bij een sub-periode.<br/>Dit kan alleen als je eerst groepeert per dienst of instelling<br/> en dan vervolgens een specieke dienst of instelling selecteert in de Filters sectie"
         }
     },
     period: {

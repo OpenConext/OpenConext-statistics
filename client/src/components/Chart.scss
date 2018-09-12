@@ -1,54 +1,60 @@
 @import "../stylesheets/vars.scss";
 
-section.loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin: 40px;
+div.chart-container {
     height: 100%;
     width: 100%;
-    em {
-        display: inline-block;
-        margin-bottom: 15px;
+    section.loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: 40px;
+        height: 100%;
+        width: 100%;
+        em {
+            display: inline-block;
+            margin-bottom: 15px;
+        }
     }
-}
 
-section.chart {
-    border-radius: $br;
-    background-color: white;
-    border: 1px solid $lighter-grey;
-    height: 100%;
-    width: 100%;
+    section.chart, section.table {
+        border-radius: $br;
+        background-color: white;
+        border: 1px solid $lighter-grey;
+        height: 100%;
+        width: 100%;
 
-    span.title {
-        background-color: $light-grey;
-        padding: 10px;
-        margin-bottom: 25px;
-        border-top-left-radius: $br;
-        border-top-right-radius: $br;
-        display: block;
-        font-weight: bold;
-        font-size: 18px;
-        color: $darker-blue;
-        &.hide {
-            border-radius: 5px;
+        span.title {
+            background-color: $light-grey;
+            padding: 10px;
+            border-top-left-radius: $br;
+            border-top-right-radius: $br;
+            display: block;
+            font-weight: bold;
+            font-size: 18px;
+            color: $darker-blue;
+            &.hide {
+                border-radius: 5px;
+            }
+        }
+        div.highcharts-menu {
+            border: 1px solid $blue !important;
+            box-shadow: none !important;
+            border-radius: 3px !important;
+            hr {
+                border-top: 1px solid $blue;
+            }
+        }
+        div.highcharts-menu-item {
+            font-size: 14px !important;
+            color: $blue !important;
+            &:hover {
+                color: $hover !important;
+                background: $blue !important;
+            }
         }
     }
-    div.highcharts-menu {
-        border: 1px solid $blue !important;
-        box-shadow: none !important;
-        border-radius: 3px !important;
-        hr {
-            border-top: 1px solid $blue;
-        }
-    }
-    div.highcharts-menu-item {
-        font-size: 14px !important;
-        color: $blue !important;
-        &:hover {
-            color: $hover !important;
-            background: $blue !important;
-        }
+    section.table {
+        margin-top: 25px;
     }
 }

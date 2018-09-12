@@ -6,6 +6,7 @@ import Select from "react-select";
 import CheckBox from "./CheckBox";
 import {CSVDownload} from "react-csv";
 import {getGroupByPeriod} from "../utils/Time";
+import ReactTooltip from "react-tooltip";
 
 export default class GroupBy extends React.PureComponent {
     constructor() {
@@ -35,7 +36,12 @@ export default class GroupBy extends React.PureComponent {
                     <CheckBox name="idp" value={groupedByIdp}
                               info={I18n.t("providers.groupBy", {type: I18n.t("providers.idp")})}
                               onChange={onChangeGroupByIdp}/>
-                    <span className="sub-title">{I18n.t("providers.scale.title")}</span>
+                    <span data-tip data-for="group-by-scale" className="sub-title">{I18n.t("providers.scale.title")}
+                        <i className="fa fa-info-circle"></i>
+                    </span>
+                    <ReactTooltip id="group-by-scale" type="info" effect="solid">
+                        <p dangerouslySetInnerHTML={{__html: I18n.t("providers.scale.html")}}/>
+                    </ReactTooltip>
                     <Select className={`${groupByScale ? "" : "select-all"}`}
                             onChange={option => option ? onChangeGroupByScale(option.value) : onChangeGroupByScale("")}
                             options={[{value: "", label: I18n.t("providers.scale.none")}]

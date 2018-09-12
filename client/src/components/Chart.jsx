@@ -6,21 +6,19 @@ import HighChartContainer from "./HighChartContainer";
 import I18n from "i18n-js";
 import "./Chart.css";
 import moment from "moment";
-import "moment/locale/nl";
-
 import Exporter from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
-import {isEmpty, providerName} from "../utils/Utils";
+import {isEmpty, mergeList, providerName} from "../utils/Utils";
 import {getDateTimeFormat} from "../utils/Time";
+import "moment/locale/nl";
+import ReactTable from "react-table";
 
 Exporter(HighChart);
 Exporter(HighStock);
 ExportData(HighChart);
 ExportData(HighStock);
 
-
-// moment.locale(I18n.locale);
-
+moment.locale(I18n.locale);
 const navigation = {
     buttonOptions: {
         symbolSize: 18,
@@ -75,12 +73,25 @@ export default class Chart extends React.PureComponent {
                     color: "silver"
                 }]
             },
-            xAxis: {
-                type: "datetime"
+            tooltip: {
+                formatter: function () {
+                    let res = this.points.reduce((acc, point) => {
+                        acc += `
+<div style="display: flex;align-items: center; margin-bottom: 5px">
+    <span style="color:${point.color};font-size:16px;margin-right: 5px;display: inline-block">\u25CF</span>
+    <span style="margin-right: 5px">${point.series.name}:</span>
+    <span style="margin-left:auto;display: inline-block; font-weight:bold">${(point.y).toLocaleString()}</span>
+</div>`;
+                        return acc
+                    }, "");
+                    res += `<span style="font-size: 10px">${moment.unix(this.x / 1000).utc().format("LLL")}</span>`;
+                    return res;
+                },
+                useHTML: true,
+                shared: true
             },
-            time: {
-                timezoneOffset: -120,
-                useUTC: true
+            xAxis: {
+                type: "datetime",
             },
             legend: {verticalAlign: "top"},
             rangeSelector: {
@@ -110,7 +121,7 @@ export default class Chart extends React.PureComponent {
                             lineWidth: 1
                         }
                     },
-                    threshold: null
+                    threshold: null,
                 }
             },
             series: series
@@ -139,10 +150,6 @@ export default class Chart extends React.PureComponent {
                 labels: {
                     useHTML: false
                 }
-            },
-            time: {
-                timezoneOffset: -120,
-                useUTC: true
             },
             yAxis: {min: 0, title: {text: null}},
             tooltip: {valueSuffix: " logins"},
@@ -175,6 +182,33 @@ export default class Chart extends React.PureComponent {
             name += time.format(getDateTimeFormat(groupByScale))
         }
         return name;
+    };
+
+    renderTable = (data, title, includeUniques) => {
+        const tableData = includeUniques ? mergeList(data, "time") : data;
+        const columns = [{
+            id: "date",
+            Header: I18n.t("chart.date"),
+            accessor: p => moment(p.time).utc().format("YYYY-MM-DD")
+        }, {
+            id: "logins",
+            Header: I18n.t("chart.userCount"),
+            accessor: p => (p.count_user_id).toLocaleString()
+        }, {
+            id: "users",
+            Header: I18n.t("chart.uniqueUserCount"),
+            accessor: p => (p.distinct_count_user_id).toLocaleString()
+        }];
+        return <section className="table">
+            {title && <span className="title">{title}</span>}
+            <ReactTable className="-striped"
+                        data={tableData}
+                        showPagination={false}
+                        minRows={0}
+                        defaultPageSize={data.length}
+                        filterable
+                        columns={columns}/>
+        </section>
     };
 
     renderChart = (data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
@@ -212,8 +246,12 @@ export default class Chart extends React.PureComponent {
                 <i className="fa fa-refresh fa-spin fa-2x fa-fw"></i>
             </section>;
         }
-        return this.renderChart(data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
-            serviceProvidersDict, guest, groupByScale);
+        return <div className="chart-container">
+            {this.renderChart(data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
+                serviceProvidersDict, guest, groupByScale)}
+            {this.renderTable(data, title, includeUniques)}
+        </div>
+
     };
 
 

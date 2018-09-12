@@ -77,7 +77,8 @@ I18n.translations.en = {
         matrix: "Download IdP-SP matrix",
         scale: {
             title: "Group by period",
-            none: "None"
+            none: "None",
+            html: "Use this to group by a sub-period.<br/>This is only possible if you first group by either Services or Institutions<br/>and then select either a specific Service or Institution in the Filter section"
         }
     },
     period: {

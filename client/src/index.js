@@ -25,7 +25,6 @@ import * as HighStock from "highcharts/highstock"
 
     I18n.locale = parameterByName;
     moment.locale(I18n.locale);
-    // moment.tz.setDefault("Greenwich Mean Time");
     HighChart.setOptions({
         lang: {
             months: moment.months(),
@@ -34,8 +33,7 @@ import * as HighStock from "highcharts/highstock"
             downloadCSV: I18n.t("export.downloadCSV"),
             downloadPNG: I18n.t("export.downloadPNG"),
             downloadPDF: I18n.t("export.downloadPDF"),
-        },
-        global: {useUTC: true,timezoneOffset: 5 * 60}
+        }
     });
     HighStock.setOptions({
         lang: {
@@ -48,8 +46,7 @@ import * as HighStock from "highcharts/highstock"
             downloadCSV: I18n.t("export.downloadCSV"),
             downloadPNG: I18n.t("export.downloadPNG"),
             downloadPDF: I18n.t("export.downloadPDF"),
-        },
-        global: {useUTC: true,timezoneOffset: 5 * 60}
+        }
     });
 })();
 

@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import Period from "../components/Period";
 import moment from "moment";
 import {allowedAggregatedScales} from "../utils/Time";
-import "moment/locale/nl";
+// import "moment/locale/nl";
 import Filters from "../components/Filters";
 import {firstLoginTime, lastLoginTime} from "../api";
 import ProviderTable from "../components/ProviderTable";
@@ -62,8 +62,12 @@ export default class Advanced extends React.PureComponent {
                     const alt = I18n.locale === "en" ? "nl" : "en";
                     p.name = p[`name_${I18n.locale}`] || p[`name_${alt}`] || p.id;
                 } else {
-                    p.name = providerName(dict[p[property]], p[property]);
+                    const lookedUp = dict[p[property]];
+                    p.name = providerName(lookedUp, p[property]);
                     p.state = state === "all" ? "" : state;
+                    if (lookedUp){
+                        p.manage_id = lookedUp.manage_id;
+                    }
                 }
             });
             this.setState({

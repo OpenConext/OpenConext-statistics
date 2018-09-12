@@ -30,10 +30,11 @@ export default class Header extends React.PureComponent {
 
     stop = e => {
         e.preventDefault();
-        const node = document.getElementById("app");
-        unmountComponentAtNode(node);
-        logOut();
-        window.location.href = "/Shibboleth.sso/Logout";
+        //
+        // const node = document.getElementById("app");
+        // unmountComponentAtNode(node);
+        // logOut();
+        window.location.href = "/login";
     };
 
     render() {
