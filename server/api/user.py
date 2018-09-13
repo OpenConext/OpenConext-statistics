@@ -11,6 +11,9 @@ user_api = Blueprint("user_api", __name__, url_prefix="/api/users")
 @user_api.route("/me", strict_slashes=False)
 @json_endpoint
 def me():
+    logger = logging.getLogger("main")
+    logger.info(f"Headers {request.headers}")
+
     sub = request.headers.get("OIDC_CLAIM_sub")
     if sub:
         user = {"uid": sub, "guest": False,

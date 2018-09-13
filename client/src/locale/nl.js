@@ -17,7 +17,7 @@ I18n.translations.nl = {
         OpenConext: "OpenConext Statistieken",
         SURFConext: "SURFConext Statistieken",
         links: {
-            logout: "Uitloggen",
+            login: "Login",
             exit: "Exit"
         },
         role: "Role"
