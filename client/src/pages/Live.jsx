@@ -9,10 +9,10 @@ import PropTypes from "prop-types";
 import GroupBy from "../components/GroupBy";
 import {isEmpty, stop} from "../utils/Utils";
 import {getPeriod} from "../utils/Time";
-// import "moment/locale/nl";
+import "moment/locale/nl";
 import Filters from "../components/Filters";
 
-// moment.locale(I18n.locale);
+moment.locale(I18n.locale);
 
 export default class Live extends React.PureComponent {
 
@@ -20,11 +20,11 @@ export default class Live extends React.PureComponent {
         super(props);
         this.state = {
             data: [],
-            // from: moment().subtract(31, "day").startOf("day"),
-            // to: moment().add(1, "day").startOf("day"),
-            from: moment().subtract(31, "day").subtract(4, "year").startOf("day"),
-            to: moment().add(1, "day").subtract(1, "year").startOf("day"),
-            scale: "year",
+            from: moment().subtract(31, "day").startOf("day"),
+            to: moment().add(1, "day").startOf("day"),
+            // from: moment().subtract(31, "day").subtract(4, "year").startOf("day"),
+            // to: moment().add(1, "day").subtract(1, "year").startOf("day"),
+            scale: "day",
             sp: undefined,
             idp: undefined,
             institutionType: undefined,
@@ -235,7 +235,7 @@ export default class Live extends React.PureComponent {
                                              onChangeUniques={this.onChangeUniques}
                                              state={providerState}
                                              uniques={includeUniques}
-                                             displayUniques={true}
+                                             displayUniques={scale !== "minute" && scale !== "hour"}
                                              onChangeSp={this.onChangeSp}
                                              onChangeIdp={this.onChangeIdP}
                                              identityProviders={identityProviders}

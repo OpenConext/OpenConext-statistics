@@ -11,7 +11,7 @@ export default class LanguageSelector extends React.PureComponent {
         stop(e);
         Cookies.set("lang", locale, {expires: 356, secure: document.location.protocol.endsWith("https")});
         I18n.locale = locale;
-        // moment.locale(locale);
+        moment.locale(locale);
         window.location.search = replaceQueryParameter(window.location.search, "lang", locale);
     };
 

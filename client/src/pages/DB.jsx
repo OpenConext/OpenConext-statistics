@@ -2,12 +2,12 @@ import React from "react";
 import I18n from "i18n-js";
 import "./DB.css";
 import moment from "moment";
-// import "moment/locale/nl";
+import "moment/locale/nl";
 import {databaseStats} from "../api";
 import "react-table/react-table.css";
 import ReactTable from "react-table";
 
-// moment.locale(I18n.locale);
+moment.locale(I18n.locale);
 
 const columns = [{
     id: "name",

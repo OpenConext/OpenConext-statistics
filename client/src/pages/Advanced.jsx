@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import Period from "../components/Period";
 import moment from "moment";
 import {allowedAggregatedScales} from "../utils/Time";
-// import "moment/locale/nl";
+import "moment/locale/nl";
 import Filters from "../components/Filters";
 import {firstLoginTime, lastLoginTime} from "../api";
 import ProviderTable from "../components/ProviderTable";
@@ -13,7 +13,7 @@ import {isEmpty, providerName} from "../utils/Utils";
 import Reporting from "../components/Reporting";
 import ManagePresent from "../components/ManagePresent";
 
-// moment.locale(I18n.locale);
+moment.locale(I18n.locale);
 
 export default class Advanced extends React.PureComponent {
 
