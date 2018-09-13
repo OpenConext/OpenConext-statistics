@@ -16,7 +16,7 @@ def me():
 
     sub = current_request.headers.get("OIDC_CLAIM_sub")
     if sub or "mod_auth_openidc_session" in current_request.cookies:
-        user = {"uid": sub, "guest": False,
+        user = {"uid": sub or "sub", "guest": False,
                 "product": current_app.app_config.product, "manage_url": current_app.app_config.manage.url}
         session["user"] = user
         return user, 200
