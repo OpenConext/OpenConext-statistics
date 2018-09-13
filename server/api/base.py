@@ -6,7 +6,8 @@ from werkzeug.exceptions import HTTPException, Unauthorized
 
 base_api = Blueprint("base_api", __name__, url_prefix="/")
 
-white_listing = ["health", "shibboleth", "api/users/me", "/api/stats/public"]
+white_listing = ["health", "shibboleth", "api/users/me", "/api/stats/public/connected_identity_providers",
+                 "/api/stats/public/login_time_frame"]
 admin_listing = ["api/stats/admin"]
 
 

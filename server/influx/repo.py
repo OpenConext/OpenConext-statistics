@@ -149,7 +149,6 @@ def login_by_aggregated(config, period, idp_entity_id=None, sp_entity_id=None, i
     q += f" and {config.log.sp_id} = '{sp_entity_id}'" if sp_entity_id else ""
     q += f" and {config.log.idp_id} = '{idp_entity_id}'" if idp_entity_id else ""
 
-    print(q)
     records = _query(q, group_by=False, epoch=epoch)
     if needs_grouping and measurement_adjustment_period in GROUPING_SCALES:
         records = adjust_time(records, epoch)

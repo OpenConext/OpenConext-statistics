@@ -346,7 +346,7 @@ class TestStats(AbstractTest):
             self.assertEqual(401, response.status_code)
         response = self.client.get(f"/api/stats/public/login_aggregated",
                                    query_string={"period": "2017"})
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(401, response.status_code)
 
     def test_login_aggregated_invalid(self):
         self.get("public/login_aggregated", response_status_code=500)
