@@ -1,7 +1,7 @@
 import json
 import logging
 
-from flask import Blueprint, request, session, current_app
+from flask import Blueprint, request as current_request, session, current_app
 
 from server.api.base import json_endpoint
 
@@ -12,10 +12,10 @@ user_api = Blueprint("user_api", __name__, url_prefix="/api/users")
 @json_endpoint
 def me():
     logger = logging.getLogger("main")
-    logger.info(f"Headers {request.headers}")
+    logger.info(f"Headers {current_request.headers}")
 
-    sub = request.headers.get("OIDC_CLAIM_sub")
-    if sub:
+    sub = current_request.headers.get("OIDC_CLAIM_sub")
+    if sub or "mod_auth_openidc_session" in current_request.cookies:
         user = {"uid": sub, "guest": False,
                 "product": current_app.app_config.product, "manage_url": current_app.app_config.manage.url}
         session["user"] = user
@@ -48,5 +48,5 @@ def logout():
 @user_api.route("/error", methods=["POST"], strict_slashes=False)
 @json_endpoint
 def error():
-    logging.getLogger("user_api").exception(json.dumps(request.json))
+    logging.getLogger("user_api").exception(json.dumps(current_request.json))
     return {}, 201
