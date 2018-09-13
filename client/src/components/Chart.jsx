@@ -193,11 +193,11 @@ export default class Chart extends React.PureComponent {
         }, {
             id: "logins",
             Header: I18n.t("chart.userCount"),
-            accessor: p => (p.count_user_id).toLocaleString()
+            accessor: p => p.count_user_id ? (p.count_user_id).toLocaleString() : ""
         }, {
             id: "users",
             Header: I18n.t("chart.uniqueUserCount"),
-            accessor: p => (p.distinct_count_user_id).toLocaleString()
+            accessor: p => p.distinct_count_user_id ? (p.distinct_count_user_id).toLocaleString() : ""
         }];
         return <section className="table">
             {title && <span className="title">{title}</span>}
@@ -213,11 +213,6 @@ export default class Chart extends React.PureComponent {
 
     renderChart = (data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
                    serviceProvidersDict, guest, groupByScale) => {
-        if (data.length === 1 && data[0] === "no_results") {
-            return <section className="loading">
-                <em>{I18n.t("chart.noResults")}</em>
-            </section>;
-        }
         const userCount = data.filter(p => p.count_user_id);
         const yValues = aggregate ? userCount.map(p => this.renderYvalue(p, groupedByIdp, groupedBySp,
             identityProvidersDict, serviceProvidersDict, groupByScale)) : [];
@@ -244,6 +239,11 @@ export default class Chart extends React.PureComponent {
             return <section className="loading">
                 <em>{I18n.t("chart.loading")}</em>
                 <i className="fa fa-refresh fa-spin fa-2x fa-fw"></i>
+            </section>;
+        }
+        if (data.length === 1 && data[0] === "no_results") {
+            return <section className="loading">
+                <em>{I18n.t("chart.noResults")}</em>
             </section>;
         }
         return <div className="chart-container">

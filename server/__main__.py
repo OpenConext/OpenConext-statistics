@@ -49,7 +49,7 @@ is_test = test is not None and bool(int(test))
 _init_logging(is_local or is_test)
 
 logger = logging.getLogger("main")
-logger.info("Initialize server...")
+logger.info(f"Initialize server with profile {profile}")
 
 
 app = Flask(__name__)

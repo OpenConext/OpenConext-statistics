@@ -16,7 +16,7 @@ I18n.translations.en = {
         OpenConext: "OpenConext Statistics",
         SURFConext: "SURFConext Statistics",
         links: {
-            logout: "Logout",
+            login: "Login",
             exit: "Exit"
         },
         role: "Role"

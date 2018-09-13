@@ -1,13 +1,11 @@
 import React from "react";
 import I18n from "i18n-js";
 import PropTypes from "prop-types";
-// import {unmountComponentAtNode} from "react-dom";
 import {Link} from "react-router-dom";
 import logoSurfConext from "../images/logo@2x.png";
 import logoOpenConext from "../images/open-conext-logo.png";
-// import {logOut} from "../api";
 import "./Header.css";
-import {isEmpty} from "../utils/Utils";
+import {isEmpty, stop} from "../utils/Utils";
 import LanguageSelector from "./LanguageSelector";
 
 export default class Header extends React.PureComponent {
@@ -28,12 +26,8 @@ export default class Header extends React.PureComponent {
         );
     }
 
-    stop = e => {
-        e.preventDefault();
-        //
-        // const node = document.getElementById("app");
-        // unmountComponentAtNode(node);
-        // logOut();
+    login = e => {
+        stop(e);
         window.location.href = "/login";
     };
 
@@ -49,13 +43,9 @@ export default class Header extends React.PureComponent {
                     <Link to="/" className="logo"><img src={logo} alt=""/></Link>
                     <p className="title">{I18n.t(`header.${currentUser.product.organization || "OpenConext"}`)}</p>
                     <ul className="links">
-                        <li className="item profile"
-                            tabIndex="1" onBlur={() => this.setState({dropDownActive: false})}>
-                            {this.renderProfileLink(currentUser)}
-                        </li>
-                        <li className="item border-left">
-                            <a onClick={this.stop}>{I18n.t("header.links.logout")}</a>
-                        </li>
+                        {currentUser.guest && <li className="item">
+                            <a href="#login" onClick={this.login}>{I18n.t("header.links.login")}</a>
+                        </li>}
                         <li>
                             <LanguageSelector/>
                         </li>

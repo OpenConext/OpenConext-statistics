@@ -14,9 +14,9 @@ def me():
     if "user" in session:
         return session["user"], 200
 
-    name_id = request.headers.get("name-id")
-    if name_id:
-        user = {"uid": name_id, "display_name": request.headers.get("name-id"), "guest": False,
+    sub = request.headers.get("OIDC_CLAIM_sub")
+    if sub:
+        user = {"uid": sub, "guest": False,
                 "product": current_app.app_config.product, "manage_url": current_app.app_config.manage.url}
         session["user"] = user
         return user, 200
@@ -27,7 +27,7 @@ def me():
         session["user"] = user
         return user, 200
 
-    user = {"uid": "anonymous", "display_name": "Anonymous", "guest": False, "product": "OpenConext",
+    user = {"uid": "anonymous", "guest": True, "product": "OpenConext",
             "manage_url": current_app.app_config.manage.url}
     session["user"] = user
     return user, 200

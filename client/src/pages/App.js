@@ -110,7 +110,7 @@ class App extends React.PureComponent {
                     </div>}
                     <Switch>
                         <Route exact path="/" render={() => <Redirect to="/live"/>}/>
-
+                        <Route path="/login" render={() => <Redirect to="/live"/>}/>
                         <Route path="/live"
                                render={props => <Live serviceProviders={allServiceProviders}
                                                       identityProviders={allIdentityProviders}
