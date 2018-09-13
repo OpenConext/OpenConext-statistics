@@ -161,7 +161,7 @@ def _options(include_group_by=True, blacklisted_args=["idp_entity_id", "sp_entit
 
     is_authorized_api_call = request_context.get("is_authorized_api_call", False)
 
-    if not (("user" in session and not session["user"]["guest"])or is_authorized_api_call):
+    if not (("user" in session and not session["user"]["guest"]) or is_authorized_api_call):
         for a in blacklisted_args:
             if request_args.get(a):
                 raise Unauthorized(description="Forbidden")
