@@ -17,7 +17,7 @@ class TestUser(AbstractTest):
         self.assertEqual(response.json["guest"], False)
 
     def test_me_shib(self):
-        response = self.client.get(f"/api/users/me", headers={"OIDC_CLAIM_sub": "uid"})
+        response = self.client.get(f"/api/users/me", headers={"Oidc-Claim-Sub": "uid"})
         self.assertEqual(200, response.status_code)
         self.assertEqual(response.json["guest"], False)
         self.assertEqual(response.json["uid"], "uid")
@@ -27,7 +27,7 @@ class TestUser(AbstractTest):
         self.assertEqual(response.json["guest"], False)
 
     def test_logout(self):
-        response = self.client.get(f"/api/users/me", headers={"OIDC_CLAIM_sub": "uid"})
+        response = self.client.get(f"/api/users/me", headers={"Oidc-Claim-Sub": "uid"})
         self.assertEqual(response.json["guest"], False)
 
         self.client.get(f"/api/users/logout")
@@ -36,6 +36,6 @@ class TestUser(AbstractTest):
         self.assertEqual(response.json["guest"], True)
 
     def test_error(self):
-        self.client.get(f"/api/users/me", headers={"OIDC_CLAIM_sub": "uid"})
+        self.client.get(f"/api/users/me", headers={"Oidc-Claim-Sub": "uid"})
         response = self.client.post("/api/users/error")
         self.assertEqual(201, response.status_code)
