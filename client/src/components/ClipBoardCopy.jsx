@@ -34,7 +34,8 @@ export default class ClipBoardCopy extends React.PureComponent {
                         <a className="identifier-copy-link" data-for={tooltipId} data-tip>
                             <i className={`fa fa-clipboard ${copiedToClipBoardClassName}`}></i>
                          </a>
-                         <ReactTooltip id={tooltipId} place="right" getContent={[() => this.toolTip(), 200]} />
+                         <ReactTooltip id={tooltipId} type="info" effect="solid" place="right"
+                                       getContent={[() => this.toolTip(), 1500]} />
                     </span>
     </CopyToClipboard>
     </span>

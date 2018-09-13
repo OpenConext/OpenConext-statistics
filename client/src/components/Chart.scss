@@ -23,7 +23,6 @@ div.chart-container {
         border: 1px solid $lighter-grey;
         height: 100%;
         width: 100%;
-
         span.title {
             background-color: $light-grey;
             padding: 10px;
@@ -33,8 +32,13 @@ div.chart-container {
             font-weight: bold;
             font-size: 18px;
             color: $darker-blue;
+            cursor: pointer;
             &.hide {
                 border-radius: 5px;
+            }
+            span.clipboard {
+                display: inline-block;
+                margin-left: 15px;
             }
         }
         div.highcharts-menu {
@@ -56,5 +60,8 @@ div.chart-container {
     }
     section.table {
         margin-top: 25px;
+        .right {
+            text-align: right;
+        }
     }
 }

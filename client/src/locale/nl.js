@@ -117,7 +117,13 @@ I18n.translations.nl = {
         date: "Datum",
         logins: "Logins per {{scale}}",
         allLogins: "# Logins",
-        uniqueLogins: "Unieke logins"
+        uniqueLogins: "Unieke logins",
+        sp: "Service",
+        idp: "Institution"
+    },
+    clipboard: {
+        copied: "Copied!",
+        copy: "Copy to clipboard"
     },
     live: {
         chartTitle: "Logins van {{from}} tot {{to}} gegroepeerd op {{scale}}",

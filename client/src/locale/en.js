@@ -116,7 +116,13 @@ I18n.translations.en = {
         date: "Date",
         logins: "Logins per {{scale}}",
         allLogins: "# Logins",
-        uniqueLogins: "Unique logins"
+        uniqueLogins: "Unique logins",
+        sp: "Service",
+        idp: "Institution"
+    },
+    clipboard: {
+        copied: "Copied!",
+        copy: "Copy to clipboard"
     },
     live: {
         chartTitle: "Logins from {{from}} until {{to}} grouped by {{scale}}",
