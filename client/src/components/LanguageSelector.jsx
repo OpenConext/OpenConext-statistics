@@ -3,6 +3,7 @@ import I18n from "i18n-js";
 import Cookies from "js-cookie";
 import {replaceQueryParameter} from "../utils/QueryParameters";
 import {stop} from "../utils/Utils";
+import moment from "moment-timezone";
 import "./LanguageSelector.css"
 
 export default class LanguageSelector extends React.PureComponent {

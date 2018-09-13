@@ -1,11 +1,11 @@
 import React from "react";
 import I18n from "i18n-js";
 import PropTypes from "prop-types";
-import {unmountComponentAtNode} from "react-dom";
+// import {unmountComponentAtNode} from "react-dom";
 import {Link} from "react-router-dom";
 import logoSurfConext from "../images/logo@2x.png";
 import logoOpenConext from "../images/open-conext-logo.png";
-import {logOut} from "../api";
+// import {logOut} from "../api";
 import "./Header.css";
 import {isEmpty} from "../utils/Utils";
 import LanguageSelector from "./LanguageSelector";
