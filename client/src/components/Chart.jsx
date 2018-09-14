@@ -287,9 +287,9 @@ export default class Chart extends React.PureComponent {
             this.nonAggregatedOptions(data, includeUniques, guest);
 
         return (
-            <section className={`chart ${displayChart ? "" : "hide"}`}
-                     onClick={() => this.setState({displayChart: !this.state.displayChart})}>
-                {title && <span className="title">{title}</span>}
+            <section className="chart">
+                {title && <span className={`title ${displayChart ? "" : "hide"}`}
+                                onClick={() => this.setState({displayChart: !this.state.displayChart})}>{title}</span>}
                 {displayChart && <HighChartContainer highcharts={aggregate ? HighChart : HighStock}
                                                      constructorType={aggregate ? "chart" : "stockChart"}
                                                      options={options}/>}
