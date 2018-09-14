@@ -8,10 +8,9 @@ start();
 
 expect.extend({
     toContainKey(translation, key) {
-        const pass = (translation !== undefined && translation[key] !== undefined);
         return {
             message: () => `Expected ${key} to be present in ${JSON.stringify(translation)}`,
-            pass: pass
+            pass: (translation !== undefined && translation[key] !== undefined)
         };
     },
 });
