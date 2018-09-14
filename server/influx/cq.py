@@ -61,7 +61,7 @@ def create_continuous_query(db, db_name, duration, period, is_unique, include_to
         q += f"GROUP BY {', '.join(group_by)} "
 
     # See https://community.influxdata.com/t/dependent-continuous-queries-at-multiple-resolutions/638/3
-    every = "1d"
+    every = "1h" if period == "day" else "6h" if period == "week" else "1d"
     # See https://docs.influxdata.com/influxdb/v1.6/query_language/continuous_queries/#examples-of-advanced-syntax
     _for = ""
     if period in VALID_GROUP_BY:
