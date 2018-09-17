@@ -49,7 +49,7 @@ export default class Chart extends React.PureComponent {
         this.state = {displayChart: true}
     }
 
-    nonAggregatedOptions = (data, includeUniques, guest) => {
+    nonAggregatedOptions = (data, includeUniques, guest, scale) => {
         const series = [{
             color: "#D4AF37",
             name: I18n.t("chart.userCount"),
@@ -73,6 +73,7 @@ export default class Chart extends React.PureComponent {
                 title: {text: "Logins"},
                 labels: {},
                 min: 0,
+                allowDecimals: false,
                 plotLines: [{
                     value: 0,
                     width: 2,
@@ -90,7 +91,11 @@ export default class Chart extends React.PureComponent {
 </div>`;
                         return acc
                     }, "");
-                    res += `<span style="font-size: 10px">${moment.unix(this.x / 1000).utc().format("LLL")}</span>`;
+                    let m = moment.unix(this.x / 1000);
+                    if (scale !== "minute" && scale !== "hour") {
+                        m = m.utc();
+                    }
+                    res += `<span style="font-size: 10px">${m.format("LLL")}</span>`;
                     return res;
                 },
                 useHTML: true,
@@ -98,10 +103,24 @@ export default class Chart extends React.PureComponent {
             },
             xAxis: {
                 type: "datetime",
+                labels: {
+                    formatter: function () {
+                        if (series[0].data.length === 1) {
+                            let m = moment(this.value);
+                            if (scale !== "minute" && scale !== "hour") {
+                                m = m.utc();
+                            }
+                            return m.format(getDateTimeFormat(scale));
+                        } else {
+                            return this.axis.defaultLabelFormatter.call(this)
+                        }
+                    }
+                },
             },
             legend: {verticalAlign: "top"},
             rangeSelector: {
-                buttons: []
+                buttons: [],
+                enabled: false
             },
             navigation: navigation,
             exporting: exporting,
@@ -157,7 +176,7 @@ export default class Chart extends React.PureComponent {
                     useHTML: false
                 }
             },
-            yAxis: {min: 0, title: {text: null}},
+            yAxis: {min: 0, allowDecimals: false, title: {text: null}},
             tooltip: {valueSuffix: " logins"},
             plotOptions: {bar: {dataLabels: {enabled: true}}},
             legend: {verticalAlign: "top"},
@@ -278,13 +297,13 @@ export default class Chart extends React.PureComponent {
             serviceProvidersDict) : this.renderTableNonAggregate(data, title, includeUniques)
 
     renderChart = (data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
-                   serviceProvidersDict, guest, groupByScale, displayChart) => {
+                   serviceProvidersDict, guest, groupByScale, displayChart, scale) => {
         const userCount = data.filter(p => p.count_user_id);
         const yValues = aggregate ? userCount.map(p => this.renderYvalue(p, groupedByIdp, groupedBySp,
             identityProvidersDict, serviceProvidersDict, groupByScale)) : [];
 
         const options = aggregate ? this.aggregatedOptions(data, yValues, includeUniques, guest, !isEmpty(groupByScale)) :
-            this.nonAggregatedOptions(data, includeUniques, guest);
+            this.nonAggregatedOptions(data, includeUniques, guest, scale);
 
         return (
             <section className="chart">
@@ -293,6 +312,10 @@ export default class Chart extends React.PureComponent {
                 {displayChart && <HighChartContainer highcharts={aggregate ? HighChart : HighStock}
                                                      constructorType={aggregate ? "chart" : "stockChart"}
                                                      options={options}/>}
+                {!aggregate && <section className="navigate">
+                    <span onClick={this.props.goLeft}><i className="fa fa-arrow-left"></i></span>
+                    <span onClick={this.props.goRight}><i className="fa fa-arrow-right"></i></span>
+                </section>}
             </section>
         );
     };
@@ -301,7 +324,7 @@ export default class Chart extends React.PureComponent {
         const {displayChart} = this.state;
         const {
             data, includeUniques, title, aggregate, groupedBySp, groupedByIdp, identityProvidersDict,
-            serviceProvidersDict, guest, groupByScale
+            serviceProvidersDict, guest, groupByScale, scale
         } = this.props;
         if (data.length === 0) {
             return <section className="loading">
@@ -316,8 +339,8 @@ export default class Chart extends React.PureComponent {
         }
         return <div className="chart-container">
             {this.renderChart(data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
-                serviceProvidersDict, guest, groupByScale, displayChart)}
-            {this.renderTable(data, title, includeUniques, aggregate, groupedBySp, identityProvidersDict,
+                serviceProvidersDict, guest, groupByScale, displayChart, scale)}
+            {!guest && this.renderTable(data, title, includeUniques, aggregate, groupedBySp, identityProvidersDict,
                 serviceProvidersDict)}
         </div>
 
@@ -336,5 +359,7 @@ Chart.propTypes = {
     aggregate: PropTypes.bool,
     serviceProvidersDict: PropTypes.object.isRequired,
     identityProvidersDict: PropTypes.object.isRequired,
-    guest: PropTypes.bool
+    guest: PropTypes.bool,
+    goLeft: PropTypes.func,
+    goRight: PropTypes.func,
 };

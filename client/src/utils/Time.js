@@ -17,6 +17,8 @@ export function getPeriod(m, scale) {
 
 export function getDateTimeFormat(scale) {
     switch (scale) {
+        case "day":
+            return "L";
         case "week":
             return "YYYY ww";
         case "month":
@@ -26,7 +28,7 @@ export function getDateTimeFormat(scale) {
         case "year":
             return "YYYY";
         default:
-            return "L";
+            return "LLL";
     }
 }
 

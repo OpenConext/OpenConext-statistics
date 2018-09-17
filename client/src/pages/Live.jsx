@@ -20,10 +20,10 @@ export default class Live extends React.PureComponent {
         super(props);
         this.state = {
             data: [],
-            from: moment().subtract(31, "day").startOf("day"),
-            to: moment().add(1, "day").startOf("day"),
-            // from: moment().subtract(31, "day").subtract(4, "year").startOf("day"),
-            // to: moment().add(1, "day").subtract(1, "year").startOf("day"),
+            // from: moment().subtract(31, "day").startOf("day"),
+            // to: moment().add(1, "day").startOf("day"),
+            from: moment().subtract(31, "day").subtract(2, "year").startOf("day"),
+            to: moment().add(1, "day").subtract(1, "year").startOf("day"),
             scale: "day",
             sp: undefined,
             idp: undefined,
@@ -126,10 +126,43 @@ export default class Live extends React.PureComponent {
         });
     };
 
-    onChangeFrom = val => this.setState({data: [], from: val, ...this.scaleInvariant(this.state.scale, val)},
-        () => this.componentDidMount());
+    goLeft = e => {
+        stop(e);
+        const from = moment(this.state.from).add(-1, this.state.scale);
+        const to = moment(this.state.to).add(-1, this.state.scale);
+        this.setState({from: from, to: to})
+    };
 
-    onChangeTo = val => this.setState({data: [], to: val}, () => this.componentDidMount());
+    goRight = e => {
+        stop(e);
+        const from = moment(this.state.from).add(1, this.state.scale);
+        const to = moment(this.state.to).add(1, this.state.scale);
+        this.setState({from: from   , to: to})
+    };
+
+    onChangeFrom = val => {
+        const {scale, to} = this.state;
+        let additionalState = {};
+        const diff = moment.duration(to.diff(val)).asDays();
+        if (scale === "minute" && diff > 1) {
+            additionalState = {to: moment(val).add(1, "day"), includeUniques: false};
+        } else if (scale === "hour" && diff > 7) {
+            additionalState = {to: moment(val).add(7, "day"), includeUniques: false};
+        }
+        this.setState({data: [], from: val, ...additionalState}, () => this.componentDidMount())
+    };
+
+    onChangeTo = val => {
+        const {scale, from} = this.state;
+        let additionalState = {};
+        const diff = moment.duration(val.diff(from)).asDays();
+        if (scale === "minute" && diff > 1) {
+            additionalState = {from: moment(val).add(-1, "day"), includeUniques: false};
+        } else if (scale === "hour" && diff > 7) {
+            additionalState = {from: moment(val).add(-7, "day"), includeUniques: false};
+        }
+        this.setState({data: [], to: val, ...additionalState}, () => this.componentDidMount())
+    };
 
     onChangeSp = val => this.setState({data: [], sp: val, groupByScale: isEmpty(val) ? "" : this.state.groupByScale},
         () => this.componentDidMount());
@@ -141,17 +174,16 @@ export default class Live extends React.PureComponent {
     onChangeIdP = val => this.setState({data: [], idp: val, groupByScale: isEmpty(val) ? "" : this.state.groupByScale},
         () => this.componentDidMount());
 
-    scaleInvariant = (scale = this.state.scale, from = this.state.from) => {
-        if (scale === "minute" && from.isBefore(moment().add(-1, "day"))) {
-            return {from: moment().add(-1, "day"), to: moment(), includeUniques: false};
-        } else if (scale === "hour" && from.isBefore(moment().add(-7, "day"))) {
-            return {from: moment().add(-7, "day"), to: moment(), includeUniques: false};
-        }
-        return {};
-    };
-
     onChangeScale = scale => {
-        const state = {data: [], scale: scale, ...this.scaleInvariant(scale)};
+        const {from, to} = this.state;
+        let additionalState = {};
+        const diff = moment.duration(to.diff(from)).asDays();
+        if (scale === "minute" && diff > 1) {
+            additionalState = {to: moment(from).add(1, "day"), includeUniques: false};
+        } else if (scale === "hour" && diff > 7) {
+            additionalState = {to: moment(from).add(7, "day"), includeUniques: false};
+        }
+        const state = {data: [], scale: scale, ...additionalState};
         this.setState(state, () => this.componentDidMount());
     };
 
@@ -256,7 +288,9 @@ export default class Live extends React.PureComponent {
                        identityProvidersDict={identityProvidersDict}
                        serviceProvidersDict={serviceProvidersDict}
                        guest={user.guest}
-                       groupByScale={groupByScale}/>
+                       groupByScale={groupByScale}
+                       goRight={this.goRight}
+                       goLeft={this.goLeft}/>
             </div>
         );
     }

@@ -1,14 +1,13 @@
 database:
-#  name: eb_logs_poc
-  name: dry_run
+  name: eb_logs_test
   host: localhost
   port: 8086
   username: ""
   password: ""
 
 log:
-#  measurement: eb_logins_tst
-  measurement: sp_idp_users_day
+  measurement: eb_logins_tst
+#  measurement: sp_idp_users_day
   user_id: user_id
   sp_id: sp_entity_id
   idp_id: idp_entity_id

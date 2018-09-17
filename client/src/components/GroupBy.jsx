@@ -31,11 +31,13 @@ export default class GroupBy extends React.PureComponent {
                 {displayDetails && <section className="controls">
                     <CheckBox name="sp" value={groupedBySp}
                               info={I18n.t("providers.groupBy", {type: I18n.t("providers.sp")})}
-                              onChange={onChangeGroupBySp}/>
+                              onChange={onChangeGroupBySp}
+                              className="radio"/>
 
                     <CheckBox name="idp" value={groupedByIdp}
                               info={I18n.t("providers.groupBy", {type: I18n.t("providers.idp")})}
-                              onChange={onChangeGroupByIdp}/>
+                              onChange={onChangeGroupByIdp}
+                              className="radio"/>
                     <span data-tip data-for="group-by-scale" className="sub-title">{I18n.t("providers.scale.title")}
                         <i className="fa fa-info-circle"></i>
                     </span>

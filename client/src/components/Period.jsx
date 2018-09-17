@@ -78,7 +78,6 @@ export default class Period extends React.PureComponent {
                         showMonthDropdown
                         todayButton={I18n.t("period.today")}
                         maxDate={to}
-                        minDate={scale === "minute" ? moment().add(-1, "day") : scale === "hour" ? moment().add(-7, "day") : moment(0)}
                         disabled={disabled.indexOf("from") > -1}
                         dateFormat={dateFormat}
                     />

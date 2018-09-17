@@ -16,13 +16,13 @@ div.chart-container {
             margin-bottom: 15px;
         }
     }
-
     section.chart, section.table {
         border-radius: $br;
         background-color: white;
         border: 1px solid $lighter-grey;
         height: 100%;
         width: 100%;
+        position: relative;
         span.title {
             background-color: $light-grey;
             padding: 10px;
@@ -55,6 +55,30 @@ div.chart-container {
             &:hover {
                 color: $hover !important;
                 background: $blue !important;
+            }
+        }
+        g.highcharts-navigator, g.highcharts-scrollbar, g.highcharts-navigator-xaxis, g.highcharts-navigator-series {
+            visibility: hidden !important;
+            display: none;
+        }
+        section.navigate {
+            width: 100%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            bottom: 20px;
+            font-size: 50px;
+            flex-direction: row;
+            justify-content: center;
+            color: $blue;
+            i.fa-arrow-left {
+                cursor: pointer;
+                margin-right: 25px;
+            }
+            i.fa-arrow-right {
+                cursor: pointer;
+                margin-left: 25px;
             }
         }
     }
