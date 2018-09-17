@@ -130,14 +130,14 @@ export default class Live extends React.PureComponent {
         stop(e);
         const from = moment(this.state.from).add(-1, this.state.scale);
         const to = moment(this.state.to).add(-1, this.state.scale);
-        this.setState({from: from, to: to})
+        this.setState({from: from, to: to}, this.componentDidMount)
     };
 
     goRight = e => {
         stop(e);
         const from = moment(this.state.from).add(1, this.state.scale);
         const to = moment(this.state.to).add(1, this.state.scale);
-        this.setState({from: from   , to: to})
+        this.setState({from: from   , to: to}, this.componentDidMount)
     };
 
     onChangeFrom = val => {
@@ -149,7 +149,7 @@ export default class Live extends React.PureComponent {
         } else if (scale === "hour" && diff > 7) {
             additionalState = {to: moment(val).add(7, "day"), includeUniques: false};
         }
-        this.setState({data: [], from: val, ...additionalState}, () => this.componentDidMount())
+        this.setState({data: [], from: val, ...additionalState}, this.componentDidMount)
     };
 
     onChangeTo = val => {
@@ -161,18 +161,18 @@ export default class Live extends React.PureComponent {
         } else if (scale === "hour" && diff > 7) {
             additionalState = {from: moment(val).add(-7, "day"), includeUniques: false};
         }
-        this.setState({data: [], to: val, ...additionalState}, () => this.componentDidMount())
+        this.setState({data: [], to: val, ...additionalState}, this.componentDidMount)
     };
 
     onChangeSp = val => this.setState({data: [], sp: val, groupByScale: isEmpty(val) ? "" : this.state.groupByScale},
-        () => this.componentDidMount());
+        this.componentDidMount);
 
     onChangeInstitutionType = val => this.setState({institutionType: val});
 
-    onChangeState = val => this.setState({data: [], providerState: val}, () => this.componentDidMount());
+    onChangeState = val => this.setState({data: [], providerState: val}, this.componentDidMount);
 
     onChangeIdP = val => this.setState({data: [], idp: val, groupByScale: isEmpty(val) ? "" : this.state.groupByScale},
-        () => this.componentDidMount());
+        this.componentDidMount);
 
     onChangeScale = scale => {
         const {from, to} = this.state;
@@ -184,25 +184,25 @@ export default class Live extends React.PureComponent {
             additionalState = {to: moment(from).add(7, "day"), includeUniques: false};
         }
         const state = {data: [], scale: scale, ...additionalState};
-        this.setState(state, () => this.componentDidMount());
+        this.setState(state, this.componentDidMount);
     };
 
-    onChangeUniques = e => this.setState({data: [], includeUniques: e.target.checked}, () => this.componentDidMount());
+    onChangeUniques = e => this.setState({data: [], includeUniques: e.target.checked}, this.componentDidMount);
 
     onChangeGroupBySp = e => this.setState({
         data: [], groupedBySp: e.target.checked,
         groupedByIdp: false
-    }, () => this.componentDidMount());
+    }, this.componentDidMount);
 
     onChangeGroupScale = val => this.setState({
         data: [], groupByScale: val
-    }, () => this.componentDidMount());
+    }, this.componentDidMount);
 
     onChangeGroupByIdp = e => this.setState({
         data: [], groupedByIdp: e.target.checked,
         groupedBySp: false,
         institutionType: "",
-    }, () => this.componentDidMount());
+    }, this.componentDidMount);
 
     onDownload = e => {
         stop(e);
