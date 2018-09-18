@@ -1,0 +1,56 @@
+[
+  {
+    "_id": "2e6defbf-1583-494e-9c05-24526221a156",
+    "version": 0,
+    "type": "saml20_sp",
+    "data": {
+      "eid": 1,
+      "entityid": "https://sp/1",
+      "state": "prodaccepted",
+      "metaDataFields": {
+        "name:en": "SP 1 EN",
+        "name:nl": "SP 1 NL"
+      }
+    }
+  },
+  {
+    "_id": "2e6defbf-1583-494e-9c05-24526221a152",
+    "version": 0,
+    "type": "saml20_sp",
+    "data": {
+      "eid": 1,
+      "entityid": "https://sp/2",
+      "state": "testaccepted",
+      "metaDataFields": {
+        "name:en": "SP 2 EN",
+        "name:nl": "SP 2 NL"
+      }
+    }
+  }, {
+    "_id": "2e6defbf-1583-494e-9c05-24526221a152",
+    "version": 0,
+    "type": "saml20_sp",
+    "data": {
+      "eid": 1,
+      "entityid": "https://sp/3",
+      "state": "prodaccepted",
+      "metaDataFields": {
+        "name:en": "SP 3 EN",
+        "name:nl": "SP 3 NL"
+      }
+    }
+  }, {
+    "_id": "2e6defbf-1583-494e-9c05-24526221a152",
+    "version": 0,
+    "type": "saml20_sp",
+    "data": {
+      "eid": 1,
+      "entityid": "https://sp/4",
+      "state": "testaccepted",
+      "metaDataFields": {
+        "name:en": "SP 4 EN",
+        "name:nl": "SP 4 NL"
+      }
+    }
+  }
+]

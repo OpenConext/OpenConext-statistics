@@ -14,17 +14,15 @@ import Filters from "../components/Filters";
 
 moment.locale(I18n.locale);
 
-export default class Live extends React.PureComponent {
+export default class Live extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             data: [],
-            // from: moment().subtract(31, "day").startOf("day"),
-            // to: moment().add(1, "day").startOf("day"),
-            from: moment().subtract(31, "day").subtract(2, "year").startOf("day"),
-            to: moment().add(1, "day").subtract(1, "year").startOf("day"),
-            scale: "day",
+            from: moment().subtract(24, "hour"),
+            to: moment().add(1, "day").startOf("day"),
+            scale: "minute",
             sp: undefined,
             idp: undefined,
             institutionType: undefined,
@@ -137,7 +135,7 @@ export default class Live extends React.PureComponent {
         stop(e);
         const from = moment(this.state.from).add(1, this.state.scale);
         const to = moment(this.state.to).add(1, this.state.scale);
-        this.setState({from: from   , to: to}, this.componentDidMount)
+        this.setState({from: from, to: to}, this.componentDidMount)
     };
 
     onChangeFrom = val => {
@@ -203,6 +201,14 @@ export default class Live extends React.PureComponent {
         groupedBySp: false,
         institutionType: "",
     }, this.componentDidMount);
+
+    onLabelClick = entityId => {
+        const {groupedByIdp, groupedBySp} = this.state;
+        this.setState({
+            sp: groupedBySp ? entityId : "", idp: groupedByIdp ? entityId : "",
+            groupedByIdp: !groupedByIdp, groupedBySp: !groupedBySp
+        }, this.componentDidMount)
+    };
 
     onDownload = e => {
         stop(e);
@@ -290,7 +296,9 @@ export default class Live extends React.PureComponent {
                        guest={user.guest}
                        groupByScale={groupByScale}
                        goRight={this.goRight}
-                       goLeft={this.goLeft}/>
+                       goLeft={this.goLeft}
+                       labels={[]}
+                       onLabelClick={this.onLabelClick}/>
             </div>
         );
     }

@@ -11,7 +11,6 @@ import {firstLoginTime, lastLoginTime} from "../api";
 import ProviderTable from "../components/ProviderTable";
 import {isEmpty, providerName} from "../utils/Utils";
 import Reporting from "../components/Reporting";
-import ManagePresent from "../components/ManagePresent";
 
 moment.locale(I18n.locale);
 
@@ -24,19 +23,16 @@ export default class Advanced extends React.PureComponent {
             filteredData: [],
             from: moment().startOf("quarter"),
             to: moment().add(1, "day").startOf("day"),
-            // from: moment().year(2015).startOf("year"),
-            // to: moment().year(2015).endOf("year"),
             scale: "none",
             provider: "sp",
-            state: "prodaccepted",
+            state: "all",
             loaded: false,
-            modus: "newcomers",
-            managePresent: false
+            modus: "newcomers"
         };
     }
 
     componentDidMount() {
-        const {from, to, provider, state, modus, managePresent} = this.state;
+        const {from, to, provider, state, modus} = this.state;
         this.setState({"loaded": false});
         const promise = modus === "newcomers" ?
             firstLoginTime({
@@ -58,21 +54,20 @@ export default class Advanced extends React.PureComponent {
             const property = isSp ? "sp_entity_id" : "idp_entity_id";
             const dict = isSp ? serviceProvidersDict : identityProvidersDict;
             data.forEach(p => {
-                if (p.id) {
-                    const alt = I18n.locale === "en" ? "nl" : "en";
-                    p.name = p[`name_${I18n.locale}`] || p[`name_${alt}`] || p.id;
+                const lookedUp = dict[p[property]];
+                p.name = providerName(lookedUp, p[property]);
+                if (lookedUp) {
+                    p.manage_id = lookedUp.manage_id;
+                    p.state = lookedUp.state;
+                    p.present_in_manage = true;
                 } else {
-                    const lookedUp = dict[p[property]];
-                    p.name = providerName(lookedUp, p[property]);
-                    p.state = state === "all" ? "" : state;
-                    if (lookedUp){
-                        p.manage_id = lookedUp.manage_id;
-                    }
+                    p.present_in_manage = false;
                 }
             });
+            data = data.filter(p => p.present_in_manage);
             this.setState({
                 data: data,
-                filteredData: managePresent ? data.filter(entity => entity.manage_id) : data,
+                filteredData: state !== "all" ? data.filter(entity => entity.state === state) : data,
                 loaded: true
             });
         });
@@ -84,21 +79,17 @@ export default class Advanced extends React.PureComponent {
         to: moment().add(1, "day").startOf("day")
     }, () => this.componentDidMount());
 
-    toggleManagePresent = val => {
-        const data = this.state.data;
-        this.setState({
-            managePresent: val,
-            filteredData: val ? data.filter(entity => entity.manage_id) : data
-        });
-    };
-
     onChangeFrom = val => this.setState({from: val, scale: "none"}, () => this.componentDidMount());
 
     onChangeTo = val => this.setState({to: val, scale: "none"}, () => this.componentDidMount());
 
     onChangeProvider = val => this.setState({provider: val}, () => this.componentDidMount());
 
-    onChangeState = val => this.setState({state: val}, () => this.componentDidMount());
+    onChangeState = val => {
+        const data = [...this.state.data];
+        const filteredData = val !== "all" ? data.filter(p => p.state === val) : data;
+        this.setState({state: val, filteredData: filteredData});
+    };
 
     onChangeScale = scale => {
         if (scale !== "none") {
@@ -119,7 +110,7 @@ export default class Advanced extends React.PureComponent {
     };
 
     render() {
-        const {filteredData, from, to, scale, state, provider, loaded, modus, managePresent} = this.state;
+        const {filteredData, from, to, scale, state, provider, loaded, modus} = this.state;
         const {user} = this.props;
         const title = I18n.t(`advanced.${modus}.title`, {
             from: from.format('MMMM Do YYYY, h:mm:ss a'),
@@ -138,7 +129,6 @@ export default class Advanced extends React.PureComponent {
                             allowedScales={allowedAggregatedScales.concat(["none"])}
                             disabled={modus === "newcomers" ? [] : ["to"]}/>
                     <Reporting modus={modus} onToggle={this.toggleModus}/>
-                    <ManagePresent value={managePresent} onToggle={this.toggleManagePresent}/>
                     <Filters displayProvider={true}
                              onChangeProvider={this.onChangeProvider}
                              provider={provider}

@@ -63,13 +63,22 @@ export default class Period extends React.PureComponent {
             scales = allowedScales;
         }
         const fromTitle = I18n.t(aggregate ? "period.date" : "period.from");
-        const dateFormat =  aggregate ? getDateTimeFormat(scale || "day") : "L";
+        const dateFormat = aggregate ? getDateTimeFormat(scale || "day") : "L";
         return (
             <div className="period">
                 <span className={`title ${displayDetails ? "" : "hide"} `}
-                      onClick={() => this.setState({displayDetails: !this.state.displayDetails})}
-                >{I18n.t("period.title")}</span>
+                      onClick={() => this.setState({displayDetails: !this.state.displayDetails})}>
+                    {I18n.t("period.title")}
+                    </span>
                 {displayDetails && <section className="controls">
+                    <span className="sub-title">{I18n.t("period.scale")}</span>
+                    <Select onChange={option => option ? onChangeScale(option.value) : null}
+                            options={scales.map(s => ({value: s, label: I18n.t(`period.${s}`)}))}
+                            value={scale || "day"}
+                            searchable={false}
+                            clearable={false}
+                            disabled={disabled.indexOf("scale") > -1}
+                    />
                     <span className="sub-title">{fromTitle}</span>
                     <DatePicker
                         selected={from}
@@ -91,14 +100,6 @@ export default class Period extends React.PureComponent {
                                 todayButton={I18n.t("period.today")}
                                 maxDate={moment().add(1, "day")}
                                 disabled={aggregate || disabled.indexOf("to") > -1}
-                    />
-                    <span className="sub-title">{I18n.t("period.scale")}</span>
-                    <Select onChange={option => option ? onChangeScale(option.value) : null}
-                            options={scales.map(s => ({value: s, label: I18n.t(`period.${s}`)}))}
-                            value={scale || "day"}
-                            searchable={false}
-                            clearable={false}
-                            disabled={disabled.indexOf("scale") > -1}
                     />
                 </section>}
             </div>

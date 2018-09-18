@@ -82,7 +82,9 @@ class TestStats(AbstractTest):
         json = self.get("service_providers")
         self.assertEqual(5, len(json))
 
+    @responses.activate
     def test_first_login_period(self):
+        self.mock_manage(type="idp")
         json = self.get("first_login_time", query_data={"period": "2016M5", "provider": "idp", "state": "prodaccepted"})
         self.assertListEqual([{"count_user_id": 1, "distinct_count_user_id": 1, "idp_entity_id": "https://idp/1",
                                "month": "5", "quarter": "2", "time": 1463356800000, "year": "2016"}], json)
@@ -98,14 +100,10 @@ class TestStats(AbstractTest):
 
     @responses.activate
     def test_last_login_time(self):
-        self.mock_manage(type="sp", file="mock/manage_metadata_sp_no_logins.json")
+        self.mock_manage(type="sp")
         json = self.get("last_login_time", query_data={"from": "2018-01-01", "state": "prodaccepted", "provider": "sp"})
-        self.assertListEqual([{'id': 'https://sp/no_logins', 'manage_id': '2cc71508-1b68-4a3e-b553-f04b6b2a689c',
-                               'name_en': 'SP1-en', 'name_nl': 'SP1-nl', 'present_in_manage': True,
-                               'state': 'prodaccepted'},
-                              {'count_user_id': 1, 'distinct_count_user_id': 1, 'month': '9', 'quarter': '3',
-                               'sp_entity_id': 'https://sp/5', 'time': 1505260800000, 'year': '2017'},
-                              {'count_user_id': 1, 'distinct_count_user_id': 1, 'month': '10', 'quarter': '4',
+        print(json)
+        self.assertListEqual([{'count_user_id': 1, 'distinct_count_user_id': 1, 'month': '10', 'quarter': '4',
                                'sp_entity_id': 'https://sp/1', 'time': 1509235200000, 'year': '2017'}], json)
 
     def test_last_login_invalid_from(self):

@@ -40,17 +40,22 @@ def first_login_time():
         "from_seconds": from_seconds,
         "to_seconds": to_seconds
     }
-    state = args.get("state")
-    if state and state in VALID_STATE:
-        request_args["state"] = state
-
     provider = args.get("provider")
     if provider and provider in VALID_PROVIDER:
         request_args["provider"] = provider
     else:
         raise ValueError(f"Must specify provider: {VALID_PROVIDER}")
 
-    return first_login_from_to(current_app.app_config, **request_args), 200
+    first_logins = first_login_from_to(current_app.app_config, **request_args)
+
+    manage_providers = service_providers() if provider == "sp" else identity_providers()
+    manage_providers_entity_ids = list(map(lambda p: p["id"], manage_providers))
+
+    # Filter out all of the results that are not present in Manage
+    prop = "sp_entity_id" if provider == "sp" else "idp_entity_id"
+
+    result = list(filter(lambda p: p[prop] in manage_providers_entity_ids, first_logins))
+    return result, 200
 
 
 @stats_api.route("/last_login_time", strict_slashes=False)
@@ -60,10 +65,6 @@ def last_login_time():
     from_arg = _parse_date("from", required=True)
 
     request_args = {}
-    state = args.get("state")
-    if state and state in VALID_STATE:
-        request_args["state"] = state
-
     provider = args.get("provider")
     if provider and provider in VALID_PROVIDER:
         request_args["provider"] = provider
@@ -71,19 +72,19 @@ def last_login_time():
         raise ValueError(f"Must specify provider: {VALID_PROVIDER}")
 
     last_logins = last_login_providers(current_app.app_config, **request_args)
-    entity_ids = list(map(lambda p: p["sp_entity_id"] if provider == "sp" else p["idp_entity_id"], last_logins))
-
-    manage_providers = [] if current_app.app_config.manage.get("mock", False) else service_providers() \
-        if provider == "sp" else identity_providers()
-
-    manage_providers = list(
-        filter(lambda p: p["id"] not in entity_ids and (state == "all" or p["state"] == state), manage_providers))
 
     ft = int(from_arg) * 1000
     # All logins before from
     last_logins_before_from = list(filter(lambda p: p["time"] < ft, last_logins))
 
-    return manage_providers + last_logins_before_from, 200
+    manage_providers = service_providers() if provider == "sp" else identity_providers()
+    manage_providers_entity_ids = list(map(lambda p: p["id"], manage_providers))
+
+    # Filter out all of the results that are not present in Manage
+    prop = "sp_entity_id" if provider == "sp" else "idp_entity_id"
+
+    result = list(filter(lambda p: p[prop] in manage_providers_entity_ids, last_logins_before_from))
+    return result, 200
 
 
 def _add_manage_metadata(value, provider):
@@ -109,7 +110,7 @@ def drop_measurements():
 @stats_api.route("/service_providers", strict_slashes=False)
 @json_endpoint
 def service_provider_data():
-    sp_manage = [] if current_app.app_config.manage.get("mock", False) else service_providers()
+    sp_manage = service_providers()
     sp_influx = service_providers_tags(current_app.app_config.log.measurement, current_app.app_config.log.sp_id)
     sp_manage_dict = {sp["id"]: sp for sp in sp_manage}
     return list(
@@ -120,7 +121,7 @@ def service_provider_data():
 @stats_api.route("/identity_providers", strict_slashes=False)
 @json_endpoint
 def identity_providers_data():
-    idp_manage = [] if current_app.app_config.manage.get("mock", False) else identity_providers()
+    idp_manage = identity_providers()
     idp_influx = identity_providers_tags(current_app.app_config.log.measurement, current_app.app_config.log.idp_id)
     idp_manage_dict = {idp["id"]: idp for idp in idp_manage}
     return list(map(lambda idp: _add_manage_metadata(idp, idp_manage_dict[idp] if idp in idp_manage_dict else None),

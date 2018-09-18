@@ -41,6 +41,10 @@ div.chart-container {
                 margin-left: 15px;
             }
         }
+        span.clickable-label {
+            color: $blue;
+            cursor: pointer;
+        }
         div.highcharts-menu {
             border: 1px solid $blue !important;
             box-shadow: none !important;

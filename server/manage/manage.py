@@ -1,5 +1,14 @@
+import json
+import os
+
 import requests
 from flask import current_app
+
+
+def _read_file(file_name):
+    file = f"{os.path.dirname(os.path.realpath(__file__))}/{file_name}"
+    with open(file) as f:
+        return f.read()
 
 
 def _auth():
@@ -9,8 +18,11 @@ def _auth():
 
 def _data(entity_type, requested_fields=[]):
     with requests.Session() as s:
+        mock_manage = current_app.app_config.manage.get("mock", False)
         providers = s.post(f"{current_app.app_config.manage.url}/manage/api/internal/search/saml20_{entity_type}",
-                           json={"REQUESTED_ATTRIBUTES": requested_fields}, auth=_auth()).json()
+                           json={"REQUESTED_ATTRIBUTES": requested_fields},
+                           auth=_auth()).json() if not mock_manage \
+            else json.loads(_read_file(f"{entity_type}.json"))
         result = []
         for provider in providers:
             if "data" in provider:

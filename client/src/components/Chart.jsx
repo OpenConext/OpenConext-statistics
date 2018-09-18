@@ -26,27 +26,49 @@ const navigation = {
         symbolStrokeWidth: 4
     }
 };
-
 const exporting = {
     enabled: true,
+    allowHTML: true,
     buttons: {
         contextButton: {
             symbolStroke: '#4DB2CF',
             menuItems: [
-                'downloadCSV',
+                {
+                    text: I18n.t("export.downloadCSV"),
+                    onclick: function () {
+                        const csv = this.getCSV();
+                        const cleanedCsv = csv.replace(/"<span[^>]+(.*?)<\/span>"/g, "$1").replace(/>/g,"");
+                        this.fileDownload("data:text/csv,\ufeff" + encodeURIComponent(cleanedCsv), "csv", cleanedCsv, "text/csv")
+                    }
+                },
                 'separator',
                 'downloadPNG',
                 'downloadPDF',
             ]
-        }
-    }
+        },
+    },
 };
 
 export default class Chart extends React.PureComponent {
 
     constructor(props) {
         super(props);
-        this.state = {displayChart: true}
+        this.state = {displayChart: true};
+    }
+
+    labelListener = e => {
+        const {labels, onLabelClick} = this.props;
+        if (labels.indexOf(e.target.id) > -1) {
+            onLabelClick(e.target.id)
+        }
+    };
+
+    componentDidMount() {
+        document.addEventListener("click", this.labelListener);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener("click", this.labelListener);
     }
 
     nonAggregatedOptions = (data, includeUniques, guest, scale) => {
@@ -66,7 +88,7 @@ export default class Chart extends React.PureComponent {
             chart: {
                 zoomType: "x",
                 height: guest ? 525 : 682,
-                type: 'column'
+                type: scale === "minute" ? "line" : "column"
             },
             title: {text: null},
             yAxis: {
@@ -157,6 +179,7 @@ export default class Chart extends React.PureComponent {
         const series = [
             {name: I18n.t("chart.userCount"), color: "#15A300", data: data.map(p => p.count_user_id)}
         ];
+
         if (includeUniques) {
             series.push({
                 name: I18n.t("chart.uniqueUserCount"),
@@ -173,7 +196,7 @@ export default class Chart extends React.PureComponent {
             xAxis: {
                 categories: yValues, title: {text: null},
                 labels: {
-                    useHTML: false
+                    useHTML: true
                 }
             },
             yAxis: {min: 0, allowDecimals: false, title: {text: null}},
@@ -183,7 +206,7 @@ export default class Chart extends React.PureComponent {
             navigation: navigation,
             exporting: exporting,
             credits: {enabled: false},
-            series: series
+            series: series,
         };
     };
 
@@ -206,7 +229,9 @@ export default class Chart extends React.PureComponent {
             name += " - ";
             name += time.format(getDateTimeFormat(groupByScale))
         }
-        return name;
+        const id = groupedBySp ? point.sp_entity_id : point.idp_entity_id;
+        this.props.labels.push(id);
+        return groupedByBoth ? name : `<span class="clickable-label" id="${id}">${name}</span>`;
     };
 
     providerAccessor = (groupedBySp, serviceProvidersDict, identityProvidersDict) =>
@@ -362,4 +387,6 @@ Chart.propTypes = {
     guest: PropTypes.bool,
     goLeft: PropTypes.func,
     goRight: PropTypes.func,
+    labels: PropTypes.array,
+    onLabelClick: PropTypes.func
 };

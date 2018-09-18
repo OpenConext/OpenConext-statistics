@@ -1,0 +1,36 @@
+[
+  {
+    "_id": "2e6defbf-1583-494e-9c05-24526221a156",
+    "version": 0,
+    "type": "saml20_idp",
+    "data": {
+      "eid": 1,
+      "entityid": "https://idp/1",
+      "state": "prodaccepted",
+      "metaDataFields": {
+        "name:en": "IDP 1 EN",
+        "name:nl": "IDP 1 NL",
+        "coin:institution_type": "Bibliotheek",
+        "publish_in_edugain": "1",
+        "coin:guest_qualifier": "all"
+      }
+    }
+  },
+  {
+    "_id": "2e6defbf-1583-494e-9c05-24526221a152",
+    "version": 0,
+    "type": "saml20_idp",
+    "data": {
+      "eid": 1,
+      "entityid": "https://idp/2",
+      "state": "testaccepted",
+      "metaDataFields": {
+        "name:en": "IDP 2 EN",
+        "name:nl": "IDP 2 NL",
+        "coin:institution_type": "Ziekenhuis",
+        "publish_in_edugain": "0",
+        "coin:guest_qualifier": "some"
+      }
+    }
+  }
+]
