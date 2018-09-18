@@ -53,5 +53,3 @@ export const defaultScales = ["year", "quarter", "month", "week", "day", "hour",
 
 export const allowedAggregatedScales = ["year", "quarter", "month", "week", "day"];
 
-export const allowedGroupByPeriodScales = ["quarter", "month", "week", "day"];
-

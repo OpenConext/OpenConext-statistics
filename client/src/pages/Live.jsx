@@ -11,6 +11,7 @@ import {isEmpty, stop} from "../utils/Utils";
 import {getPeriod} from "../utils/Time";
 import "moment/locale/nl";
 import Filters from "../components/Filters";
+import SelectPeriod from "../components/SelectPeriod";
 
 moment.locale(I18n.locale);
 
@@ -185,6 +186,8 @@ export default class Live extends React.Component {
         this.setState(state, this.componentDidMount);
     };
 
+    onChangeSelectPeriod = newState => this.setState(newState, this.componentDidMount);
+
     onChangeUniques = e => this.setState({data: [], includeUniques: e.target.checked}, this.componentDidMount);
 
     onChangeGroupBySp = e => this.setState({
@@ -249,15 +252,16 @@ export default class Live extends React.Component {
             dataForChart = data.filter(idp => entityIds.indexOf(idp["idp_entity_id"]) > -1);
         }
         return (
-            <div className="live">
+            <div className={`live ${user.guest ? "guest" : ""}`}>
                 <section className="container">
-                    <Period onChangeFrom={this.onChangeFrom}
+                    {user.guest && <SelectPeriod onChangeSelectPeriod={this.onChangeSelectPeriod}/>}
+                    {!user.guest && <Period onChangeFrom={this.onChangeFrom}
                             onChangeTo={this.onChangeTo}
                             onChangeScale={this.onChangeScale}
                             from={from}
                             to={to}
                             scale={scale}
-                            aggregate={aggregate}/>
+                            aggregate={aggregate}/>}
                     {!user.guest && <GroupBy groupedByIdp={groupedByIdp}
                                              groupedBySp={groupedBySp}
                                              onChangeGroupByIdp={this.onChangeGroupByIdp}

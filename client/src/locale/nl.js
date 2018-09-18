@@ -99,6 +99,16 @@ I18n.translations.nl = {
         none: "N/A",
         date: "Datum"
     },
+    selectPeriod: {
+        title: "Periode",
+        subtitle: "Kies een periode",
+        year: "Jaar - laatste 5 jaren",
+        quarter: "Kwartaal - laatste 4 kwartalen",
+        month: "Maand - laatste 12 maanden",
+        day: "Day - laatste 90 dagen",
+        hour: "Uur - laatste 7 dagen",
+        minute: "Minuut - laatste 24 uur",
+    },
     reporting: {
         title: "Reporting",
         newcomers: "Nieuwe providers",

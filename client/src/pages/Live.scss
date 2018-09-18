@@ -5,14 +5,16 @@
     @include page;
     display: flex;
     margin-top: 15px;
+        &.guest {
+            display: block;
+        }
 
     section.container {
         margin-right: 15px;
         min-width: 20rem;
         display: flex;
         flex-direction: column;
-
-        div.period, div.providers, div.filters {
+        div.period, div.providers, div.filters, div.select-period {
             margin-bottom: 15px;
         }
     }

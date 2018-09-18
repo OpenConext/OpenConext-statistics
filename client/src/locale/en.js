@@ -98,6 +98,16 @@ I18n.translations.en = {
         none: "N/A",
         date: "Date"
     },
+    selectPeriod: {
+        title: "Period",
+        subtitle: "Choose a period",
+        year: "Year - last 5 years",
+        quarter: "Quarter - last 4 quarters",
+        month: "Month - last 12 months",
+        day: "Day - last 90 days",
+        hour: "Hour - last 7 days",
+        minute: "Minute - last 24 hours",
+    },
     reporting: {
         title: "Reporting",
         newcomers: "New providers",
