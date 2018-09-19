@@ -127,15 +127,17 @@ export default class Live extends React.Component {
 
     goLeft = e => {
         stop(e);
-        const from = moment(this.state.from).add(-1, this.state.scale);
-        const to = moment(this.state.to).add(-1, this.state.scale);
+        const scale = this.state.scale === "minute" || this.state.scale === "hour" ? "day" : this.state.scale;
+        const from = moment(this.state.from).add(-1, scale);
+        const to = moment(this.state.to).add(-1, scale);
         this.setState({from: from, to: to}, this.componentDidMount)
     };
 
     goRight = e => {
         stop(e);
-        const from = moment(this.state.from).add(1, this.state.scale);
-        const to = moment(this.state.to).add(1, this.state.scale);
+        const scale = this.state.scale === "minute" || this.state.scale === "hour" ? "day" : this.state.scale;
+        const from = moment(this.state.from).add(1, scale);
+        const to = moment(this.state.to).add(1, scale);
         this.setState({from: from, to: to}, this.componentDidMount)
     };
 
