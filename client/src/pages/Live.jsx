@@ -38,6 +38,10 @@ export default class Live extends React.Component {
     }
 
     componentDidMount() {
+        this.setState({data: []}, this.refreshStats);
+    }
+
+    refreshStats() {
         const {from, to, scale, idp, sp, groupedBySp, groupedByIdp, includeUniques, providerState, groupByScale} =
             this.state;
         let groupBy = undefined;
@@ -194,7 +198,9 @@ export default class Live extends React.Component {
 
     onChangeGroupBySp = e => this.setState({
         data: [], groupedBySp: e.target.checked,
-        groupedByIdp: false
+        groupedByIdp: false,
+        scale: this.state.scale === "minute" || this.state.scale === "hour" ? "month" : this.state.scale,
+        institutionType: "",
     }, this.componentDidMount);
 
     onChangeGroupScale = val => this.setState({
@@ -205,6 +211,7 @@ export default class Live extends React.Component {
         data: [], groupedByIdp: e.target.checked,
         groupedBySp: false,
         institutionType: "",
+        scale: this.state.scale === "minute" || this.state.scale === "hour" ? "month" : this.state.scale
     }, this.componentDidMount);
 
     onLabelClick = entityId => {
