@@ -21,17 +21,27 @@ div.select-period {
 
     section.controls {
         padding: 10px 15px;
+            align-items: center;
+        display: flex;
         span.sub-title {
             &:not(:first-child) {
                 display: inline-block;
                 margin-top: 10px;
             }
         }
+        i.fa-refresh {
+            margin-left: 15px;
+            font-size: 28px;
+            color: $blue;
+            cursor: pointer;
+        }
     }
     span.Select-clear-zone {
         display: none;
     }
-
+    div.Select {
+       flex-grow: 2;
+    }
     div.Select-control {
         border-radius: $br;
         border: 1px solid $lighter-grey;

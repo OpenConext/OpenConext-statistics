@@ -56,6 +56,7 @@ export default class SelectPeriod extends React.PureComponent {
                         searchable={false}
                         clearable={false}
                     />
+                    <span onClick={this.changeSelectPeriod(this.state.period)}><i className="fa fa-refresh" ></i></span>
                 </section>
             </div>
         );
