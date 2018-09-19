@@ -1,5 +1,6 @@
 database:
   name: eb_logs_test
+#  name: eb_logs_poc
   host: localhost
   port: 8086
   username: ""

@@ -329,7 +329,7 @@ export default class Chart extends React.PureComponent {
 
         const options = aggregate ? this.aggregatedOptions(data, yValues, includeUniques, guest, !isEmpty(groupByScale)) :
             this.nonAggregatedOptions(data, includeUniques, guest, scale);
-
+        const rightClassName = this.props.rightDisabled ? "disabled" : "";
         return (
             <section className="chart">
                 {title && <span className={`title ${displayChart ? "" : "hide"}`}
@@ -339,7 +339,7 @@ export default class Chart extends React.PureComponent {
                                                      options={options}/>}
                 {!aggregate && <section className="navigate">
                     <span onClick={this.props.goLeft}><i className="fa fa-arrow-left"></i></span>
-                    <span onClick={this.props.goRight}><i className="fa fa-arrow-right"></i></span>
+                    <span onClick={this.props.goRight}><i className={`fa fa-arrow-right ${rightClassName}`}></i></span>
                 </section>}
             </section>
         );
@@ -387,6 +387,7 @@ Chart.propTypes = {
     guest: PropTypes.bool,
     goLeft: PropTypes.func,
     goRight: PropTypes.func,
+    rightDisabled: PropTypes.bool,
     labels: PropTypes.array,
     onLabelClick: PropTypes.func
 };

@@ -33,7 +33,8 @@ export default class Live extends React.Component {
             providerState: "all",
             download: false,
             matrix: [],
-            groupByScale: ""
+            groupByScale: "",
+            maximumTo: false
         };
     }
 
@@ -134,15 +135,20 @@ export default class Live extends React.Component {
         const scale = this.state.scale === "minute" || this.state.scale === "hour" ? "day" : this.state.scale;
         const from = moment(this.state.from).add(-1, scale);
         const to = moment(this.state.to).add(-1, scale);
-        this.setState({from: from, to: to}, this.componentDidMount)
+        this.setState({from: from, to: to, maximumTo: false}, this.componentDidMount)
     };
 
     goRight = e => {
         stop(e);
+        if (this.state.maximumTo) {
+            return;
+        }
         const scale = this.state.scale === "minute" || this.state.scale === "hour" ? "day" : this.state.scale;
         const from = moment(this.state.from).add(1, scale);
         const to = moment(this.state.to).add(1, scale);
-        this.setState({from: from, to: to}, this.componentDidMount)
+        const tomorrowMidnight = moment().add(1, "day").startOf("day");
+        const maximumTo = tomorrowMidnight.isBefore(to);
+        this.setState({from: from , to: maximumTo ? tomorrowMidnight : to, maximumTo: maximumTo}, this.componentDidMount);
     };
 
     onChangeFrom = val => {
@@ -249,7 +255,7 @@ export default class Live extends React.Component {
     render() {
         const {
             data, from, to, scale, sp, idp, groupedByIdp, groupedBySp, providerState, includeUniques, download,
-            matrix, institutionType, groupByScale
+            matrix, institutionType, groupByScale, maximumTo
         } = this.state;
         const aggregate = groupedByIdp || groupedBySp;
         const {identityProviders, serviceProviders, user, identityProvidersDict, serviceProvidersDict} = this.props;
@@ -308,6 +314,7 @@ export default class Live extends React.Component {
                        groupByScale={groupByScale}
                        goRight={this.goRight}
                        goLeft={this.goLeft}
+                       rightDisabled={maximumTo}
                        labels={[]}
                        onLabelClick={this.onLabelClick}/>
             </div>
