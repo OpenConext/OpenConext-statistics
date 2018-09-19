@@ -56,8 +56,8 @@ def _serie_skeleton(measurement, _from, time, row):
         serie["tags"]["idp_entity_id"] = row["idp_entityid"]
     if "sp_entityid" in row:
         serie["tags"]["sp_entity_id"] = row["sp_entityid"]
-    serie["tags"]["month"] = _from.month
-    serie["tags"]["quarter"] = math.floor((_from.month + 2) / 3)
+    serie["tags"]["month"] = _from.strftime("%m")
+    serie["tags"]["quarter"] = f"{math.floor((_from.month + 2) / 3)}"
     return serie
 
 
