@@ -224,11 +224,9 @@ export default class Live extends React.Component {
 
     onDownload = e => {
         stop(e);
-        const {from, scale, providerState} =
-            this.state;
-        const period = getPeriod(from, scale || "year");
-
-        this.doAggregatedLogin(period, true, undefined, undefined, undefined, undefined, "idp_id,sp_id", providerState, true, true, false, true)
+        const {from, scale, providerState} = this.state;
+        const period = getPeriod(from, scale === "minute" || scale === "hour" ? "year" : scale || "year");
+        this.doAggregatedLogin(period, true, undefined, undefined, undefined, undefined, "idp_id,sp_id", providerState, true, true, undefined, true)
     };
 
     title = (from, to, aggregate, groupedBySp, groupedByIdp, scale) => {
