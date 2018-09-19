@@ -141,7 +141,9 @@ def login_by_aggregated(config, period, idp_entity_id=None, sp_entity_id=None, i
     if needs_grouping:
         q += f" where 1=1 and year = '{period[0:4]}'"
         if measurement_scale != "year":
-            q += f" and {measurement_scale} = '{int(period[5:])}'"
+            tag_value = period[5:]
+            tag_value = "0" + tag_value if len(tag_value) == 1 and measurement_scale == "month" else tag_value
+            q += f" and {measurement_scale} = '{tag_value}'"
     else:
         from_seconds, to_seconds = start_end_period(period)
         q += f" where 1=1 and time >= {from_seconds}s and time < {to_seconds}s "

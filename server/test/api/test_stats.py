@@ -87,7 +87,7 @@ class TestStats(AbstractTest):
         self.mock_manage(type="idp")
         json = self.get("first_login_time", query_data={"period": "2016M5", "provider": "idp", "state": "prodaccepted"})
         self.assertListEqual([{"count_user_id": 1, "distinct_count_user_id": 1, "idp_entity_id": "https://idp/1",
-                               "month": "5", "quarter": "2", "time": 1463356800000, "year": "2016"}], json)
+                               "month": "05", "quarter": "2", "time": 1463356800000, "year": "2016"}], json)
 
     def test_first_login_invalid_period(self):
         self.get("first_login_time", query_data={"period": "bogus"}, response_status_code=500)

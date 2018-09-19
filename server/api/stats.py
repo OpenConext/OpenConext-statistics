@@ -183,8 +183,8 @@ def _parse_date(key, required=False, message=None):
     if isinstance(date, datetime.datetime):
         return int(date.timestamp())
     # if unix epoch then we need to convert from local to utc for influxdb
-    ld = datetime.datetime.fromtimestamp(int(date))
-    return int(datetime.datetime(year=ld.year, month=ld.month, day=ld.day, tzinfo=tz.tzutc()).timestamp())
+    # return int(date) + time.altzone if time.daylight else time.timezone
+    return int(date)
 
 
 @stats_api.route("/public/login_time_frame", strict_slashes=False)

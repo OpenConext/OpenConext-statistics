@@ -39,7 +39,7 @@ class AbstractTest(TestCase):
             rd = datetime.datetime.utcfromtimestamp(entry["time"] // 1000000000)
             entry["tags"]["year"] = f"{rd.year}"
             entry["tags"]["quarter"] = f"{((rd.month-1)//3) + 1}"
-            entry["tags"]["month"] = f"{rd.month}"
+            entry["tags"]["month"] = rd.strftime("%m")
             return entry
 
         with open(file) as f:
