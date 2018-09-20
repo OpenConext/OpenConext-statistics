@@ -11,7 +11,7 @@
         "name:en": "IDP 1 EN",
         "name:nl": "IDP 1 NL",
         "coin:institution_type": "Bibliotheek",
-        "publish_in_edugain": "1",
+        "coin:publish_in_edugain": "1",
         "coin:guest_qualifier": "all"
       }
     }
@@ -28,8 +28,7 @@
         "name:en": "IDP 2 EN",
         "name:nl": "IDP 2 NL",
         "coin:institution_type": "Ziekenhuis",
-        "publish_in_edugain": "0",
-        "coin:guest_qualifier": "some"
+        "coin:publish_in_edugain": "1"
       }
     }
   }
