@@ -156,18 +156,18 @@ I18n.translations.nl = {
     },
 
     eduGain: {
-        loading: "Loading...",
-        title: "Identity providers",
-        info: "The following organizations are members of the SURFconext federation. The eduGAIN column indicates whether the organization is also available in <a href=\"https://wiki.surfnet.nl/display/surfconextdev/International+collaboration+through+eduGAIN\" target=\"_blank\">eduGAIN.</a>",
-        organizationName: "Organization name",
+        loading: "Laden...",
+        title: "Instellingen",
+        info: "De volgende instellingen zijn leden van de SURFconext federatie. De eduGAIN kolom geeft weer of the instelling ook gepubliceerd is in <a href=\"https://wiki.surfnet.nl/display/surfconextdev/International+collaboration+through+eduGAIN\" target=\"_blank\">eduGAIN.</a>",
+        organizationName: "Organisatie naam",
         surfConext: "SURFconext",
         eduGAIN: "EduGAIN",
         total: "Totaal",
-        totalNonMembers: "Total: {{count}} non-member / guest organizations",
-        guest: "non-member / guest organizations",
-        nonMember: "non-member IdP",
-        notFullMembers: "There are a number of Identity GroupBy available in SURFconext that are not full members of the federation. The following IdPs and organization can only use a limited set of services (which set may differ per IdP). They will not be published in eduGAIN.",
-        footer: "For technical details about connected IdPs please refer to <a href=\"https://engine.surfconext.nl/\" target=\"_blank\">our IdPs metadata</a>. For more information about SURFconext please see www.surfconext.nl."
+        totalNonMembers: "Totaal: {{count}} non-member / gast organisaties",
+        guest: "non-member / gast organisaties",
+        nonMember: "non-member instelling",
+        notFullMembers: "Een aantal instellingen beschikbaar in SURFconext zijn geen volwaardige leden van de federatie. De volgende instellingen gebruiken slechts een gelimiteerd aantal diensten - welke verschilt per instelling. Ze worden niet gepubliceerd in eduGAIN.",
+        footer: "De technische details van de verbonden instellingen is beschikbaar <a href=\"https://engine.surfconext.nl/\" target=\"_blank\">in de SURFconext metadata</a>. Voor meer informatie over SURFconext zie <a href=\"www.surfconext.nl/\" target=\"_blank\">www.surfconext.nl</a>."
     },
 
     error_dialog: {
