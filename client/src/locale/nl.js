@@ -167,7 +167,7 @@ I18n.translations.nl = {
         guest: "non-member / gast organisaties",
         nonMember: "non-member instelling",
         notFullMembers: "Een aantal instellingen beschikbaar in SURFconext zijn geen volwaardige leden van de federatie. De volgende instellingen gebruiken slechts een gelimiteerd aantal diensten - welke verschilt per instelling. Ze worden niet gepubliceerd in eduGAIN.",
-        footer: "De technische details van de verbonden instellingen is beschikbaar <a href=\"https://engine.surfconext.nl/\" target=\"_blank\">in de SURFconext metadata</a>. Voor meer informatie over SURFconext zie <a href=\"www.surfconext.nl/\" target=\"_blank\">www.surfconext.nl</a>."
+        footer: "De technische details van de verbonden instellingen is beschikbaar <a href=\"https://engine.surfconext.nl/\" target=\"_blank\">in de SURFconext metadata</a>. Voor meer informatie over SURFconext zie <a href=\"https://www.surfconext.nl/\" target=\"_blank\">www.surfconext.nl</a>."
     },
 
     error_dialog: {
