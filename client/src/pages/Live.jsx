@@ -172,7 +172,9 @@ export default class Live extends React.Component {
         } else if (scale === "hour" && diff > 7) {
             additionalState = {from: moment(val).add(-7, "day"), includeUniques: false};
         }
-        this.setState({data: [], to: val, ...additionalState}, this.componentDidMount)
+        const tomorrowMidnight = moment().add(1, "day").startOf("day");
+        const maximumTo = tomorrowMidnight.isBefore(val);
+        this.setState({data: [], maximumTo: maximumTo, to: val, ...additionalState}, this.componentDidMount)
     };
 
     onChangeSp = val => this.setState({data: [], sp: val, groupByScale: isEmpty(val) ? "" : this.state.groupByScale},
