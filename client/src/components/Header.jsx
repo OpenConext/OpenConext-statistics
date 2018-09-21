@@ -38,7 +38,7 @@ export default class Header extends React.PureComponent {
         }
         const logo = currentUser.product === "OpenConext" ? logoOpenConext : logoSurfConext;
         return (
-            <div className="header-container">
+            <div className={`header-container ${currentUser.guest ? "guest" : ""}`}>
                 <div className="header">
                     <Link to="/" className="logo"><img src={logo} alt=""/></Link>
                     <p className="title">{I18n.t(`header.${currentUser.product.organization || "OpenConext"}`)}</p>

@@ -54,7 +54,7 @@ export default class Navigation extends React.PureComponent {
 
     render() {
         const {currentUser} = this.props;
-        if (isEmpty(currentUser)) {
+        if (isEmpty(currentUser) || currentUser.guest) {
             return null;
         }
         return (

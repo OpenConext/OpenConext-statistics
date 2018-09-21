@@ -268,7 +268,7 @@ export default class Live extends React.Component {
         }
         return (
             <div className={`live ${user.guest ? "guest" : ""}`}>
-                <section className="container">
+                <section className={`container ${user.guest ? "guest" : ""}`}>
                     {user.guest && <SelectPeriod onChangeSelectPeriod={this.onChangeSelectPeriod}/>}
                     {!user.guest && <Period onChangeFrom={this.onChangeFrom}
                             onChangeTo={this.onChangeTo}
@@ -317,7 +317,6 @@ export default class Live extends React.Component {
                        goRight={this.goRight}
                        goLeft={this.goLeft}
                        rightDisabled={maximumTo}
-                       labels={[]}
                        onLabelClick={this.onLabelClick}/>
             </div>
         );

@@ -57,8 +57,8 @@ export default class Chart extends React.PureComponent {
     }
 
     labelListener = e => {
-        const {labels, onLabelClick} = this.props;
-        if (labels.indexOf(e.target.id) > -1) {
+        const {onLabelClick} = this.props;
+        if (e.target.dataset && e.target.dataset.id === "true") {
             onLabelClick(e.target.id)
         }
     };
@@ -92,9 +92,10 @@ export default class Chart extends React.PureComponent {
             },
             title: {text: null},
             yAxis: {
-                title: {text: "Logins"},
+                title: {text: I18n.t("chart.chart", {scale}) },
                 labels: {},
                 min: 0,
+                offset: 15,
                 allowDecimals: false,
                 plotLines: [{
                     value: 0,
@@ -230,8 +231,7 @@ export default class Chart extends React.PureComponent {
             name += time.format(getDateTimeFormat(groupByScale))
         }
         const id = groupedBySp ? point.sp_entity_id : point.idp_entity_id;
-        this.props.labels.push(id);
-        return groupedByBoth ? name : `<span class="clickable-label" id="${id}">${name}</span>`;
+        return groupedByBoth ? name : `<span class="clickable-label" id="${id}" data-id="true">${name}</span>`;
     };
 
     providerAccessor = (groupedBySp, serviceProvidersDict, identityProvidersDict) =>
@@ -388,6 +388,5 @@ Chart.propTypes = {
     goLeft: PropTypes.func,
     goRight: PropTypes.func,
     rightDisabled: PropTypes.bool,
-    labels: PropTypes.array,
     onLabelClick: PropTypes.func
 };

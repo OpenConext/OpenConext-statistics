@@ -17,6 +17,9 @@
         div.period, div.providers, div.filters, div.select-period {
             margin-bottom: 15px;
         }
+        &.guest {
+            margin-right: 0;
+        }
     }
 }
 

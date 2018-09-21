@@ -4,8 +4,10 @@
 
 .header-container {
 
-    background-color: white;
-
+    background: white;
+    &.guest {
+        background: none;
+    }
     .header {
         max-width: $medium;
         margin: 0 auto;

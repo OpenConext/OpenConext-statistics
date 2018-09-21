@@ -120,6 +120,7 @@ I18n.translations.nl = {
     },
     chart: {
         title: "Logins en gebruikers per dag",
+        chart: "Logins per {{scale}}",
         userCount: "Totale logins",
         uniqueUserCount: "Unieke gebruikers",
         loading: "Data ophalen....",
