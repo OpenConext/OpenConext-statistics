@@ -128,6 +128,17 @@ def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entit
     return remove_aggregated_time_info(records)
 
 
+def login_count_per_idp_sp(config, from_seconds, to_seconds, idp_entity_id, sp_entity_id, epoch=None, state=None):
+    q = f"select count(user_id) as count_user_id, count(distinct(user_id)) as distinct_count_user_id " \
+        f"from {config.log.measurement} " \
+        f"where time >= {from_seconds}s and time < {to_seconds}s " \
+        f"and {config.log.sp_id} = '{sp_entity_id}' " \
+        f"and {config.log.idp_id} = '{idp_entity_id}' "
+    q += f" and state = '{state}'" if state else ""
+    records = _query(q, epoch=epoch)
+    return remove_aggregated_time_info(records)
+
+
 def login_by_aggregated(config, period, idp_entity_id=None, sp_entity_id=None, include_unique=True, group_by=[],
                         epoch=None, state=None, group_by_period=None):
     measurement_scale = "year" if len(period) == 4 \

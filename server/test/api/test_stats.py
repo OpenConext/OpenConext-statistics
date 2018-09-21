@@ -365,3 +365,10 @@ class TestStats(AbstractTest):
                         query_data={"period": "2017", "state": "prodaccepted"})
         self.assertListEqual([{"count_user_id": 8, "time": "2017-01-01T00:00:00Z"},
                               {"distinct_count_user_id": 7, "time": "2017-01-01T00:00:00Z"}], json)
+
+    def test_login_unique_login_count(self):
+        json = self.get("public/unique_login_count",
+                        query_data={"from": "1468793490", "to": "1506372026", "idp_id": "https://idp/1",
+                                    "sp_id": "https://sp/2", "state": "prodaccepted"})
+        print(json)
+        self.assertListEqual([{'count_user_id': 2, 'distinct_count_user_id': 2, 'time': '2016-07-17T22:11:30Z'}], json)

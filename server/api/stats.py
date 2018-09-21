@@ -9,7 +9,7 @@ from server.api.base import json_endpoint
 from server.influx.cq import backfill_login_measurements
 from server.influx.repo import login_by_time_frame, \
     service_providers_tags, identity_providers_tags, login_by_aggregated, first_login_from_to, last_login_providers, \
-    database_stats, drop_measurements_and_cq
+    database_stats, drop_measurements_and_cq, login_count_per_idp_sp
 from server.influx.time import start_end_period
 from server.manage.manage import service_providers, connected_identity_providers, identity_providers
 
@@ -134,19 +134,20 @@ def identity_provider_data():
     return connected_identity_providers(), 200
 
 
-def _options(include_group_by=True, blacklisted_args=["idp_entity_id", "sp_entity_id", "group_by"]):
+def _options(include_group_by=True, include_unique=True,
+             blacklisted_args=["idp_entity_id", "sp_entity_id", "group_by"]):
     args = current_request.args
     log = current_app.app_config.log
     request_args = {"idp_entity_id": args.get("idp_id"),
                     "sp_entity_id": args.get("sp_id"),
-                    "include_unique": "true" == args.get("include_unique", default="true").lower(),
                     "epoch": args.get("epoch")
                     }
     if include_group_by:
         group_by = args.get("group_by", default="").split(",")
         request_args["group_by"] = list(map(lambda s: log[s],
                                             filter(lambda s: s in VALID_GROUP_BY, map(lambda s: s.strip(), group_by))))
-
+    if include_unique:
+        request_args["include_unique"] = "true" == args.get("include_unique", default="true").lower()
     group_by_period = args.get("group_by_period")
     if group_by_period:
         if group_by_period not in VALID_PERIOD_SCALE:
@@ -196,6 +197,16 @@ def login_time_frame():
 
     results = login_by_time_frame(current_app.app_config, from_seconds, to_seconds, scale=scale,
                                   **_options(False))
+    return results if len(results) > 0 else ["no_results"], 200
+
+
+@stats_api.route("/public/unique_login_count", strict_slashes=False)
+@json_endpoint
+def unique_login_count():
+    from_seconds = _parse_date("from", required=True)
+    to_seconds = _parse_date("to")
+
+    results = login_count_per_idp_sp(current_app.app_config, from_seconds, to_seconds, **_options(False, False))
     return results if len(results) > 0 else ["no_results"], 200
 
 
