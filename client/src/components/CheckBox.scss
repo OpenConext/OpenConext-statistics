@@ -2,13 +2,15 @@
 
 div.checkbox {
 
+    display: flex;
+    align-items: center;
+
     input[type="checkbox"] {
         display: none;
     }
 
     label {
         display: inline-block;
-        margin: 3px 0;
         &.info {
             margin-left: 10px;
         }
@@ -55,5 +57,11 @@ div.checkbox {
         i {
             background-color: $medium-grey;
         }
+    }
+
+    i.fa-info-circle {
+        color: $blue;
+        margin-left: 8px;
+        font-size: 16px;
     }
 }

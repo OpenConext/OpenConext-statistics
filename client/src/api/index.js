@@ -110,6 +110,17 @@ export function loginAggregated({
     return fetchJson(`/api/stats/public/login_aggregated${query}`)
 }
 
+export function uniqueLoginCount({
+                                   from, to = Math.floor(new Date().getTime() / 1000),
+                                   idp_id,
+                                   sp_id,
+                                   epoch = "ms",
+                                   state = "all"
+                               }) {
+    const query = queryParam(arguments);
+    return fetchJson(`/api/stats/public/unique_login_count${query}`)
+}
+
 export function firstLoginTime({
                                    from = undefined,
                                    to = undefined,

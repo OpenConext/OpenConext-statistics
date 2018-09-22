@@ -1,5 +1,5 @@
 import React from "react";
-import {loginAggregated, loginTimeFrame} from "../api";
+import {loginAggregated, loginTimeFrame, uniqueLoginCount} from "../api";
 import I18n from "i18n-js";
 import "./Live.css";
 import Period from "../components/Period";
@@ -34,7 +34,8 @@ export default class Live extends React.Component {
             download: false,
             matrix: [],
             groupByScale: "",
-            maximumTo: false
+            maximumTo: false,
+            noTimeFrame: false,
         };
     }
 
@@ -43,7 +44,7 @@ export default class Live extends React.Component {
     }
 
     refreshStats() {
-        const {from, to, scale, idp, sp, groupedBySp, groupedByIdp, includeUniques, providerState, groupByScale} =
+        const {from, to, scale, idp, sp, groupedBySp, groupedByIdp, includeUniques, providerState, groupByScale, noTimeFrame} =
             this.state;
         let groupBy = undefined;
         if (isEmpty(sp) || isEmpty(idp)) {
@@ -53,7 +54,17 @@ export default class Live extends React.Component {
             groupBy = "idp_id,sp_id";
         }
         const period = getPeriod(from, scale);
-        if (groupedBySp || groupedByIdp) {
+        if (noTimeFrame) {
+            uniqueLoginCount({
+                from: from ? from.unix() : moment().startOf("day").unix(),
+                to: to ? to.unix() : moment().endOf("day").unix(),
+                idp_id: idp,
+                sp_id: sp,
+                epoch: "ms",
+                state: providerState
+            }).then(res => this.setState({data: res}));
+        }
+        else if (groupedBySp || groupedByIdp) {
             this.doAggregatedLogin(period, includeUniques, from, to, idp, sp, groupBy, providerState, groupedBySp, groupedByIdp, groupByScale);
         } else {
             loginTimeFrame({
@@ -148,7 +159,11 @@ export default class Live extends React.Component {
         const to = moment(this.state.to).add(1, scale);
         const tomorrowMidnight = moment().add(1, "day").startOf("day");
         const maximumTo = tomorrowMidnight.isBefore(to);
-        this.setState({from: from , to: maximumTo ? tomorrowMidnight : to, maximumTo: maximumTo}, this.componentDidMount);
+        this.setState({
+            from: from,
+            to: maximumTo ? tomorrowMidnight : to,
+            maximumTo: maximumTo
+        }, this.componentDidMount);
     };
 
     onChangeFrom = val => {
@@ -222,6 +237,10 @@ export default class Live extends React.Component {
         scale: this.state.scale === "minute" || this.state.scale === "hour" ? "month" : this.state.scale
     }, this.componentDidMount);
 
+    onChangeNoTimeFrame = () => this.setState({
+        noTimeFrame: !this.state.noTimeFrame
+    }, this.componentDidMount);
+
     onLabelClick = entityId => {
         const {groupedByIdp, groupedBySp} = this.state;
         this.setState({
@@ -237,8 +256,15 @@ export default class Live extends React.Component {
         this.doAggregatedLogin(period, true, undefined, undefined, undefined, undefined, "idp_id,sp_id", providerState, true, true, undefined, true)
     };
 
-    title = (from, to, aggregate, groupedBySp, groupedByIdp, scale) => {
+    title = (from, to, aggregate, groupedBySp, groupedByIdp, scale, noTimeFrame) => {
         const format = scale === "minute" || scale === "hour" ? "L" : "L";//'MMMM Do YYYY, h:mm:ss a'
+        if (noTimeFrame){
+            return I18n.t("live.noTimeFrameChart", {
+                from: from.format(format),
+                to: to.format(format),
+                scale: I18n.t(`period.${scale}`).toLowerCase()
+            });
+        }
         if (!aggregate) {
             return I18n.t("live.chartTitle", {
                 from: from.format(format),
@@ -257,7 +283,7 @@ export default class Live extends React.Component {
     render() {
         const {
             data, from, to, scale, sp, idp, groupedByIdp, groupedBySp, providerState, includeUniques, download,
-            matrix, institutionType, groupByScale, maximumTo
+            matrix, institutionType, groupByScale, maximumTo, noTimeFrame
         } = this.state;
         const aggregate = groupedByIdp || groupedBySp;
         const {identityProviders, serviceProviders, user, identityProvidersDict, serviceProvidersDict} = this.props;
@@ -266,17 +292,27 @@ export default class Live extends React.Component {
             const entityIds = identityProviders.filter(idp => idp["coin:institution_type"] === institutionType).map(idp => idp.id);
             dataForChart = data.filter(idp => entityIds.indexOf(idp["idp_entity_id"]) > -1);
         }
+        const disabled = [];
+        if (isEmpty(sp) || isEmpty(idp) || groupedByIdp || groupedBySp) {
+            disabled.push("noTimeframe");
+        }
+        if (noTimeFrame) {
+            disabled.push("scale");
+        }
         return (
             <div className={`live ${user.guest ? "guest" : ""}`}>
                 <section className={`container ${user.guest ? "guest" : ""}`}>
                     {user.guest && <SelectPeriod onChangeSelectPeriod={this.onChangeSelectPeriod}/>}
                     {!user.guest && <Period onChangeFrom={this.onChangeFrom}
-                            onChangeTo={this.onChangeTo}
-                            onChangeScale={this.onChangeScale}
-                            from={from}
-                            to={to}
-                            scale={scale}
-                            aggregate={aggregate}/>}
+                                            onChangeTo={this.onChangeTo}
+                                            onChangeScale={this.onChangeScale}
+                                            from={from}
+                                            to={to}
+                                            scale={scale}
+                                            aggregate={aggregate}
+                                            noTimeFrame={noTimeFrame}
+                                            disabled={disabled}
+                                            changeTimeFrame={this.onChangeNoTimeFrame}/>}
                     {!user.guest && <GroupBy groupedByIdp={groupedByIdp}
                                              groupedBySp={groupedBySp}
                                              onChangeGroupByIdp={this.onChangeGroupByIdp}
@@ -306,7 +342,7 @@ export default class Live extends React.Component {
                 <Chart data={dataForChart}
                        scale={scale}
                        includeUniques={includeUniques}
-                       title={this.title(from, to, aggregate, groupedBySp, groupedByIdp, scale)}
+                       title={this.title(from, to, aggregate, groupedBySp, groupedByIdp, scale, noTimeFrame)}
                        groupedBySp={groupedBySp}
                        groupedByIdp={groupedByIdp}
                        aggregate={aggregate}
@@ -317,7 +353,8 @@ export default class Live extends React.Component {
                        goRight={this.goRight}
                        goLeft={this.goLeft}
                        rightDisabled={maximumTo}
-                       onLabelClick={this.onLabelClick}/>
+                       onLabelClick={this.onLabelClick}
+                       noTimeFrame={noTimeFrame} />
             </div>
         );
     }

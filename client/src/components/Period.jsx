@@ -10,6 +10,7 @@ import "./Period.css";
 import moment from "moment";
 import {isEmpty} from "../utils/Utils";
 import {allowedAggregatedScales, defaultScales, getDateTimeFormat} from "../utils/Time";
+import CheckBox from "./CheckBox";
 
 export default class Period extends React.PureComponent {
 
@@ -55,7 +56,10 @@ export default class Period extends React.PureComponent {
 
     render() {
         const {displayDetails} = this.state;
-        const {scale, onChangeScale, onChangeFrom, from, to, onChangeTo, aggregate, allowedScales, disabled = []} = this.props;
+        const {
+            scale, onChangeScale, onChangeFrom, from, to, onChangeTo, aggregate, allowedScales, disabled = [],
+            noTimeFrame, changeTimeFrame
+        } = this.props;
         let scales;
         if (isEmpty(allowedScales)) {
             scales = aggregate ? [...this.state.scales].filter(s => allowedAggregatedScales.indexOf(s) > -1) : this.state.scales;
@@ -79,6 +83,9 @@ export default class Period extends React.PureComponent {
                             clearable={false}
                             disabled={disabled.indexOf("scale") > -1}
                     />
+                    <CheckBox name="no-timeframe-check" value={noTimeFrame} readOnly={disabled.indexOf("noTimeframe") > -1}
+                              onChange={changeTimeFrame} info={I18n.t("period.noTimeFrame")}
+                              tooltip={I18n.t("period.noTimeFrameTooltip")}/>
                     <span className="sub-title">{fromTitle}</span>
                     <DatePicker
                         selected={from}
@@ -116,5 +123,6 @@ Period.propTypes = {
     to: PropTypes.object,
     aggregate: PropTypes.bool,
     allowedScales: PropTypes.array,
-    disabled: PropTypes.array
+    disabled: PropTypes.array,
+    changeTimeFrame: PropTypes.func,
 };

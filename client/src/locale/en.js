@@ -96,7 +96,9 @@ I18n.translations.en = {
         hour: "Hour",
         minute: "Minute",
         none: "N/A",
-        date: "Date"
+        date: "Date",
+        noTimeFrame: "No timeframe",
+        noTimeFrameTooltip: "Select this to get the count of total unique users in the specified period.<br/>This is only possible if you both select a Service and Institution in the Filter section",
     },
     selectPeriod: {
         title: "Period",
@@ -137,7 +139,8 @@ I18n.translations.en = {
     },
     live: {
         chartTitle: "Logins from {{from}} until {{to}} grouped by {{scale}}",
-        aggregatedChartTitlePeriod: "Logins in the period {{period}} grouped by {{group}}"
+        aggregatedChartTitlePeriod: "Logins in the period {{period}} grouped by {{group}}",
+        noTimeFrameChart: "Logins from {{from}} until {{to}}"
     },
     filters: {
         title: "Filters",

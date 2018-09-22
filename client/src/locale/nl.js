@@ -97,7 +97,9 @@ I18n.translations.nl = {
         hour: "Uur",
         minute: "Minuut",
         none: "N/A",
-        date: "Datum"
+        date: "Datum",
+        noTimeFrame: "Geen tijdsspanne",
+        noTimeFrameTooltip: "Gebruik dit om het aantal unieke gebruikers in de gespecificeerde periode op te vragen.<br/>Dit is alleen mogelijk als er zowel dienst en instelling in de Filter sectie zijn geselecteerd.",
     },
     selectPeriod: {
         title: "Periode",
@@ -138,7 +140,8 @@ I18n.translations.nl = {
     },
     live: {
         chartTitle: "Logins van {{from}} tot {{to}} gegroepeerd op {{scale}}",
-        aggregatedChartTitlePeriod: "Logins in de periode {{period}} gegroepeerd op {{group}}"
+        aggregatedChartTitlePeriod: "Logins in de periode {{period}} gegroepeerd op {{group}}",
+        noTimeFrameChart: "Logins van {{from}} tot {{to}}"
     },
     filters: {
         title: "Filters",

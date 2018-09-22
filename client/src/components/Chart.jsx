@@ -319,7 +319,7 @@ export default class Chart extends React.PureComponent {
     renderTable = (data, title, includeUniques, aggregate, groupedBySp, identityProvidersDict,
                    serviceProvidersDict) =>
         aggregate ? this.renderTableAggregate(data, title, includeUniques, groupedBySp, identityProvidersDict,
-            serviceProvidersDict) : this.renderTableNonAggregate(data, title, includeUniques)
+            serviceProvidersDict) : this.renderTableNonAggregate(data, title, includeUniques);
 
     renderChart = (data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
                    serviceProvidersDict, guest, groupByScale, displayChart, scale) => {
@@ -337,7 +337,7 @@ export default class Chart extends React.PureComponent {
                 {displayChart && <HighChartContainer highcharts={aggregate ? HighChart : HighStock}
                                                      constructorType={aggregate ? "chart" : "stockChart"}
                                                      options={options}/>}
-                {!aggregate && <section className="navigate">
+                {(!aggregate && !this.props.noTimeFrame) && <section className="navigate">
                     <span onClick={this.props.goLeft}><i className="fa fa-arrow-left"></i></span>
                     <span onClick={this.props.goRight}><i className={`fa fa-arrow-right ${rightClassName}`}></i></span>
                 </section>}
@@ -388,5 +388,6 @@ Chart.propTypes = {
     goLeft: PropTypes.func,
     goRight: PropTypes.func,
     rightDisabled: PropTypes.bool,
-    onLabelClick: PropTypes.func
+    onLabelClick: PropTypes.func,
+    noTimeFrame: PropTypes.bool
 };
