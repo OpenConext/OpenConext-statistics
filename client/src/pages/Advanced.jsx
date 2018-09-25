@@ -11,6 +11,7 @@ import {firstLoginTime, lastLoginTime} from "../api";
 import ProviderTable from "../components/ProviderTable";
 import {isEmpty, providerName} from "../utils/Utils";
 import Reporting from "../components/Reporting";
+import ClipBoardCopy from "../components/ClipBoardCopy";
 
 moment.locale(I18n.locale);
 
@@ -117,6 +118,10 @@ export default class Advanced extends React.PureComponent {
             to: to.format('MMMM Do YYYY, h:mm:ss a'),
             provider: I18n.t(`providers.${provider}`)
         });
+        const text = filteredData
+            .map(p => `${p.time ? moment(p.time).format() : I18n.t("providerTable.noTime")},${isEmpty(p.name) ? p.manage_id : p.name}`)
+            .join("\n");
+
         return (
             <div className="advanced">
                 <section className="container">
@@ -144,10 +149,11 @@ export default class Advanced extends React.PureComponent {
                 {(isEmpty(filteredData) && loaded) && <span>{I18n.t(`providerTable.${modus}NoResults`)}</span>}
                 {(!isEmpty(filteredData) && loaded) &&
                 <section className="content">
-                    <span className="title">{title}</span>
+                    <span className="title">{title}<ClipBoardCopy identifier="table-export" text={text}/></span>
                     <ProviderTable data={filteredData}
                                    modus={modus}
-                                   user={user}/>
+                                   user={user}
+                                   provider={provider}/>
 
                 </section>}
             </div>

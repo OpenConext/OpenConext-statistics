@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 
 export default class ProviderTable extends React.Component {
     render() {
-        const {data, modus, user} = this.props;
+        const {data, modus, user, provider} = this.props;
         const columns = [{
             id: "name",
             Header: I18n.t("providerTable.name"),
@@ -17,7 +17,7 @@ export default class ProviderTable extends React.Component {
             Cell: props => {
                 const manage_id = props.original.manage_id;
                 return manage_id ? <a target="_blank"
-                                      href={`${user.manage_url}/metadata/saml20_sp/${manage_id}`}>{props.value}</a> :
+                                      href={`${user.manage_url}/metadata/saml20_${provider}/${manage_id}`}>{props.value}</a> :
                     <span className="invalid">{props.value}</span>
             },
         }, {
@@ -44,5 +44,6 @@ export default class ProviderTable extends React.Component {
 ProviderTable.propTypes = {
     modus: PropTypes.string.isRequired,
     data: PropTypes.array.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    provider: PropTypes.string.isRequired
 };

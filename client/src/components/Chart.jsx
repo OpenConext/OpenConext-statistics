@@ -8,7 +8,7 @@ import "./Chart.css";
 import moment from "moment";
 import Exporter from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
-import {isEmpty, mergeList, providerName} from "../utils/Utils";
+import {mergeList, providerName} from "../utils/Utils";
 import {getDateTimeFormat} from "../utils/Time";
 import "moment/locale/nl";
 import ReactTable from "react-table";
@@ -211,7 +211,7 @@ export default class Chart extends React.PureComponent {
         };
     };
 
-    renderYvalue = (point, groupedByIdp, groupedBySp, identityProvidersDict, serviceProvidersDict, groupByScale) => {
+    renderYvalue = (point, groupedByIdp, groupedBySp, identityProvidersDict, serviceProvidersDict) => {
         if (!groupedBySp && !groupedByIdp) {
             return I18n.t("chart.allLogins");
         }
@@ -225,11 +225,6 @@ export default class Chart extends React.PureComponent {
         const groupedByBoth = groupedBySp & groupedByIdp;
         let name = groupedByBoth ? (providerName(sp, point.sp_entity_id) + " - " + providerName(sp, point.idp_entity_id)) :
             groupedBySp ? providerName(sp, point.sp_entity_id) : providerName(idp, point.idp_entity_id);
-        if (groupByScale) {
-            const time = moment(moment.utc(point["time"]).toDate());
-            name += " - ";
-            name += time.format(getDateTimeFormat(groupByScale))
-        }
         const id = groupedBySp ? point.sp_entity_id : point.idp_entity_id;
         return groupedByBoth ? name : `<span class="clickable-label" id="${id}" data-id="true">${name}</span>`;
     };
@@ -322,12 +317,12 @@ export default class Chart extends React.PureComponent {
             serviceProvidersDict) : this.renderTableNonAggregate(data, title, includeUniques);
 
     renderChart = (data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
-                   serviceProvidersDict, guest, groupByScale, displayChart, scale) => {
+                   serviceProvidersDict, guest, displayChart, scale) => {
         const userCount = data.filter(p => p.count_user_id);
         const yValues = aggregate ? userCount.map(p => this.renderYvalue(p, groupedByIdp, groupedBySp,
-            identityProvidersDict, serviceProvidersDict, groupByScale)) : [];
+            identityProvidersDict, serviceProvidersDict)) : [];
 
-        const options = aggregate ? this.aggregatedOptions(data, yValues, includeUniques, guest, !isEmpty(groupByScale)) :
+        const options = aggregate ? this.aggregatedOptions(data, yValues, includeUniques, guest) :
             this.nonAggregatedOptions(data, includeUniques, guest, scale);
         const rightClassName = this.props.rightDisabled ? "disabled" : "";
         return (
@@ -349,7 +344,7 @@ export default class Chart extends React.PureComponent {
         const {displayChart} = this.state;
         const {
             data, includeUniques, title, aggregate, groupedBySp, groupedByIdp, identityProvidersDict,
-            serviceProvidersDict, guest, groupByScale, scale
+            serviceProvidersDict, guest, scale
         } = this.props;
         if (data.length === 0) {
             return <section className="loading">
@@ -364,8 +359,8 @@ export default class Chart extends React.PureComponent {
         }
         return <div className="chart-container">
             {this.renderChart(data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
-                serviceProvidersDict, guest, groupByScale, displayChart, scale)}
-            {!guest && this.renderTable(data, title, includeUniques, aggregate, groupedBySp, identityProvidersDict,
+                serviceProvidersDict, guest, displayChart, scale)}
+            {(!guest && scale !== "minute" && scale !== "hour") && this.renderTable(data, title, includeUniques, aggregate, groupedBySp, identityProvidersDict,
                 serviceProvidersDict)}
         </div>
 
@@ -376,7 +371,6 @@ export default class Chart extends React.PureComponent {
 Chart.propTypes = {
     data: PropTypes.array.isRequired,
     scale: PropTypes.string.isRequired,
-    groupByScale: PropTypes.string.isRequired,
     includeUniques: PropTypes.bool,
     title: PropTypes.string,
     groupedBySp: PropTypes.bool,

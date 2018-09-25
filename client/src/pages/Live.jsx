@@ -33,7 +33,6 @@ export default class Live extends React.Component {
             providerState: "all",
             download: false,
             matrix: [],
-            groupByScale: "",
             maximumTo: false,
             noTimeFrame: false,
         };
@@ -44,14 +43,11 @@ export default class Live extends React.Component {
     }
 
     refreshStats() {
-        const {from, to, scale, idp, sp, groupedBySp, groupedByIdp, includeUniques, providerState, groupByScale, noTimeFrame} =
+        const {from, to, scale, idp, sp, groupedBySp, groupedByIdp, includeUniques, providerState, noTimeFrame} =
             this.state;
         let groupBy = undefined;
         if (isEmpty(sp) || isEmpty(idp)) {
             groupBy = `${groupedByIdp ? "idp_id" : ""},${groupedBySp ? "sp_id" : ""}`
-        }
-        if (!isEmpty(groupByScale)) {
-            groupBy = "idp_id,sp_id";
         }
         const period = getPeriod(from, scale);
         if (noTimeFrame) {
@@ -65,7 +61,7 @@ export default class Live extends React.Component {
             }).then(res => this.setState({data: res}));
         }
         else if (groupedBySp || groupedByIdp) {
-            this.doAggregatedLogin(period, includeUniques, from, to, idp, sp, groupBy, providerState, groupedBySp, groupedByIdp, groupByScale);
+            this.doAggregatedLogin(period, includeUniques, from, to, idp, sp, groupBy, providerState, groupedBySp, groupedByIdp);
         } else {
             loginTimeFrame({
                 from: from ? from.unix() : moment().startOf("day").unix(),
@@ -76,11 +72,16 @@ export default class Live extends React.Component {
                 sp_id: sp,
                 epoch: "ms",
                 state: providerState
-            }).then(res => this.setState({data: res}));
+            }).then(res => {
+                if (scale === "minute") {
+                    res = res.filter(p => p.count_user_id > 0).slice(1, res.length - 1);
+                }
+                this.setState({data: res});
+            });
         }
     }
 
-    doAggregatedLogin = (period, includeUniques, from, to, idp, sp, groupBy, providerState, groupedBySp, groupedByIdp, groupByScale, download = false) => {
+    doAggregatedLogin = (period, includeUniques, from, to, idp, sp, groupBy, providerState, groupedBySp, groupedByIdp, download = false) => {
         loginAggregated({
             period: period,
             include_unique: includeUniques,
@@ -89,8 +90,7 @@ export default class Live extends React.Component {
             idp_id: idp,
             sp_id: sp,
             group_by: groupBy,
-            state: providerState,
-            group_by_period: groupByScale
+            state: providerState
         }).then(res => {
             if (isEmpty(res)) {
                 if (download) {
@@ -101,19 +101,7 @@ export default class Live extends React.Component {
             } else if (res.length === 1 && res[0] === "no_results") {
                 this.setState({data: res});
             } else if (groupedBySp || groupedByIdp) {
-                let sorted;
-                if (groupByScale) {
-                    sorted = res.filter(p => p.count_user_id).sort((a, b) => {
-                        const aE = groupedByIdp ? a.idp_entity_id : a.sp_entity_id;
-                        const bE = groupedByIdp ? b.idp_entity_id : b.sp_entity_id;
-                        if (aE !== bE) {
-                            return aE.localeCompare(bE);
-                        }
-                        return moment.utc(a.time).diff(moment.utc(b.time));
-                    });
-                } else {
-                    sorted = res.filter(p => p.count_user_id).sort((a, b) => b.count_user_id - a.count_user_id);
-                }
+                const sorted = res.filter(p => p.count_user_id).sort((a, b) => b.count_user_id - a.count_user_id);
                 const uniqueOnes = res.filter(p => p.distinct_count_user_id).reduce((acc, p) => {
                     const key = (groupedByIdp && groupedBySp) ? `${p.sp_entity_id}${p.idp_entity_id}` : groupedBySp ? p.sp_entity_id : p.idp_entity_id;
                     acc[key] = p.distinct_count_user_id;
@@ -192,14 +180,14 @@ export default class Live extends React.Component {
         this.setState({data: [], maximumTo: maximumTo, to: val, ...additionalState}, this.componentDidMount)
     };
 
-    onChangeSp = val => this.setState({data: [], sp: val, groupByScale: isEmpty(val) ? "" : this.state.groupByScale},
+    onChangeSp = val => this.setState({data: [], sp: val},
         this.componentDidMount);
 
     onChangeInstitutionType = val => this.setState({institutionType: val});
 
     onChangeState = val => this.setState({data: [], providerState: val}, this.componentDidMount);
 
-    onChangeIdP = val => this.setState({data: [], idp: val, groupByScale: isEmpty(val) ? "" : this.state.groupByScale},
+    onChangeIdP = val => this.setState({data: [], idp: val},
         this.componentDidMount);
 
     onChangeScale = scale => {
@@ -224,10 +212,6 @@ export default class Live extends React.Component {
         groupedByIdp: false,
         scale: this.state.scale === "minute" || this.state.scale === "hour" ? "month" : this.state.scale,
         institutionType: "",
-    }, this.componentDidMount);
-
-    onChangeGroupScale = val => this.setState({
-        data: [], groupByScale: val
     }, this.componentDidMount);
 
     onChangeGroupByIdp = e => this.setState({
@@ -258,17 +242,17 @@ export default class Live extends React.Component {
 
     title = (from, to, aggregate, groupedBySp, groupedByIdp, scale, noTimeFrame) => {
         const format = scale === "minute" || scale === "hour" ? "L" : "L";//'MMMM Do YYYY, h:mm:ss a'
-        if (noTimeFrame){
+        if (noTimeFrame) {
             return I18n.t("live.noTimeFrameChart", {
-                from: from.format(format),
-                to: to.format(format),
+                from: from ? from.format(format) : "",
+                to: to ? to.format(format) : "",
                 scale: I18n.t(`period.${scale}`).toLowerCase()
             });
         }
         if (!aggregate) {
             return I18n.t("live.chartTitle", {
-                from: from.format(format),
-                to: to.format(format),
+                from: from ? from.format(format) : "",
+                to: to ? to.format(format) : "",
                 scale: I18n.t(`period.${scale}`).toLowerCase()
             });
         }
@@ -283,7 +267,7 @@ export default class Live extends React.Component {
     render() {
         const {
             data, from, to, scale, sp, idp, groupedByIdp, groupedBySp, providerState, includeUniques, download,
-            matrix, institutionType, groupByScale, maximumTo, noTimeFrame
+            matrix, institutionType, maximumTo, noTimeFrame
         } = this.state;
         const aggregate = groupedByIdp || groupedBySp;
         const {identityProviders, serviceProviders, user, identityProvidersDict, serviceProvidersDict} = this.props;
@@ -319,11 +303,7 @@ export default class Live extends React.Component {
                                              onChangeGroupBySp={this.onChangeGroupBySp}
                                              download={download}
                                              onDownload={this.onDownload}
-                                             matrix={matrix}
-                                             groupByScale={groupByScale}
-                                             onChangeGroupByScale={this.onChangeGroupScale}
-                                             groupByScaleEnabled={(groupedBySp || groupedByIdp) && (!isEmpty(idp) || !isEmpty(sp))}
-                                             timeFrame={scale}/>}
+                                             matrix={matrix}/>}
                     {!user.guest && <Filters onChangeState={this.onChangeState}
                                              onChangeUniques={this.onChangeUniques}
                                              state={providerState}
@@ -349,12 +329,11 @@ export default class Live extends React.Component {
                        identityProvidersDict={identityProvidersDict}
                        serviceProvidersDict={serviceProvidersDict}
                        guest={user.guest}
-                       groupByScale={groupByScale}
                        goRight={this.goRight}
                        goLeft={this.goLeft}
                        rightDisabled={maximumTo}
                        onLabelClick={this.onLabelClick}
-                       noTimeFrame={noTimeFrame} />
+                       noTimeFrame={noTimeFrame}/>
             </div>
         );
     }
