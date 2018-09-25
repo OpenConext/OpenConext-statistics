@@ -72,13 +72,13 @@ div.chart-container {
             align-items: center;
             align-content: center;
             bottom: 20px;
-            font-size: 36px;
+            font-size: 30px;
             flex-direction: row;
             justify-content: center;
             i {
                 cursor: pointer;
                 margin-right: 25px;
-                color: $blue;
+                color: lighten($blue, 5%);
                 &.disabled {
                     cursor: default;
                     color: $medium-grey

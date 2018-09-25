@@ -95,7 +95,7 @@ export default class Chart extends React.PureComponent {
                 title: {text: I18n.t("chart.chart", {scale}) },
                 labels: {},
                 min: 0,
-                offset: 15,
+                offset: 35,
                 allowDecimals: false,
                 plotLines: [{
                     value: 0,
