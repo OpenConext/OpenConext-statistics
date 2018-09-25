@@ -73,8 +73,9 @@ export default class Live extends React.Component {
                 epoch: "ms",
                 state: providerState
             }).then(res => {
-                if (scale === "minute") {
-                    res = res.filter(p => p.count_user_id > 0).slice(1, res.length - 1);
+                if (scale === "minute" || scale === "hour") {
+                    res = res.filter(p => p.count_user_id > 0);
+                    res = res.slice(1, res.length - 1);
                 }
                 this.setState({data: res});
             });
