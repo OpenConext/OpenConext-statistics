@@ -92,7 +92,7 @@ export default class Chart extends React.PureComponent {
             },
             title: {text: null},
             yAxis: {
-                title: {text: I18n.t("chart.chart", {scale}) },
+                title: {text: I18n.t("chart.chart", {scale: I18n.t(`period.${scale}`).toLowerCase()}) },
                 labels: {},
                 min: 0,
                 offset: 35,

@@ -121,7 +121,7 @@ I18n.translations.en = {
     },
     chart: {
         title: "Logins and users per day",
-        chart: "Logins per {{scale}}",
+        chart: "Number of logins per {{scale}}",
         userCount: "Total logins",
         uniqueUserCount: "Unique users",
         loading: "Fetching logins....",
