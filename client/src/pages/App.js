@@ -10,9 +10,7 @@ import {identityProviders, me, reportError, serviceProviders} from "../api";
 import "../locale/en";
 import "../locale/nl";
 import Live from "./Live";
-import ConnectedIdentityProviders from "./ConnectedIdentityProviders";
 import Advanced from "./Advanced";
-import DB from "./DB";
 
 const S4 = () => (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 
@@ -119,18 +117,12 @@ class App extends React.PureComponent {
                                                       identityProvidersDict={identityProvidersDict}
                                                       user={currentUser}
                                                       {...props}/>}/>
-                        <Route path="/connected-identity-providers"
-                               render={props => <ConnectedIdentityProviders {...props}/>}/>
                         {!currentUser.guest && <Route path="/system"
                                                       render={props =>
                                                           <Advanced serviceProvidersDict={serviceProvidersDict}
                                                                     identityProvidersDict={identityProvidersDict}
                                                                     user={currentUser}
                                                                     {...props}/>}/>}
-                        {!currentUser.guest && <Route path="/db"
-                                                      render={props =>
-                                                          <DB {...props}/>}/>}
-
                         <Route path="/error"
                                render={props => <ServerError {...props}/>}/>
                         <Route component={NotFound}/>

@@ -48,10 +48,6 @@ export default class Navigation extends React.PureComponent {
         );
     }
 
-    renderSpinner() {
-        return this.state.loading ? <div className="spinner" ref={spinner => this.spinnerNode = spinner}/> : null;
-    }
-
     render() {
         const {currentUser} = this.props;
         if (isEmpty(currentUser) || currentUser.guest) {
@@ -61,16 +57,7 @@ export default class Navigation extends React.PureComponent {
             <div className="navigation-container">
                 <div className="navigation">
                     {this.renderItem("/live", "live")}
-                    {this.renderItem("/connected-identity-providers", "connected_identity_providers")}
-                    <a href="https://wiki.surfnet.nl/display/surfconextdev/Availability+SURFconext"
-                       target="_blank"
-                       className="menu-item"
-                       rel="noopener noreferrer">
-                        {I18n.t("index.availability")}
-                    </a>
                     {!currentUser.guest && this.renderItem("/system", "system")}
-                    {/*{!currentUser.guest && this.renderItem("/db", "db")}*/}
-                    {/*{this.renderSpinner()}*/}
                 </div>
             </div>
         );
