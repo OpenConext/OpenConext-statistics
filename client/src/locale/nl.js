@@ -153,8 +153,8 @@ I18n.translations.nl = {
         },
         provider: "Entity type",
         providerValues: {
-            sp: "Service GroupBy",
-            idp: "Identity GroupBy"
+            sp: "Service Providers",
+            idp: "Identity Providers"
         },
         uniques: "Inclusief unieke gebruikers"
     },
