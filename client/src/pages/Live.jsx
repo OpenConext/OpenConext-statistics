@@ -32,6 +32,7 @@ export default class Live extends React.Component {
             includeUniques: !this.props.user.guest,
             providerState: "all",
             download: false,
+            downloading: false,
             matrix: [],
             maximumTo: false,
             noTimeFrame: false,
@@ -96,7 +97,7 @@ export default class Live extends React.Component {
         }).then(res => {
             if (isEmpty(res)) {
                 if (download) {
-                    this.setState({matrix: res, download: true}, () => this.setState({download: false}));
+                    this.setState({matrix: res, download: true}, () => this.setState({download: false, downloading: false}));
                 } else {
                     this.setState({data: res});
                 }
@@ -115,7 +116,7 @@ export default class Live extends React.Component {
                     return p;
                 });
                 if (download) {
-                    this.setState({matrix: data, download: true}, this.setState({download: false}));
+                    this.setState({matrix: data, download: true, downloading: false}, () => this.setState({download: false}));
                 } else {
                     this.setState({data: data});
                 }
@@ -237,6 +238,10 @@ export default class Live extends React.Component {
 
     onDownload = e => {
         stop(e);
+        if (this.state.downloading) {
+            return;
+        }
+        this.setState({downloading: true});
         const {from, scale, providerState} = this.state;
         const period = getPeriod(from, scale === "minute" || scale === "hour" ? "year" : scale || "year");
         this.doAggregatedLogin(period, true, undefined, undefined, undefined, undefined, "idp_id,sp_id", providerState, true, true, true)
@@ -269,7 +274,7 @@ export default class Live extends React.Component {
     render() {
         const {
             data, from, to, scale, sp, idp, groupedByIdp, groupedBySp, providerState, includeUniques, download,
-            matrix, institutionType, maximumTo, noTimeFrame
+            matrix, institutionType, maximumTo, noTimeFrame, downloading
         } = this.state;
         const aggregate = groupedByIdp || groupedBySp;
         const {identityProviders, serviceProviders, user, identityProvidersDict, serviceProvidersDict} = this.props;
@@ -304,6 +309,7 @@ export default class Live extends React.Component {
                                              onChangeGroupByIdp={this.onChangeGroupByIdp}
                                              onChangeGroupBySp={this.onChangeGroupBySp}
                                              download={download}
+                                             downloading={downloading}
                                              onDownload={this.onDownload}
                                              matrix={matrix}/>}
                     {!user.guest && <Filters onChangeState={this.onChangeState}

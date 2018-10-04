@@ -16,8 +16,10 @@ export default class GroupBy extends React.PureComponent {
     render() {
         const {displayDetails} = this.state;
         const {
-            groupedBySp, groupedByIdp, onChangeGroupBySp, onChangeGroupByIdp, download, matrix, onDownload
+            groupedBySp, groupedByIdp, onChangeGroupBySp, onChangeGroupByIdp, download, matrix, onDownload,
+            downloading
         } = this.props;
+        const className = downloading ? "grey disabled" : "blue";
         return (
             <div className="providers">
                 <span className={`title ${displayDetails ? "" : "hide"} `}
@@ -34,7 +36,7 @@ export default class GroupBy extends React.PureComponent {
                               info={I18n.t("providers.groupBy", {type: I18n.t("providers.idp")})}
                               onChange={onChangeGroupByIdp}
                               className="radio"/>
-                    {<a href="/download" className="download button blue"
+                    {<a href="/download" className={`download button ${className}`}
                         onClick={onDownload}>{I18n.t("providers.matrix")}</a>}
                     {download &&
                     <CSVDownload target="_parent" data={matrix} filename="sp-idp-matrix.csv"></CSVDownload>}
@@ -46,6 +48,7 @@ export default class GroupBy extends React.PureComponent {
 
 GroupBy.propTypes = {
     download: PropTypes.bool.isRequired,
+    downloading: PropTypes.bool.isRequired,
     groupedByIdp: PropTypes.bool.isRequired,
     groupedBySp: PropTypes.bool.isRequired,
     onChangeGroupByIdp: PropTypes.func.isRequired,
