@@ -2,7 +2,7 @@ import logging
 import os
 from functools import wraps
 
-from flask import Blueprint, jsonify, current_app, request as current_request, session, g as request_context, redirect
+from flask import Blueprint, jsonify, current_app, request as current_request, session, g as request_context
 from werkzeug.exceptions import HTTPException, Unauthorized
 
 base_api = Blueprint("base_api", __name__, url_prefix="/")
