@@ -61,7 +61,7 @@ div.chart-container {
                 background: $blue !important;
             }
         }
-        g.highcharts-navigator, g.highcharts-scrollbar, g.highcharts-navigator-xaxis, g.highcharts-navigator-series {
+        g.highcharts-navigator, g.highcharts-scrollbar, g.highcharts-navigator-xaxis, g.highcharts-navigator-series, text.highcharts-title {
             visibility: hidden !important;
             display: none;
         }

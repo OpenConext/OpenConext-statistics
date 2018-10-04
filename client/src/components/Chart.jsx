@@ -90,7 +90,7 @@ export default class Chart extends React.PureComponent {
                 height: guest ? 525 : 682,
                 type: scale === "minute" ? "line" : "column"
             },
-            title: {text: null},
+            title: {text: this.props.title},
             yAxis: {
                 title: {text: I18n.t("chart.chart", {scale: I18n.t(`period.${scale}`).toLowerCase()}) },
                 labels: {},
@@ -193,7 +193,7 @@ export default class Chart extends React.PureComponent {
                 type: "bar",
                 height: Math.max(data.length * 50 + 120, guest ? 575 : 350)
             },
-            title: {text: null},
+            title: {text: this.props.title},
             xAxis: {
                 categories: yValues, title: {text: null},
                 labels: {
