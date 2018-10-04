@@ -73,7 +73,8 @@ export default class Live extends React.Component {
                 epoch: "ms",
                 state: providerState
             }).then(res => {
-                if (scale === "minute" || scale === "hour") {
+                const hasResults = res.length > 0 && res[0] !== "no_results";
+                if (hasResults && (scale === "minute" || scale === "hour")) {
                     res = res.filter(p => p.count_user_id > 0);
                     res = res.slice(1, res.length - 1);
                 }
@@ -238,7 +239,7 @@ export default class Live extends React.Component {
         stop(e);
         const {from, scale, providerState} = this.state;
         const period = getPeriod(from, scale === "minute" || scale === "hour" ? "year" : scale || "year");
-        this.doAggregatedLogin(period, true, undefined, undefined, undefined, undefined, "idp_id,sp_id", providerState, true, true, undefined, true)
+        this.doAggregatedLogin(period, true, undefined, undefined, undefined, undefined, "idp_id,sp_id", providerState, true, true, true)
     };
 
     title = (from, to, aggregate, groupedBySp, groupedByIdp, scale, noTimeFrame) => {
