@@ -7,7 +7,7 @@ from werkzeug.exceptions import HTTPException, Unauthorized
 
 base_api = Blueprint("base_api", __name__, url_prefix="/")
 
-white_listing = ["health", "info", "shibboleth", "api/users/me", "/api/stats/public/connected_identity_providers",
+white_listing = ["health", "info", "api/users/me", "/api/stats/public/connected_identity_providers",
                  "/api/stats/public/login_time_frame", "/api/stats/public/unique_login_count"]
 admin_listing = ["api/stats/admin"]
 
@@ -85,8 +85,3 @@ def info():
         with open(file) as f:
             return {"git": f.read()}, 200
     return {"git": "no.info"}, 200
-
-
-@base_api.route("/shibboleth", strict_slashes=False)
-def shibboleth():
-    return redirect("/", code=302)

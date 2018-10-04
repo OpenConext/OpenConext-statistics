@@ -32,7 +32,6 @@ To create a GUI production build:
 ```
 yarn build
 ```
-
 To analyze the bundle:
 ```
 yarn analyze
