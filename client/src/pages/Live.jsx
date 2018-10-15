@@ -88,7 +88,8 @@ export default class Live extends React.Component {
             }).then(res => {
                 const hasResults = res.length > 0 && res[0] !== "no_results";
                 if (hasResults && (scale === "minute" || scale === "hour")) {
-                    res = res.filter(p => p.count_user_id > 0);
+                    const now = moment().unix() * 1000;
+                    res = res.filter(p => p.time <= now);
                     res = res.slice(1, res.length - 1);
                 }
                 this.setState({data: res});
