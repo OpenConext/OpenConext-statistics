@@ -39,6 +39,18 @@ export default class Live extends React.Component {
         };
     }
 
+    initialStateNoGroupBy = () => ({
+        from: moment().subtract(24, "hour"),
+        to: moment().add(1, "day").startOf("day"),
+        scale: "minute"
+    });
+
+    initialStateGroupBy = () => ({
+        from: moment().subtract(1, "day"),
+        to: moment(),
+        scale: "year"
+    });
+
     componentDidMount() {
         this.setState({data: []}, this.refreshStats);
     }
@@ -97,7 +109,10 @@ export default class Live extends React.Component {
         }).then(res => {
             if (isEmpty(res)) {
                 if (download) {
-                    this.setState({matrix: res, download: true}, () => this.setState({download: false, downloading: false}));
+                    this.setState({matrix: res, download: true}, () => this.setState({
+                        download: false,
+                        downloading: false
+                    }));
                 } else {
                     this.setState({data: res});
                 }
@@ -116,7 +131,11 @@ export default class Live extends React.Component {
                     return p;
                 });
                 if (download) {
-                    this.setState({matrix: data, download: true, downloading: false}, () => this.setState({download: false}));
+                    this.setState({
+                        matrix: data,
+                        download: true,
+                        downloading: false
+                    }, () => this.setState({download: false}));
                 } else {
                     this.setState({data: data});
                 }
@@ -210,19 +229,35 @@ export default class Live extends React.Component {
 
     onChangeUniques = e => this.setState({data: [], includeUniques: e.target.checked}, this.componentDidMount);
 
-    onChangeGroupBySp = e => this.setState({
-        data: [], groupedBySp: e.target.checked,
-        groupedByIdp: false,
-        scale: this.state.scale === "minute" || this.state.scale === "hour" ? "month" : this.state.scale,
-        institutionType: "",
-    }, this.componentDidMount);
+    onChangeGroupBySp = e => {
+        let additionalState = {};
+        if (!this.state.groupedByIdp && e.target.checked) {
+            additionalState = this.initialStateGroupBy();
+        } else if (!e.target.checked) {
+            additionalState = this.initialStateNoGroupBy();
+        }
+        this.setState({
+            data: [], groupedBySp: e.target.checked,
+            groupedByIdp: false,
+            institutionType: "",
+            ...additionalState
+        }, this.componentDidMount)
+    };
 
-    onChangeGroupByIdp = e => this.setState({
-        data: [], groupedByIdp: e.target.checked,
-        groupedBySp: false,
-        institutionType: "",
-        scale: this.state.scale === "minute" || this.state.scale === "hour" ? "month" : this.state.scale
-    }, this.componentDidMount);
+    onChangeGroupByIdp = e => {
+        let additionalState = {};
+        if (!this.state.groupedBySp && e.target.checked) {
+            additionalState = this.initialStateGroupBy();
+        } else if (!e.target.checked) {
+            additionalState = this.initialStateNoGroupBy();
+        }
+        this.setState({
+            data: [], groupedByIdp: e.target.checked,
+            groupedBySp: false,
+            institutionType: "",
+            ...additionalState
+        }, this.componentDidMount);
+    };
 
     onChangeNoTimeFrame = () => this.setState({
         noTimeFrame: !this.state.noTimeFrame
