@@ -1,6 +1,6 @@
 from flask import current_app
 from influxdb.resultset import ResultSet
-
+import logging
 from server.influx.time import start_end_period, adjust_time, remove_aggregated_time_info, filter_time
 
 GROUPING_SCALES = ["month", "quarter", "year"]
@@ -112,6 +112,9 @@ def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entit
     if scale in ["minute", "hour"]:
         time_scale = "1m" if scale == "minute" else "1h"
         q += f" group by time({time_scale})"
+
+    logger = logging.getLogger("main")
+    logger.info(q)
 
     records = _query(q, epoch=epoch)
     # the actual time for non-supported date literals is nonsense in the influx database
