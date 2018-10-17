@@ -1,3 +1,5 @@
+import I18n from "i18n-js";
+
 export function getPeriod(m, scale) {
     switch (scale) {
         case "day":
@@ -20,15 +22,15 @@ export function getDateTimeFormat(scale) {
         case "day":
             return "L";
         case "week":
-            return "YYYY ww";
+            return `YYYY [week] ww`;
         case "month":
             return "YYYY MMMM";
         case "quarter":
-            return "YYYY qQ";
+            return "YYYY [Q]Q";
         case "year":
-            return "YYYY";
+            return `[${I18n.t("period.year")}] YYYY`;
         default:
-            return "LLL";
+            return "L";
     }
 }
 

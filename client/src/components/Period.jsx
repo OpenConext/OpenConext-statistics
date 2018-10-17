@@ -53,6 +53,68 @@ export default class Period extends React.PureComponent {
         propCallback(val.startOf("day"));
     };
 
+    renderYearPicker = (date, maxYear, onChange) => {
+        const currentYear = date.format("YYYY");
+        return <Select
+            value={currentYear}
+            options={Array.from(new Array((1 + maxYear) - 2011), (x, i) => (i + 2011).toString(10))
+                .map(m => ({label: m, value: m}))}
+            searchable={false}
+            clearable={false}
+            onChange={opt => onChange(moment(date).year(parseInt(opt.value, 10)))}/>
+    };
+
+    renderDatePicker = (scale, date, onChange, maxDate, dateFormat, name, showToday = true) => {
+        const dayPicker = ["all", "minute", "hour", "day", "week"].includes(scale);
+        const monthPicker = scale === "month";
+        const quarterPicker = scale === "quarter";
+        if (dayPicker) {
+            return <DatePicker
+                ref={name}
+                selected={date}
+                preventOpenOnFocus
+                onChange={onChange}
+                showYearDropdown
+                showMonthDropdown
+                showWeekNumbers
+                onWeekSelect={m => {
+                    onChange(moment(date).week(m.week()));
+                    const datepicker = this.refs[name];
+                    datepicker.setOpen(false);
+                }}
+                weekLabel="Week"
+                todayButton={showToday ? I18n.t("stats.today") : undefined}
+                maxDate={maxDate}
+                disabled={false}
+                dateFormat={dateFormat}
+            />
+        }
+        if (monthPicker) {
+            return <div className="group-dates">
+                <Select
+                    value={date.format("MMMM")}
+                    options={moment.months().map(m => ({label: m, value: m}))}
+                    searchable={false}
+                    clearable={false}
+                    onChange={opt => onChange(moment(date).month(opt))}/>
+                {this.renderYearPicker(date, maxDate.year(), onChange)}
+            </div>
+        }
+        if (quarterPicker) {
+            return <div className="group-dates">
+                <Select
+                    value={date.format("[Q]Q")}
+                    options={Array.from(new Array(4), (x, i) => "Q" + (i + 1).toString(10))
+                        .map(m => ({label: m, value: m}))}
+                    searchable={false}
+                    clearable={false}
+                    onChange={opt => onChange(moment(date).quarter(parseInt(opt.value.substring(1), 10)))}/>
+                {this.renderYearPicker(date, maxDate.year(), onChange)}
+            </div>
+        }
+        return this.renderYearPicker(date, maxDate.year(), onChange);
+    };
+
 
     render() {
         const {displayDetails} = this.state;
@@ -67,7 +129,9 @@ export default class Period extends React.PureComponent {
             scales = allowedScales;
         }
         const fromTitle = I18n.t(aggregate ? "period.date" : "period.from");
-        const dateFormat = aggregate ? getDateTimeFormat(scale || "day") : "L";
+        const dateFormat = getDateTimeFormat(scale);
+
+        const showTo = (!aggregate && disabled.indexOf("to") === -1);
         return (
             <div className="period">
                 <span className={`title ${displayDetails ? "" : "hide"} `}
@@ -76,38 +140,22 @@ export default class Period extends React.PureComponent {
                     </span>
                 {displayDetails && <section className="controls">
                     <span className="sub-title">{I18n.t("period.scale")}</span>
-                    <Select onChange={option => option ? onChangeScale(option.value) : null}
+                    <Select onChange={option => onChangeScale(option.value)}
                             options={scales.map(s => ({value: s, label: I18n.t(`period.${s}`)}))}
                             value={scale || "day"}
                             searchable={false}
                             clearable={false}
                             disabled={disabled.indexOf("scale") > -1}
                     />
-                    {changeTimeFrame && <CheckBox name="no-timeframe-check" value={noTimeFrame} readOnly={disabled.indexOf("noTimeframe") > -1}
-                              onChange={changeTimeFrame} info={I18n.t("period.noTimeFrame")}
-                              tooltip={I18n.t("period.noTimeFrameTooltip")}/>}
+                    {changeTimeFrame && <CheckBox name="no-timeframe-check" value={noTimeFrame}
+                                                  readOnly={disabled.indexOf("noTimeframe") > -1}
+                                                  onChange={changeTimeFrame} info={I18n.t("period.noTimeFrame")}
+                                                  tooltip={I18n.t("period.noTimeFrameTooltip")}/>}
                     <span className="sub-title">{fromTitle}</span>
-                    <DatePicker
-                        selected={from}
-                        onChange={this.invariant(onChangeFrom, "from")}
-                        showYearDropdown
-                        showMonthDropdown
-                        todayButton={I18n.t("period.today")}
-                        maxDate={to}
-                        disabled={disabled.indexOf("from") > -1}
-                        dateFormat={dateFormat}
-                    />
-                    <span key="1" className="sub-title">{I18n.t("period.to")}</span>
-                    <DatePicker key="2"
-                                selected={aggregate ? undefined : to}
-                                showYearDropdown
-                                showMonthDropdown
-                                onChange={this.invariant(onChangeTo, "to")}
-                                minDate={moment(from).add(1, "day")}
-                                todayButton={I18n.t("period.today")}
-                                maxDate={moment().add(1, "day")}
-                                disabled={aggregate || disabled.indexOf("to") > -1}
-                    />
+                    {disabled.indexOf("from") === -1 && this.renderDatePicker(scale, from, this.invariant(onChangeFrom, "from"), to, dateFormat, "datepicker-from", false)}
+                    {showTo && <span key="1" className="sub-title">{I18n.t("period.to")}</span>}
+                    {showTo &&
+                    this.renderDatePicker(scale, to, this.invariant(onChangeTo, "to"), moment().add(1, "day"), dateFormat, "datepicker-to", true)}
                 </section>}
             </div>
         );

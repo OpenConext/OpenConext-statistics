@@ -85,7 +85,7 @@ I18n.translations.en = {
         title: "Period",
         scale: "Timeframe",
         from: "From",
-        to: "To",
+        to: "Up to and including",
         today: "Today",
         zoom: "",
         year: "Year",
@@ -125,7 +125,8 @@ I18n.translations.en = {
         userCount: "Total logins",
         uniqueUserCount: "Unique users",
         loading: "Fetching logins....",
-        noResults: "No logins are recorded for the given period.",
+        noResults: "No logins are recorded for the given period. ",
+        reset: "Reset to defaults.",
         date: "Date",
         logins: "Logins per {{scale}}",
         allLogins: "# Logins",
@@ -138,8 +139,8 @@ I18n.translations.en = {
         copy: "Copy to clipboard"
     },
     live: {
-        chartTitle: "Logins from {{from}} until {{to}} grouped by {{scale}}",
-        aggregatedChartTitlePeriod: "Logins in the period {{period}} grouped by {{group}}",
+        chartTitle: "Logins per {{scale}}",
+        aggregatedChartTitlePeriod: "Logins in the period {{period}} per {{group}}",
         noTimeFrameChart: "Logins from {{from}} until {{to}}"
     },
     filters: {

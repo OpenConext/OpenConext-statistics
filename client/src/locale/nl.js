@@ -86,7 +86,7 @@ I18n.translations.nl = {
         title: "Periode",
         scale: "Tijdsspanne",
         from: "Van",
-        to: "Tot",
+        to: "Tot en met",
         zoom: "",
         today: "Vandag",
         year: "Jaar",
@@ -126,7 +126,8 @@ I18n.translations.nl = {
         userCount: "Totale logins",
         uniqueUserCount: "Unieke gebruikers",
         loading: "Data ophalen....",
-        noResults: "Geen logins voor de opgegeven periode.",
+        noResults: "Geen logins voor de opgegeven periode. ",
+        reset: "Reset naar de defaults.",
         date: "Datum",
         logins: "Logins per {{scale}}",
         allLogins: "# Logins",
@@ -139,8 +140,8 @@ I18n.translations.nl = {
         copy: "Copy to clipboard"
     },
     live: {
-        chartTitle: "Logins van {{from}} tot {{to}} gegroepeerd op {{scale}}",
-        aggregatedChartTitlePeriod: "Logins in de periode {{period}} gegroepeerd op {{group}}",
+        chartTitle: "Logins per {{scale}}",
+        aggregatedChartTitlePeriod: "Logins in de periode {{period}} per {{group}}",
         noTimeFrameChart: "Logins van {{from}} tot {{to}}"
     },
     filters: {

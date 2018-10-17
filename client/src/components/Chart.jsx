@@ -37,7 +37,7 @@ const exporting = {
                     text: I18n.t("export.downloadCSV"),
                     onclick: function () {
                         const csv = this.getCSV();
-                        const cleanedCsv = csv.replace(/"<span[^>]+(.*?)<\/span>"/g, "$1").replace(/>/g,"");
+                        const cleanedCsv = csv.replace(/"<span[^>]+(.*?)<\/span>"/g, "$1").replace(/>/g, "");
                         this.fileDownload("data:text/csv,\ufeff" + encodeURIComponent(cleanedCsv), "csv", cleanedCsv, "text/csv")
                     }
                 },
@@ -92,7 +92,7 @@ export default class Chart extends React.PureComponent {
             },
             title: {text: this.props.title},
             yAxis: {
-                title: {text: I18n.t("chart.chart", {scale: I18n.t(`period.${scale}`).toLowerCase()}) },
+                title: {text: I18n.t("chart.chart", {scale: I18n.t(`period.${scale}`).toLowerCase()})},
                 labels: {},
                 min: 0,
                 offset: 35,
@@ -115,10 +115,12 @@ export default class Chart extends React.PureComponent {
                         return acc
                     }, "");
                     let m = moment.unix(this.x / 1000);
+                    let dtf = "LLL";
                     if (scale !== "minute" && scale !== "hour") {
                         m = m.utc();
+                        dtf = getDateTimeFormat(scale);
                     }
-                    res += `<span style="font-size: 10px">${m.format("LLL")}</span>`;
+                    res += `<span style="font-size: 10px">${m.format(dtf)}</span>`;
                     return res;
                 },
                 useHTML: true,
@@ -235,7 +237,7 @@ export default class Chart extends React.PureComponent {
 
     dateAccessor = p => moment(p.time).utc().format("YYYY-MM-DD");
 
-    loginsAccessor = p => p.count_user_id ? (p.count_user_id).toLocaleString() : "";
+    loginsAccessor = p => p.count_user_id !== undefined ? (p.count_user_id).toLocaleString() : "";
 
     usersAccessor = includeUniques => p => p.distinct_count_user_id && includeUniques ? (p.distinct_count_user_id).toLocaleString() : "";
 
@@ -318,7 +320,7 @@ export default class Chart extends React.PureComponent {
 
     renderChart = (data, includeUniques, title, aggregate, groupedByIdp, groupedBySp, identityProvidersDict,
                    serviceProvidersDict, guest, displayChart, scale) => {
-        const userCount = data.filter(p => p.count_user_id);
+        const userCount = data.filter(p => p.count_user_id !== undefined);
         const yValues = aggregate ? userCount.map(p => this.renderYvalue(p, groupedByIdp, groupedBySp,
             identityProvidersDict, serviceProvidersDict)) : [];
 
@@ -344,7 +346,7 @@ export default class Chart extends React.PureComponent {
         const {displayChart} = this.state;
         const {
             data, includeUniques, title, aggregate, groupedBySp, groupedByIdp, identityProvidersDict,
-            serviceProvidersDict, guest, scale
+            serviceProvidersDict, guest, scale, reset
         } = this.props;
         if (data.length === 0) {
             return <section className="loading">
@@ -354,7 +356,8 @@ export default class Chart extends React.PureComponent {
         }
         if (data.length === 1 && data[0] === "no_results") {
             return <section className="loading">
-                <em>{I18n.t("chart.noResults")}</em>
+                <em>{I18n.t("chart.noResults")}</em><a className="reset" href="reset"
+                                                       onClick={reset}>{I18n.t("chart.reset")}</a>
             </section>;
         }
         return <div className="chart-container">
@@ -383,5 +386,6 @@ Chart.propTypes = {
     goRight: PropTypes.func,
     rightDisabled: PropTypes.bool,
     onLabelClick: PropTypes.func,
-    noTimeFrame: PropTypes.bool
+    noTimeFrame: PropTypes.bool,
+    reset: PropTypes.func,
 };

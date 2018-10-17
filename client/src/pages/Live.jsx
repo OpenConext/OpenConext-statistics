@@ -15,11 +15,17 @@ import SelectPeriod from "../components/SelectPeriod";
 
 moment.locale(I18n.locale);
 
+const minDiffByScale = {day: 30, week: 365, month: 365, quarter: 365, year: 365 * 5};
+
 export default class Live extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
+        this.state = this.initialStateValues();
+    }
+
+    initialStateValues() {
+        return {
             data: [],
             from: moment().subtract(24, "hour"),
             to: moment().add(1, "day").startOf("day"),
@@ -38,6 +44,11 @@ export default class Live extends React.Component {
             noTimeFrame: false,
         };
     }
+
+    reset = e => {
+        stop(e);
+        this.setState(this.initialStateValues(), this.refreshStats);
+    };
 
     initialStateNoGroupBy = () => ({
         from: moment().subtract(24, "hour"),
@@ -120,8 +131,8 @@ export default class Live extends React.Component {
             } else if (res.length === 1 && res[0] === "no_results") {
                 this.setState({data: res});
             } else if (groupedBySp || groupedByIdp) {
-                const sorted = res.filter(p => p.count_user_id).sort((a, b) => b.count_user_id - a.count_user_id);
-                const uniqueOnes = res.filter(p => p.distinct_count_user_id).reduce((acc, p) => {
+                const sorted = res.filter(p => p.count_user_id !== undefined).sort((a, b) => b.count_user_id - a.count_user_id);
+                const uniqueOnes = res.filter(p => p.distinct_count_user_id !== undefined).reduce((acc, p) => {
                     const key = (groupedByIdp && groupedBySp) ? `${p.sp_entity_id}${p.idp_entity_id}` : groupedBySp ? p.sp_entity_id : p.idp_entity_id;
                     acc[key] = p.distinct_count_user_id;
                     return acc;
@@ -213,17 +224,38 @@ export default class Live extends React.Component {
     onChangeIdP = val => this.setState({data: [], idp: val},
         this.componentDidMount);
 
-    onChangeScale = scale => {
-        const {from, to} = this.state;
+    invariantFromToScale = (from, to, scale, dateToChange = "from") => {
         let additionalState = {};
-        const diff = moment.duration(to.diff(from)).asDays();
-        if (scale === "minute" && diff > 1) {
-            additionalState = {to: moment(from).add(1, "day"), includeUniques: false};
-        } else if (scale === "hour" && diff > 7) {
-            additionalState = {to: moment(from).add(7, "day"), includeUniques: false};
+        if (this.state.groupedByIdp || this.state.groupedBySp) {
+            return additionalState;
         }
-        const state = {data: [], scale: scale, ...additionalState};
-        this.setState(state, this.componentDidMount);
+        const diff = moment.duration(to.diff(from)).asDays();
+        if ((scale === "minute" && diff > 1) || (scale === "hour" && diff > 7)) {
+            const duration = scale === "minute" ? 1 : 7;
+            if (dateToChange === "to") {
+                additionalState["to"] = moment(from).add(duration, "day");
+            } else {
+                additionalState["from"] = moment(to).subtract(duration, "day");
+            }
+        }
+        return additionalState;
+    };
+
+
+    onChangeScale = scale => {
+        const {from, to, groupedByIdp, groupedBySp} = this.state;
+        if (groupedByIdp || groupedBySp) {
+            this.setState({
+                data: [],
+                scale: scale,
+                from: moment().subtract(1, "day").startOf("day")
+            }, this.componentDidMount);
+        } else {
+            const additionalState = this.invariantFromToScale(from, to, scale);
+            const minDiff = minDiffByScale[scale];
+            additionalState.from = moment(to).subtract(minDiff, "day");
+            this.setState({data: [], scale: scale, ...additionalState}, this.componentDidMount);
+        }
     };
 
     onChangeSelectPeriod = newState => this.setState(newState, this.componentDidMount);
@@ -261,7 +293,8 @@ export default class Live extends React.Component {
     };
 
     onChangeNoTimeFrame = () => this.setState({
-        noTimeFrame: !this.state.noTimeFrame
+        noTimeFrame: !this.state.noTimeFrame,
+        scale: "day"
     }, this.componentDidMount);
 
     onLabelClick = entityId => {
@@ -377,7 +410,8 @@ export default class Live extends React.Component {
                        goLeft={this.goLeft}
                        rightDisabled={maximumTo}
                        onLabelClick={this.onLabelClick}
-                       noTimeFrame={noTimeFrame}/>
+                       noTimeFrame={noTimeFrame}
+                       reset={this.reset}/>
             </div>
         );
     }
