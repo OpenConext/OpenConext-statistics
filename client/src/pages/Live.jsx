@@ -251,10 +251,20 @@ export default class Live extends React.Component {
                 from: moment().subtract(1, "day").startOf("day")
             }, this.componentDidMount);
         } else {
-            const additionalState = this.invariantFromToScale(from, to, scale);
-            const minDiff = minDiffByScale[scale];
-            additionalState.from = moment(to).subtract(minDiff, "day");
-            this.setState({data: [], scale: scale, ...additionalState}, this.componentDidMount);
+            if (scale === "minute") {
+                this.setState({
+                    data: [],
+                    scale: scale,
+                    from: moment().subtract(24, "hour"),
+                    to: moment().add(1, "day").startOf("day")
+                }, this.componentDidMount);
+            } else {
+                this.setState({
+                    data: [],
+                    scale: scale,
+                    from: moment(to).subtract(minDiffByScale[scale], "day")
+                }, this.componentDidMount);
+            }
         }
     };
 
