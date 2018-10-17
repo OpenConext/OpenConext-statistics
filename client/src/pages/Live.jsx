@@ -42,6 +42,7 @@ export default class Live extends React.Component {
             matrix: [],
             maximumTo: false,
             noTimeFrame: false,
+            period: "minute"
         };
     }
 
@@ -353,7 +354,7 @@ export default class Live extends React.Component {
     render() {
         const {
             data, from, to, scale, sp, idp, groupedByIdp, groupedBySp, providerState, includeUniques, download,
-            matrix, institutionType, maximumTo, noTimeFrame, downloading
+            matrix, institutionType, maximumTo, noTimeFrame, downloading, period
         } = this.state;
         const aggregate = groupedByIdp || groupedBySp;
         const {identityProviders, serviceProviders, user, identityProvidersDict, serviceProvidersDict} = this.props;
@@ -372,7 +373,7 @@ export default class Live extends React.Component {
         return (
             <div className={`live ${user.guest ? "guest" : ""}`}>
                 <section className={`container ${user.guest ? "guest" : ""}`}>
-                    {user.guest && <SelectPeriod onChangeSelectPeriod={this.onChangeSelectPeriod}/>}
+                    {user.guest && <SelectPeriod onChangeSelectPeriod={this.onChangeSelectPeriod} period={period}/>}
                     {!user.guest && <Period onChangeFrom={this.onChangeFrom}
                                             onChangeTo={this.onChangeTo}
                                             onChangeScale={this.onChangeScale}

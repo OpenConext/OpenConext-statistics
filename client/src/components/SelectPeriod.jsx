@@ -21,24 +21,23 @@ const defaultScaleLiterals = {
 
 export default class SelectPeriod extends React.PureComponent {
 
-    constructor(props) {
-        super(props);
-        this.state = {period: "minute"};
-    }
-
     componentDidMount() {
         window.scrollTo(0, document.body.scrollHeight);
     }
 
-
     changeSelectPeriod = val => () => {
         const {onChangeSelectPeriod} = this.props;
-        const state = {scale: val, to: moment().add(1, "day"), from: moment().subtract(defaultScaleLiterals[val], val)};
+        const state = {
+            scale: val,
+            to: moment().add(1, "day"),
+            from: moment().subtract(defaultScaleLiterals[val], val),
+            period: val
+        };
         onChangeSelectPeriod(state);
     };
 
     render() {
-        const {period} = this.state;
+        const {period} = this.props;
 
         return (
             <div className="select-period">
@@ -56,7 +55,7 @@ export default class SelectPeriod extends React.PureComponent {
                         searchable={false}
                         clearable={false}
                     />
-                    <span onClick={this.changeSelectPeriod(this.state.period)}><i className="fa fa-refresh" ></i></span>
+                    <span onClick={this.changeSelectPeriod(this.props.period)}><i className="fa fa-refresh"></i></span>
                 </section>
             </div>
         );
@@ -64,5 +63,6 @@ export default class SelectPeriod extends React.PureComponent {
 }
 
 SelectPeriod.propTypes = {
-    onChangeSelectPeriod: PropTypes.func.isRequired
+    onChangeSelectPeriod: PropTypes.func.isRequired,
+    period: PropTypes.string.isRequired
 };
