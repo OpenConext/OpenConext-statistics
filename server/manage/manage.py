@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 
 import requests
@@ -24,6 +25,10 @@ def _data(entity_type, requested_fields=[]):
                            auth=_auth()).json() if not mock_manage \
             else json.loads(_read_file(f"{entity_type}.json"))
         result = []
+
+        logger = logging.getLogger("main")
+        logger.info(f"Retrieved {len(providers)} {entity_type} from Manage with mock is {mock_manage}")
+
         for provider in providers:
             if "data" in provider:
                 data_ = provider["data"]
