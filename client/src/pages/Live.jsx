@@ -15,7 +15,7 @@ import SelectPeriod from "../components/SelectPeriod";
 
 moment.locale(I18n.locale);
 
-const minDiffByScale = {minute: 1, hour: 1, day: 30, week: 365, month: 365, quarter: 365, year: 365 * 5};
+const minDiffByScale = {minute: 1, hour: 7, day: 90, week: 365, month: 365, quarter: 365, year: 365 * 5};
 
 export default class Live extends React.Component {
 
