@@ -243,7 +243,7 @@ export default class Live extends React.Component {
 
 
     onChangeScale = scale => {
-        const {from, to, groupedByIdp, groupedBySp} = this.state;
+        const {to, groupedByIdp, groupedBySp} = this.state;
         if (groupedByIdp || groupedBySp) {
             this.setState({
                 data: [],
