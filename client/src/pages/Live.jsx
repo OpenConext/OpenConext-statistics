@@ -215,15 +215,26 @@ export default class Live extends React.Component {
         this.setState({data: [], maximumTo: maximumTo, to: val, ...additionalState}, this.componentDidMount)
     };
 
-    onChangeSp = val => this.setState({data: [], sp: val},
-        this.componentDidMount);
+    onChangeSp = val => {
+        const newState = {data: [], sp: val};
+        if (val === "" && this.state.noTimeFrame) {
+            newState.noTimeFrame = false;
+        }
+        this.setState(newState, this.componentDidMount);
+    };
+
+    onChangeIdP = val => {
+        const newState = {data: [], idp: val};
+        if (val === "" && this.state.noTimeFrame) {
+            newState.noTimeFrame = false;
+        }
+        this.setState(newState, this.componentDidMount);
+    };
 
     onChangeInstitutionType = val => this.setState({institutionType: val});
 
     onChangeState = val => this.setState({data: [], providerState: val}, this.componentDidMount);
 
-    onChangeIdP = val => this.setState({data: [], idp: val},
-        this.componentDidMount);
 
     invariantFromToScale = (from, to, scale, dateToChange = "from") => {
         let additionalState = {};

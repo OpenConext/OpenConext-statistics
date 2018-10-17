@@ -120,11 +120,12 @@ export default class Chart extends React.PureComponent {
                         m = m.utc();
                         dtf = getDateTimeFormat(scale);
                     }
-                    res += `<span style="font-size: 10px">${m.format(dtf)}</span>`;
+                    res += `<span style="font-size: 11px;margin-left: 3px;display: inline-block">${m.format(dtf)}</span>`;
                     return res;
                 },
                 useHTML: true,
-                shared: true
+                shared: true,
+                backgroundColor: "rgba(255,255,255,1)"
             },
             xAxis: {
                 type: "datetime",
@@ -203,7 +204,15 @@ export default class Chart extends React.PureComponent {
                 }
             },
             yAxis: {min: 0, allowDecimals: false, title: {text: null}},
-            tooltip: {valueSuffix: " logins"},
+            tooltip: {
+                valueSuffix: " logins",
+                useHTML: false,
+                shared: true,
+                backgroundColor: "rgba(255,255,255,1)",
+                positioner: function (labelWidth, labelHeight, point) {
+                    return {x: this.chart.axisOffset[3] + 15, y: point.plotY};
+                }
+            },
             plotOptions: {bar: {dataLabels: {enabled: true}}},
             legend: {verticalAlign: "top"},
             navigation: navigation,
