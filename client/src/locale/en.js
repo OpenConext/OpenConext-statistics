@@ -106,6 +106,7 @@ I18n.translations.en = {
         year: "Year - last 5 years",
         quarter: "Quarter - last 4 quarters",
         month: "Month - last 12 months",
+        week: "Week - last 52 weeks",
         day: "Day - last 90 days",
         hour: "Hour - last 7 days",
         minute: "Minute - last 24 hours",

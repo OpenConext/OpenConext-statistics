@@ -47,7 +47,7 @@ export default class SelectPeriod extends React.PureComponent {
                 <section className="controls">
                     <Select
                         onChange={option => this.setState({period: option.value}, this.changeSelectPeriod(option.value))}
-                        options={defaultScales.map(s => ({value: s, label: I18n.t(`selectPeriod.${s}`)}))}
+                        options={defaultScales.reverse().map(s => ({value: s, label: I18n.t(`selectPeriod.${s}`)}))}
                         value={period}
                         searchable={false}
                         clearable={false}
