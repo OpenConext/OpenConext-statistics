@@ -10,13 +10,13 @@ import moment from "moment";
 import {defaultScales} from "../utils/Time";
 
 const defaultScaleLiterals = {
-    "year": 5,
-    "quarter": 4,
-    "month": 12,
-    "week": 10,
-    "day": 90,
+    "minute": 24 * 60,
     "hour": 24 * 7,
-    "minute": 24 * 60
+    "day": 90,
+    "week": 52,
+    "month": 12,
+    "quarter": 4,
+    "year": 5,
 };
 
 export default class SelectPeriod extends React.PureComponent {
@@ -47,10 +47,7 @@ export default class SelectPeriod extends React.PureComponent {
                 <section className="controls">
                     <Select
                         onChange={option => this.setState({period: option.value}, this.changeSelectPeriod(option.value))}
-                        options={defaultScales.filter(s => s !== "week").reverse().map(s => ({
-                            value: s,
-                            label: I18n.t(`selectPeriod.${s}`)
-                        }))}
+                        options={defaultScales.map(s => ({value: s, label: I18n.t(`selectPeriod.${s}`)}))}
                         value={period}
                         searchable={false}
                         clearable={false}
