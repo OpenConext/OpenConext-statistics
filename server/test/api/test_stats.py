@@ -102,7 +102,6 @@ class TestStats(AbstractTest):
     def test_last_login_time(self):
         self.mock_manage(type="sp")
         json = self.get("last_login_time", query_data={"from": "2018-01-01", "state": "prodaccepted", "provider": "sp"})
-        print(json)
         self.assertListEqual([{'count_user_id': 1, 'distinct_count_user_id': 1, 'month': '10', 'quarter': '4',
                                'sp_entity_id': 'https://sp/1', 'time': 1509235200000, 'year': '2017'}], json)
 
@@ -241,6 +240,12 @@ class TestStats(AbstractTest):
             [{"count_user_id": 2, "time": "2017-01-01T00:00:00Z"}],
             json)
 
+    def test_login_time_frame_live(self):
+        json = self.get("public/login_time_frame",
+                        query_data={"from": "2018-05-24", "to": "2018-05-25", "scale": "minute"})
+        self.assertEqual(24 * 60, len(json))
+        self.assertEqual(1, len(list(filter(lambda p: p['count_user_id'], json))))
+
     def test_login_aggregated_by_week(self):
         json = self.get("public/login_aggregated", query_data={"period": "2016W41", "sp_id": "https://sp/2",
                                                                "idp_id": "https://idp/1"})
@@ -370,5 +375,4 @@ class TestStats(AbstractTest):
         json = self.get("public/unique_login_count",
                         query_data={"from": "1468793490", "to": "1506372026", "idp_id": "https://idp/1",
                                     "sp_id": "https://sp/2", "state": "prodaccepted"})
-        print(json)
         self.assertListEqual([{'count_user_id': 2, 'distinct_count_user_id': 2, 'time': '2016-07-17T22:11:30Z'}], json)
