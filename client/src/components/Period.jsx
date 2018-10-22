@@ -64,11 +64,11 @@ export default class Period extends React.PureComponent {
             onChange={opt => onChange(moment(date).year(parseInt(opt.value, 10)))}/>
     };
 
-    renderDatePicker = (scale, date, onChange, maxDate, dateFormat, name, showToday = true) => {
+    renderDatePicker = (scale, date, onChange, maxDate, dateFormat, name, showToday = true, forceDatePicker = false) => {
         const dayPicker = ["all", "minute", "hour", "day", "week"].includes(scale);
         const monthPicker = scale === "month";
         const quarterPicker = scale === "quarter";
-        if (dayPicker) {
+        if (dayPicker || forceDatePicker) {
             return <DatePicker
                 ref={name}
                 selected={date}
@@ -83,7 +83,7 @@ export default class Period extends React.PureComponent {
                     datepicker.setOpen(false);
                 }}
                 weekLabel="Week"
-                todayButton={showToday ? I18n.t("stats.today") : undefined}
+                todayButton={showToday ? I18n.t("period.today") : undefined}
                 maxDate={maxDate}
                 disabled={false}
                 dateFormat={dateFormat}
@@ -120,7 +120,7 @@ export default class Period extends React.PureComponent {
         const {displayDetails} = this.state;
         const {
             scale, onChangeScale, onChangeFrom, from, to, onChangeTo, aggregate, allowedScales, disabled = [],
-            noTimeFrame, changeTimeFrame
+            noTimeFrame, changeTimeFrame, forceDatePicker
         } = this.props;
         let scales;
         if (isEmpty(allowedScales)) {
@@ -129,7 +129,7 @@ export default class Period extends React.PureComponent {
             scales = allowedScales;
         }
         const fromTitle = I18n.t(aggregate ? "period.date" : "period.from");
-        const dateFormat = getDateTimeFormat(scale);
+        const dateFormat = getDateTimeFormat(scale, forceDatePicker);
 
         const showTo = (!aggregate && disabled.indexOf("to") === -1);
         return (
@@ -152,10 +152,10 @@ export default class Period extends React.PureComponent {
                                                   onChange={changeTimeFrame} info={I18n.t("period.noTimeFrame")}
                                                   tooltip={I18n.t("period.noTimeFrameTooltip")}/>}
                     <span className="sub-title">{fromTitle}</span>
-                    {disabled.indexOf("from") === -1 && this.renderDatePicker(scale, from, this.invariant(onChangeFrom, "from"), to, dateFormat, "datepicker-from", false)}
+                    {disabled.indexOf("from") === -1 && this.renderDatePicker(scale, from, this.invariant(onChangeFrom, "from"), to, dateFormat, "datepicker-from", false, forceDatePicker)}
                     {showTo && <span key="1" className="sub-title">{I18n.t("period.to")}</span>}
                     {showTo &&
-                    this.renderDatePicker(scale, to, this.invariant(onChangeTo, "to"), moment().add(1, "day"), dateFormat, "datepicker-to", true)}
+                    this.renderDatePicker(scale, to, this.invariant(onChangeTo, "to"), moment().add(1, "day"), dateFormat, "datepicker-to", true, forceDatePicker)}
                 </section>}
             </div>
         );
@@ -173,4 +173,5 @@ Period.propTypes = {
     allowedScales: PropTypes.array,
     disabled: PropTypes.array,
     changeTimeFrame: PropTypes.func,
+    forceDatePicker: PropTypes.bool
 };

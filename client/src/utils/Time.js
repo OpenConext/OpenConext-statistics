@@ -17,7 +17,10 @@ export function getPeriod(m, scale) {
     }
 }
 
-export function getDateTimeFormat(scale) {
+export function getDateTimeFormat(scale, forceDayFormat = false) {
+    if (forceDayFormat) {
+        return "L";
+    }
     switch (scale) {
         case "day":
             return "L";

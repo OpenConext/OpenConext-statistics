@@ -77,7 +77,11 @@ export default class Advanced extends React.PureComponent {
     toggleModus = val => this.setState({
         modus: val ? "newcomers" : "unused",
         from: moment().startOf("quarter"),
-        to: moment().add(1, "day").startOf("day")
+        to: moment().add(1, "day").startOf("day"),
+        scale: "none",
+        loaded: false,
+        date: [],
+        filteredData: [],
     }, () => this.componentDidMount());
 
     onChangeFrom = val => this.setState({from: val, scale: "none"}, () => this.componentDidMount());
@@ -132,7 +136,8 @@ export default class Advanced extends React.PureComponent {
                             to={to}
                             scale={scale || "none"}
                             allowedScales={allowedAggregatedScales.concat(["none"])}
-                            disabled={modus === "newcomers" ? [] : ["to"]}/>
+                            disabled={modus === "newcomers" ? [] : ["to"]}
+                            forceDatePicker={true}/>
                     <Reporting modus={modus} onToggle={this.toggleModus}/>
                     <Filters displayProvider={true}
                              onChangeProvider={this.onChangeProvider}
