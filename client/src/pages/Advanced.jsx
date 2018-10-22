@@ -98,19 +98,11 @@ export default class Advanced extends React.PureComponent {
 
     onChangeScale = scale => {
         if (scale !== "none") {
-            if (this.state.modus === "newcomers") {
-                const {from} = this.state;
-                const to = moment(from);
-                to.endOf(scale);
-                from.startOf(scale);
-                this.setState({scale: scale, to: to, from: from}, () => this.componentDidMount());
-            } else {
-                const {from} = this.state;
-                from.startOf(scale);
-                this.setState({scale: scale, from: from}, () => this.componentDidMount());
-            }
+            const to = moment();
+            const from = moment().startOf(scale);
+            this.setState({scale: scale, to: to, from: from}, () => this.componentDidMount());
         } else {
-            this.setState({scale: scale});
+            this.setState({scale: scale}, () => this.componentDidMount());
         }
     };
 
