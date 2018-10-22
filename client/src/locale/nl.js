@@ -10,8 +10,6 @@ I18n.translations.nl = {
     name: "Nederlands",
     select_locale: "Selecteer Nederlands",
 
-    todo: "Nog niet geimplementeerd....",
-
     header: {
         title: "Statistieken",
         OpenConext: "OpenConext Statistieken",

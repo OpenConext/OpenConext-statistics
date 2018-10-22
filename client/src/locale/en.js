@@ -9,7 +9,6 @@ I18n.translations.en = {
     code: "EN",
     name: "English",
     select_locale: "Select English",
-    todo: "Not implemented yet....",
 
     header: {
         title: "Statistics",
