@@ -183,8 +183,6 @@ def _parse_date(key, required=False, message=None):
         date = datetime.datetime.utcnow()
     if isinstance(date, datetime.datetime):
         return int(date.timestamp())
-    # if unix epoch then we need to convert from local to utc for influxdb
-    # return int(date) + time.altzone if time.daylight else time.timezone
     return int(date)
 
 
