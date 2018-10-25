@@ -177,9 +177,18 @@ export default class Live extends React.Component {
         if (this.state.maximumTo) {
             return;
         }
-        const scale = this.state.scale === "minute" || this.state.scale === "hour" ? "day" : this.state.scale;
-        const from = moment(this.state.from).add(1, scale);
-        const to = moment(this.state.to).add(1, scale);
+        let from, to;
+        const currentScale = this.state.scale;
+        if (currentScale === "minute") {
+            from = moment(this.state.from).add(12, "hour");
+            to = moment(this.state.to).add(12, "hour");
+        } else if (currentScale === "hour") {
+            from = moment(this.state.from).add(1, "day");
+            to = moment(this.state.to).add(1, "day");
+        } else {
+            from = moment(this.state.from).add(1, currentScale);
+            to = moment(this.state.to).add(1, currentScale);
+        }
         const tomorrowMidnight = moment().add(1, "day").startOf("day");
         const maximumTo = tomorrowMidnight.isBefore(to);
         this.setState({
