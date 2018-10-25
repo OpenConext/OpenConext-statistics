@@ -45,5 +45,5 @@ def logout():
 @user_api.route("/error", methods=["POST"], strict_slashes=False)
 @json_endpoint
 def error():
-    logging.getLogger("user_api").exception(json.dumps(current_request.json))
+    logging.getLogger().exception(json.dumps(current_request.json))
     return {}, 201

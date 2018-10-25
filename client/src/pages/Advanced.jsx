@@ -110,8 +110,8 @@ export default class Advanced extends React.PureComponent {
         const {filteredData, from, to, scale, state, provider, loaded, modus} = this.state;
         const {user} = this.props;
         const title = I18n.t(`advanced.${modus}.title`, {
-            from: from.format('MMMM Do YYYY, h:mm:ss a'),
-            to: to.format('MMMM Do YYYY, h:mm:ss a'),
+            from: from.format('MMMM Do YYYY'),
+            to: to.format('MMMM Do YYYY'),
             provider: I18n.t(`providers.${provider}`)
         });
         const text = filteredData

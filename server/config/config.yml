@@ -6,6 +6,8 @@ database:
   username: ""
   password: ""
 
+syslog_host: localhost
+
 log:
   measurement: eb_logins_tst
 #  measurement: sp_idp_users_day

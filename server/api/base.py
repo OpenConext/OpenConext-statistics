@@ -61,7 +61,7 @@ def json_endpoint(f):
             return response, status
         except Exception as e:
             response = jsonify(message=e.description if isinstance(e, HTTPException) else str(e))
-            logging.getLogger().exception("Message")
+            logging.getLogger().exception(response)
             response.status_code = e.code if isinstance(e, HTTPException) else 500
             _add_custom_header(response)
             if response.status_code == 401:

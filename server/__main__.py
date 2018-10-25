@@ -1,7 +1,8 @@
 import datetime
 import logging
 import os
-from logging.handlers import TimedRotatingFileHandler
+import socket
+from logging.handlers import TimedRotatingFileHandler, SysLogHandler
 
 import yaml
 from flask import Flask, jsonify, request as current_request
@@ -20,17 +21,21 @@ def read_file(file_name):
         return f.read()
 
 
-def _init_logging(basic_config):
-    if basic_config:
+def _init_logging(local, config):
+    if local:
         logging.basicConfig(level=logging.INFO)
     else:
         handler = TimedRotatingFileHandler(f"{os.path.dirname(os.path.realpath(__file__))}/../log/stats.log",
                                            when="midnight", backupCount=30)
-        formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
+        formatter = logging.Formatter('STATS: %(asctime)s %(name)s %(levelname)s %(message)s')
         handler.setFormatter(formatter)
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
+
+        syslog_handler = SysLogHandler(address=("localhost", 514), socktype=None)
+        syslog_handler.setFormatter(formatter)
         logger.addHandler(handler)
+        logger.addHandler(syslog_handler)
 
 
 def page_not_found(_):
@@ -46,11 +51,10 @@ profile = os.environ.get("PROFILE")
 is_local = profile is not None and profile == "local"
 is_test = test is not None and bool(int(test))
 
-_init_logging(is_local or is_test)
+_init_logging(is_local or is_test, config)
 
 logger = logging.getLogger("main")
 logger.info(f"Initialize server with profile {profile}")
-
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -76,7 +80,6 @@ app.influx_client.switch_database(db_name)
 result_set = app.influx_client.query("show continuous queries")
 series = list(filter(lambda s: s["name"] == db_name,
                      result_set.raw["series"] if "series" in result_set.raw else []))
-
 
 if is_test and (len(series) == 0 or "values" not in series[0] or len(series[0]["values"]) < 15):
     now = datetime.datetime.now()

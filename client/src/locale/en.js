@@ -22,7 +22,7 @@ I18n.translations.en = {
     },
     advanced: {
         newcomers: {
-            title: "All new {{provider}} from {{from}} until {{to}}"
+            title: "All new {{provider}} for which a first login has been recorded between {{from}} until {{to}}"
         },
         unused: {
             title: "All {{provider}} that were NOT used after {{from}}"
