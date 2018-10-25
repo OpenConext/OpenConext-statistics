@@ -6,7 +6,9 @@ database:
   username: ""
   password: ""
 
-syslog_host: localhost
+syslog:
+  host: localhost
+  port: 514
 
 log:
   measurement: eb_logins_tst

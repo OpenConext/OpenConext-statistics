@@ -27,13 +27,15 @@ def _init_logging(local, config):
     else:
         handler = TimedRotatingFileHandler(f"{os.path.dirname(os.path.realpath(__file__))}/../log/stats.log",
                                            when="midnight", backupCount=30)
-        formatter = logging.Formatter('STATS: %(asctime)s %(name)s %(levelname)s %(message)s')
+        formatter = logging.Formatter('STATISTICS: %(asctime)s %(name)s %(levelname)s %(message)s')
         handler.setFormatter(formatter)
+
+        # syslog_handler = SysLogHandler(address=(config.syslog.host, int(config.syslog.port)), socktype=None)
+        syslog_handler = SysLogHandler(address="/usr/bin/logger", facility=SysLogHandler.LOG_LOCAL3, socktype=None)
+        syslog_handler.setFormatter(formatter)
+
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
-
-        syslog_handler = SysLogHandler(address=("localhost", 514), socktype=None)
-        syslog_handler.setFormatter(formatter)
         logger.addHandler(handler)
         logger.addHandler(syslog_handler)
 
