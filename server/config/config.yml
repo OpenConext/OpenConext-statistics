@@ -7,8 +7,10 @@ database:
   password: ""
 
 syslog:
-  host: localhost
-  port: 514
+  address: "/dev/log"
+# Use localhost and port if syslog listens on UDP
+#  host: localhost
+#  port: 514
 
 log:
   measurement: eb_logins_tst

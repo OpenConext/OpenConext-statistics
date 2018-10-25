@@ -30,8 +30,10 @@ def _init_logging(local, config):
         formatter = logging.Formatter('STATISTICS: %(asctime)s %(name)s %(levelname)s %(message)s')
         handler.setFormatter(formatter)
 
-        # syslog_handler = SysLogHandler(address=(config.syslog.host, int(config.syslog.port)), socktype=None)
-        syslog_handler = SysLogHandler(address="/usr/bin/logger", facility=SysLogHandler.LOG_LOCAL3, socktype=None)
+        address = (config.syslog.host, int(config.syslog.port)) if "host" in config.syslog and "port" in config.syslog \
+                                                                   and len(config.syslog.port) > 0 \
+            else config.syslog.address
+        syslog_handler = SysLogHandler(address=address, facility=SysLogHandler.LOG_DAEMON)
         syslog_handler.setFormatter(formatter)
 
         logger = logging.getLogger()
