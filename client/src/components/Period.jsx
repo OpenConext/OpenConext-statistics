@@ -55,10 +55,11 @@ export default class Period extends React.PureComponent {
 
     renderYearPicker = (date, maxYear, onChange) => {
         const currentYear = date.format("YYYY");
+        const arr = Array.from(new Array((1 + maxYear) - 2011), (x, i) => (i + 2011).toString(10));
+        const options = arr.map(m => ({label: m, value: m}));
         return <Select
             value={currentYear}
-            options={Array.from(new Array((1 + maxYear) - 2011), (x, i) => (i + 2011).toString(10))
-                .map(m => ({label: m, value: m}))}
+            options={options}
             searchable={false}
             clearable={false}
             onChange={opt => onChange(moment(date).year(parseInt(opt.value, 10)))}/>
@@ -96,7 +97,7 @@ export default class Period extends React.PureComponent {
                     options={moment.months().map(m => ({label: m, value: m}))}
                     searchable={false}
                     clearable={false}
-                    onChange={opt => onChange(moment(date).month(opt))}/>
+                    onChange={opt => onChange(moment(date).month(opt.value))}/>
                 {this.renderYearPicker(date, maxDate.year(), onChange)}
             </div>
         }
@@ -152,7 +153,8 @@ export default class Period extends React.PureComponent {
                                                   onChange={changeTimeFrame} info={I18n.t("period.noTimeFrame")}
                                                   tooltip={I18n.t("period.noTimeFrameTooltip")}/>}
                     <span className="sub-title">{fromTitle}</span>
-                    {disabled.indexOf("from") === -1 && this.renderDatePicker(scale, from, this.invariant(onChangeFrom, "from"), to, dateFormat, "datepicker-from", false, forceDatePicker)}
+                    {disabled.indexOf("from") === -1 &&
+                    this.renderDatePicker(scale, from, this.invariant(onChangeFrom, "from"), to, dateFormat, "datepicker-from", false, forceDatePicker)}
                     {showTo && <span key="1" className="sub-title">{I18n.t("period.to")}</span>}
                     {showTo &&
                     this.renderDatePicker(scale, to, this.invariant(onChangeTo, "to"), moment().add(1, "day"), dateFormat, "datepicker-to", true, forceDatePicker)}
