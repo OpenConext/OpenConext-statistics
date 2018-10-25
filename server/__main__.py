@@ -1,7 +1,6 @@
 import datetime
 import logging
 import os
-import socket
 from logging.handlers import TimedRotatingFileHandler, SysLogHandler
 
 import yaml
