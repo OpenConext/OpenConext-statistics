@@ -3,8 +3,8 @@ database:
 #  name: eb_logs_poc
   host: localhost
   port: 8086
-  username: ""
-  password: ""
+  username: stats
+  password: secret
 
 syslog:
   address: "/dev/log"
