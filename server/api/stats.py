@@ -1,5 +1,6 @@
 import datetime
 import re
+import threading
 
 from dateutil import tz
 from flask import Blueprint, current_app, request as current_request, session, g as request_context
@@ -100,11 +101,18 @@ def meta_data():
 
 @stats_api.route("/admin/reinitialize_measurements_and_cq", strict_slashes=False, methods=["PUT"])
 @json_endpoint
-def drop_measurements():
-    cfg = current_app.app_config
-    drop_measurements_and_cq(cfg.log.measurement, cfg.database.name)
-    backfill_login_measurements(cfg, current_app.influx_client)
-    return [], 201
+def reinitialize_measurements_and_cq():
+    thread = threading.Thread(target=_do_reinitialize_measurements_and_cq, args=(current_app._get_current_object(),))
+    thread.start()
+    return {"result": "reinitialize_measurements_and_cq is started. Check the log files for progress"}, 200
+
+
+def _do_reinitialize_measurements_and_cq(local_app_instance):
+    with local_app_instance.app_context():
+        cfg = local_app_instance.app_config
+        influx_client = local_app_instance.influx_client
+        drop_measurements_and_cq(cfg.log.measurement, cfg.database.name)
+        backfill_login_measurements(cfg, influx_client)
 
 
 @stats_api.route("/service_providers", strict_slashes=False)
