@@ -46,13 +46,17 @@ def database_stats():
 
 
 def drop_measurements_and_cq(main_measurement, database):
+    logger = logging.getLogger("main")
+
     client = current_app.influx_client
     measurements = list(map(lambda m: m["name"], client.get_list_measurements()))
     for m in measurements:
         if m != main_measurement:
+            logger.info(f"Dropping measurement {m}")
             client.drop_measurement(m)
     continuous_queries = list(map(lambda m: m["name"], client.query("show continuous queries").get_points()))
     for cq in continuous_queries:
+        logger.info(f"Dropping continuous query {cq} on {database}")
         client.query(f"drop continuous query {cq} on {database}")
 
 
