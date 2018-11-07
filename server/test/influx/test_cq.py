@@ -11,6 +11,13 @@ class TestCq(AbstractTest):
     def test_cq(self):
         self.client.put(f"/api/stats/admin/reinitialize_measurements_and_cq",
                         headers={"Authorization": "Basic c3lzYWRtaW46c2VjcmV0"})
+        self._assert_measurements()
+
+        self.client.put(f"/api/stats/admin/restart_reinitialize_measurements_and_cq",
+                        headers={"Authorization": "Basic c3lzYWRtaW46c2VjcmV0"})
+        self._assert_measurements()
+
+    def _assert_measurements(self):
         measurements_count = len(list(self.app.influx_client.get_list_measurements()))
         self.assertEqual((24 * len(["week", "month", "quarter", "year"])) + 12 * len(["day"]) + 1,
                          measurements_count)

@@ -1,4 +1,6 @@
 import datetime
+import logging
+import os
 import re
 import threading
 
@@ -10,7 +12,7 @@ from server.api.base import json_endpoint
 from server.influx.cq import backfill_login_measurements
 from server.influx.repo import login_by_time_frame, \
     service_providers_tags, identity_providers_tags, login_by_aggregated, first_login_from_to, last_login_providers, \
-    database_stats, drop_measurements_and_cq, login_count_per_idp_sp
+    database_stats, login_count_per_idp_sp
 from server.influx.time import start_end_period
 from server.manage.manage import service_providers, connected_identity_providers, identity_providers
 
@@ -102,17 +104,35 @@ def meta_data():
 @stats_api.route("/admin/reinitialize_measurements_and_cq", strict_slashes=False, methods=["PUT"])
 @json_endpoint
 def reinitialize_measurements_and_cq():
-    thread = threading.Thread(target=_do_reinitialize_measurements_and_cq, args=(current_app._get_current_object(),))
-    thread.start()
-    return {"result": "reinitialize_measurements_and_cq is started. Check the log files for progress"}, 200
+    if os.environ.get("TEST"):
+        _do_reinitialize_measurements_and_cq(current_app, False)
+    else:
+        thread = threading.Thread(target=_do_reinitialize_measurements_and_cq,
+                                  args=(current_app._get_current_object(), False))
+        thread.start()
+    return {"result": "Reinitialize_measurements_and_cq is started. Check the log files for progress"}, 200
 
 
-def _do_reinitialize_measurements_and_cq(local_app_instance):
+@stats_api.route("/admin/restart_reinitialize_measurements_and_cq", strict_slashes=False, methods=["PUT"])
+@json_endpoint
+def restart_reinitialize_measurements_and_cq():
+    if os.environ.get("TEST"):
+        _do_reinitialize_measurements_and_cq(current_app, True)
+    else:
+        thread = threading.Thread(target=_do_reinitialize_measurements_and_cq,
+                                  args=(current_app._get_current_object(), True))
+        thread.start()
+    return {"result": "Restart reinitialize_measurements_and_cq is started. Check the log files for progress"}, 200
+
+
+def _do_reinitialize_measurements_and_cq(local_app_instance, is_restart=False):
     with local_app_instance.app_context():
         cfg = local_app_instance.app_config
         influx_client = local_app_instance.influx_client
-        drop_measurements_and_cq(cfg.log.measurement, cfg.database.name)
-        backfill_login_measurements(cfg, influx_client)
+        backfill_login_measurements(cfg, influx_client, is_restart=is_restart)
+        logger = logging.getLogger("stats")
+        action = "initializing" if not is_restart else "restarting"
+        logger.info(f"Successfully finished {action} backfills and cq's")
 
 
 @stats_api.route("/service_providers", strict_slashes=False)

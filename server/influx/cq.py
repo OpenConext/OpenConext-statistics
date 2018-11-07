@@ -8,8 +8,6 @@ import time
 
 from influxdb import InfluxDBClient
 
-# VALID_PERIODS = ["minute", "hour", "day", "week", "month", "quarter", "year"]
-# VALID_GROUP_BY = ["minute", "hour", "day", "week"]
 VALID_PERIODS = ["day", "week", "month", "quarter", "year"]
 VALID_GROUP_BY = ["day", "week"]
 
@@ -33,9 +31,8 @@ def get_measurements():
     measurements = []
     for period in VALID_PERIODS:
         append_measurement(measurements, period)
-        # if period != "minute":
         if period != "day":
-                append_measurement(measurements, period, postfix="_unique")
+            append_measurement(measurements, period, postfix="_unique")
     return measurements
 
 
@@ -79,98 +76,130 @@ def create_continuous_query(db, db_name, duration, period, is_unique, include_to
     logger.info(f"{q}")
     db.query(q)
 
-    if not os.environ.get("TEST"):
-        # need to give influx some time to index
-        time.sleep(10 * 60 if "minute" in measurement_name else 5 * 60 if "hour" in measurement_name else 60)
+    # if not os.environ.get("TEST") and not os.environ.get("TEST"):
+    #     # need to give influx some time to index
+    #     time.sleep(10 * 60 if "minute" in measurement_name else 5 * 60 if "hour" in measurement_name else 60)
 
 
-def backfill_login_measurements(config, db: InfluxDBClient):
+def need_to_recreate_cq_measurement(db: InfluxDBClient, measurement, measurements, continuous_queries, db_name,
+                                    is_restart):
+    existing_measurement = measurement in measurements
+    cq = f"{measurement}_cq"
+    existing_cq = cq in continuous_queries
+
+    if not is_restart or not existing_measurement or not existing_cq:
+        logger = logging.getLogger("backfill")
+        msg = " cause of restart" if is_restart else ""
+        if existing_measurement:
+            logger.info(f"Dropping measurement {measurement}{msg}")
+            db.drop_measurement(measurement)
+
+        if existing_cq:
+            logger.info(f"Dropping continuous query {cq} on {db_name}{msg}")
+            db.query(f"drop continuous query {cq} on {db_name}")
+        return True
+    return False
+
+
+def backfill_login_measurements(config, db: InfluxDBClient, is_restart=False):
     db_name = config.database.name
     log_source = config.log.measurement
 
     sp = config.log.sp_id
     idp = config.log.idp_id
 
+    logger = logging.getLogger("backfill")
+
     databases = list(map(lambda p: p["name"], db.get_list_database()))
 
     if db_name not in databases:
         # we assume a test is running and we don't proceed with back filling
         return
+    db.switch_database(db_name)
 
-    for measurement in get_measurements():
-        db.drop_measurement(measurement)
+    if not is_restart:
+        for measurement in get_measurements():
+            logger.info(f"Dropping measurement {measurement}")
+            db.drop_measurement(measurement)
 
     continuous_queries = list(map(lambda x: x["name"], db.query("show continuous queries").get_points()))
-    for cq in continuous_queries:
-        db.query(f"drop continuous query {cq} on {db_name}")
+    if not is_restart:
+        for cq in continuous_queries:
+            logger.info(f"Dropping continuous query {cq} on {db_name}")
+            db.query(f"drop continuous query {cq} on {db_name}")
 
     # First create all the unique count queries that have to run against the log_source
+    points = db.query("show measurements").get_points()
+    measurements = list(map(lambda x: x["name"], points))
     for p in VALID_PERIODS:
         for state in ["pa", "ta", None]:
             duration = "1" + p[:1]
-            # include_total = p == "minute"
             include_total = p == "day"
-            # unique_postfix = "_unique" if p != "minute" else ""
             unique_postfix = "_unique" if p != "day" else ""
-            create_continuous_query(db=db, db_name=db_name, duration=duration, period=p, is_unique=True,
-                                    include_total=include_total,
-                                    measurement_name=f"sp_idp_{state}_users_{p}{unique_postfix}"
-                                    if state else f"sp_idp_users_{p}{unique_postfix}",
-                                    parent_name=log_source,
-                                    group_by=[sp, idp],
-                                    state=state)
-            create_continuous_query(db=db, db_name=db_name, duration=duration, period=p, is_unique=True,
-                                    include_total=include_total,
-                                    measurement_name=f"idp_{state}_users_{p}{unique_postfix}"
-                                    if state else f"idp_users_{p}{unique_postfix}",
-                                    parent_name=log_source,
-                                    group_by=[idp],
-                                    state=state)
-            create_continuous_query(db=db, db_name=db_name, duration=duration, period=p, is_unique=True,
-                                    include_total=include_total,
-                                    measurement_name=f"sp_{state}_users_{p}{unique_postfix}"
-                                    if state else f"sp_users_{p}{unique_postfix}",
-                                    parent_name=log_source,
-                                    group_by=[sp],
-                                    state=state)
-            create_continuous_query(db=db, db_name=db_name, duration=duration, period=p, is_unique=True,
-                                    include_total=include_total,
-                                    measurement_name=f"total_{state}_users_{p}{unique_postfix}"
-                                    if state else f"total_users_{p}{unique_postfix}",
-                                    parent_name=log_source,
-                                    group_by=[],
-                                    state=state)
+
+            m_name = f"sp_idp_{state}_users_{p}{unique_postfix}" if state else f"sp_idp_users_{p}{unique_postfix}"
+            if need_to_recreate_cq_measurement(db, m_name, measurements, continuous_queries, db_name, is_restart):
+                create_continuous_query(db=db, db_name=db_name, duration=duration, period=p, is_unique=True,
+                                        include_total=include_total,
+                                        measurement_name=m_name,
+                                        parent_name=log_source,
+                                        group_by=[sp, idp],
+                                        state=state)
+            m_name = f"idp_{state}_users_{p}{unique_postfix}" if state else f"idp_users_{p}{unique_postfix}"
+            if need_to_recreate_cq_measurement(db, m_name, measurements, continuous_queries, db_name, is_restart):
+                create_continuous_query(db=db, db_name=db_name, duration=duration, period=p, is_unique=True,
+                                        include_total=include_total,
+                                        measurement_name=m_name,
+                                        parent_name=log_source,
+                                        group_by=[idp],
+                                        state=state)
+            m_name = f"sp_{state}_users_{p}{unique_postfix}" if state else f"sp_users_{p}{unique_postfix}"
+            if need_to_recreate_cq_measurement(db, m_name, measurements, continuous_queries, db_name, is_restart):
+                create_continuous_query(db=db, db_name=db_name, duration=duration, period=p, is_unique=True,
+                                        include_total=include_total,
+                                        measurement_name=m_name,
+                                        parent_name=log_source,
+                                        group_by=[sp],
+                                        state=state)
+            m_name = f"total_{state}_users_{p}{unique_postfix}" if state else f"total_users_{p}{unique_postfix}"
+            if need_to_recreate_cq_measurement(db, m_name, measurements, continuous_queries, db_name, is_restart):
+                create_continuous_query(db=db, db_name=db_name, duration=duration, period=p, is_unique=True,
+                                        include_total=include_total,
+                                        measurement_name=m_name,
+                                        parent_name=log_source,
+                                        group_by=[],
+                                        state=state)
 
     # put ("hour", "minute"), ("day", "hour") in front if minutes/hours need to supported
     for d, p in (("week", "day"), ("month", "week"), ("quarter", "week"),
                  ("year", "week")):
         duration = "1" + d[:1]
         for state in ["pa", "ta", None]:
-            create_continuous_query(db=db, db_name=db_name, duration=duration, period=d, is_unique=False,
-                                    include_total=False,
-                                    measurement_name=f"sp_idp_{state}_users_{d}"
-                                    if state else f"sp_idp_users_{d}",
-                                    parent_name=f"sp_idp_{state}_users_{p}"
-                                    if state else f"sp_idp_users_{p}",
-                                    group_by=[sp, idp])
-            create_continuous_query(db=db, db_name=db_name, duration=duration, period=d, is_unique=False,
-                                    include_total=False,
-                                    measurement_name=f"idp_{state}_users_{d}"
-                                    if state else f"idp_users_{d}",
-                                    parent_name=f"idp_{state}_users_{p}"
-                                    if state else f"idp_users_{p}",
-                                    group_by=[idp])
-            create_continuous_query(db=db, db_name=db_name, duration=duration, period=d, is_unique=False,
-                                    include_total=False,
-                                    measurement_name=f"sp_{state}_users_{d}"
-                                    if state else f"sp_users_{d}",
-                                    parent_name=f"sp_{state}_users_{p}"
-                                    if state else f"sp_users_{p}",
-                                    group_by=[sp])
-            create_continuous_query(db=db, db_name=db_name, duration=duration, period=d, is_unique=False,
-                                    include_total=False,
-                                    measurement_name=f"total_{state}_users_{d}"
-                                    if state else f"total_users_{d}",
-                                    parent_name=f"total_{state}_users_{p}"
-                                    if state else f"total_users_{p}",
-                                    group_by=[])
+            m_name = f"sp_idp_{state}_users_{d}" if state else f"sp_idp_users_{d}"
+            if need_to_recreate_cq_measurement(db, m_name, measurements, continuous_queries, db_name, is_restart):
+                create_continuous_query(db=db, db_name=db_name, duration=duration, period=d, is_unique=False,
+                                        include_total=False,
+                                        measurement_name=m_name,
+                                        parent_name=f"sp_idp_{state}_users_{p}" if state else f"sp_idp_users_{p}",
+                                        group_by=[sp, idp])
+            m_name = f"idp_{state}_users_{d}" if state else f"idp_users_{d}"
+            if need_to_recreate_cq_measurement(db, m_name, measurements, continuous_queries, db_name, is_restart):
+                create_continuous_query(db=db, db_name=db_name, duration=duration, period=d, is_unique=False,
+                                        include_total=False,
+                                        measurement_name=m_name,
+                                        parent_name=f"idp_{state}_users_{p}" if state else f"idp_users_{p}",
+                                        group_by=[idp])
+            m_name = f"sp_{state}_users_{d}" if state else f"sp_users_{d}"
+            if need_to_recreate_cq_measurement(db, m_name, measurements, continuous_queries, db_name, is_restart):
+                create_continuous_query(db=db, db_name=db_name, duration=duration, period=d, is_unique=False,
+                                        include_total=False,
+                                        measurement_name=m_name,
+                                        parent_name=f"sp_{state}_users_{p}" if state else f"sp_users_{p}",
+                                        group_by=[sp])
+            m_name = f"total_{state}_users_{d}" if state else f"total_users_{d}"
+            if need_to_recreate_cq_measurement(db, m_name, measurements, continuous_queries, db_name, is_restart):
+                create_continuous_query(db=db, db_name=db_name, duration=duration, period=d, is_unique=False,
+                                        include_total=False,
+                                        measurement_name=m_name,
+                                        parent_name=f"total_{state}_users_{p}" if state else f"total_users_{p}",
+                                        group_by=[])
