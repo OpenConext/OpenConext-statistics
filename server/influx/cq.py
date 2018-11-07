@@ -3,8 +3,6 @@ Will drop and re-create all measurements and continuous queries and backfill the
 from the main login measurement
 """
 import logging
-import os
-import time
 
 from influxdb import InfluxDBClient
 
