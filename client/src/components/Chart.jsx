@@ -246,9 +246,9 @@ export default class Chart extends React.PureComponent {
 
     dateAccessor = p => moment(p.time).utc().format("YYYY-MM-DD");
 
-    loginsAccessor = p => p.count_user_id !== undefined ? (p.count_user_id).toLocaleString() : "";
+    loginsAccessor = printable => p => p.count_user_id !== undefined ? (printable ? p.count_user_id.toLocaleString() : p.count_user_id) : "";
 
-    usersAccessor = includeUniques => p => p.distinct_count_user_id && includeUniques ? (p.distinct_count_user_id).toLocaleString() : "";
+    usersAccessor = (includeUniques, printable) => p => p.distinct_count_user_id && includeUniques ? (printable ? p.distinct_count_user_id.toLocaleString() : p.distinct_count_user_id) : "";
 
     renderTableAggregate = (data, title, includeUniques, groupedBySp, identityProvidersDict,
                             serviceProvidersDict) => {
@@ -265,16 +265,16 @@ export default class Chart extends React.PureComponent {
             }, {
                 id: "logins",
                 Header: I18n.t("chart.userCount"),
-                accessor: this.loginsAccessor,
+                accessor: this.loginsAccessor(true),
                 className: "right"
             }, {
                 id: "users",
                 Header: I18n.t("chart.uniqueUserCount"),
-                accessor: this.usersAccessor(includeUniques),
+                accessor: this.usersAccessor(includeUniques, true),
                 className: "right"
             }];
         const text = data
-            .map(row => `${this.providerAccessor(groupedBySp, serviceProvidersDict, identityProvidersDict)(row)},${this.dateAccessor(row)},${this.loginsAccessor(row)},${this.usersAccessor(includeUniques)(row)}`)
+            .map(row => `${this.providerAccessor(groupedBySp, serviceProvidersDict, identityProvidersDict)(row)},${this.dateAccessor(row)},${this.loginsAccessor(false)(row)},${this.usersAccessor(includeUniques, false)(row)}`)
             .join("\n");
         return <section className="table">
             {title && <span className="title">{title} <ClipBoardCopy identifier="table-export" text={text}/></span>}
@@ -316,7 +316,7 @@ export default class Chart extends React.PureComponent {
                 time: parseInt(time,10),
                 count_user_id: groupedByTime[time].find(r => r.count_user_id).count_user_id,
                 distinct_count_user_id: (groupedByTime[time].find(r => r.distinct_count_user_id) || {}).distinct_count_user_id }))
-            .map(row => `${this.dateAccessor(row)},${this.loginsAccessor(row)},${this.usersAccessor(includeUniques)(row)}`)
+            .map(row => `${this.dateAccessor(row)},${this.loginsAccessor(false)(row)},${this.usersAccessor(includeUniques, false)(row)}`)
             .join("\n");
 
         return <section className="table">
