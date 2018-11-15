@@ -273,8 +273,9 @@ export default class Chart extends React.PureComponent {
                 accessor: this.usersAccessor(includeUniques, true),
                 className: "right"
             }];
-        const text = data
-            .map(row => `${this.providerAccessor(groupedBySp, serviceProvidersDict, identityProvidersDict)(row)},${this.dateAccessor(row)},${this.loginsAccessor(false)(row)},${this.usersAccessor(includeUniques, false)(row)}`)
+        const headers = ["name,date,logins,users"];
+        const text = headers.concat(data
+            .map(row => `${this.providerAccessor(groupedBySp, serviceProvidersDict, identityProvidersDict)(row)},${this.dateAccessor(row)},${this.loginsAccessor(false)(row)},${this.usersAccessor(includeUniques, false)(row)}`))
             .join("\n");
         return <section className="table">
             {title && <span className="title">{title} <ClipBoardCopy identifier="table-export" text={text}/></span>}
@@ -298,7 +299,7 @@ export default class Chart extends React.PureComponent {
         }, {
             id: "logins",
             Header: I18n.t("chart.userCount"),
-            accessor: this.loginsAccessor,
+            accessor: this.loginsAccessor(true),
             className: "right"
         }, {
             id: "users",
@@ -311,12 +312,14 @@ export default class Chart extends React.PureComponent {
                 (acc[p["time"]] = acc[p["time"]] || []).push(p);
                 return acc;
             }, {});
-        const text = Object.keys(groupedByTime)
+        const headers = ["date,logins,users"];
+        const text = headers.concat(Object.keys(groupedByTime)
             .map(time => ({
-                time: parseInt(time,10),
+                time: parseInt(time, 10),
                 count_user_id: groupedByTime[time].find(r => r.count_user_id).count_user_id,
-                distinct_count_user_id: (groupedByTime[time].find(r => r.distinct_count_user_id) || {}).distinct_count_user_id }))
-            .map(row => `${this.dateAccessor(row)},${this.loginsAccessor(false)(row)},${this.usersAccessor(includeUniques, false)(row)}`)
+                distinct_count_user_id: (groupedByTime[time].find(r => r.distinct_count_user_id) || {}).distinct_count_user_id
+            }))
+            .map(row => `${this.dateAccessor(row)},${this.loginsAccessor(false)(row)},${this.usersAccessor(includeUniques, false)(row)}`))
             .join("\n");
 
         return <section className="table">
