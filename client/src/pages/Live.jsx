@@ -36,7 +36,7 @@ export default class Live extends React.Component {
             groupedByIdp: false,
             groupedBySp: false,
             includeUniques: !this.props.user.guest,
-            providerState: "all",
+            providerState: "prodaccepted",
             download: false,
             downloading: false,
             matrix: [],

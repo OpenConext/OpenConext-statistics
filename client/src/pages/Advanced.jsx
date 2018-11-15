@@ -26,7 +26,7 @@ export default class Advanced extends React.PureComponent {
             to: moment().add(1, "day").startOf("day"),
             scale: "none",
             provider: "sp",
-            state: "all",
+            state: "prodaccepted",
             loaded: false,
             modus: "newcomers"
         };

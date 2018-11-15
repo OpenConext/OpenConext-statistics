@@ -86,7 +86,7 @@ export default class Filters extends React.PureComponent {
                     <span className="sub-title">{I18n.t("filters.state")}</span>
                     <Select onChange={option => option ? onChangeState(option.value) : null}
                             options={STATES.map(s => ({value: s, label: I18n.t(`filters.stateValues.${s}`)}))}
-                            value={state || "all"}
+                            value={state || "prodaccepted"}
                             searchable={false}
                             clearable={false}
                     />
