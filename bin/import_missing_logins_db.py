@@ -101,7 +101,7 @@ def _perform_query(chunks, con, measurement, date_string):
                 append_chunk(serie, chunks)
 
 
-def import_missing_days(measurement="dry_test"):
+def import_missing_days():
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger()
 
@@ -113,7 +113,7 @@ def import_missing_days(measurement="dry_test"):
     try:
         chunks = []
         for date in dates:
-            _perform_query(chunks, con, measurement, date)
+            _perform_query(chunks, con, influx_measurement, date)
         _write_to_influx(chunks)
 
     finally:
