@@ -399,6 +399,9 @@ export default class Live extends React.Component {
         if (noTimeFrame) {
             disabled.push("scale");
         }
+        if (dataForChart.length === 0) {
+            dataForChart = ["no_results"];
+        }
         return (
             <div className={`live ${user.guest ? "guest" : ""}`}>
                 <section className={`container ${user.guest ? "guest" : ""}`}>

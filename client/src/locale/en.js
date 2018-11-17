@@ -125,7 +125,7 @@ I18n.translations.en = {
         userCount: "Total logins",
         uniqueUserCount: "Unique users",
         loading: "Fetching logins....",
-        noResults: "No logins are recorded for the given period. ",
+        noResults: "No logins are recorded for the given period and specified filters.",
         reset: "Reset to defaults.",
         date: "Date",
         logins: "Logins per {{scale}}",
