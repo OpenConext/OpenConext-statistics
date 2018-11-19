@@ -68,8 +68,8 @@ export default class Live extends React.Component {
     }
 
     refreshStats() {
-        const {from, to, scale, idp, sp, groupedBySp, groupedByIdp, includeUniques, providerState, noTimeFrame} =
-            this.state;
+        const {from, to, scale, idp, sp, groupedBySp, groupedByIdp, includeUniques, providerState, noTimeFrame,
+            institutionType} = this.state;
         let groupBy = undefined;
         if (isEmpty(sp) || isEmpty(idp)) {
             groupBy = `${groupedByIdp ? "idp_id" : ""},${groupedBySp ? "sp_id" : ""}`
@@ -96,7 +96,8 @@ export default class Live extends React.Component {
                 idp_id: idp,
                 sp_id: sp,
                 epoch: "ms",
-                state: providerState
+                state: providerState,
+                institution_type: institutionType
             }).then(res => {
                 const hasResults = res.length > 0 && res[0] !== "no_results";
                 if (hasResults && (scale === "minute" || scale === "hour")) {
@@ -249,28 +250,9 @@ export default class Live extends React.Component {
         this.setState(newState, this.componentDidMount);
     };
 
-    onChangeInstitutionType = val => this.setState({institutionType: val});
+    onChangeInstitutionType = val => this.setState({institutionType: val}, this.state.groupedByIdp ? () => this : this.componentDidMount);
 
     onChangeState = val => this.setState({data: [], providerState: val}, this.componentDidMount);
-
-
-    invariantFromToScale = (from, to, scale, dateToChange = "from") => {
-        let additionalState = {};
-        if (this.state.groupedByIdp || this.state.groupedBySp) {
-            return additionalState;
-        }
-        const diff = moment.duration(to.diff(from)).asDays();
-        if ((scale === "minute" && diff > 1) || (scale === "hour" && diff > 7)) {
-            const duration = scale === "minute" ? 1 : 7;
-            if (dateToChange === "to") {
-                additionalState["to"] = moment(from).add(duration, "day");
-            } else {
-                additionalState["from"] = moment(to).subtract(duration, "day");
-            }
-        }
-        return additionalState;
-    };
-
 
     onChangeScale = scale => {
         const {to, groupedByIdp, groupedBySp} = this.state;
@@ -289,10 +271,11 @@ export default class Live extends React.Component {
                     to: moment().add(1, "day").startOf("day")
                 }, this.componentDidMount);
             } else {
+                const from = moment(to).subtract(minDiffByScale[scale], "day").startOf(scale);
                 this.setState({
                     data: [],
                     scale: scale,
-                    from: moment(to).subtract(minDiffByScale[scale], "day")
+                    from: from
                 }, this.componentDidMount);
             }
         }
@@ -388,7 +371,7 @@ export default class Live extends React.Component {
         const aggregate = groupedByIdp || groupedBySp;
         const {identityProviders, serviceProviders, user, identityProvidersDict, serviceProvidersDict} = this.props;
         let dataForChart = data;
-        if (!isEmpty(institutionType)) {
+        if (!isEmpty(institutionType) && groupedByIdp) {
             const entityIds = identityProviders.filter(idp => idp["coin:institution_type"] === institutionType).map(idp => idp.id);
             dataForChart = data.filter(idp => entityIds.indexOf(idp["idp_entity_id"]) > -1);
         }

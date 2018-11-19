@@ -8,7 +8,7 @@ from dateutil import tz
 from influxdb import InfluxDBClient
 
 influx_db_name = "eb_logs_missing"
-influx_measurement = "dry_test"
+influx_measurement = "prod_data"
 influx_username = ""
 influx_password = ""
 

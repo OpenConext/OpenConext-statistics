@@ -141,9 +141,9 @@ def service_provider_data():
     sp_manage = service_providers()
     sp_influx = service_providers_tags(current_app.app_config.log.measurement, current_app.app_config.log.sp_id)
     sp_manage_dict = {sp["id"]: sp for sp in sp_manage}
-    return list(
-        map(lambda sp_id: _add_manage_metadata(sp_id, sp_manage_dict[sp_id] if sp_id in sp_manage_dict else None),
-            sp_influx)), 200
+    result = list(map(lambda sp_id: _add_manage_metadata(sp_id, sp_manage_dict[sp_id] if sp_id in sp_manage_dict else None),
+                 sp_influx))
+    return result, 200
 
 
 @stats_api.route("/identity_providers", strict_slashes=False)
@@ -152,8 +152,9 @@ def identity_providers_data():
     idp_manage = identity_providers()
     idp_influx = identity_providers_tags(current_app.app_config.log.measurement, current_app.app_config.log.idp_id)
     idp_manage_dict = {idp["id"]: idp for idp in idp_manage}
-    return list(map(lambda idp: _add_manage_metadata(idp, idp_manage_dict[idp] if idp in idp_manage_dict else None),
-                    idp_influx)), 200
+    result = list(map(lambda idp: _add_manage_metadata(idp, idp_manage_dict[idp] if idp in idp_manage_dict else None),
+                 idp_influx))
+    return result, 200
 
 
 @stats_api.route("/public/connected_identity_providers", strict_slashes=False)
@@ -188,6 +189,10 @@ def _options(include_group_by=True, include_unique=True,
     state = args.get("state")
     if state and state in VALID_STATE:
         request_args["state"] = state
+
+    institution_type = args.get("institution_type")
+    if institution_type:
+        request_args["institution_type"] = institution_type
 
     is_authorized_api_call = request_context.get("is_authorized_api_call", False)
 

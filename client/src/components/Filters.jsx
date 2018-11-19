@@ -24,8 +24,7 @@ export default class Filters extends React.PureComponent {
         const {displayDetails} = this.state;
         const {
             displayProvider, onChangeProvider, provider, onChangeState, state, onChangeUniques, uniques, displayUniques,
-            onChangeSp, onChangeIdp, sp, idp, serviceProviders, identityProviders = [], onChangeInstitutionType, institutionType,
-            groupedByIdp
+            onChangeSp, onChangeIdp, sp, idp, serviceProviders, identityProviders = [], onChangeInstitutionType, institutionType
         } = this.props;
         const institutionTypes = Array.from(new Set(identityProviders.filter(idp => idp["coin:institution_type"]).map(idp => idp["coin:institution_type"])));
         return (
@@ -71,7 +70,7 @@ export default class Filters extends React.PureComponent {
                                 value={institutionType || ""}
                                 searchable={true}
                                 clearable={true}
-                                disabled={!groupedByIdp}/>
+                                disabled={false}/>
                     </div>}
                     {displayProvider && <span className="sub-title">{I18n.t("filters.provider")}</span>}
                     {displayProvider && <Select onChange={option => option ? onChangeProvider(option.value) : null}

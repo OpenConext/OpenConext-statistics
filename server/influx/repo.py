@@ -1,7 +1,9 @@
 from flask import current_app
 from influxdb.resultset import ResultSet
 import logging
-from server.influx.time import start_end_period, adjust_time, remove_aggregated_time_info, filter_time
+from server.influx.time import start_end_period, adjust_time, remove_aggregated_time_info, filter_time, \
+    combine_time_duplicates
+from server.manage.manage import identity_providers_by_institution_type
 
 GROUPING_SCALES = ["month", "quarter", "year"]
 MEASUREMENT_SCALES = {"d": "day", "w": "week", "m": "month", "q": "quarter"}
@@ -46,7 +48,8 @@ def database_stats():
     return res
 
 
-def _determine_measurement(config, idp_entity_id, sp_entity_id, measurement_scale, state, group_by=None):
+def _determine_measurement(config, idp_entity_id, sp_entity_id, measurement_scale, state, group_by=None,
+                           institution_type=None):
     if measurement_scale in ["minute", "hour"]:
         return config.log.measurement
 
@@ -55,8 +58,8 @@ def _determine_measurement(config, idp_entity_id, sp_entity_id, measurement_scal
 
     measurement = ""
     measurement += "sp_" if include_sp else ""
-    measurement += "idp_" if include_idp else ""
-    measurement += "total_" if not include_idp and not include_sp else ""
+    measurement += "idp_" if include_idp or institution_type else ""
+    measurement += "total_" if not include_idp and not include_sp and not institution_type else ""
     measurement += "pa_" if state == "prodaccepted" else "ta_" if state == "testaccepted" else ""
     measurement += f"users_{measurement_scale}"
     return measurement
@@ -84,8 +87,9 @@ def last_login_providers(config, state=None, provider="sp"):
 
 
 def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entity_id=None, sp_entity_id=None,
-                        include_unique=True, epoch=None, state=None):
-    measurement = _determine_measurement(config, idp_entity_id, sp_entity_id, scale, state)
+                        include_unique=True, epoch=None, state=None, institution_type=None):
+    measurement = _determine_measurement(config, idp_entity_id, sp_entity_id, scale, state,
+                                         institution_type=institution_type)
     if scale in ["minute", "hour"]:
         q = f"select count(user_id) as count_user_id from {measurement} where 1=1"
     else:
@@ -97,6 +101,12 @@ def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entit
 
     q += f" and {config.log.sp_id} = '{sp_entity_id}'" if sp_entity_id else ""
     q += f" and {config.log.idp_id} = '{idp_entity_id}'" if idp_entity_id else ""
+
+    if institution_type:
+        identity_providers = identity_providers_by_institution_type(institution_type)
+        identity_providers_entities_id = map(lambda idp: idp["id"].replace("/","\/"), identity_providers)
+        query_part = "|".join(identity_providers_entities_id)
+        q += f" and {config.log.idp_id} =~ /{query_part}/"
 
     # we don't have aggregated measurements for these
     if scale in ["minute", "hour"]:
@@ -111,14 +121,19 @@ def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entit
     if needs_grouping:
         records = filter_time(from_seconds, to_seconds, adjust_time(records, epoch))
 
-    if include_unique and scale not in ["minute", "hour"]:
+    uniques_included = include_unique and scale not in ["minute", "hour"]
+    if uniques_included:
         q = q.replace(f"from {measurement}",
                       f"from {measurement}_unique")
         unique_records = _query(q, epoch=epoch)
         if needs_grouping:
             unique_records = filter_time(from_seconds, to_seconds, adjust_time(unique_records, epoch))
         records.extend(unique_records)
-    return remove_aggregated_time_info(records)
+    results = remove_aggregated_time_info(records)
+    if institution_type:
+        # TODO combine time duplciates needs to be called twice - once for unqiues and
+        combine_time_duplicates(results, uniques_included)
+    return results
 
 
 def login_count_per_idp_sp(config, from_seconds, to_seconds, idp_entity_id, sp_entity_id, epoch=None, state=None):
