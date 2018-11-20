@@ -121,6 +121,9 @@ def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entit
     if needs_grouping:
         records = filter_time(from_seconds, to_seconds, adjust_time(records, epoch))
 
+    if institution_type:
+        records = combine_time_duplicates(records)
+
     uniques_included = include_unique and scale not in ["minute", "hour"]
     if uniques_included:
         q = q.replace(f"from {measurement}",
@@ -128,11 +131,10 @@ def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entit
         unique_records = _query(q, epoch=epoch)
         if needs_grouping:
             unique_records = filter_time(from_seconds, to_seconds, adjust_time(unique_records, epoch))
+        if institution_type:
+            unique_records = combine_time_duplicates(unique_records, "distinct_count_user_id")
         records.extend(unique_records)
     results = remove_aggregated_time_info(records)
-    if institution_type:
-        # TODO combine time duplciates needs to be called twice - once for unqiues and
-        combine_time_duplicates(results, uniques_included)
     return results
 
 

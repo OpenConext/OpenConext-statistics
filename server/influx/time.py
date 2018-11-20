@@ -94,13 +94,6 @@ def remove_aggregated_time_info(points):
     return points
 
 
-def combine_time_duplicates(records, include_uniques=False):
+def combine_time_duplicates(records, key_name="count_user_id"):
     res = groupby(records, key=lambda p: p["time"])
-
-    def new_point(k, v):
-        result = {"time": k, "count_user_id": sum(map(lambda p: p["count_user_id"], v))}
-        if include_uniques:
-            res["distinct_count_user_id"] = sum(map(lambda p: p["distinct_count_user_id"], v))
-        return result
-
-    return [new_point(k, v) for k, v in res]
+    return [{"time": k, key_name: sum(map(lambda p: p[key_name], v))} for k, v in res]
