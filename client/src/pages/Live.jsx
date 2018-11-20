@@ -68,8 +68,10 @@ export default class Live extends React.Component {
     }
 
     refreshStats() {
-        const {from, to, scale, idp, sp, groupedBySp, groupedByIdp, includeUniques, providerState, noTimeFrame,
-            institutionType} = this.state;
+        const {
+            from, to, scale, idp, sp, groupedBySp, groupedByIdp, includeUniques, providerState, noTimeFrame,
+            institutionType
+        } = this.state;
         let groupBy = undefined;
         if (isEmpty(sp) || isEmpty(idp)) {
             groupBy = `${groupedByIdp ? "idp_id" : ""},${groupedBySp ? "sp_id" : ""}`
@@ -374,6 +376,9 @@ export default class Live extends React.Component {
         if (!isEmpty(institutionType) && groupedByIdp) {
             const entityIds = identityProviders.filter(idp => idp["coin:institution_type"] === institutionType).map(idp => idp.id);
             dataForChart = data.filter(idp => entityIds.indexOf(idp["idp_entity_id"]) > -1);
+            if (dataForChart.length === 0) {
+                dataForChart = ["no_results"];
+            }
         }
         const disabled = [];
         if (isEmpty(sp) || isEmpty(idp) || groupedByIdp || groupedBySp) {
@@ -381,9 +386,6 @@ export default class Live extends React.Component {
         }
         if (noTimeFrame) {
             disabled.push("scale");
-        }
-        if (dataForChart.length === 0) {
-            dataForChart = ["no_results"];
         }
         return (
             <div className={`live ${user.guest ? "guest" : ""}`}>
