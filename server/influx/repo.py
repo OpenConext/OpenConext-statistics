@@ -104,7 +104,7 @@ def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entit
 
     if institution_type:
         identity_providers = identity_providers_by_institution_type(institution_type)
-        identity_providers_entities_id = map(lambda idp: idp["id"].replace("/","\/"), identity_providers)
+        identity_providers_entities_id = map(lambda idp: idp["id"].replace("/", "\/"), identity_providers)
         query_part = "|".join(identity_providers_entities_id)
         q += f" and {config.log.idp_id} =~ /{query_part}/"
 

@@ -141,8 +141,9 @@ def service_provider_data():
     sp_manage = service_providers()
     sp_influx = service_providers_tags(current_app.app_config.log.measurement, current_app.app_config.log.sp_id)
     sp_manage_dict = {sp["id"]: sp for sp in sp_manage}
-    result = list(map(lambda sp_id: _add_manage_metadata(sp_id, sp_manage_dict[sp_id] if sp_id in sp_manage_dict else None),
-                 sp_influx))
+    result = list(
+        map(lambda sp_id: _add_manage_metadata(sp_id, sp_manage_dict[sp_id] if sp_id in sp_manage_dict else None),
+            sp_influx))
     return result, 200
 
 
@@ -153,7 +154,7 @@ def identity_providers_data():
     idp_influx = identity_providers_tags(current_app.app_config.log.measurement, current_app.app_config.log.idp_id)
     idp_manage_dict = {idp["id"]: idp for idp in idp_manage}
     result = list(map(lambda idp: _add_manage_metadata(idp, idp_manage_dict[idp] if idp in idp_manage_dict else None),
-                 idp_influx))
+                      idp_influx))
     return result, 200
 
 
