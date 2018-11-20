@@ -139,9 +139,10 @@ I18n.translations.en = {
         copy: "Copy to clipboard"
     },
     live: {
-        chartTitle: "Logins per {{scale}}",
-        aggregatedChartTitlePeriod: "Logins in the period {{period}} per {{group}}",
-        noTimeFrameChart: "Logins from {{from}} until {{to}}"
+        chartTitle: "Logins per {{scale}} {{institutionType}}",
+        aggregatedChartTitlePeriod: "Logins in the period {{period}} per {{group}} {{institutionType}}",
+        noTimeFrameChart: "Logins from {{from}} until {{to}} {{institutionType}}",
+        institutionType: "for institution type '{{institutionType}}'"
     },
     filters: {
         title: "Filters",

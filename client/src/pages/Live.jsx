@@ -341,26 +341,29 @@ export default class Live extends React.Component {
         this.doAggregatedLogin(period, true, undefined, undefined, undefined, undefined, "idp_id,sp_id", providerState, true, true, true)
     };
 
-    title = (from, to, aggregate, groupedBySp, groupedByIdp, scale, noTimeFrame) => {
+    title = (from, to, aggregate, groupedBySp, groupedByIdp, scale, noTimeFrame, institutionType) => {
         const format = scale === "minute" || scale === "hour" ? "L" : "L";//'MMMM Do YYYY, h:mm:ss a'
         if (noTimeFrame) {
             return I18n.t("live.noTimeFrameChart", {
                 from: from ? from.format(format) : "",
                 to: to ? to.format(format) : "",
-                scale: I18n.t(`period.${scale}`).toLowerCase()
+                scale: I18n.t(`period.${scale}`).toLowerCase(),
+                institutionType: isEmpty(institutionType) ? "" : I18n.t("live.institutionType", {institutionType: institutionType})
             });
         }
         if (!aggregate) {
             return I18n.t("live.chartTitle", {
                 from: from ? from.format(format) : "",
                 to: to ? to.format(format) : "",
-                scale: I18n.t(`period.${scale}`).toLowerCase()
+                scale: I18n.t(`period.${scale}`).toLowerCase(),
+                institutionType: isEmpty(institutionType) ? "" : I18n.t("live.institutionType", {institutionType: institutionType})
             });
         }
         if (aggregate) {
             return I18n.t("live.aggregatedChartTitlePeriod", {
                 period: getPeriod(from, scale),
-                group: I18n.t(`providers.${groupedByIdp ? "idp" : "sp"}`)
+                group: I18n.t(`providers.${groupedByIdp ? "idp" : "sp"}`),
+                institutionType: isEmpty(institutionType) ? "" : I18n.t("live.institutionType", {institutionType: institutionType})
             });
         }
     };
@@ -422,12 +425,13 @@ export default class Live extends React.Component {
                                              sp={sp}
                                              onChangeInstitutionType={this.onChangeInstitutionType}
                                              institutionType={institutionType}
-                                             groupedByIdp={groupedByIdp}/>}
+                                             groupedByIdp={groupedByIdp}
+                                             groupedBySp={groupedBySp}/>}
                 </section>
                 <Chart data={dataForChart}
                        scale={scale}
                        includeUniques={includeUniques}
-                       title={this.title(from, to, aggregate, groupedBySp, groupedByIdp, scale, noTimeFrame)}
+                       title={this.title(from, to, aggregate, groupedBySp, groupedByIdp, scale, noTimeFrame, institutionType)}
                        groupedBySp={groupedBySp}
                        groupedByIdp={groupedByIdp}
                        aggregate={aggregate}

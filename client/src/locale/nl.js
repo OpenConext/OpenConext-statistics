@@ -139,9 +139,10 @@ I18n.translations.nl = {
         copy: "Copy to clipboard"
     },
     live: {
-        chartTitle: "Logins per {{scale}}",
-        aggregatedChartTitlePeriod: "Logins in de periode {{period}} per {{group}}",
-        noTimeFrameChart: "Logins van {{from}} tot {{to}}"
+        chartTitle: "Logins per {{scale}} {{institutionType}}",
+        aggregatedChartTitlePeriod: "Logins in de periode {{period}} per {{group}} {{institutionType}}",
+        noTimeFrameChart: "Logins van {{from}} tot {{to}} {{institutionType}}",
+        institutionType: "voor type instelling '{{institutionType}}'"
     },
     filters: {
         title: "Filters",
