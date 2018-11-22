@@ -12,8 +12,8 @@ I18n.translations.en = {
 
     header: {
         title: "Statistics",
-        OpenConext: "OpenConext Statistics",
-        SURFConext: "SURFConext Statistics",
+        OpenConext: "Statistics",
+        SURFConext: "Statistics",
         links: {
             login: "Login",
             exit: "Exit"

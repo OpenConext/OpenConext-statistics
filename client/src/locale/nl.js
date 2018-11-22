@@ -12,8 +12,8 @@ I18n.translations.nl = {
 
     header: {
         title: "Statistieken",
-        OpenConext: "OpenConext Statistieken",
-        SURFConext: "SURFConext Statistieken",
+        OpenConext: "Statistieken",
+        SURFConext: "Statistieken",
         links: {
             login: "Login",
             exit: "Exit"
@@ -105,7 +105,7 @@ I18n.translations.nl = {
         year: "Jaar - laatste 5 jaren",
         quarter: "Kwartaal - laatste 4 kwartalen",
         month: "Maand - laatste 12 maanden",
-        week: "Week - laatse 52 weken",
+        week: "Week - laatste 52 weken",
         day: "Day - laatste 90 dagen",
         hour: "Uur - laatste 7 dagen",
         minute: "Minuut - laatste 24 uur",
