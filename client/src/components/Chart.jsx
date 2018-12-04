@@ -181,13 +181,13 @@ export default class Chart extends React.PureComponent {
 
     aggregatedOptions = (data, yValues, includeUniques, guest) => {
         const series = [
-            {name: I18n.t("chart.userCount"), color: "#15A300", data: data.map(p => p.count_user_id)}
+            {name: I18n.t("chart.userCount"), color: "#D4AF37", data: data.map(p => p.count_user_id)}
         ];
 
         if (includeUniques) {
             series.push({
                 name: I18n.t("chart.uniqueUserCount"),
-                color: "#D4AF37",
+                color: "#15A300",
                 data: data.map(p => p.distinct_count_user_id)
             })
         }

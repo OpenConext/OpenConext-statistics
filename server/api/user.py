@@ -22,12 +22,12 @@ def me():
         return session["user"], 200
 
     if current_app.app_config.profile == "local":
-        user = {"uid": "uid", "display_name": "John Doe", "guest": False, "product": "OpenConext",
+        user = {"uid": "uid", "display_name": "John Doe", "guest": False, "product": current_app.app_config.product,
                 "manage_url": current_app.app_config.manage.url}
         session["user"] = user
         return user, 200
 
-    user = {"uid": "anonymous", "guest": True, "product": "OpenConext",
+    user = {"uid": "anonymous", "guest": True, "product": current_app.app_config.product,
             "manage_url": current_app.app_config.manage.url}
     session["user"] = user
     return user, 200
