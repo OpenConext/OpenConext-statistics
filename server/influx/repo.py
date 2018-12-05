@@ -110,6 +110,8 @@ def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entit
 
     # we don't have aggregated measurements for these
     if scale in ["minute", "hour"]:
+        if state and state in ["prodaccepted", "testaccepted"]:
+            q += f" and state = {state}"
         time_scale = "1m" if scale == "minute" else "1h"
         q += f" group by time({time_scale})"
 
