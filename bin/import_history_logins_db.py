@@ -43,7 +43,7 @@ def append_chunk(serie, chunks):
         _write_to_influx(chunks)
 
 
-def _serie_skeleton(measurement, _from, time, row):
+def _serie_skeleton(measurement, _from, time, row, period_type):
     serie = {
         "measurement": measurement,
         "tags": {
@@ -56,8 +56,12 @@ def _serie_skeleton(measurement, _from, time, row):
         serie["tags"]["idp_entity_id"] = row["idp_entityid"]
     if "sp_entityid" in row:
         serie["tags"]["sp_entity_id"] = row["sp_entityid"]
-    serie["tags"]["month"] = _from.strftime("%m")
-    serie["tags"]["quarter"] = f"{math.floor((_from.month + 2) / 3)}"
+
+    if period_type in ["day", "week", "month"]:
+        serie["tags"]["month"] = _from.strftime("%m")
+    if period_type in ["day", "week", "quarter"]:
+        serie["tags"]["quarter"] = f"{math.floor((_from.month + 2) / 3)}"
+
     return serie
 
 
@@ -79,7 +83,7 @@ def _influx_serie(chunks, row, prefix, state, test_accepted_chunks={}):
         elif state == "" and key in test_accepted_chunks:
             addendum_logins = test_accepted_chunks[key]
 
-    serie = _serie_skeleton(measurement, _from, time, row)
+    serie = _serie_skeleton(measurement, _from, time, row, period_type)
     serie["fields"]["count_user_id"] = row["logins"] + addendum_logins
     if period_type == "day":
         serie["fields"]["distinct_count_user_id"] = row["users"]
