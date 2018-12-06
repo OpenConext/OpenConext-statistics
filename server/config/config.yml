@@ -21,6 +21,7 @@ log:
 
 secret_key: secret
 product: OpenConext
+supported_language_codes: en,nl,pt
 
 api_users:
   - name: "dashboard"

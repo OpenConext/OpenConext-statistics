@@ -15,7 +15,7 @@ expect.extend({
     },
 });
 
-test("All translations exists in EN and NL", () => {
+test("All translations exists in all bundles", () => {
     const contains = (translation, translationToVerify) => {
         Object.keys(translation).forEach(key => {
             expect(translationToVerify).toContainKey(key);

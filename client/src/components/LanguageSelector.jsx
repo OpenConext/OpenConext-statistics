@@ -5,6 +5,7 @@ import {replaceQueryParameter} from "../utils/QueryParameters";
 import {stop} from "../utils/Utils";
 import moment from "moment-timezone";
 import "./LanguageSelector.css"
+import PropTypes from "prop-types";
 
 export default class LanguageSelector extends React.PureComponent {
 
@@ -28,14 +29,18 @@ export default class LanguageSelector extends React.PureComponent {
     }
 
     render() {
+        const currentUser = this.props.currentUser;
+        const languageCodes = currentUser.supported_language_codes.split(",").map(s => s.trim());
         return (
             <ul className="language-selector">
-                {[
-                    this.renderLocaleChooser("en"),
-                    this.renderLocaleChooser("nl")
-                ]}
+                {languageCodes.map(code => this.renderLocaleChooser(code))}
             </ul>
         );
     }
 
 }
+
+
+LanguageSelector.propTypes = {
+    currentUser: PropTypes.object.isRequired
+};

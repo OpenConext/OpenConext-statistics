@@ -34,7 +34,7 @@ export default class Header extends React.PureComponent {
     render() {
         let currentUser = this.props.currentUser;
         if (isEmpty(currentUser)) {
-            currentUser = {product: {}}
+            currentUser = {product: {}, supported_language_codes: ""}
         }
         const logo = currentUser.product === "OpenConext" ? logoOpenConext : logoSurfConext;
         return (
@@ -47,7 +47,7 @@ export default class Header extends React.PureComponent {
                             <a href="#login" onClick={this.login}>{I18n.t("header.links.login")}</a>
                         </li>}
                         <li>
-                            <LanguageSelector/>
+                            <LanguageSelector currentUser={currentUser}/>
                         </li>
                     </ul>
                 </div>

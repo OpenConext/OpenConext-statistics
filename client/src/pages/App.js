@@ -7,10 +7,11 @@ import ServerError from "../pages/ServerError";
 import Header from "../components/Header";
 import Navigation from "../components/Navigation";
 import {identityProviders, me, reportError, serviceProviders} from "../api";
-import "../locale/en";
-import "../locale/nl";
 import Live from "./Live";
 import Advanced from "./Advanced";
+import "../locale/en";
+import "../locale/nl";
+import "../locale/pt";
 
 const S4 = () => (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 

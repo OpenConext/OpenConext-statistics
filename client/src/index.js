@@ -15,15 +15,13 @@ import * as HighStock from "highcharts/highstock"
 
     if (isEmpty(parameterByName)) {
         parameterByName = Cookies.get("lang");
-        parameterByName = isEmpty(parameterByName) ? "en" : parameterByName;
     }
 
     if (isEmpty(parameterByName)) {
-        const lang = navigator.language.toLowerCase();
-        parameterByName = lang.startsWith("en") ? "en" : lang.startsWith("nl") ? "nl" : undefined;
+        parameterByName = navigator.language.toLowerCase().substring(0, 2);
     }
 
-    I18n.locale = parameterByName;
+    I18n.locale = parameterByName || "en";
     moment.locale(I18n.locale);
     HighChart.setOptions({
         lang: {

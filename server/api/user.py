@@ -13,7 +13,7 @@ user_api = Blueprint("user_api", __name__, url_prefix="/api/users")
 def me():
     sub = current_request.headers.get("Oidc-Claim-Sub")
     if sub:
-        user = {"uid": sub, "guest": False,
+        user = {"uid": sub, "guest": False, "supported_language_codes": current_app.app_config.supported_language_codes,
                 "product": current_app.app_config.product, "manage_url": current_app.app_config.manage.url}
         session["user"] = user
         return user, 200
@@ -23,12 +23,14 @@ def me():
 
     if current_app.app_config.profile == "local":
         user = {"uid": "uid", "display_name": "John Doe", "guest": False, "product": current_app.app_config.product,
-                "manage_url": current_app.app_config.manage.url}
+                "manage_url": current_app.app_config.manage.url,
+                "supported_language_codes": current_app.app_config.supported_language_codes}
         session["user"] = user
         return user, 200
 
     user = {"uid": "anonymous", "guest": True, "product": current_app.app_config.product,
-            "manage_url": current_app.app_config.manage.url}
+            "manage_url": current_app.app_config.manage.url,
+            "supported_language_codes": current_app.app_config.supported_language_codes}
     session["user"] = user
     return user, 200
 
