@@ -88,7 +88,7 @@ def _influx_serie(chunks, row, prefix, state, test_accepted_chunks={}):
     if period_type == "day":
         serie["fields"]["distinct_count_user_id"] = row["users"]
     else:
-        unique_serie = _serie_skeleton(f"{measurement}_unique", _from, time, row)
+        unique_serie = _serie_skeleton(f"{measurement}_unique", _from, time, row, period_type)
         unique_serie["fields"]["distinct_count_user_id"] = row["users"]
         append_chunk(unique_serie, chunks)
     append_chunk(serie, chunks)
