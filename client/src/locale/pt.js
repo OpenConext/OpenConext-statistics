@@ -8,160 +8,160 @@ import I18n from "i18n-js";
 I18n.translations.pt = {
     code: "PT",
     name: "Português",
-    select_locale: "Selecione Português",
+    select_locale: "Selecionar Português",
 
     header: {
-        title: "Estatisticas",
-        OpenConext: "Estatisticas",
-        SURFConext: "Estatisticas",
+        title: "Estatísticas",
+        OpenConext: "Estatísticas",
+        SURFConext: "Estatísticas",
         links: {
             login: "Entrar",
-            exit: "Saída"
+            exit: "Sair"
         },
-        role: "Role"
+        role: "Perfil"
     },
     advanced: {
         newcomers: {
-            title: "All new {{provider}} for which a first login has been recorded between {{from}} until {{to}}"
+            title: "Todos os novos {{provider}} para o qual um primeiro login foi registrado de {{from}} até {{to}}"
         },
         unused: {
-            title: "All {{provider}} that were NOT used after {{from}}"
+            title: "Todos {{provider}} que NÃO foram usados depois {{from}}"
         },
     },
     providerTable: {
-        newcomersNoResults: "No first-logins found for providers in the specified period.",
+        newcomersNoResults: "Não foi encontrado nenhum primeiro-login para os provedores no período especificado.",
         unusedNoResults: "No unused providers found in the specified period.",
-        name: "Name",
-        logins: "Number of logins",
-        newcomers: "First login",
-        unused: "Last login",
-        state: "State",
-        noTime: "Never"
+        name: "Nome",
+        logins: "Número de logins",
+        newcomers: "Primeiro login",
+        unused: "Último login",
+        state: "Estado",
+        noTime: "Nunca"
     },
     navigation: {
         live: "Stats",
-        overview: "Overview",
-        connected_identity_providers: "Institutions",
+        overview: "Vista geral",
+        connected_identity_providers: "Instituições",
         system: "Explore",
-        db: "Measurements"
+        db: "Medições"
     },
     db: {
         title:"All measurements from database {{db}}. The live measurement is named {{measurement}}. Loading took ~{{time}} seconds.",
-        loading: "Fetch metadata. This takes time...",
-        name: "Name",
+        loading: "A recolher os dados. Isto pode demorar algum tempo...",
+        name: "Nome",
         records: "# Series",
         timeout: "Timeout"
     },
     export: {
-        downloadCSV: "Download as CSV",
-        downloadPNG: "Download as PNG",
-        downloadPDF: "Download as PDF"
+        downloadCSV: "Download como CSV",
+        downloadPNG: "Download como PNG",
+        downloadPDF: "Download como PDF"
     },
     index: {
-        availability: "Availability SURFconext",
-        connectedIdentityProviders: "List of connected Identity Providers",
+        availability: "Disponibilidade SURFconext",
+        connectedIdentityProviders: "Lista de Provedores de Identidade ligados",
     },
     providers: {
-        title: "Group By",
-        sp: "Services",
-        institution_type: "Institution type",
-        idp: "Institutions",
+        title: "Agrupar por",
+        sp: "Serviços",
+        institution_type: "Tipo de instituição",
+        idp: "Instituições",
         all: {
-            sp: "All Services",
-            idp: "All Institutions",
-            idp_type: "All types"
+            sp: "Todos os Serviços",
+            idp: "Todas as Instituições",
+            idp_type: "Todos os tipos"
         },
-        aggregate: "Aggregate",
-        groupBy: "Group by {{type}}",
-        matrix: "Download IdP-SP matrix",
+        aggregate: "Agregado",
+        groupBy: "Agrupar por {{type}}",
+        matrix: "Download da matriz dos IdP-SP",
         scale: {
-            title: "Group by period",
-            none: "None",
+            title: "Agrupar por período",
+            none: "Nenhum",
             html: "Use this to group by a sub-period.<br/>This is only possible if you first group by either Services or Institutions<br/>and then select either a specific Service or Institution in the Filter section"
         }
     },
     period: {
         title: "Período",
-        scale: "Prazo",
-        from: "De",
-        to: "Até e incluindo",
-        today: "Today",
+        scale: "Timeframe",
+        from: "From",
+        to: "Up to and including",
+        today: "Hoje",
         zoom: "",
-        year: "Year",
-        quarter: "Quarter",
-        month: "Month",
-        week: "Week",
-        day: "Day",
-        hour: "Hour",
+        year: "Ano",
+        quarter: "Trimestre",
+        month: "Mês",
+        week: "Semana",
+        day: "Dia",
+        hour: "Hora",
         minute: "Minuto",
-        none: "N/A",
-        date: "Date",
-        noTimeFrame: "Sem calendário",
+        none: "N/D",
+        date: "Data",
+        noTimeFrame: "No timeframe",
         noTimeFrameTooltip: "Select this to get the count of total unique users in the specified period.<br/>This is only possible if you both select a Service and Institution in the Filter section",
     },
     selectPeriod: {
-        title: "Period",
-        subtitle: "Choose a period",
-        year: "Year - last 5 years",
-        quarter: "Quarter - last 4 quarters",
-        month: "Month - last 12 months",
-        week: "Week - last 52 weeks",
-        day: "Day - last 90 days",
-        hour: "Hour - last 7 days",
-        minute: "Minute - last 24 hours",
+        title: "Período",
+        subtitle: "Escolha um período",
+        year: "Ano - últimos 5 anos",
+        quarter: "Trimestre - últimos 4 trimestres",
+        month: "Mês - últimos 12 meses",
+        week: "Semana - últimas 52 semanas",
+        day: "Dia - últimos 90 dias",
+        hour: "Hora - últimos 7 dias",
+        minute: "Minuto - últimas 24 horas",
     },
     reporting: {
-        title: "Reporting",
-        newcomers: "New providers",
-        unused: "Unused providers"
+        title: "Relatório",
+        newcomers: "Novos provedores",
+        unused: "Provedores não utilizados"
     },
     managePresent: {
         title: "Manage",
         present: "Hide not present in Manage?"
     },
     chart: {
-        title: "Logins and users per day",
-        chart: "Number of logins per {{scale}}",
-        userCount: "Total logins",
-        uniqueUserCount: "Unique users",
-        loading: "Fetching logins....",
-        noResults: "Nenhum logins é registrado para o período especificado e filtros especificados..",
-        reset: "Redefinir para os padrões.",
-        date: "Date",
-        logins: "Logins per {{scale}}",
+        title: "Logins e utilizadores por dia",
+        chart: "Número de logins por {{scale}}",
+        userCount: "Total de logins",
+        uniqueUserCount: "Utilizadores únicos",
+        loading: "A recolher logins....",
+        noResults: "No logins are recorded for the given period and specified filters.",
+        reset: "Redefinir para padrão.",
+        date: "Data",
+        logins: "Logins por {{scale}}",
         allLogins: "# Logins",
-        uniqueLogins: "Unique logins",
-        sp: "Service",
-        idp: "Institution"
+        uniqueLogins: "Logins únicos",
+        sp: "Serviço",
+        idp: "Instituição"
     },
     clipboard: {
-        copied: "Copied!",
-        copy: "Copy to clipboard"
+        copied: "Copiado!",
+        copy: "Copiar para a memória"
     },
     live: {
-        chartTitle: "Logins per {{scale}} {{institutionType}}",
-        aggregatedChartTitlePeriod: "Logins in the period {{period}} per {{group}} {{institutionType}}",
-        noTimeFrameChart: "Logins from {{from}} until {{to}} {{institutionType}}",
-        institutionType: "for institution type '{{institutionType}}'"
+        chartTitle: "Logins por {{scale}} {{institutionType}}",
+        aggregatedChartTitlePeriod: "Logins no período de {{period}} por {{group}} {{institutionType}}",
+        noTimeFrameChart: "Logins a partir de {{from}} até {{to}} {{institutionType}}",
+        institutionType: "para a instiruição tipo '{{institutionType}}'"
     },
     filters: {
-        title: "Filters",
-        state: "Provider status",
+        title: "Filtros",
+        state: "Estado do Provedor",
         stateValues: {
-            all: "All",
+            all: "Todos",
             prodaccepted: "prodaccepted",
             testaccepted: "testaccepted"
         },
         provider: "Entity type",
         providerValues: {
-            sp: "Service Providers",
-            idp: "Identity Providers"
+            sp: "Provedores de Serviços",
+            idp: "Provedores de Identidade"
         },
         uniques: "Include unique user count"
     },
     eduGain: {
-        loading: "Loading...",
-        title: "Identity providers",
+        loading: "A carregar...",
+        title: "Provedores de Identidade",
         info: "The following organizations are members of the SURFconext federation. The eduGAIN column indicates whether the organization is also available in <a href=\"https://wiki.surfnet.nl/display/surfconextdev/International+collaboration+through+eduGAIN\" target=\"_blank\">eduGAIN.</a>",
         organizationName: "Organization name",
         surfConext: "SURFconext",
@@ -174,19 +174,19 @@ I18n.translations.pt = {
         footer: "For technical details about connected IdPs please refer to <a href=\"https://engine.surfconext.nl/\" target=\"_blank\">our IdPs metadata</a>. For more information about SURFconext please see <a href=\"https://www.surfconext.nl/\" target=\"_blank\">www.surfconext.nl</a>.",
     },
     error_dialog: {
-        title: "Unexpected error",
-        body: "This is embarrassing; an unexpected error has occurred. It has been logged and reported. Please try again...",
-        ok: "Close"
+        title: "Erro inesperado",
+        body: "Isto é embaraçoso! Ocorreu um erro inesperado. Esta situação foi registada e reportada. Por favor, tente de novo...",
+        ok: "Fechar"
     },
     not_found: {
         title: "404",
-        description_html: "The requested page could not be found"
+        description_html: "Não foi possível encontrar a página requisitada"
     },
     server_error: {
-        title: "500 Unexpected error",
+        title: "500 Erro inesperado",
     }
 
 
 };
 
-export default I18n.translations.en;
+export default I18n.translations.pt;
