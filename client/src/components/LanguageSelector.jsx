@@ -37,9 +37,7 @@ export default class LanguageSelector extends React.PureComponent {
             </ul>
         );
     }
-
 }
-
 
 LanguageSelector.propTypes = {
     currentUser: PropTypes.object.isRequired
