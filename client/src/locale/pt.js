@@ -82,7 +82,7 @@ I18n.translations.pt = {
     },
     period: {
         title: "Período",
-        scale: "Timeframe",
+        scale: "Prazo",
         from: "From",
         to: "Up to and including",
         today: "Hoje",
@@ -96,8 +96,8 @@ I18n.translations.pt = {
         minute: "Minuto",
         none: "N/D",
         date: "Data",
-        noTimeFrame: "No timeframe",
-        noTimeFrameTooltip: "Select this to get the count of total unique users in the specified period.<br/>This is only possible if you both select a Service and Institution in the Filter section",
+        noTimeFrame: "No timeprazo",
+        noTimeFrameTooltip: "Selecione isto para obter a contagem do total de usuários únicos no período especificado. <br/> Isso só é possível se você selecionar um Serviço e uma Instituição na seção Filtro",
     },
     selectPeriod: {
         title: "Período",
@@ -117,7 +117,7 @@ I18n.translations.pt = {
     },
     managePresent: {
         title: "Manage",
-        present: "Hide not present in Manage?"
+        present: "Ocultar não presente no Manage?"
     },
     chart: {
         title: "Logins e utilizadores por dia",
@@ -125,7 +125,7 @@ I18n.translations.pt = {
         userCount: "Total de logins",
         uniqueUserCount: "Utilizadores únicos",
         loading: "A recolher logins....",
-        noResults: "No logins are recorded for the given period and specified filters.",
+        noResults: "Nenhum logins é registrado para o período especificado e filtros especificados.",
         reset: "Redefinir para padrão.",
         date: "Data",
         logins: "Logins por {{scale}}",
