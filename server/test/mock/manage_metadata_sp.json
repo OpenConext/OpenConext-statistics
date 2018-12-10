@@ -31,7 +31,8 @@
       "state": "prodaccepted",
       "metaDataFields": {
         "name:en": "SP3-en",
-        "name:nl": "SP3-nl"
+        "name:nl": "SP3-nl",
+        "name:pt": "SP3-pt"
       }
     }
   }

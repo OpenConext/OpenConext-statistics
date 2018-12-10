@@ -18,6 +18,7 @@ def _auth():
 
 
 def _data(entity_type, requested_fields=[], search_fields={}):
+    languages = list(map(lambda s: s.strip(), current_app.app_config.supported_language_codes.split(",")))
     with requests.Session() as s:
         mock_manage = current_app.app_config.manage.get("mock", False)
         required_attributes = {"REQUESTED_ATTRIBUTES": requested_fields}
@@ -38,9 +39,9 @@ def _data(entity_type, requested_fields=[], search_fields={}):
                 res = {"id": entity_id,
                        "state": data_["state"],
                        "manage_id": provider["_id"],
-                       "name_en": metadata["name:en"] if "name:en" in metadata else entity_id,
-                       "name_nl": metadata["name:nl"] if "name:nl" in metadata else entity_id,
                        "present_in_manage": True}
+                for lang in languages:
+                    res[f"name_{lang}"] = metadata[f"name:{lang}"] if f"name:{lang}" in metadata else entity_id
                 for field in requested_fields:
                     sub = field[len("metaDataFields."):]
                     if sub in metadata:

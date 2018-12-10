@@ -25,32 +25,66 @@ class TestStats(AbstractTest):
     def test_service_providers(self):
         self.mock_manage(type="sp")
         json = self.get("service_providers")
-        self.assertListEqual([{"id": "https://sp/1", "manage_id": "2cc71508-1b68-4a3e-b553-f04b6b2a689c",
-                               "name_en": "SP1-en", "name_nl": "SP1-nl", "present_in_manage": True,
+        self.assertListEqual([{"id": "https://sp/1",
+                               "manage_id": "2cc71508-1b68-4a3e-b553-f04b6b2a689c",
+                               "name_en": "SP1-en",
+                               "name_nl": "SP1-nl",
+                               "name_pt": "https://sp/1",
+                               "present_in_manage": True,
                                "state": "prodaccepted"},
-                              {"id": "https://sp/2", "manage_id": "c9002374-7e5a-4c82-bb36-8c6ae47ed745",
-                               "name_en": "SP2-en", "name_nl": "SP2-nl", "present_in_manage": True,
+                              {"id": "https://sp/2",
+                               "manage_id": "c9002374-7e5a-4c82-bb36-8c6ae47ed745",
+                               "name_en": "SP2-en",
+                               "name_nl": "SP2-nl",
+                               "name_pt": "https://sp/2",
+                               "present_in_manage": True,
                                "state": "testaccepted"},
-                              {"id": "https://sp/3", "manage_id": "d4e7de27-c9af-4f80-8d1f-c0832225fa8c",
-                               "name_en": "SP3-en", "name_nl": "SP3-nl", "present_in_manage": True,
+                              {"id": "https://sp/3",
+                               "manage_id": "d4e7de27-c9af-4f80-8d1f-c0832225fa8c",
+                               "name_en": "SP3-en",
+                               "name_nl": "SP3-nl",
+                               "name_pt": "SP3-pt",
+                               "present_in_manage": True,
                                "state": "prodaccepted"},
-                              {"id": "https://sp/4", "name_en": "https://sp/4", "name_nl": "https://sp/4",
-                               "present_in_manage": False, "state": None},
-                              {"id": "https://sp/5", "name_en": "https://sp/5", "name_nl": "https://sp/5",
-                               "present_in_manage": False, "state": None}], json)
+                              {"id": "https://sp/4",
+                               "name_en": "https://sp/4",
+                               "name_nl": "https://sp/4",
+                               "name_pt": "https://sp/4",
+                               "present_in_manage": False,
+                               "state": None},
+                              {"id": "https://sp/5",
+                               "name_en": "https://sp/5",
+                               "name_nl": "https://sp/5",
+                               "name_pt": "https://sp/5",
+                               "present_in_manage": False,
+                               "state": None}], json)
 
     @responses.activate
     def test_identity_providers(self):
         self.mock_manage(type="idp")
         json = self.get("identity_providers")
         self.assertListEqual(
-            [{'coin:institution_type': 'HBO', 'id': 'https://idp/1',
-              'manage_id': '2cc71508-1b68-4a3e-b553-f04b6b2a689c', 'name_en': 'IDP1-en', 'name_nl': 'IDP1-nl',
-              'present_in_manage': True, 'state': 'prodaccepted'},
-             {'id': 'https://idp/2', 'manage_id': 'c9002374-7e5a-4c82-bb36-8c6ae47ed745', 'name_en': 'IDP2-en',
-              'name_nl': 'IDP2-nl', 'present_in_manage': True, 'state': 'testaccepted'},
-             {'id': 'https://idp/3', 'name_en': 'https://idp/3', 'name_nl': 'https://idp/3', 'present_in_manage': False,
-              'state': None}], json)
+            [{"coin:institution_type": "HBO",
+              "id": "https://idp/1",
+              "manage_id": "2cc71508-1b68-4a3e-b553-f04b6b2a689c",
+              "name_en": "IDP1-en",
+              "name_nl": "IDP1-nl",
+              "name_pt": "https://idp/1",
+              "present_in_manage": True,
+              "state": "prodaccepted"},
+             {"id": "https://idp/2",
+              "manage_id": "c9002374-7e5a-4c82-bb36-8c6ae47ed745",
+              "name_en": "IDP2-en",
+              "name_nl": "IDP2-nl",
+              "name_pt": "https://idp/2",
+              "present_in_manage": True,
+              "state": "testaccepted"},
+             {"id": "https://idp/3",
+              "name_en": "https://idp/3",
+              "name_nl": "https://idp/3",
+              "name_pt": "https://idp/3",
+              "present_in_manage": False,
+              "state": None}], json)
 
     @responses.activate
     def test_connected_identity_providers(self):
@@ -62,6 +96,7 @@ class TestStats(AbstractTest):
                                "manage_id": "2cc71508-1b68-4a3e-b553-f04b6b2a689c",
                                "name_en": "IDP1-en",
                                "name_nl": "IDP1-nl",
+                               "name_pt": "https://idp/1",
                                "present_in_manage": True,
                                "state": "prodaccepted"},
                               {"coin:guest_qualifier": "None",
@@ -69,6 +104,7 @@ class TestStats(AbstractTest):
                                "manage_id": "c9002374-7e5a-4c82-bb36-8c6ae47ed745",
                                "name_en": "IDP2-en",
                                "name_nl": "IDP2-nl",
+                               "name_pt": "https://idp/2",
                                "present_in_manage": True,
                                "state": "testaccepted"}], json)
 

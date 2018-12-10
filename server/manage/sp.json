@@ -9,7 +9,8 @@
       "state": "prodaccepted",
       "metaDataFields": {
         "name:en": "SP 1 EN",
-        "name:nl": "SP 1 NL"
+        "name:nl": "SP 1 NL",
+        "name:pt": "SP 1 PT"
       }
     }
   },
@@ -23,6 +24,7 @@
       "state": "testaccepted",
       "metaDataFields": {
         "name:en": "SP 2 EN",
+        "name:pt": "SP 2 PT",
         "name:nl": "SP 2 NL"
       }
     }
@@ -36,6 +38,7 @@
       "state": "prodaccepted",
       "metaDataFields": {
         "name:en": "SP 3 EN",
+        "name:pt": "SP 3 PT",
         "name:nl": "SP 3 NL"
       }
     }
@@ -49,6 +52,7 @@
       "state": "testaccepted",
       "metaDataFields": {
         "name:en": "SP 4 EN",
+        "name:pt": "SP 4 PT",
         "name:nl": "SP 4 NL"
       }
     }

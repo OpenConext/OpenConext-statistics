@@ -10,6 +10,7 @@
       "metaDataFields": {
         "name:en": "IDP 1 EN",
         "name:nl": "IDP 1 NL",
+        "name:pt": "IDP 1 PT",
         "coin:institution_type": "Bibliotheek",
         "coin:publish_in_edugain": "1",
         "coin:guest_qualifier": "all"
@@ -27,6 +28,7 @@
       "metaDataFields": {
         "name:en": "IDP 2 EN",
         "name:nl": "IDP 2 NL",
+        "name:pt": "IDP 2 PT",
         "coin:institution_type": "Ziekenhuis",
         "coin:publish_in_edugain": "1"
       }

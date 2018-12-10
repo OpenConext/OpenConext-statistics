@@ -91,8 +91,12 @@ def last_login_time():
 
 
 def _add_manage_metadata(value, provider):
-    return provider if provider else {"id": value, "state": None, "name_en": value,
-                                      "name_nl": value, "present_in_manage": False}
+    languages = list(map(lambda s: s.strip(), current_app.app_config.supported_language_codes.split(",")))
+    result = provider if provider else {"id": value, "state": None, "present_in_manage": False}
+    if not provider:
+        for lang in languages:
+            result[f"name_{lang}"] = value
+    return result
 
 
 @stats_api.route("/database_stats", strict_slashes=False)
