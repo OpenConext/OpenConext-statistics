@@ -1,6 +1,7 @@
 import React from "react";
 import en from "../../locale/en";
 import nl from "../../locale/nl";
+import pt from "../../locale/pt";
 
 import start from "../base";
 
@@ -27,5 +28,6 @@ test("All translations exists in all bundles", () => {
     };
     contains(en, nl);
     contains(nl, en);
-
+    contains(en, pt);
+    contains(pt, en);
 });
