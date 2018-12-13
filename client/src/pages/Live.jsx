@@ -16,6 +16,7 @@ import SelectPeriod from "../components/SelectPeriod";
 moment.locale(I18n.locale);
 
 const minDiffByScale = {minute: 1, hour: 7, day: 90, week: 365, month: 365, quarter: 365, year: 365 * 5};
+const maxDayDiffMainMeasurements = 14;
 
 export default class Live extends React.Component {
 
@@ -214,10 +215,10 @@ export default class Live extends React.Component {
         const {scale, to} = this.state;
         let additionalState = {};
         const diff = moment.duration(to.diff(val)).asDays();
-        if (scale === "minute" && diff > 1) {
-            additionalState = {to: moment(val).add(1, "day"), includeUniques: false};
-        } else if (scale === "hour" && diff > 7) {
-            additionalState = {to: moment(val).add(7, "day"), includeUniques: false};
+        if (scale === "minute" && diff > maxDayDiffMainMeasurements) {
+            additionalState = {to: moment(val).add(maxDayDiffMainMeasurements, "day"), includeUniques: false};
+        } else if (scale === "hour" && diff > maxDayDiffMainMeasurements) {
+            additionalState = {to: moment(val).add(maxDayDiffMainMeasurements, "day"), includeUniques: false};
         }
         this.setState({data: [], from: val, ...additionalState}, this.componentDidMount)
     };
@@ -226,10 +227,10 @@ export default class Live extends React.Component {
         const {scale, from} = this.state;
         let additionalState = {};
         const diff = moment.duration(val.diff(from)).asDays();
-        if (scale === "minute" && diff > 1) {
-            additionalState = {from: moment(val).add(-1, "day"), includeUniques: false};
-        } else if (scale === "hour" && diff > 7) {
-            additionalState = {from: moment(val).add(-7, "day"), includeUniques: false};
+        if (scale === "minute" && diff > maxDayDiffMainMeasurements) {
+            additionalState = {from: moment(val).add(-1 * maxDayDiffMainMeasurements, "day"), includeUniques: false};
+        } else if (scale === "hour" && diff > maxDayDiffMainMeasurements) {
+            additionalState = {from: moment(val).add(-1 * maxDayDiffMainMeasurements, "day"), includeUniques: false};
         }
         const tomorrowMidnight = moment().add(1, "day").startOf("day");
         const maximumTo = tomorrowMidnight.isBefore(val);
