@@ -26,34 +26,34 @@ const navigation = {
         symbolStrokeWidth: 4
     }
 };
-const exporting = {
-    enabled: true,
-    allowHTML: true,
-    buttons: {
-        contextButton: {
-            symbolStroke: '#4DB2CF',
-            menuItems: [
-                {
-                    text: I18n.t("export.downloadCSV"),
-                    onclick: function () {
-                        const csv = this.getCSV();
-                        const cleanedCsv = csv.replace(/"<span[^>]+(.*?)<\/span>"/g, "$1").replace(/>/g, "");
-                        this.fileDownload("data:text/csv,\ufeff" + encodeURIComponent(cleanedCsv), "csv", cleanedCsv, "text/csv")
-                    }
-                },
-                'separator',
-                'downloadPNG',
-                'downloadPDF',
-            ]
-        },
-    },
-};
 
 export default class Chart extends React.PureComponent {
 
     constructor(props) {
         super(props);
         this.state = {displayChart: true};
+        this.exporting = {
+            enabled: true,
+            allowHTML: true,
+            buttons: {
+                contextButton: {
+                    symbolStroke: '#4DB2CF',
+                    menuItems: [
+                        {
+                            text: I18n.t("export.downloadCSV"),
+                            onclick: function () {
+                                const csv = this.getCSV();
+                                const cleanedCsv = csv.replace(/"<span[^>]+(.*?)<\/span>"/g, "$1").replace(/>/g, "");
+                                this.fileDownload("data:text/csv,\ufeff" + encodeURIComponent(cleanedCsv), "csv", cleanedCsv, "text/csv")
+                            }
+                        },
+                        'separator',
+                        'downloadPNG',
+                        'downloadPDF',
+                    ]
+                },
+            },
+        };
     }
 
     labelListener = e => {
@@ -149,7 +149,7 @@ export default class Chart extends React.PureComponent {
                 enabled: false
             },
             navigation: navigation,
-            exporting: exporting,
+            exporting: this.exporting,
             credits: {enabled: false},
             plotOptions: {
                 series: {
@@ -216,7 +216,7 @@ export default class Chart extends React.PureComponent {
             plotOptions: {bar: {dataLabels: {enabled: true}}},
             legend: {verticalAlign: "top"},
             navigation: navigation,
-            exporting: exporting,
+            exporting: this.exporting,
             credits: {enabled: false},
             series: series,
         };
