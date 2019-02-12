@@ -11,17 +11,17 @@ import * as HighStock from "highcharts/highstock"
 
 (() => {
     // DetermineLanguage based on parameter, cookie and finally navigator
-    let parameterByName = getParameterByName("lang", window.location.search);
+    let lang = getParameterByName("lang", window.location.search);
 
-    if (isEmpty(parameterByName)) {
-        parameterByName = Cookies.get("lang");
+    if (isEmpty(lang)) {
+        lang = Cookies.get("lang");
     }
 
-    if (isEmpty(parameterByName)) {
-        parameterByName = navigator.language.toLowerCase().substring(0, 2);
+    if (isEmpty(lang)) {
+        lang = navigator.language.toLowerCase().substring(0, 2);
     }
+    lang = ["en", "nl", "pt"].includes(lang) ? lang : "en";
 
-    I18n.locale = parameterByName || "en";
     moment.locale(I18n.locale);
     HighChart.setOptions({
         lang: {
