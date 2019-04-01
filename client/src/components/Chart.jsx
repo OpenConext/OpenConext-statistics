@@ -316,8 +316,8 @@ export default class Chart extends React.PureComponent {
         const text = headers.concat(Object.keys(groupedByTime)
             .map(time => ({
                 time: parseInt(time, 10),
-                count_user_id: groupedByTime[time].find(r => r.count_user_id).count_user_id,
-                distinct_count_user_id: (groupedByTime[time].find(r => r.distinct_count_user_id) || {}).distinct_count_user_id
+                count_user_id: (groupedByTime[time].find(r => r.count_user_id) || {count_user_id: 0}).count_user_id,
+                distinct_count_user_id: (groupedByTime[time].find(r => r.distinct_count_user_id) || {distinct_count_user_id: 0}).distinct_count_user_id
             }))
             .map(row => `${this.dateAccessor(row)},${this.loginsAccessor(false)(row)},${this.usersAccessor(includeUniques, false)(row)}`))
             .join("\n");
