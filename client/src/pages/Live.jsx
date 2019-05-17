@@ -1,4 +1,5 @@
 import React from "react";
+import {getPeriod, addDayDuplicates} from "../../utils/Time";
 import {loginAggregated, loginTimeFrame, uniqueLoginCount} from "../api";
 import I18n from "i18n-js";
 import "./Live.css";
@@ -107,6 +108,9 @@ export default class Live extends React.Component {
                     const now = moment().unix() * 1000;
                     res = res.filter(p => p.time <= now);
                     res = res.slice(1, res.length - 1);
+                }
+                if (hasResults && scale === "day") {
+                    res = addDayDuplicates(res);
                 }
                 this.setState({data: res});
             });

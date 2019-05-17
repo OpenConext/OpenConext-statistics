@@ -1,0 +1,192 @@
+[
+  {
+    "count_user_id": 98119,
+    "distinct_count_user_id": 57832,
+    "time": 1546128000000
+  },
+  {
+    "count_user_id": 72436,
+    "distinct_count_user_id": 42676,
+    "time": 1546214400000
+  },
+  {
+    "count_user_id": 75616,
+    "distinct_count_user_id": 45048,
+    "time": 1546300800000
+  },
+  {
+    "count_user_id": 212892,
+    "distinct_count_user_id": 125026,
+    "time": 1546387200000
+  },
+  {
+    "count_user_id": 224311,
+    "distinct_count_user_id": 131402,
+    "time": 1546473600000
+  },
+  {
+    "count_user_id": 210670,
+    "distinct_count_user_id": 124866,
+    "time": 1546560000000
+  },
+  {
+    "count_user_id": 166849,
+    "distinct_count_user_id": 100458,
+    "time": 1546646400000
+  },
+  {
+    "count_user_id": 286307,
+    "distinct_count_user_id": 167111,
+    "time": 1546732800000
+  },
+  {
+    "count_user_id": 666530,
+    "distinct_count_user_id": 312447,
+    "time": 1546819200000
+  },
+  {
+    "count_user_id": 630668,
+    "distinct_count_user_id": 297424,
+    "time": 1546905600000
+  },
+  {
+    "count_user_id": 583597,
+    "distinct_count_user_id": 281644,
+    "time": 1546992000000
+  },
+  {
+    "count_user_id": 572505,
+    "distinct_count_user_id": 276127,
+    "time": 1547078400000
+  },
+  {
+    "count_user_id": 459315,
+    "distinct_count_user_id": 232576,
+    "time": 1547164800000
+  },
+  {
+    "count_user_id": 184481,
+    "distinct_count_user_id": 108360,
+    "time": 1547251200000
+  },
+  {
+    "count_user_id": 298427,
+    "distinct_count_user_id": 169695,
+    "time": 1547337600000
+  },
+  {
+    "count_user_id": 670369,
+    "distinct_count_user_id": 312276,
+    "time": 1547424000000
+  },
+  {
+    "count_user_id": 617607,
+    "distinct_count_user_id": 293603,
+    "time": 1547510400000
+  },
+  {
+    "count_user_id": 585959,
+    "distinct_count_user_id": 282719,
+    "time": 1547596800000
+  },
+  {
+    "count_user_id": 588246,
+    "distinct_count_user_id": 280004,
+    "time": 1547683200000
+  },
+  {
+    "count_user_id": 469202,
+    "distinct_count_user_id": 235791,
+    "time": 1547769600000
+  },
+  {
+    "count_user_id": 200642,
+    "distinct_count_user_id": 115505,
+    "time": 1547856000000
+  },
+  {
+    "count_user_id": 304293,
+    "distinct_count_user_id": 171344,
+    "time": 1547942400000
+  },
+  {
+    "count_user_id": 665919,
+    "distinct_count_user_id": 311044,
+    "time": 1548028800000
+  },
+  {
+    "count_user_id": 614765,
+    "distinct_count_user_id": 290778,
+    "time": 1548115200000
+  },
+  {
+    "count_user_id": 584242,
+    "distinct_count_user_id": 279381,
+    "time": 1548201600000
+  },
+  {
+    "count_user_id": 579986,
+    "distinct_count_user_id": 275453,
+    "time": 1548288000000
+  },
+  {
+    "count_user_id": 479713,
+    "distinct_count_user_id": 233799,
+    "time": 1548374400000
+  },
+  {
+    "count_user_id": 207278,
+    "distinct_count_user_id": 116140,
+    "time": 1548460800000
+  },
+  {
+    "count_user_id": 301450,
+    "distinct_count_user_id": 166700,
+    "time": 1548547200000
+  },
+  {
+    "count_user_id": 676030,
+    "distinct_count_user_id": 306261,
+    "time": 1548633600000
+  },
+  {
+    "count_user_id": 630019,
+    "distinct_count_user_id": 289435,
+    "time": 1548720000000
+  },
+  {
+    "count_user_id": 589925,
+    "distinct_count_user_id": 276183,
+    "time": 1548806400000
+  },
+  {
+    "count_user_id": 1,
+    "distinct_count_user_id": 1,
+    "time": 1548892800000
+  },
+  {
+    "count_user_id": 579956,
+    "distinct_count_user_id": 272238,
+    "time": 1548892800000
+  },
+  {
+    "count_user_id": 460345,
+    "distinct_count_user_id": 227534,
+    "time": 1548979200000
+  },
+  {
+    "count_user_id": 177458,
+    "distinct_count_user_id": 102198,
+    "time": 1549065600000
+  },
+  {
+    "count_user_id": 278100,
+    "distinct_count_user_id": 161791,
+    "time": 1549152000000
+  },
+  {
+    "count_user_id": 720579,
+    "distinct_count_user_id": 319444,
+    "time": 1549238400000
+  }
+]

@@ -1,4 +1,5 @@
 import I18n from "i18n-js";
+import {groupBy} from "./Utils";
 
 export function getPeriod(m, scale) {
     switch (scale) {
@@ -58,3 +59,17 @@ export const defaultScales = ["year", "quarter", "month", "week", "day", "hour",
 
 export const allowedAggregatedScales = ["year", "quarter", "month", "week", "day"];
 
+export function addDayDuplicates(data) {
+    const groupedByTime = groupBy(data, "time");
+    return Object.values(groupedByTime).map(arr => {
+        if (arr.length > 1) {
+            return arr.reduce((acc, item)=> {
+                acc.time = item.time;
+                acc.count_user_id = item.count_user_id + (acc.count_user_id || 0);
+                acc.distinct_count_user_id = item.distinct_count_user_id + (acc.distinct_count_user_id || 0);
+                return acc;
+            },{});
+        }
+        return arr[0];
+    })
+}
