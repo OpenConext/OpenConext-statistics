@@ -1,5 +1,4 @@
 import React from "react";
-import {getPeriod, addDayDuplicates} from "../../utils/Time";
 import {loginAggregated, loginTimeFrame, uniqueLoginCount} from "../api";
 import I18n from "i18n-js";
 import "./Live.css";
@@ -9,7 +8,7 @@ import Chart from "../components/Chart";
 import PropTypes from "prop-types";
 import GroupBy from "../components/GroupBy";
 import {isEmpty, stop} from "../utils/Utils";
-import {getPeriod} from "../utils/Time";
+import {addDayDuplicates, getPeriod} from "../utils/Time";
 import "moment/locale/nl";
 import Filters from "../components/Filters";
 import SelectPeriod from "../components/SelectPeriod";
