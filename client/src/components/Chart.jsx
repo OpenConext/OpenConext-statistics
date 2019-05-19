@@ -240,9 +240,12 @@ export default class Chart extends React.PureComponent {
         return groupedByBoth ? name : `<span class="clickable-label" id="${id}" data-id="true">${name}</span>`;
     };
 
-    providerAccessor = (groupedBySp, serviceProvidersDict, identityProvidersDict) =>
-        p => groupedBySp ? providerName(serviceProvidersDict[p.sp_entity_id], p.sp_entity_id) :
+    providerAccessor = (groupedBySp, serviceProvidersDict, identityProvidersDict, encodeForDownload = false) =>  p => {
+        const result = groupedBySp ? providerName(serviceProvidersDict[p.sp_entity_id], p.sp_entity_id) :
             providerName(identityProvidersDict[p.idp_entity_id], p.idp_entity_id);
+        return encodeForDownload ? `"${result}"` : result;
+    };
+
 
     dateAccessor = p => moment(p.time).utc().format("YYYY-MM-DD");
 
@@ -275,7 +278,7 @@ export default class Chart extends React.PureComponent {
             }];
         const headers = ["name,date,logins,users"];
         const text = headers.concat(data
-            .map(row => `${this.providerAccessor(groupedBySp, serviceProvidersDict, identityProvidersDict)(row)},${this.dateAccessor(row)},${this.loginsAccessor(false)(row)},${this.usersAccessor(includeUniques, false)(row)}`))
+            .map(row => `${this.providerAccessor(groupedBySp, serviceProvidersDict, identityProvidersDict, true)(row)},${this.dateAccessor(row)},${this.loginsAccessor(false)(row)},${this.usersAccessor(includeUniques, false)(row)}`))
             .join("\n");
         return <section className="table">
             {title && <span className="title">{title} <ClipBoardCopy identifier="table-export" text={text}/></span>}
