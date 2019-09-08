@@ -1,0 +1,3512 @@
+[
+  {
+    "count_user_id": 15,
+    "idp_entity_id": "http://ADFS.nimeto.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 242,
+    "idp_entity_id": "https://www.onegini.me",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 397,
+    "idp_entity_id": "https://www.onegini.me",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 7844,
+    "idp_entity_id": "https://utwente.nl/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 10081,
+    "idp_entity_id": "https://utwente.nl/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 21950,
+    "idp_entity_id": "https://sts.windows.net/9213f802-7bee-4ecd-8b7b-44310b156caa/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 37581,
+    "idp_entity_id": "https://sts.windows.net/9213f802-7bee-4ecd-8b7b-44310b156caa/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 13,
+    "idp_entity_id": "https://sts.windows.net/635b05eb-66c7-48e1-a94f-b4b05a1b058b/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 19,
+    "idp_entity_id": "https://sts.windows.net/635b05eb-66c7-48e1-a94f-b4b05a1b058b/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1,
+    "idp_entity_id": "https://sts.windows.net/0b883569-39c0-4403-a6a9-ed60f81be9e5/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2,
+    "idp_entity_id": "https://sts.windows.net/0b883569-39c0-4403-a6a9-ed60f81be9e5/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 27,
+    "idp_entity_id": "https://sts.somtuniversity.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 20,
+    "idp_entity_id": "https://sts.somtuniversity.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 204,
+    "idp_entity_id": "https://sts.gildeopleidingen.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 352,
+    "idp_entity_id": "https://sts.gildeopleidingen.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 231,
+    "idp_entity_id": "https://sso.surfsara.nl/saml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 636,
+    "idp_entity_id": "https://sso.surfsara.nl/saml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 4,
+    "idp_entity_id": "https://sso.sron.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1,
+    "idp_entity_id": "https://sso.sron.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1,
+    "idp_entity_id": "https://sso.saxion.nl/opensso",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6,
+    "idp_entity_id": "https://sso.saxion.nl/opensso",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 145,
+    "idp_entity_id": "https://sso.nikhef.nl/sso/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 180,
+    "idp_entity_id": "https://sso.nikhef.nl/sso/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3606,
+    "idp_entity_id": "https://sso.han.nl/ssp",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 5378,
+    "idp_entity_id": "https://sso.han.nl/ssp",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 68735,
+    "idp_entity_id": "https://sso.eur.nl/opensso",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 75360,
+    "idp_entity_id": "https://sso.eur.nl/opensso",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3,
+    "idp_entity_id": "https://sso.egi.eu/edugainidp/shibboleth",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 8,
+    "idp_entity_id": "https://sso.egi.eu/edugainidp/shibboleth",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1,
+    "idp_entity_id": "https://simplesaml.spinozacentre.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 75123,
+    "idp_entity_id": "https://signon.rug.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 80174,
+    "idp_entity_id": "https://signon.rug.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 60727,
+    "idp_entity_id": "https://secure.uva.nl/cas",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 97857,
+    "idp_entity_id": "https://secure.uva.nl/cas",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1247,
+    "idp_entity_id": "https://secure.sintlucas.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2158,
+    "idp_entity_id": "https://secure.sintlucas.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 826,
+    "idp_entity_id": "https://secure.ahk.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2549,
+    "idp_entity_id": "https://secure.ahk.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6128,
+    "idp_entity_id": "https://saml.uvt.nl/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6691,
+    "idp_entity_id": "https://saml.uvt.nl/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 7,
+    "idp_entity_id": "https://saml.nin.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 9,
+    "idp_entity_id": "https://saml.nin.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1,
+    "idp_entity_id": "https://saml.esciencecenter.nl/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3,
+    "idp_entity_id": "https://saml.esciencecenter.nl/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3,
+    "idp_entity_id": "https://rathenau.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 8,
+    "idp_entity_id": "https://niod.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2,
+    "idp_entity_id": "https://niod.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 11,
+    "idp_entity_id": "https://nidi.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 8,
+    "idp_entity_id": "https://nidi.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6417,
+    "idp_entity_id": "https://namidp.services.uu.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 7096,
+    "idp_entity_id": "https://namidp.services.uu.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3996,
+    "idp_entity_id": "https://namidp.rocvantwente.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6675,
+    "idp_entity_id": "https://namidp.rocvantwente.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3,
+    "idp_entity_id": "https://nam.astron.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 5,
+    "idp_entity_id": "https://nam.astron.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 16,
+    "idp_entity_id": "https://meertens.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 22,
+    "idp_entity_id": "https://meertens.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 46222,
+    "idp_entity_id": "https://login.zuyd.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 58316,
+    "idp_entity_id": "https://login.zuyd.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 14476,
+    "idp_entity_id": "https://login.uaccess.leidenuniv.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 13073,
+    "idp_entity_id": "https://login.uaccess.leidenuniv.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3743,
+    "idp_entity_id": "https://login.ou.nl/oam/fed",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3930,
+    "idp_entity_id": "https://login.ou.nl/oam/fed",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 10127,
+    "idp_entity_id": "https://login.mijnhelicon.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 14086,
+    "idp_entity_id": "https://login.mijnhelicon.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 51,
+    "idp_entity_id": "https://login.loi.nl/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 58,
+    "idp_entity_id": "https://login.loi.nl/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 143257,
+    "idp_entity_id": "https://login.avans.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 196966,
+    "idp_entity_id": "https://login.avans.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 12,
+    "idp_entity_id": "https://iisg.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 19,
+    "idp_entity_id": "https://iisg.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 946,
+    "idp_entity_id": "https://idp.surfnet.nl",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1942,
+    "idp_entity_id": "https://idp.surfnet.nl",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 83,
+    "idp_entity_id": "https://idp.surf.nl",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 118,
+    "idp_entity_id": "https://idp.surf.nl",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 5,
+    "idp_entity_id": "https://idp.sans-ec.nl",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 7,
+    "idp_entity_id": "https://idp.sans-ec.nl",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 27177,
+    "idp_entity_id": "https://idp.nhl.nl/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 35982,
+    "idp_entity_id": "https://idp.nhl.nl/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 13,
+    "idp_entity_id": "https://idp.mpi.nl/idp-conext",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 53,
+    "idp_entity_id": "https://idp.mpi.nl/idp-conext",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 20,
+    "idp_entity_id": "https://idp.geant.org",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 41,
+    "idp_entity_id": "https://idp.geant.org",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 8,
+    "idp_entity_id": "https://idp.cwi.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2,
+    "idp_entity_id": "https://idp.cwi.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 49,
+    "idp_entity_id": "https://idp.antoniusziekenhuis.nl/simplesamlphp/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 48,
+    "idp_entity_id": "https://idp.antoniusziekenhuis.nl/simplesamlphp/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 18,
+    "idp_entity_id": "https://huygens.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 14,
+    "idp_entity_id": "https://huygens.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2,
+    "idp_entity_id": "https://huc.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3,
+    "idp_entity_id": "https://huc.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 142427,
+    "idp_entity_id": "https://gatekeeper2.tudelft.nl/openaselect/profiles/saml2/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 143052,
+    "idp_entity_id": "https://gatekeeper2.tudelft.nl/openaselect/profiles/saml2/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 89,
+    "idp_entity_id": "https://fedlogin.ou.nl/fedou/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 89,
+    "idp_entity_id": "https://fedlogin.ou.nl/fedou/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1601,
+    "idp_entity_id": "https://federatie.hku.nl",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2140,
+    "idp_entity_id": "https://federatie.hku.nl",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 7,
+    "idp_entity_id": "https://di.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 29,
+    "idp_entity_id": "https://di.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2,
+    "idp_entity_id": "https://dh.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 49,
+    "idp_entity_id": "https://dans.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 46,
+    "idp_entity_id": "https://dans.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 55624,
+    "idp_entity_id": "https://conext.authenticatie.ru.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 66741,
+    "idp_entity_id": "https://conext.authenticatie.ru.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 276,
+    "idp_entity_id": "https://bureau.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 443,
+    "idp_entity_id": "https://bureau.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 23,
+    "idp_entity_id": "https://adfs.cog.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 24,
+    "idp_entity_id": "https://adfs.cog.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 44,
+    "idp_entity_id": "https://accounts.google.com/o/saml2?idpid=C03c5d9ty",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 42,
+    "idp_entity_id": "https://accounts.google.com/o/saml2?idpid=C03c5d9ty",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1654,
+    "idp_entity_id": "https://access.hro.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2557,
+    "idp_entity_id": "https://access.hro.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 18586,
+    "idp_entity_id": "http://wayf.onderwijsgroeptilburg.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 28857,
+    "idp_entity_id": "http://wayf.onderwijsgroeptilburg.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2144,
+    "idp_entity_id": "http://teamwerk.fed.vumc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2901,
+    "idp_entity_id": "http://teamwerk.fed.vumc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6,
+    "idp_entity_id": "http://tcs02.pbl.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 7,
+    "idp_entity_id": "http://tcs02.pbl.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1,
+    "idp_entity_id": "http://surfspot.biblionetwerken.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 4,
+    "idp_entity_id": "http://surfspot.biblionetwerken.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 234,
+    "idp_entity_id": "http://stsip.mumc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 274,
+    "idp_entity_id": "http://stsip.mumc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 13280,
+    "idp_entity_id": "http://stsfed.login.vu.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 14941,
+    "idp_entity_id": "http://stsfed.login.vu.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2,
+    "idp_entity_id": "http://sts.zonmw.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 7,
+    "idp_entity_id": "http://sts.zonmw.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2459,
+    "idp_entity_id": "http://sts.zadkine.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3563,
+    "idp_entity_id": "http://sts.zadkine.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6853,
+    "idp_entity_id": "http://sts.wur.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 9291,
+    "idp_entity_id": "http://sts.wur.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 57483,
+    "idp_entity_id": "http://sts.windesheim.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 62993,
+    "idp_entity_id": "http://sts.windesheim.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 22,
+    "idp_entity_id": "http://sts.wellant.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 10,
+    "idp_entity_id": "http://sts.wellant.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3191,
+    "idp_entity_id": "http://sts.viaa.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3645,
+    "idp_entity_id": "http://sts.viaa.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1366,
+    "idp_entity_id": "http://sts.tue.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1859,
+    "idp_entity_id": "http://sts.tue.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 58,
+    "idp_entity_id": "http://sts.tno.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 68,
+    "idp_entity_id": "http://sts.tno.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2325,
+    "idp_entity_id": "http://sts.talnet.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3692,
+    "idp_entity_id": "http://sts.talnet.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 10,
+    "idp_entity_id": "http://sts.stc-r.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 16,
+    "idp_entity_id": "http://sts.stc-r.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 37437,
+    "idp_entity_id": "http://sts.roc-nijmegen.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 49178,
+    "idp_entity_id": "http://sts.roc-nijmegen.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6,
+    "idp_entity_id": "http://sts.rietveldacademie.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 4,
+    "idp_entity_id": "http://sts.rietveldacademie.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 7322,
+    "idp_entity_id": "http://sts.novacollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 12469,
+    "idp_entity_id": "http://sts.novacollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 33,
+    "idp_entity_id": "http://sts.landstedegroep.net/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 65,
+    "idp_entity_id": "http://sts.landstedegroep.net/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 103,
+    "idp_entity_id": "http://sts.kw1c.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 144,
+    "idp_entity_id": "http://sts.kw1c.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1,
+    "idp_entity_id": "http://sts.iknl.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 8,
+    "idp_entity_id": "http://sts.idcollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 22,
+    "idp_entity_id": "http://sts.idcollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3,
+    "idp_entity_id": "http://sts.hubrecht.eu/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 9,
+    "idp_entity_id": "http://sts.hubrecht.eu/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 219,
+    "idp_entity_id": "http://sts.horizoncollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 290,
+    "idp_entity_id": "http://sts.horizoncollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 4334,
+    "idp_entity_id": "http://sts.hhs.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6730,
+    "idp_entity_id": "http://sts.hhs.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 419,
+    "idp_entity_id": "http://sts.drenthecollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 722,
+    "idp_entity_id": "http://sts.drenthecollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 9956,
+    "idp_entity_id": "http://sts.deltion.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 13374,
+    "idp_entity_id": "http://sts.deltion.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 58,
+    "idp_entity_id": "http://sts.deltares.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 45,
+    "idp_entity_id": "http://sts.deltares.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 7,
+    "idp_entity_id": "http://sts.cbg.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 22,
+    "idp_entity_id": "http://sts.arcuscollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 13,
+    "idp_entity_id": "http://sts.arcuscollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 24628,
+    "idp_entity_id": "http://signon.stenden.com/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 27816,
+    "idp_entity_id": "http://signon.stenden.com/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 27363,
+    "idp_entity_id": "http://signon.nhlstenden.com/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 32523,
+    "idp_entity_id": "http://signon.nhlstenden.com/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 11,
+    "idp_entity_id": "http://sclogin.koncon.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 7,
+    "idp_entity_id": "http://sclogin.koncon.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 17,
+    "idp_entity_id": "http://sclogin.kabk.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 41,
+    "idp_entity_id": "http://sclogin.kabk.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1926,
+    "idp_entity_id": "http://logon.erasmusmc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2596,
+    "idp_entity_id": "http://logon.erasmusmc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 22,
+    "idp_entity_id": "http://login.scp.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 35,
+    "idp_entity_id": "http://login.scp.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 99320,
+    "idp_entity_id": "http://login.saxion.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 120599,
+    "idp_entity_id": "http://login.saxion.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6,
+    "idp_entity_id": "http://login.nrg.eu/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 8,
+    "idp_entity_id": "http://login.nrg.eu/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 200,
+    "idp_entity_id": "http://login.nki.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 203,
+    "idp_entity_id": "http://login.nki.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 11141,
+    "idp_entity_id": "http://login.maastrichtuniversity.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 11036,
+    "idp_entity_id": "http://login.maastrichtuniversity.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3,
+    "idp_entity_id": "http://login.kienict.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 28418,
+    "idp_entity_id": "http://inloggen.sharepoint.hu.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 38037,
+    "idp_entity_id": "http://inloggen.sharepoint.hu.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 15,
+    "idp_entity_id": "http://idpv3.hierinloggen.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 24,
+    "idp_entity_id": "http://idpv3.hierinloggen.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1,
+    "idp_entity_id": "http://idp.mindef.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 5,
+    "idp_entity_id": "http://idp.mindef.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 9,
+    "idp_entity_id": "http://idp.inholland.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 33,
+    "idp_entity_id": "http://idp.inholland.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 997,
+    "idp_entity_id": "http://idp.ihe.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1351,
+    "idp_entity_id": "http://idp.ihe.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 35,
+    "idp_entity_id": "http://glr-adfs.glr.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 23,
+    "idp_entity_id": "http://glr-adfs.glr.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1097,
+    "idp_entity_id": "http://fsa.rocmondriaan.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1581,
+    "idp_entity_id": "http://fsa.rocmondriaan.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3586,
+    "idp_entity_id": "http://fs.umcutrecht.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6550,
+    "idp_entity_id": "http://fs.umcutrecht.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 7,
+    "idp_entity_id": "http://fs.rocrivor.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 159,
+    "idp_entity_id": "http://fs.rocleiden.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 222,
+    "idp_entity_id": "http://fs.rocleiden.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3937,
+    "idp_entity_id": "http://fs.regiocollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6325,
+    "idp_entity_id": "http://fs.regiocollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3,
+    "idp_entity_id": "http://fs.nioz.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6,
+    "idp_entity_id": "http://fs.nioz.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 859,
+    "idp_entity_id": "http://fs.myhz.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1350,
+    "idp_entity_id": "http://fs.myhz.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 135,
+    "idp_entity_id": "http://fs.kienict.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 227,
+    "idp_entity_id": "http://fs.kienict.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1,
+    "idp_entity_id": "http://fs.kennisnet.org/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 4205,
+    "idp_entity_id": "http://fs.fcroc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6791,
+    "idp_entity_id": "http://fs.fcroc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 15,
+    "idp_entity_id": "http://fs.dezb.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6,
+    "idp_entity_id": "http://fs.dezb.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 33,
+    "idp_entity_id": "http://fs.codarts.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 93,
+    "idp_entity_id": "http://fs.codarts.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2,
+    "idp_entity_id": "http://fs.amphia.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 5,
+    "idp_entity_id": "http://fs.amphia.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 58,
+    "idp_entity_id": "http://fides.rivm.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 54,
+    "idp_entity_id": "http://fides.rivm.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 331,
+    "idp_entity_id": "http://federation.umcg.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 472,
+    "idp_entity_id": "http://federation.umcg.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6,
+    "idp_entity_id": "http://federation.nioo.knaw.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 12,
+    "idp_entity_id": "http://federation.nioo.knaw.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 57,
+    "idp_entity_id": "http://federation.nbdbiblion.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 71,
+    "idp_entity_id": "http://federation.nbdbiblion.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2518,
+    "idp_entity_id": "http://federation.hdh.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3930,
+    "idp_entity_id": "http://federation.hdh.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 723,
+    "idp_entity_id": "http://federation.graafschapcollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1313,
+    "idp_entity_id": "http://federation.graafschapcollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2492,
+    "idp_entity_id": "http://federation.alfa-college.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 4008,
+    "idp_entity_id": "http://federation.alfa-college.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 5,
+    "idp_entity_id": "http://federatie.trimbos.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 4,
+    "idp_entity_id": "http://federatie.trimbos.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 4960,
+    "idp_entity_id": "http://federatie.radboudumc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 7450,
+    "idp_entity_id": "http://federatie.radboudumc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 213,
+    "idp_entity_id": "http://federatie.lumc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 199,
+    "idp_entity_id": "http://federatie.lumc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3305,
+    "idp_entity_id": "http://federatie.amc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 5534,
+    "idp_entity_id": "http://federatie.amc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2593,
+    "idp_entity_id": "http://federate.nyenrode.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2094,
+    "idp_entity_id": "http://federate.nyenrode.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 28486,
+    "idp_entity_id": "http://fed.rijnijssel.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 39801,
+    "idp_entity_id": "http://fed.rijnijssel.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3,
+    "idp_entity_id": "http://fed.cpb.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6,
+    "idp_entity_id": "http://fed.cpb.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 19807,
+    "idp_entity_id": "http://ccidfederation.clusius.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 24773,
+    "idp_entity_id": "http://ccidfederation.clusius.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 349,
+    "idp_entity_id": "http://auth.surfmarket.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 398,
+    "idp_entity_id": "http://auth.surfmarket.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 30580,
+    "idp_entity_id": "http://adfsv2.inholland.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 34941,
+    "idp_entity_id": "http://adfsv2.inholland.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 20134,
+    "idp_entity_id": "http://adfs3prod.aventus.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 28295,
+    "idp_entity_id": "http://adfs3prod.aventus.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 61054,
+    "idp_entity_id": "http://adfs3host.proxy.rocmn.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 84816,
+    "idp_entity_id": "http://adfs3host.proxy.rocmn.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 47056,
+    "idp_entity_id": "http://adfs20.hva.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 50835,
+    "idp_entity_id": "http://adfs20.hva.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 92,
+    "idp_entity_id": "http://adfs2.politieacademie.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 54,
+    "idp_entity_id": "http://adfs2.politieacademie.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 10277,
+    "idp_entity_id": "http://adfs2.noorderpoort.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 15243,
+    "idp_entity_id": "http://adfs2.noorderpoort.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 45333,
+    "idp_entity_id": "http://adfs2.fontys.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 46039,
+    "idp_entity_id": "http://adfs2.fontys.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6,
+    "idp_entity_id": "http://adfs1.oba.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 297,
+    "idp_entity_id": "http://adfs01.kempel.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 200,
+    "idp_entity_id": "http://adfs01.kempel.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 136,
+    "idp_entity_id": "http://adfs.uvh.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 148,
+    "idp_entity_id": "http://adfs.uvh.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 442,
+    "idp_entity_id": "http://adfs.tio.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 581,
+    "idp_entity_id": "http://adfs.tio.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 4,
+    "idp_entity_id": "http://adfs.thomasmorehs.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 5250,
+    "idp_entity_id": "http://adfs.roctop.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6792,
+    "idp_entity_id": "http://adfs.roctop.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 77,
+    "idp_entity_id": "http://adfs.rocleeuwenborgh.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 142,
+    "idp_entity_id": "http://adfs.rocleeuwenborgh.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 5,
+    "idp_entity_id": "http://adfs.onderwijsgroepnoord.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 118,
+    "idp_entity_id": "http://adfs.nwo.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 173,
+    "idp_entity_id": "http://adfs.nwo.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 1863,
+    "idp_entity_id": "http://adfs.nhtv.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2848,
+    "idp_entity_id": "http://adfs.nhtv.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 148,
+    "idp_entity_id": "http://adfs.ncoi.com/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 125,
+    "idp_entity_id": "http://adfs.ncoi.com/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 31,
+    "idp_entity_id": "http://adfs.naturalis.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 55,
+    "idp_entity_id": "http://adfs.naturalis.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3,
+    "idp_entity_id": "http://adfs.msm.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2,
+    "idp_entity_id": "http://adfs.msm.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 7,
+    "idp_entity_id": "http://adfs.mijnlentiz.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 10,
+    "idp_entity_id": "http://adfs.mijnlentiz.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 321,
+    "idp_entity_id": "http://adfs.mboutrecht.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 475,
+    "idp_entity_id": "http://adfs.mboutrecht.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 8,
+    "idp_entity_id": "http://adfs.mboamersfoort.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 8,
+    "idp_entity_id": "http://adfs.mboamersfoort.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 209,
+    "idp_entity_id": "http://adfs.kpz.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 181,
+    "idp_entity_id": "http://adfs.kpz.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 2,
+    "idp_entity_id": "http://adfs.knmi.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 23,
+    "idp_entity_id": "http://adfs.kb.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 29,
+    "idp_entity_id": "http://adfs.kb.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 7,
+    "idp_entity_id": "http://adfs.ipabo.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 14,
+    "idp_entity_id": "http://adfs.ipabo.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 9844,
+    "idp_entity_id": "http://adfs.hvhl.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 13018,
+    "idp_entity_id": "http://adfs.hvhl.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 53,
+    "idp_entity_id": "http://adfs.hsmarnix.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 92,
+    "idp_entity_id": "http://adfs.hsmarnix.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 27477,
+    "idp_entity_id": "http://adfs.hsleiden.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 38461,
+    "idp_entity_id": "http://adfs.hsleiden.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 269,
+    "idp_entity_id": "http://adfs.has.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 349,
+    "idp_entity_id": "http://adfs.has.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 77412,
+    "idp_entity_id": "http://adfs.hanze.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 90078,
+    "idp_entity_id": "http://adfs.hanze.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 77,
+    "idp_entity_id": "http://adfs.glu.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 107,
+    "idp_entity_id": "http://adfs.glu.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 4,
+    "idp_entity_id": "http://adfs.fryske-akademy.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3,
+    "idp_entity_id": "http://adfs.fryske-akademy.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 10,
+    "idp_entity_id": "http://adfs.fom.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 41,
+    "idp_entity_id": "http://adfs.driestar-educatief.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 35,
+    "idp_entity_id": "http://adfs.driestar-educatief.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 74,
+    "idp_entity_id": "http://adfs.designacademy.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 135,
+    "idp_entity_id": "http://adfs.designacademy.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 10,
+    "idp_entity_id": "http://adfs.cito.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 11,
+    "idp_entity_id": "http://adfs.cito.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 10,
+    "idp_entity_id": "http://adfs.cibap.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 21,
+    "idp_entity_id": "http://adfs.cibap.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3488,
+    "idp_entity_id": "http://adfs.che.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 4759,
+    "idp_entity_id": "http://adfs.che.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 3415,
+    "idp_entity_id": "http://adfs.buas.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 4951,
+    "idp_entity_id": "http://adfs.buas.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 208,
+    "idp_entity_id": "http://adfs.artez.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 338,
+    "idp_entity_id": "http://adfs.artez.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 109,
+    "idp_entity_id": "http://adfs.amolf.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 154,
+    "idp_entity_id": "http://adfs.amolf.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 20778,
+    "idp_entity_id": "http://adfs.albeda.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 34375,
+    "idp_entity_id": "http://adfs.albeda.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 4036,
+    "idp_entity_id": "http://adfs.aeres.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 4970,
+    "idp_entity_id": "http://adfs.aeres.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 4034,
+    "idp_entity_id": "http://adfs-p.summacollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 6470,
+    "idp_entity_id": "http://adfs-p.summacollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 52,
+    "idp_entity_id": "http://adfs-differ.differ.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 96,
+    "idp_entity_id": "http://adfs-differ.differ.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "count_user_id": 10,
+    "idp_entity_id": "http://ADFS.nimeto.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 12,
+    "idp_entity_id": "http://ADFS.nimeto.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 117,
+    "idp_entity_id": "https://www.onegini.me",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 151,
+    "idp_entity_id": "https://www.onegini.me",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4534,
+    "idp_entity_id": "https://utwente.nl/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5672,
+    "idp_entity_id": "https://utwente.nl/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 6612,
+    "idp_entity_id": "https://sts.windows.net/9213f802-7bee-4ecd-8b7b-44310b156caa/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 8285,
+    "idp_entity_id": "https://sts.windows.net/9213f802-7bee-4ecd-8b7b-44310b156caa/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5,
+    "idp_entity_id": "https://sts.windows.net/635b05eb-66c7-48e1-a94f-b4b05a1b058b/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1,
+    "idp_entity_id": "https://sts.windows.net/635b05eb-66c7-48e1-a94f-b4b05a1b058b/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1,
+    "idp_entity_id": "https://sts.windows.net/0b883569-39c0-4403-a6a9-ed60f81be9e5/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1,
+    "idp_entity_id": "https://sts.windows.net/0b883569-39c0-4403-a6a9-ed60f81be9e5/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 16,
+    "idp_entity_id": "https://sts.somtuniversity.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 10,
+    "idp_entity_id": "https://sts.somtuniversity.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 85,
+    "idp_entity_id": "https://sts.gildeopleidingen.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 130,
+    "idp_entity_id": "https://sts.gildeopleidingen.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 85,
+    "idp_entity_id": "https://sso.surfsara.nl/saml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 123,
+    "idp_entity_id": "https://sso.surfsara.nl/saml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3,
+    "idp_entity_id": "https://sso.sron.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1,
+    "idp_entity_id": "https://sso.sron.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1,
+    "idp_entity_id": "https://sso.saxion.nl/opensso",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3,
+    "idp_entity_id": "https://sso.saxion.nl/opensso",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 84,
+    "idp_entity_id": "https://sso.nikhef.nl/sso/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 98,
+    "idp_entity_id": "https://sso.nikhef.nl/sso/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1801,
+    "idp_entity_id": "https://sso.han.nl/ssp",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2629,
+    "idp_entity_id": "https://sso.han.nl/ssp",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 22215,
+    "idp_entity_id": "https://sso.eur.nl/opensso",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 23496,
+    "idp_entity_id": "https://sso.eur.nl/opensso",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "idp_entity_id": "https://sso.egi.eu/edugainidp/shibboleth",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 6,
+    "idp_entity_id": "https://sso.egi.eu/edugainidp/shibboleth",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1,
+    "idp_entity_id": "https://simplesaml.spinozacentre.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 22440,
+    "idp_entity_id": "https://signon.rug.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 24344,
+    "idp_entity_id": "https://signon.rug.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 23463,
+    "idp_entity_id": "https://secure.uva.nl/cas",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 28510,
+    "idp_entity_id": "https://secure.uva.nl/cas",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 596,
+    "idp_entity_id": "https://secure.sintlucas.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 870,
+    "idp_entity_id": "https://secure.sintlucas.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 477,
+    "idp_entity_id": "https://secure.ahk.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 664,
+    "idp_entity_id": "https://secure.ahk.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2798,
+    "idp_entity_id": "https://saml.uvt.nl/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3102,
+    "idp_entity_id": "https://saml.uvt.nl/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3,
+    "idp_entity_id": "https://saml.nin.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5,
+    "idp_entity_id": "https://saml.nin.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1,
+    "idp_entity_id": "https://saml.esciencecenter.nl/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3,
+    "idp_entity_id": "https://saml.esciencecenter.nl/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "idp_entity_id": "https://rathenau.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "idp_entity_id": "https://niod.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "idp_entity_id": "https://niod.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4,
+    "idp_entity_id": "https://nidi.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4,
+    "idp_entity_id": "https://nidi.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3480,
+    "idp_entity_id": "https://namidp.services.uu.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3904,
+    "idp_entity_id": "https://namidp.services.uu.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1302,
+    "idp_entity_id": "https://namidp.rocvantwente.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1635,
+    "idp_entity_id": "https://namidp.rocvantwente.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "idp_entity_id": "https://nam.astron.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4,
+    "idp_entity_id": "https://nam.astron.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 8,
+    "idp_entity_id": "https://meertens.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 10,
+    "idp_entity_id": "https://meertens.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 10729,
+    "idp_entity_id": "https://login.zuyd.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 11662,
+    "idp_entity_id": "https://login.zuyd.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4187,
+    "idp_entity_id": "https://login.uaccess.leidenuniv.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4807,
+    "idp_entity_id": "https://login.uaccess.leidenuniv.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1499,
+    "idp_entity_id": "https://login.ou.nl/oam/fed",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1590,
+    "idp_entity_id": "https://login.ou.nl/oam/fed",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2879,
+    "idp_entity_id": "https://login.mijnhelicon.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3221,
+    "idp_entity_id": "https://login.mijnhelicon.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 35,
+    "idp_entity_id": "https://login.loi.nl/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 34,
+    "idp_entity_id": "https://login.loi.nl/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 26617,
+    "idp_entity_id": "https://login.avans.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 29653,
+    "idp_entity_id": "https://login.avans.nl/nidp/saml2/metadata",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 7,
+    "idp_entity_id": "https://iisg.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 13,
+    "idp_entity_id": "https://iisg.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 182,
+    "idp_entity_id": "https://idp.surfnet.nl",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 201,
+    "idp_entity_id": "https://idp.surfnet.nl",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 15,
+    "idp_entity_id": "https://idp.surf.nl",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 17,
+    "idp_entity_id": "https://idp.surf.nl",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4,
+    "idp_entity_id": "https://idp.sans-ec.nl",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5,
+    "idp_entity_id": "https://idp.sans-ec.nl",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 6471,
+    "idp_entity_id": "https://idp.nhl.nl/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 7298,
+    "idp_entity_id": "https://idp.nhl.nl/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 6,
+    "idp_entity_id": "https://idp.mpi.nl/idp-conext",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 15,
+    "idp_entity_id": "https://idp.mpi.nl/idp-conext",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 8,
+    "idp_entity_id": "https://idp.geant.org",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 12,
+    "idp_entity_id": "https://idp.geant.org",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3,
+    "idp_entity_id": "https://idp.cwi.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "idp_entity_id": "https://idp.cwi.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 18,
+    "idp_entity_id": "https://idp.antoniusziekenhuis.nl/simplesamlphp/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 25,
+    "idp_entity_id": "https://idp.antoniusziekenhuis.nl/simplesamlphp/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 6,
+    "idp_entity_id": "https://huygens.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 7,
+    "idp_entity_id": "https://huygens.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1,
+    "idp_entity_id": "https://huc.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "idp_entity_id": "https://huc.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 22098,
+    "idp_entity_id": "https://gatekeeper2.tudelft.nl/openaselect/profiles/saml2/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 23318,
+    "idp_entity_id": "https://gatekeeper2.tudelft.nl/openaselect/profiles/saml2/",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 53,
+    "idp_entity_id": "https://fedlogin.ou.nl/fedou/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 46,
+    "idp_entity_id": "https://fedlogin.ou.nl/fedou/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 887,
+    "idp_entity_id": "https://federatie.hku.nl",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1025,
+    "idp_entity_id": "https://federatie.hku.nl",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5,
+    "idp_entity_id": "https://di.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4,
+    "idp_entity_id": "https://di.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1,
+    "idp_entity_id": "https://dh.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 28,
+    "idp_entity_id": "https://dans.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 24,
+    "idp_entity_id": "https://dans.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 14962,
+    "idp_entity_id": "https://conext.authenticatie.ru.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 16643,
+    "idp_entity_id": "https://conext.authenticatie.ru.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 130,
+    "idp_entity_id": "https://bureau.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 187,
+    "idp_entity_id": "https://bureau.idp.knaw.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 16,
+    "idp_entity_id": "https://adfs.cog.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 20,
+    "idp_entity_id": "https://adfs.cog.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 24,
+    "idp_entity_id": "https://accounts.google.com/o/saml2?idpid=C03c5d9ty",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 25,
+    "idp_entity_id": "https://accounts.google.com/o/saml2?idpid=C03c5d9ty",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1019,
+    "idp_entity_id": "https://access.hro.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1320,
+    "idp_entity_id": "https://access.hro.nl/simplesaml/saml2/idp/metadata.php",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4349,
+    "idp_entity_id": "http://wayf.onderwijsgroeptilburg.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5064,
+    "idp_entity_id": "http://wayf.onderwijsgroeptilburg.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 970,
+    "idp_entity_id": "http://teamwerk.fed.vumc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1139,
+    "idp_entity_id": "http://teamwerk.fed.vumc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4,
+    "idp_entity_id": "http://tcs02.pbl.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4,
+    "idp_entity_id": "http://tcs02.pbl.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1,
+    "idp_entity_id": "http://surfspot.biblionetwerken.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3,
+    "idp_entity_id": "http://surfspot.biblionetwerken.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 118,
+    "idp_entity_id": "http://stsip.mumc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 141,
+    "idp_entity_id": "http://stsip.mumc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 6581,
+    "idp_entity_id": "http://stsfed.login.vu.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 7611,
+    "idp_entity_id": "http://stsfed.login.vu.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "idp_entity_id": "http://sts.zonmw.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5,
+    "idp_entity_id": "http://sts.zonmw.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1489,
+    "idp_entity_id": "http://sts.zadkine.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1869,
+    "idp_entity_id": "http://sts.zadkine.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3886,
+    "idp_entity_id": "http://sts.wur.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4832,
+    "idp_entity_id": "http://sts.wur.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 15075,
+    "idp_entity_id": "http://sts.windesheim.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 17269,
+    "idp_entity_id": "http://sts.windesheim.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 14,
+    "idp_entity_id": "http://sts.wellant.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 8,
+    "idp_entity_id": "http://sts.wellant.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 971,
+    "idp_entity_id": "http://sts.viaa.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1048,
+    "idp_entity_id": "http://sts.viaa.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 780,
+    "idp_entity_id": "http://sts.tue.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 887,
+    "idp_entity_id": "http://sts.tue.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 31,
+    "idp_entity_id": "http://sts.tno.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 48,
+    "idp_entity_id": "http://sts.tno.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 819,
+    "idp_entity_id": "http://sts.talnet.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1078,
+    "idp_entity_id": "http://sts.talnet.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 9,
+    "idp_entity_id": "http://sts.stc-r.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 11,
+    "idp_entity_id": "http://sts.stc-r.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 6976,
+    "idp_entity_id": "http://sts.roc-nijmegen.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 7976,
+    "idp_entity_id": "http://sts.roc-nijmegen.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4,
+    "idp_entity_id": "http://sts.rietveldacademie.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4,
+    "idp_entity_id": "http://sts.rietveldacademie.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2897,
+    "idp_entity_id": "http://sts.novacollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3588,
+    "idp_entity_id": "http://sts.novacollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 25,
+    "idp_entity_id": "http://sts.landstedegroep.net/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 42,
+    "idp_entity_id": "http://sts.landstedegroep.net/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 47,
+    "idp_entity_id": "http://sts.kw1c.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 60,
+    "idp_entity_id": "http://sts.kw1c.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1,
+    "idp_entity_id": "http://sts.iknl.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5,
+    "idp_entity_id": "http://sts.idcollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 12,
+    "idp_entity_id": "http://sts.idcollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "idp_entity_id": "http://sts.hubrecht.eu/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 6,
+    "idp_entity_id": "http://sts.hubrecht.eu/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 105,
+    "idp_entity_id": "http://sts.horizoncollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 131,
+    "idp_entity_id": "http://sts.horizoncollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2504,
+    "idp_entity_id": "http://sts.hhs.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3375,
+    "idp_entity_id": "http://sts.hhs.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 253,
+    "idp_entity_id": "http://sts.drenthecollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 391,
+    "idp_entity_id": "http://sts.drenthecollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5449,
+    "idp_entity_id": "http://sts.deltion.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 7032,
+    "idp_entity_id": "http://sts.deltion.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 32,
+    "idp_entity_id": "http://sts.deltares.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 29,
+    "idp_entity_id": "http://sts.deltares.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "idp_entity_id": "http://sts.cbg.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 10,
+    "idp_entity_id": "http://sts.arcuscollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 8,
+    "idp_entity_id": "http://sts.arcuscollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5585,
+    "idp_entity_id": "http://signon.stenden.com/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5876,
+    "idp_entity_id": "http://signon.stenden.com/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5308,
+    "idp_entity_id": "http://signon.nhlstenden.com/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5576,
+    "idp_entity_id": "http://signon.nhlstenden.com/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5,
+    "idp_entity_id": "http://sclogin.koncon.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5,
+    "idp_entity_id": "http://sclogin.koncon.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 13,
+    "idp_entity_id": "http://sclogin.kabk.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 12,
+    "idp_entity_id": "http://sclogin.kabk.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1082,
+    "idp_entity_id": "http://logon.erasmusmc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1310,
+    "idp_entity_id": "http://logon.erasmusmc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 12,
+    "idp_entity_id": "http://login.scp.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 14,
+    "idp_entity_id": "http://login.scp.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 21838,
+    "idp_entity_id": "http://login.saxion.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 23655,
+    "idp_entity_id": "http://login.saxion.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4,
+    "idp_entity_id": "http://login.nrg.eu/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5,
+    "idp_entity_id": "http://login.nrg.eu/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 131,
+    "idp_entity_id": "http://login.nki.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 108,
+    "idp_entity_id": "http://login.nki.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5610,
+    "idp_entity_id": "http://login.maastrichtuniversity.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5560,
+    "idp_entity_id": "http://login.maastrichtuniversity.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "idp_entity_id": "http://login.kienict.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 13959,
+    "idp_entity_id": "http://inloggen.sharepoint.hu.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 16681,
+    "idp_entity_id": "http://inloggen.sharepoint.hu.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 10,
+    "idp_entity_id": "http://idpv3.hierinloggen.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 11,
+    "idp_entity_id": "http://idpv3.hierinloggen.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1,
+    "idp_entity_id": "http://idp.mindef.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3,
+    "idp_entity_id": "http://idp.mindef.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 9,
+    "idp_entity_id": "http://idp.inholland.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 27,
+    "idp_entity_id": "http://idp.inholland.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 305,
+    "idp_entity_id": "http://idp.ihe.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 326,
+    "idp_entity_id": "http://idp.ihe.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 18,
+    "idp_entity_id": "http://glr-adfs.glr.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 19,
+    "idp_entity_id": "http://glr-adfs.glr.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 623,
+    "idp_entity_id": "http://fsa.rocmondriaan.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 780,
+    "idp_entity_id": "http://fsa.rocmondriaan.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1069,
+    "idp_entity_id": "http://fs.umcutrecht.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1264,
+    "idp_entity_id": "http://fs.umcutrecht.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5,
+    "idp_entity_id": "http://fs.rocrivor.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 105,
+    "idp_entity_id": "http://fs.rocleiden.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 137,
+    "idp_entity_id": "http://fs.rocleiden.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1533,
+    "idp_entity_id": "http://fs.regiocollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2095,
+    "idp_entity_id": "http://fs.regiocollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3,
+    "idp_entity_id": "http://fs.nioz.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3,
+    "idp_entity_id": "http://fs.nioz.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 481,
+    "idp_entity_id": "http://fs.myhz.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 645,
+    "idp_entity_id": "http://fs.myhz.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 63,
+    "idp_entity_id": "http://fs.kienict.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 93,
+    "idp_entity_id": "http://fs.kienict.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1,
+    "idp_entity_id": "http://fs.kennisnet.org/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2021,
+    "idp_entity_id": "http://fs.fcroc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2705,
+    "idp_entity_id": "http://fs.fcroc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3,
+    "idp_entity_id": "http://fs.dezb.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4,
+    "idp_entity_id": "http://fs.dezb.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 19,
+    "idp_entity_id": "http://fs.codarts.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 28,
+    "idp_entity_id": "http://fs.codarts.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1,
+    "idp_entity_id": "http://fs.amphia.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "idp_entity_id": "http://fs.amphia.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 26,
+    "idp_entity_id": "http://fides.rivm.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 29,
+    "idp_entity_id": "http://fides.rivm.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 212,
+    "idp_entity_id": "http://federation.umcg.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 274,
+    "idp_entity_id": "http://federation.umcg.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3,
+    "idp_entity_id": "http://federation.nioo.knaw.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 6,
+    "idp_entity_id": "http://federation.nioo.knaw.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 22,
+    "idp_entity_id": "http://federation.nbdbiblion.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 23,
+    "idp_entity_id": "http://federation.nbdbiblion.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 732,
+    "idp_entity_id": "http://federation.hdh.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1089,
+    "idp_entity_id": "http://federation.hdh.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 320,
+    "idp_entity_id": "http://federation.graafschapcollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 450,
+    "idp_entity_id": "http://federation.graafschapcollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 812,
+    "idp_entity_id": "http://federation.alfa-college.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 927,
+    "idp_entity_id": "http://federation.alfa-college.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3,
+    "idp_entity_id": "http://federatie.trimbos.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "idp_entity_id": "http://federatie.trimbos.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2393,
+    "idp_entity_id": "http://federatie.radboudumc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2972,
+    "idp_entity_id": "http://federatie.radboudumc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 113,
+    "idp_entity_id": "http://federatie.lumc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 119,
+    "idp_entity_id": "http://federatie.lumc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1789,
+    "idp_entity_id": "http://federatie.amc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2410,
+    "idp_entity_id": "http://federatie.amc.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 804,
+    "idp_entity_id": "http://federate.nyenrode.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 775,
+    "idp_entity_id": "http://federate.nyenrode.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 8531,
+    "idp_entity_id": "http://fed.rijnijssel.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 9767,
+    "idp_entity_id": "http://fed.rijnijssel.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "idp_entity_id": "http://fed.cpb.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5,
+    "idp_entity_id": "http://fed.cpb.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4592,
+    "idp_entity_id": "http://ccidfederation.clusius.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5123,
+    "idp_entity_id": "http://ccidfederation.clusius.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 80,
+    "idp_entity_id": "http://auth.surfmarket.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 76,
+    "idp_entity_id": "http://auth.surfmarket.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 10128,
+    "idp_entity_id": "http://adfsv2.inholland.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 11927,
+    "idp_entity_id": "http://adfsv2.inholland.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 6296,
+    "idp_entity_id": "http://adfs3prod.aventus.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 7426,
+    "idp_entity_id": "http://adfs3prod.aventus.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 14471,
+    "idp_entity_id": "http://adfs3host.proxy.rocmn.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 16570,
+    "idp_entity_id": "http://adfs3host.proxy.rocmn.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 16079,
+    "idp_entity_id": "http://adfs20.hva.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 18083,
+    "idp_entity_id": "http://adfs20.hva.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 47,
+    "idp_entity_id": "http://adfs2.politieacademie.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 36,
+    "idp_entity_id": "http://adfs2.politieacademie.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4100,
+    "idp_entity_id": "http://adfs2.noorderpoort.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 4835,
+    "idp_entity_id": "http://adfs2.noorderpoort.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 15788,
+    "idp_entity_id": "http://adfs2.fontys.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 16640,
+    "idp_entity_id": "http://adfs2.fontys.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3,
+    "idp_entity_id": "http://adfs1.oba.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 194,
+    "idp_entity_id": "http://adfs01.kempel.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 137,
+    "idp_entity_id": "http://adfs01.kempel.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 57,
+    "idp_entity_id": "http://adfs.uvh.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 56,
+    "idp_entity_id": "http://adfs.uvh.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 207,
+    "idp_entity_id": "http://adfs.tio.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 213,
+    "idp_entity_id": "http://adfs.tio.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3,
+    "idp_entity_id": "http://adfs.thomasmorehs.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1644,
+    "idp_entity_id": "http://adfs.roctop.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1842,
+    "idp_entity_id": "http://adfs.roctop.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 27,
+    "idp_entity_id": "http://adfs.rocleeuwenborgh.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 31,
+    "idp_entity_id": "http://adfs.rocleeuwenborgh.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1,
+    "idp_entity_id": "http://adfs.onderwijsgroepnoord.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 54,
+    "idp_entity_id": "http://adfs.nwo.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 82,
+    "idp_entity_id": "http://adfs.nwo.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 737,
+    "idp_entity_id": "http://adfs.nhtv.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1136,
+    "idp_entity_id": "http://adfs.nhtv.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 114,
+    "idp_entity_id": "http://adfs.ncoi.com/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 85,
+    "idp_entity_id": "http://adfs.ncoi.com/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 16,
+    "idp_entity_id": "http://adfs.naturalis.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 19,
+    "idp_entity_id": "http://adfs.naturalis.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "idp_entity_id": "http://adfs.msm.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "idp_entity_id": "http://adfs.msm.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3,
+    "idp_entity_id": "http://adfs.mijnlentiz.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 6,
+    "idp_entity_id": "http://adfs.mijnlentiz.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 158,
+    "idp_entity_id": "http://adfs.mboutrecht.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 214,
+    "idp_entity_id": "http://adfs.mboutrecht.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 6,
+    "idp_entity_id": "http://adfs.mboamersfoort.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 6,
+    "idp_entity_id": "http://adfs.mboamersfoort.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 117,
+    "idp_entity_id": "http://adfs.kpz.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 115,
+    "idp_entity_id": "http://adfs.kpz.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "idp_entity_id": "http://adfs.knmi.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 15,
+    "idp_entity_id": "http://adfs.kb.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 19,
+    "idp_entity_id": "http://adfs.kb.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5,
+    "idp_entity_id": "http://adfs.ipabo.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 13,
+    "idp_entity_id": "http://adfs.ipabo.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3116,
+    "idp_entity_id": "http://adfs.hvhl.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3514,
+    "idp_entity_id": "http://adfs.hvhl.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 33,
+    "idp_entity_id": "http://adfs.hsmarnix.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 32,
+    "idp_entity_id": "http://adfs.hsmarnix.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 7367,
+    "idp_entity_id": "http://adfs.hsleiden.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 8225,
+    "idp_entity_id": "http://adfs.hsleiden.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 184,
+    "idp_entity_id": "http://adfs.has.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 212,
+    "idp_entity_id": "http://adfs.has.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 23144,
+    "idp_entity_id": "http://adfs.hanze.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 25544,
+    "idp_entity_id": "http://adfs.hanze.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 48,
+    "idp_entity_id": "http://adfs.glu.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 62,
+    "idp_entity_id": "http://adfs.glu.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3,
+    "idp_entity_id": "http://adfs.fryske-akademy.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "idp_entity_id": "http://adfs.fryske-akademy.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1,
+    "idp_entity_id": "http://adfs.fom.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 22,
+    "idp_entity_id": "http://adfs.driestar-educatief.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 22,
+    "idp_entity_id": "http://adfs.driestar-educatief.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 45,
+    "idp_entity_id": "http://adfs.designacademy.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 57,
+    "idp_entity_id": "http://adfs.designacademy.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 6,
+    "idp_entity_id": "http://adfs.cito.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 7,
+    "idp_entity_id": "http://adfs.cito.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 3,
+    "idp_entity_id": "http://adfs.cibap.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 8,
+    "idp_entity_id": "http://adfs.cibap.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1351,
+    "idp_entity_id": "http://adfs.che.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1598,
+    "idp_entity_id": "http://adfs.che.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1477,
+    "idp_entity_id": "http://adfs.buas.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1826,
+    "idp_entity_id": "http://adfs.buas.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 142,
+    "idp_entity_id": "http://adfs.artez.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 206,
+    "idp_entity_id": "http://adfs.artez.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 57,
+    "idp_entity_id": "http://adfs.amolf.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 83,
+    "idp_entity_id": "http://adfs.amolf.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 8009,
+    "idp_entity_id": "http://adfs.albeda.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 10635,
+    "idp_entity_id": "http://adfs.albeda.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1500,
+    "idp_entity_id": "http://adfs.aeres.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1683,
+    "idp_entity_id": "http://adfs.aeres.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1026,
+    "idp_entity_id": "http://adfs-p.summacollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1165,
+    "idp_entity_id": "http://adfs-p.summacollege.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 29,
+    "idp_entity_id": "http://adfs-differ.differ.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 41,
+    "idp_entity_id": "http://adfs-differ.differ.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 8,
+    "idp_entity_id": "http://ADFS.nimeto.nl/adfs/services/trust",
+    "time": "2018-10-29T00:00:00Z"
+  }
+]
