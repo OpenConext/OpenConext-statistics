@@ -412,3 +412,7 @@ class TestStats(AbstractTest):
                         query_data={"from": "1468793490", "to": "1506372026", "idp_id": "https://idp/1",
                                     "sp_id": "https://sp/2", "state": "prodaccepted"})
         self.assertListEqual([{'count_user_id': 2, 'distinct_count_user_id': 2, 'time': '2016-07-17T22:11:30Z'}], json)
+
+    def test_bug_week_transition(self):
+        #https://stats.surfconext.nl/api/stats/public/login_aggregated?period=2018W44&include_unique=true&group_by=idp_id,&state=prodaccepted&
+        raise ValueError("ToDo")
