@@ -1,8 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import * as HighChart from "highcharts";
-import * as HighStock from "highcharts/highstock";
+import Highcharts from "highcharts";
+import Highstock from "highcharts/highstock";
+import OfflineExporting from "highcharts/modules/offline-exporting";
 import HighChartContainer from "./HighChartContainer";
+
 import I18n from "i18n-js";
 import "./Chart.css";
 import moment from "moment";
@@ -14,10 +16,13 @@ import "moment/locale/nl";
 import ReactTable from "react-table";
 import ClipBoardCopy from "./ClipBoardCopy";
 
-Exporter(HighChart);
-Exporter(HighStock);
-ExportData(HighChart);
-ExportData(HighStock);
+Exporter(Highcharts);
+Exporter(Highstock);
+ExportData(Highcharts);
+ExportData(Highstock);
+OfflineExporting(Highcharts);
+OfflineExporting(Highstock);
+
 
 moment.locale(I18n.locale);
 const navigation = {
@@ -34,7 +39,9 @@ export default class Chart extends React.PureComponent {
         this.state = {displayChart: true};
         this.exporting = {
             enabled: true,
+            libURL: props.baseUrl,
             allowHTML: true,
+            fallbackToExportServer: false,
             buttons: {
                 contextButton: {
                     symbolStroke: '#4DB2CF',
@@ -240,18 +247,19 @@ export default class Chart extends React.PureComponent {
         return groupedByBoth ? name : `<span class="clickable-label" id="${id}" data-id="true">${name}</span>`;
     };
 
-    providerAccessor = (groupedBySp, serviceProvidersDict, identityProvidersDict, encodeForDownload = false) =>  p => {
+    providerAccessor = (groupedBySp, serviceProvidersDict, identityProvidersDict, encodeForDownload = false) => p => {
         const result = groupedBySp ? providerName(serviceProvidersDict[p.sp_entity_id], p.sp_entity_id) :
             providerName(identityProvidersDict[p.idp_entity_id], p.idp_entity_id);
         return encodeForDownload ? `"${result}"` : result;
     };
 
+    numberWithDots = (n, printable) => n ? (printable ? n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : n) : "";
 
     dateAccessor = p => moment(p.time).utc().format("YYYY-MM-DD");
 
-    loginsAccessor = printable => p => p.count_user_id !== undefined ? (printable ? p.count_user_id.toLocaleString() : p.count_user_id) : "";
+    loginsAccessor = printable => p => this.numberWithDots(p.count_user_id, printable);
 
-    usersAccessor = (includeUniques, printable) => p => p.distinct_count_user_id && includeUniques ? (printable ? p.distinct_count_user_id.toLocaleString() : p.distinct_count_user_id) : "";
+    usersAccessor = (includeUniques, printable) => p => includeUniques ? this.numberWithDots(p.distinct_count_user_id, printable) : "";
 
     renderTableAggregate = (data, title, includeUniques, groupedBySp, identityProvidersDict,
                             serviceProvidersDict) => {
@@ -269,12 +277,14 @@ export default class Chart extends React.PureComponent {
                 id: "logins",
                 Header: I18n.t("chart.userCount"),
                 accessor: this.loginsAccessor(true),
-                className: "right"
+                className: "right",
+                sortMethod: this.sortNumberStringWithDots,
             }, {
                 id: "users",
                 Header: I18n.t("chart.uniqueUserCount"),
                 accessor: this.usersAccessor(includeUniques, true),
-                className: "right"
+                className: "right",
+                sortMethod: this.sortNumberStringWithDots,
             }];
         const headers = ["name,date,logins,users"];
         const text = headers.concat(data
@@ -292,6 +302,11 @@ export default class Chart extends React.PureComponent {
         </section>
     };
 
+    sortNumberStringWithDots = (a, b) => {
+        const aSafe = a ? parseInt(a.replace(/\./g, ""), 10) : 0;
+        const bSafe = b ? parseInt(b.replace(/\./g, ""), 10) : 0;
+        return aSafe - bSafe;
+    };
 
     renderTableNonAggregate = (data, title, includeUniques) => {
         const tableData = includeUniques ? mergeList(data, "time") : data;
@@ -303,12 +318,14 @@ export default class Chart extends React.PureComponent {
             id: "logins",
             Header: I18n.t("chart.userCount"),
             accessor: this.loginsAccessor(true),
-            className: "right"
+            className: "right",
+            sortMethod: this.sortNumberStringWithDots,
         }, {
             id: "users",
             Header: I18n.t("chart.uniqueUserCount"),
-            accessor: this.usersAccessor(includeUniques),
-            className: "right"
+            accessor: this.usersAccessor(includeUniques, true),
+            className: "right",
+            sortMethod: this.sortNumberStringWithDots,
         }];
         const groupedByTime = data
             .reduce((acc, p) => {
@@ -355,7 +372,7 @@ export default class Chart extends React.PureComponent {
             <section className="chart">
                 {title && <span className={`title ${displayChart ? "" : "hide"}`}
                                 onClick={() => this.setState({displayChart: !this.state.displayChart})}>{title}</span>}
-                {displayChart && <HighChartContainer highcharts={aggregate ? HighChart : HighStock}
+                {displayChart && <HighChartContainer highcharts={aggregate ? Highcharts : Highstock}
                                                      constructorType={aggregate ? "chart" : "stockChart"}
                                                      options={options}/>}
                 {(!aggregate && !this.props.noTimeFrame) && <section className="navigate">
@@ -399,6 +416,7 @@ Chart.propTypes = {
     data: PropTypes.array.isRequired,
     scale: PropTypes.string.isRequired,
     includeUniques: PropTypes.bool,
+    baseUrl: PropTypes.string,
     title: PropTypes.string,
     groupedBySp: PropTypes.bool,
     groupedByIdp: PropTypes.bool,

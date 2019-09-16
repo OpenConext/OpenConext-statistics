@@ -31,4 +31,6 @@ manage:
   url: https://manage.example.surfconext.nl
   user: user
   password: secret
-  mock: False
+  mock: True
+
+base_url: http://localhost:8080/static

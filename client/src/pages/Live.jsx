@@ -434,6 +434,7 @@ export default class Live extends React.Component {
                 </section>
                 <Chart data={dataForChart}
                        scale={scale}
+                       baseUrl={user.base_url}
                        includeUniques={includeUniques}
                        title={this.title(from, to, aggregate, groupedBySp, groupedByIdp, scale, noTimeFrame, institutionType)}
                        groupedBySp={groupedBySp}

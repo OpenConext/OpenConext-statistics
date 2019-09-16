@@ -17,6 +17,7 @@ Create a virtual environment:
 ```
 python3 -m venv .venv
 source .venv/bin/activate
+pip install --upgrade pip
 pip install -r ./requirements/test.txt
 ```
 Ensure InfluxDb is running and run the Python server:

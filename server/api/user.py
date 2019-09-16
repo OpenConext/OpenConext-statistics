@@ -12,9 +12,11 @@ user_api = Blueprint("user_api", __name__, url_prefix="/api/users")
 @json_endpoint
 def me():
     sub = current_request.headers.get("Oidc-Claim-Sub")
+    config_data = {"supported_language_codes": current_app.app_config.supported_language_codes,
+                   "product": current_app.app_config.product, "manage_url": current_app.app_config.manage.url,
+                   "base_url": current_app.app_config.base_url}
     if sub:
-        user = {"uid": sub, "guest": False, "supported_language_codes": current_app.app_config.supported_language_codes,
-                "product": current_app.app_config.product, "manage_url": current_app.app_config.manage.url}
+        user = {"uid": sub, "guest": False, **config_data}
         session["user"] = user
         return user, 200
 
@@ -22,15 +24,11 @@ def me():
         return session["user"], 200
 
     if current_app.app_config.profile == "local":
-        user = {"uid": "uid", "display_name": "John Doe", "guest": False, "product": current_app.app_config.product,
-                "manage_url": current_app.app_config.manage.url,
-                "supported_language_codes": current_app.app_config.supported_language_codes}
+        user = {"uid": "uid", "display_name": "John Doe", "guest": False, **config_data}
         session["user"] = user
         return user, 200
 
-    user = {"uid": "anonymous", "guest": True, "product": current_app.app_config.product,
-            "manage_url": current_app.app_config.manage.url,
-            "supported_language_codes": current_app.app_config.supported_language_codes}
+    user = {"uid": "anonymous", "guest": True, **config_data}
     session["user"] = user
     return user, 200
 

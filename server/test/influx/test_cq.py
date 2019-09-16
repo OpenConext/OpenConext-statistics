@@ -1,4 +1,7 @@
 from server.test.abstract_test import AbstractTest
+from base64 import b64encode
+
+BASIC_AUTH_HEADER = {"Authorization": f"Basic {b64encode(b'sysadmin:secret').decode('ascii')}"}
 
 
 class TestCq(AbstractTest):
@@ -10,11 +13,11 @@ class TestCq(AbstractTest):
 
     def test_cq(self):
         self.client.put(f"/api/stats/admin/reinitialize_measurements_and_cq",
-                        headers={"Authorization": "Basic c3lzYWRtaW46c2VjcmV0"})
+                        headers=BASIC_AUTH_HEADER)
         self._assert_measurements()
 
         self.client.put(f"/api/stats/admin/restart_reinitialize_measurements_and_cq",
-                        headers={"Authorization": "Basic c3lzYWRtaW46c2VjcmV0"})
+                        headers=BASIC_AUTH_HEADER)
         self._assert_measurements()
 
     def _assert_measurements(self):

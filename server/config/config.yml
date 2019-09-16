@@ -36,3 +36,5 @@ manage:
   user: sysadmin
   password: secret
   mock: False
+
+base_url: http://localhost:8080/static
