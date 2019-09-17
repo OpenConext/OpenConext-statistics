@@ -46,6 +46,7 @@ See the [Wiki](https://github.com/OpenConext/OpenConext-statistics/wiki) for the
 
 To run all Python tests:
 ```
+flake8 server
 pytest server
 ```
 To generate coverage reports:

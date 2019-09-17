@@ -9,7 +9,7 @@ from flask import Blueprint, current_app, request as current_request, session, g
 from werkzeug.exceptions import Unauthorized
 
 from server.api.base import json_endpoint
-from server.influx.cq import backfill_login_measurements
+from server.influx.cq import backfill_login_measurements, reinitialize_unique_week_cq
 from server.influx.repo import login_by_time_frame, \
     service_providers_tags, identity_providers_tags, login_by_aggregated, first_login_from_to, last_login_providers, \
     database_stats, login_count_per_idp_sp
@@ -129,6 +129,18 @@ def restart_reinitialize_measurements_and_cq():
     return {"result": "Restart reinitialize_measurements_and_cq is started. Check the log files for progress"}, 200
 
 
+@stats_api.route("/admin/reinitialize_unique_week_cq", strict_slashes=False, methods=["PUT"])
+@json_endpoint
+def reinitialize_unique_week_cq_endpoint():
+    if os.environ.get("TEST"):
+        _do_reinitialize_unique_week_cq(current_app)
+    else:
+        thread = threading.Thread(target=_do_reinitialize_unique_week_cq,
+                                  args=([current_app._get_current_object()]))
+        thread.start()
+    return {"result": "Reinitialize_unique_week_cq is started. Check the log files for progress"}, 200
+
+
 def _do_reinitialize_measurements_and_cq(local_app_instance, is_restart=False):
     with local_app_instance.app_context():
         cfg = local_app_instance.app_config
@@ -137,6 +149,15 @@ def _do_reinitialize_measurements_and_cq(local_app_instance, is_restart=False):
         logger = logging.getLogger("stats")
         action = "initializing" if not is_restart else "restarting"
         logger.info(f"Successfully finished {action} backfills and cq's")
+
+
+def _do_reinitialize_unique_week_cq(local_app_instance):
+    with local_app_instance.app_context():
+        cfg = local_app_instance.app_config
+        influx_client = local_app_instance.influx_client
+        reinitialize_unique_week_cq(cfg, influx_client)
+        logger = logging.getLogger("stats")
+        logger.info(f"Successfully finished back-filling the unique weeks measurements")
 
 
 @stats_api.route("/service_providers", strict_slashes=False)

@@ -24,3 +24,8 @@ class TestCq(AbstractTest):
         measurements_count = len(list(self.app.influx_client.get_list_measurements()))
         self.assertEqual((24 * len(["week", "month", "quarter", "year"])) + 12 * len(["day"]) + 1,
                          measurements_count)
+
+    def test_unique_week_cq(self):
+        self.client.put(f"/api/stats/admin/reinitialize_unique_week_cq",
+                        headers=BASIC_AUTH_HEADER)
+        self._assert_measurements()

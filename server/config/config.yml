@@ -1,10 +1,9 @@
 database:
   name: prod_logins
-#  name: eb_logs_test
   host: localhost
   port: 8086
-  username: stats
-  password: secret
+  username: ""
+  password: ""
 
 syslog:
   address: "/dev/log"
@@ -14,7 +13,6 @@ syslog:
 
 log:
   measurement: EBAUTH
-#  measurement: eb_logins_tst
   user_id: user_id
   sp_id: sp_entity_id
   idp_id: idp_entity_id
@@ -35,6 +33,6 @@ manage:
   url: https://manage.test2.surfconext.nl
   user: sysadmin
   password: secret
-  mock: False
+  mock: True
 
 base_url: http://localhost:8080/static

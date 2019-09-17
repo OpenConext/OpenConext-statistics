@@ -1,5 +1,6 @@
 database:
   name: eb_logs_test
+#  name: prod_logins
   host: localhost
   port: 8086
   username: ""
@@ -11,6 +12,7 @@ syslog:
 
 log:
   measurement: eb_logins_tst
+#  measurement: EBAUTH
   user_id: user_id
   sp_id: sp_entity_id
   idp_id: idp_entity_id

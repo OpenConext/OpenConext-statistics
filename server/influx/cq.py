@@ -35,7 +35,7 @@ def get_measurements():
 
 
 def create_continuous_query(db, db_name, duration, period, is_unique, include_total, measurement_name, parent_name,
-                            group_by=[], state=None):
+                            group_by=[], state=None, additional_where_query=None):
     q = "SELECT "
     q += "count(distinct(\"user_id\")) as distinct_count_user_id " \
         if is_unique else "sum(\"count_user_id\") as count_user_id "
@@ -43,8 +43,19 @@ def create_continuous_query(db, db_name, duration, period, is_unique, include_to
     q += f"INTO \"{measurement_name}\" FROM \"{parent_name}\" "
     state_value = "prodaccepted" if state == "pa" else "testaccepted" if state == "ta" else None
     q += f" WHERE state = '{state_value}' " if state_value else ""
+
+    extra_query_part = ""
+    if additional_where_query:
+        extra_query_part = f" WHERE " if not state_value else ""
+        extra_query_part += f" AND " if state_value else ""
+        extra_query_part += f" {additional_where_query} "
+        q += extra_query_part
+
+    if period == "day" or (period == "week" and not is_unique):
+        group_by += ["year", "month", "quarter"]
+
     if period in VALID_GROUP_BY:
-        group_by += ["year", "month", "quarter", f"time({'1w,4d' if period == 'week' else duration })"]
+        group_by += [f"time({'1w,4d' if period == 'week' else duration})"]
 
     if period in ["month", "quarter", "year"]:
         group_by.append("time(12600w)")
@@ -61,22 +72,20 @@ def create_continuous_query(db, db_name, duration, period, is_unique, include_to
     _for = ""
     if period in VALID_GROUP_BY:
         _for = "FOR 2" + period[:1]
-
+    cq_query = q
+    if additional_where_query:
+        cq_query = cq_query.replace(extra_query_part, "")
     cq = f"CREATE CONTINUOUS QUERY \"{measurement_name}_cq\" " \
-         f"ON \"{db_name}\" RESAMPLE EVERY {every} {_for} BEGIN {q} END"
+         f"ON \"{db_name}\" RESAMPLE EVERY {every} {_for} BEGIN {q if not additional_where_query else cq_query} END"
 
     logger = logging.getLogger("backfill")
 
     logger.info(f"{cq}")
     db.query(cq)
 
-    # backfill the history
+    # back-fill the history
     logger.info(f"{q}")
     db.query(q)
-
-    # if not os.environ.get("TEST") and not os.environ.get("TEST"):
-    #     # need to give influx some time to index
-    #     time.sleep(10 * 60 if "minute" in measurement_name else 5 * 60 if "hour" in measurement_name else 60)
 
 
 def need_to_recreate_cq_measurement(db: InfluxDBClient, measurement, measurements, continuous_queries, db_name,
@@ -201,3 +210,63 @@ def backfill_login_measurements(config, db: InfluxDBClient, is_restart=False):
                                         measurement_name=m_name,
                                         parent_name=f"total_{state}_users_{p}" if state else f"total_users_{p}",
                                         group_by=[])
+
+
+def reinitialize_unique_week_cq(config, db: InfluxDBClient):
+    db_name = config.database.name
+    log_source = config.log.measurement
+    db.switch_database(db_name)
+
+    sp = config.log.sp_id
+    idp = config.log.idp_id
+
+    logger = logging.getLogger("back-fill")
+
+    continuous_queries = list(filter(lambda cq: "week_unique" in cq,
+                                     map(lambda x: x["name"], db.query("show continuous queries").get_points())))
+    for cq in continuous_queries:
+        logger.info(f"Dropping continuous query {cq} on {db_name}")
+        db.query(f"drop continuous query {cq} on {db_name}")
+
+    points = db.query("show measurements").get_points()
+    measurements = list(filter(lambda m: "week_unique" in m, map(lambda x: x["name"], points)))
+    for m in measurements:
+        db.query(f"delete from {m} where time >= '2018-01-01 00:00:00'")
+    p = "week"
+    for state in ["pa", "ta", None]:
+        duration = "1" + p[:1]
+        include_total = False
+        unique_postfix = "_unique"
+
+        m_name = f"sp_idp_{state}_users_{p}{unique_postfix}" if state else f"sp_idp_users_{p}{unique_postfix}"
+        create_continuous_query(db=db, db_name=db_name, duration=duration, period=p, is_unique=True,
+                                include_total=include_total,
+                                measurement_name=m_name,
+                                parent_name=log_source,
+                                group_by=[sp, idp],
+                                state=state,
+                                additional_where_query="time >= '2018-01-01 00:00:00'")
+        m_name = f"idp_{state}_users_{p}{unique_postfix}" if state else f"idp_users_{p}{unique_postfix}"
+        create_continuous_query(db=db, db_name=db_name, duration=duration, period=p, is_unique=True,
+                                include_total=include_total,
+                                measurement_name=m_name,
+                                parent_name=log_source,
+                                group_by=[idp],
+                                state=state,
+                                additional_where_query="time >= '2018-01-01 00:00:00'")
+        m_name = f"sp_{state}_users_{p}{unique_postfix}" if state else f"sp_users_{p}{unique_postfix}"
+        create_continuous_query(db=db, db_name=db_name, duration=duration, period=p, is_unique=True,
+                                include_total=include_total,
+                                measurement_name=m_name,
+                                parent_name=log_source,
+                                group_by=[sp],
+                                state=state,
+                                additional_where_query="time >= '2018-01-01 00:00:00'")
+        m_name = f"total_{state}_users_{p}{unique_postfix}" if state else f"total_users_{p}{unique_postfix}"
+        create_continuous_query(db=db, db_name=db_name, duration=duration, period=p, is_unique=True,
+                                include_total=include_total,
+                                measurement_name=m_name,
+                                parent_name=log_source,
+                                group_by=[],
+                                state=state,
+                                additional_where_query="time >= '2018-01-01 00:00:00'")
