@@ -78,7 +78,7 @@ def create_continuous_query(db, db_name, duration, period, is_unique, include_to
     cq = f"CREATE CONTINUOUS QUERY \"{measurement_name}_cq\" " \
          f"ON \"{db_name}\" RESAMPLE EVERY {every} {_for} BEGIN {q if not additional_where_query else cq_query} END"
 
-    logger = logging.getLogger("backfill")
+    logger = logging.getLogger("back-fill")
 
     logger.info(f"{cq}")
     db.query(cq)
@@ -95,7 +95,7 @@ def need_to_recreate_cq_measurement(db: InfluxDBClient, measurement, measurement
     existing_cq = cq in continuous_queries
 
     if not is_restart or not existing_measurement or not existing_cq:
-        logger = logging.getLogger("backfill")
+        logger = logging.getLogger("back-fill")
         msg = " cause of restart" if is_restart else ""
         if existing_measurement:
             logger.info(f"Dropping measurement {measurement}{msg}")
@@ -115,7 +115,7 @@ def backfill_login_measurements(config, db: InfluxDBClient, is_restart=False):
     sp = config.log.sp_id
     idp = config.log.idp_id
 
-    logger = logging.getLogger("backfill")
+    logger = logging.getLogger("back-fill")
 
     databases = list(map(lambda p: p["name"], db.get_list_database()))
 
