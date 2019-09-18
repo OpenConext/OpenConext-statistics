@@ -231,7 +231,9 @@ def reinitialize_unique_week_cq(config, db: InfluxDBClient):
     points = db.query("show measurements").get_points()
     measurements = list(filter(lambda m: "week_unique" in m, map(lambda x: x["name"], points)))
     for m in measurements:
-        db.query(f"delete from {m} where time >= '2018-01-01 00:00:00'")
+        del_query = f"delete from {m} where time >= '2018-01-01 00:00:00'"
+        logger.info(f"Deleting pre-2018 measurements: {del_query}")
+        db.query(del_query)
     p = "week"
     for state in ["pa", "ta", None]:
         duration = "1" + p[:1]
