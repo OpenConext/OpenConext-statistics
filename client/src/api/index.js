@@ -140,6 +140,10 @@ export function lastLoginTime({
     return fetchJson(`/api/stats/last_login_time${query}`)
 }
 
+export function loginTops() {
+    return fetchJson("/api/stats/public/login_animated");
+}
+
 export function me() {
     return fetchJson("/api/users/me", {}, {}, false);
 }

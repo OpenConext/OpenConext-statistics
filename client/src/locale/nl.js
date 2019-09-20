@@ -43,7 +43,8 @@ I18n.translations.nl = {
         overview: "Overzicht",
         connected_identity_providers: "Instellingen",
         system: "Explore",
-        db: "DB"
+        db: "DB",
+        animations: "High Scores"
     },
     db: {
         title: "Alle measurements in {{db}}. De live measurement is {{measurement}}. Ophalen van de data duurde ~{{time}} seconden.",

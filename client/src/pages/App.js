@@ -12,6 +12,7 @@ import Advanced from "./Advanced";
 import "../locale/en";
 import "../locale/nl";
 import "../locale/pt";
+import Animations from "./Animations";
 
 const S4 = () => (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 
@@ -124,6 +125,12 @@ class App extends React.PureComponent {
                                                                     identityProvidersDict={identityProvidersDict}
                                                                     user={currentUser}
                                                                     {...props}/>}/>}
+                        {!currentUser.guest && <Route path="/animations"
+                                                      render={props =>
+                                                          <Animations serviceProvidersDict={serviceProvidersDict}
+                                                                      identityProvidersDict={identityProvidersDict}
+                                                                      user={currentUser}
+                                                                      {...props}/>}/>}
                         <Route path="/error"
                                render={props => <ServerError {...props}/>}/>
                         <Route component={NotFound}/>

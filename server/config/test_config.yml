@@ -35,4 +35,8 @@ manage:
   password: secret
   mock: True
 
+feature:
+  high_scores:
+    True
+
 base_url: http://localhost:8080/static

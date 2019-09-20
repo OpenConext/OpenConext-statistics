@@ -43,7 +43,8 @@ I18n.translations.pt = {
         overview: "Vista geral",
         connected_identity_providers: "Instituições",
         system: "Explore",
-        db: "Medições"
+        db: "Medições",
+        animations: "High Scores"
     },
     db: {
         title:"All measurements from database {{db}}. The live measurement is named {{measurement}}. Loading took ~{{time}} seconds.",

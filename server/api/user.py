@@ -14,7 +14,8 @@ def me():
     sub = current_request.headers.get("Oidc-Claim-Sub")
     config_data = {"supported_language_codes": current_app.app_config.supported_language_codes,
                    "product": current_app.app_config.product, "manage_url": current_app.app_config.manage.url,
-                   "base_url": current_app.app_config.base_url}
+                   "base_url": current_app.app_config.base_url,
+                   "feature_high_scores": current_app.app_config.feature.high_scores}
     if sub:
         user = {"uid": sub, "guest": False, **config_data}
         session["user"] = user

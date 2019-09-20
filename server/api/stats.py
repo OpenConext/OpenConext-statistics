@@ -15,6 +15,7 @@ from server.influx.repo import login_by_time_frame, \
     database_stats, login_count_per_idp_sp
 from server.influx.time import start_end_period
 from server.manage.manage import service_providers, connected_identity_providers, identity_providers
+from random import *
 
 VALID_GROUP_BY = ["idp_id", "sp_id"]
 VALID_STATE = ["prodaccepted", "testaccepted"]
@@ -276,3 +277,9 @@ def login_aggregated():
 
     results = login_by_aggregated(current_app.app_config, period, **_options())
     return results if len(results) > 0 else ["no_results"], 200
+
+
+@stats_api.route("/public/login_animated", strict_slashes=False)
+@json_endpoint
+def login_animated():
+    return [{"name": f"name{randint(1, 25)}", "value": randint(1, 100)} for i in range(15)], 200

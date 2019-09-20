@@ -1,0 +1,52 @@
+@import "../stylesheets/vars.scss";
+@import "../stylesheets/mixins.scss";
+
+.animations {
+  @include page;
+  display: flex;
+  margin-top: 15px;
+
+  section.container {
+    margin-right: 15px;
+    min-width: 20rem;
+    display: flex;
+    flex-direction: column;
+
+    div.period, div.reporting, div.manage-present {
+      margin-bottom: 15px;
+    }
+  }
+
+  section.content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    div.row-container {
+      display: flex;
+      align-items: center;
+      transition: order 3500ms;
+
+      p {
+        background-color: white;
+        margin-right: 5px;
+        min-width: 200px;
+        font-size: larger;
+      }
+
+      div.row {
+        margin: 5px 0;
+        transition: width 3500ms;
+      }
+
+      span.value {
+        display: inline-block;
+        margin-left: 5px;
+        font-size: larger;
+      }
+    }
+
+  }
+
+}
+
