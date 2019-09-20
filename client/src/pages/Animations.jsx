@@ -1,19 +1,17 @@
 import React from "react";
 import I18n from "i18n-js";
 import "./Animations.css";
-import PropTypes from "prop-types";
 import Period from "../components/Period";
 import moment from "moment";
-import {allowedAggregatedScales} from "../utils/Time";
+import {allowedAggregatedScales, getPeriod} from "../utils/Time";
 import "moment/locale/nl";
 import Filters from "../components/Filters";
-import {firstLoginTime, lastLoginTime, loginTops} from "../api";
-import ProviderTable from "../components/ProviderTable";
-import {isEmpty, providerName} from "../utils/Utils";
-import Reporting from "../components/Reporting";
-import ClipBoardCopy from "../components/ClipBoardCopy";
+import {loginTops} from "../api";
 
 moment.locale(I18n.locale);
+
+const name = "name";
+const value = "value";
 
 export default class Animations extends React.PureComponent {
 
@@ -24,93 +22,80 @@ export default class Animations extends React.PureComponent {
             colors: {},
             provider: "sp",
             state: "prodaccepted",
-            from: moment().startOf("year"),
-            to: moment().add(1, "day").startOf("day"),
-            scale: "year"
-
+            from: moment().add(-5, "year").startOf("year"),
+            to: moment().endOf("day"),
+            scale: "year",
+            initial: true
         };
     }
 
-    refresh = () => {
-        const {colors} = this.state;
+    refresh = (initial = true) => {
+        const {colors, from, scale} = this.state;
+        const newFrom = initial ? from : moment(from).add(1, scale);
         loginTops().then(res => {
             res.forEach(item => {
-                if (!colors[item.name]) {
-                    colors[item.name] = "#" + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
-                    console.log("added color for " + item.name);
+                if (!colors[item[name]]) {
+                    colors[item[name]] = "#" + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6); //"#a8d9e6";
                 }
             });
-            this.setState({data: res, colors: colors});
+            this.setState({data: res, colors: colors, from: newFrom});
         });
     };
 
     componentDidMount() {
-        this.refresh();
-        this.interval = setInterval(() => this.refresh(), 10000);
+        this.refresh(true);
+        this.interval = setInterval(() => this.refresh(false), 7500);
     }
 
-    componentWillUnmount() {
-        clearInterval(this.interval);
-    }
+    componentWillUnmount = () => clearInterval(this.interval);
 
-    onChangeFrom = val => this.setState({from: val}, () => this.refresh());
-
-    onChangeTo = val => this.setState({to: val}, () => this.refresh());
-
-    onChangeScale = val => this.setState({scale: val}, () => this.refresh());
-
-    onChangeProvider = val => this.setState({provider: val}, () => this.refresh());
-
-    onChangeState = val => this.setState({state: val}, () => this.refresh());
+    changeAttr = name => val => this.setState({[name]: val}, this.refresh);
 
     render() {
         const {data, colors, provider, state, from, to, scale} = this.state;
-
         return (
             <div className="animations">
                 <section className="container">
-                    <Period onChangeFrom={this.onChangeFrom}
-                            onChangeTo={this.onChangeTo}
-                            onChangeScale={this.onChangeScale}
-                            from={from}
+                    <Period onChangeFrom={this.changeAttr("from")}
+                            onChangeTo={() => true}
+                            onChangeScale={this.changeAttr("scale")}
                             to={to}
+                            from={from}
                             scale={scale}
+                            aggregate={true}
                             allowedScales={allowedAggregatedScales.slice(0, 4)}
-                            disabled={[]}
-                            forceDatePicker={true}/>
+                            disabled={[]}/>
                     <Filters displayProvider={true}
-                             onChangeProvider={this.onChangeProvider}
+                             onChangeProvider={this.changeAttr("provider")}
                              provider={provider}
-                             onChangeState={this.onChangeState}
+                             onChangeState={this.changeAttr("state")}
                              state={state}
                              displayUniques={false}
                     />
                 </section>
                 <section className="content">
+                    {data.length > 0 &&
+                    <p className="title">{I18n.t("live.aggregatedChartTitlePeriod", {
+                        period: getPeriod(from, scale),
+                        group: I18n.t(`providers.${provider}`),
+                        institutionType: ""
+                    })}</p>}
                     {
-                        data.map((item, index) => {
-                            return (
-                                <div key={index} className="row-container" style={{order: 100 - item.value}}>
-                                    <p>{item.name}</p>
-                                    <div className="row" style={{
-                                        width: `${item.value * 10}px`,
-                                        backgroundColor: colors[item.name]
-                                    }}>
-                                        <span className="value" style={{color: colors[item.name]}}>{item.value}</span>
-                                    </div>
-                                    <span className="value">{item.value}</span>
-                                </div>);
-                        })
+                        data.map((item, index) =>
+                            <div key={index} className="row" style={{
+                                order: 100 - item[value],
+                                width: `${item[value] * 10 + 200}px`,
+                                backgroundColor: colors[item[name]]
+                            }}>
+                                <p style={{color: colors[item[name]]}}>{item[name]}</p>
+                                <span className="value">{item[value]}</span>
+                            </div>
+                        )
                     }
+                    {data.length === 0 && <p>{I18n.t("chart.noResults")}</p>}
                 </section>
             </div>
         );
     }
 
 }
-
-Animations.propTypes = {
-    serviceProvidersDict: PropTypes.object.isRequired,
-    identityProvidersDict: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired
-};

@@ -282,4 +282,4 @@ def login_aggregated():
 @stats_api.route("/public/login_animated", strict_slashes=False)
 @json_endpoint
 def login_animated():
-    return [{"name": f"name{randint(1, 25)}", "value": randint(1, 100)} for i in range(15)], 200
+    return [{"name": f"name {i}", "value": randint(1, 100)} for i in range(15)], 200

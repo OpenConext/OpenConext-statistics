@@ -58,7 +58,7 @@ export default class Navigation extends React.PureComponent {
                 <div className="navigation">
                     {this.renderItem("/live", "live")}
                     {!currentUser.guest && this.renderItem("/system", "system")}
-                    {!currentUser.feature_high_scores && this.renderItem("/animations", "animations")}
+                    {currentUser.feature_high_scores && this.renderItem("/animations", "animations")}
                 </div>
             </div>
         );

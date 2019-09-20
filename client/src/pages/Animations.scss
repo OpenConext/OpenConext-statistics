@@ -22,27 +22,33 @@
     display: flex;
     flex-direction: column;
 
-    div.row-container {
+    p.title {
+      text-align: center;
+      color: $blue;
+      margin-bottom: 15px;
+      display: inline-block;
+      font-size: 22px;
+    }
+
+    div.row {
       display: flex;
       align-items: center;
-      transition: order 3500ms;
+      transition: width 3500ms ease-in-out, order 3500ms ease-in-out;
+      margin: 10px 0;
 
       p {
-        background-color: white;
+        background-color: $background;
         margin-right: 5px;
-        min-width: 200px;
+        min-width: 100px;
         font-size: larger;
-      }
-
-      div.row {
-        margin: 5px 0;
-        transition: width 3500ms;
       }
 
       span.value {
         display: inline-block;
-        margin-left: 5px;
+        background-color: $background;
         font-size: larger;
+        margin-left: auto;
+        padding-left: 5px;
       }
     }
 
