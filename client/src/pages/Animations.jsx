@@ -31,20 +31,30 @@ export default class Animations extends React.PureComponent {
 
     refresh = (initial = true) => {
         const {colors, from, scale} = this.state;
-        const newFrom = initial ? from : moment(from).add(1, scale);
+        if (!this.interval && initial) {
+            this.interval = setInterval(() => this.refresh(false), 5000);
+        }
+        let newFrom = initial ? from : moment(from).add(1, scale);
         loginTops().then(res => {
             res.forEach(item => {
                 if (!colors[item[name]]) {
                     colors[item[name]] = "#" + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6); //"#a8d9e6";
                 }
             });
-            this.setState({data: res, colors: colors, from: newFrom});
+            if (newFrom.isAfter(moment())) {
+                newFrom = from;
+                clearInterval(this.interval);
+                this.interval = undefined;
+            } else {
+                this.setState({data: res, colors: colors, from: newFrom});
+            }
+
         });
     };
 
     componentDidMount() {
-        this.refresh(true);
-        this.interval = setInterval(() => this.refresh(false), 7500);
+        this.interval = setInterval(() => this.refresh(false), 5000);
+        this.refresh();
     }
 
     componentWillUnmount = () => clearInterval(this.interval);
