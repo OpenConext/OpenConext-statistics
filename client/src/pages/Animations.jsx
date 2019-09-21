@@ -32,7 +32,8 @@ export default class Animations extends React.PureComponent {
     refresh = (initial = true) => {
         const {colors, from, scale} = this.state;
         if (!this.interval && initial) {
-            this.interval = setInterval(() => this.refresh(false), 5000);
+            this.interval = setInterval(() =>
+                this.refresh(false), 5000);
         }
         let newFrom = initial ? from : moment(from).add(1, scale);
         loginTops().then(res => {
