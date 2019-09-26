@@ -26,9 +26,18 @@ export default class Animations extends React.PureComponent {
             from: moment().add(-5, "year").startOf("year"),
             to: moment().endOf("day"),
             scale: "year",
-            initial: true
+            initial: true,
+            animateWithSize: false
         };
     }
+
+    getOldValue = (data, key, fallback) => {
+        const val = data.find(d => d[name] === key);
+        if (val === undefined) {
+            return fallback;
+        }
+        return val[value];
+    };
 
     refresh = (initial = true) => {
         const {colors, from, scale, data} = this.state;
@@ -49,7 +58,14 @@ export default class Animations extends React.PureComponent {
                 this.interval = undefined;
             } else {
                 const sorted = res.sort((a, b) => b.value - a.value);
+                const tempState = sorted.map(item => ({
+                    [name]: item[name],
+                    [value]: this.getOldValue(data, item[name], item[value])
+                }));
                 this.setState({data: sorted, colors: colors, from: newFrom});
+                // this.setState({data: tempState, colors: colors, from: newFrom}, () => setTimeout(() => {
+                //     this.setState({data: sorted});
+                // }, 1500));
 
                 // for (let i = 0; i <= 15; i++) {
                 //     const newData = res.slice(0, i).concat(data.slice(i)).sort((a, b) => b.value - a.value);
@@ -64,16 +80,14 @@ export default class Animations extends React.PureComponent {
         this.refresh();
     }
 
+    
+
     componentWillUnmount = () => clearInterval(this.interval);
 
     changeAttr = name => val => this.setState({[name]: val}, this.refresh);
 
     render() {
         const {data, colors, provider, state, from, to, scale} = this.state;
-        const customEnterAnimation = {
-            from: {transform: "scale(0.5, 1)"},
-            to: {transform: "scale(1, 1)"}
-        };
         return (
             <div className="animations">
                 <section className="container">
@@ -102,8 +116,8 @@ export default class Animations extends React.PureComponent {
                         institutionType: ""
                     })}</p>}
 
-                    <FlipMove duration={2500} typeName={null} enterAnimation={customEnterAnimation}>
-                        {data.map((item) =>
+                    <FlipMove duration={1500} typeName={null}>
+                        {data.map((item, i) =>
                             <div key={item[name]} className="row" style={{
                                 width: `${item[value] * 10 + 200}px`,
                                 backgroundColor: colors[item[name]]
