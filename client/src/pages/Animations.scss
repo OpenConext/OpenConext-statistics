@@ -29,25 +29,29 @@
       display: inline-block;
       font-size: 22px;
     }
+    .flip-wrapper {
 
-    div.row {
+    }
+
+    .row {
       display: flex;
       align-items: center;
-      transition: width 2500ms ease-in-out;
-      //transition: width 2500ms ease-in-out, order 2500ms ease-in-out;
+      transition: width 350ms ease-in-out;
       margin: 10px 0;
 
       p {
         background-color: $background;
-        margin-right: 5px;
-        min-width: 100px;
-        font-size: larger;
+        padding-right: 10px;
+        min-width: 335px;
+        max-width: 335px;
+        display: inline-block;
+        color: $blue;
+        text-align: right;
       }
 
-      span.value {
+      .value {
         display: inline-block;
         background-color: $background;
-        font-size: larger;
         margin-left: auto;
         padding-left: 5px;
       }
