@@ -7,6 +7,7 @@ import {allowedAggregatedScales, getPeriod} from "../utils/Time";
 import "moment/locale/nl";
 import Filters from "../components/Filters";
 import {loginTops} from "../api";
+import FlipMove from "react-flip-move";
 
 moment.locale(I18n.locale);
 
@@ -30,7 +31,7 @@ export default class Animations extends React.PureComponent {
     }
 
     refresh = (initial = true) => {
-        const {colors, from, scale} = this.state;
+        const {colors, from, scale, data} = this.state;
         if (!this.interval && initial) {
             this.interval = setInterval(() =>
                 this.refresh(false), 5000);
@@ -47,9 +48,14 @@ export default class Animations extends React.PureComponent {
                 clearInterval(this.interval);
                 this.interval = undefined;
             } else {
-                this.setState({data: res, colors: colors, from: newFrom});
-            }
+                const sorted = res.sort((a, b) => b.value - a.value);
+                this.setState({data: sorted, colors: colors, from: newFrom});
 
+                // for (let i = 0; i <= 15; i++) {
+                //     const newData = res.slice(0, i).concat(data.slice(i)).sort((a, b) => b.value - a.value);
+                //     this.setState({data: newData, colors: colors, from: newFrom}, () => setTimeout(() => true, 2500 / 15));
+                // }
+            }
         });
     };
 
@@ -64,6 +70,10 @@ export default class Animations extends React.PureComponent {
 
     render() {
         const {data, colors, provider, state, from, to, scale} = this.state;
+        const customEnterAnimation = {
+            from: {transform: 'scale(0.5, 1)'},
+            to: {transform: 'scale(1, 1)'}
+        };
         return (
             <div className="animations">
                 <section className="container">
@@ -91,18 +101,17 @@ export default class Animations extends React.PureComponent {
                         group: I18n.t(`providers.${provider}`),
                         institutionType: ""
                     })}</p>}
-                    {
-                        data.map((item, index) =>
-                            <div key={index} className="row" style={{
-                                order: 100 - item[value],
+
+                    <FlipMove duration={2500} typeName={null} enterAnimation={customEnterAnimation}>
+                        {data.map((item) =>
+                            <div key={item[name]} className="row" style={{
                                 width: `${item[value] * 10 + 200}px`,
                                 backgroundColor: colors[item[name]]
                             }}>
                                 <p style={{color: colors[item[name]]}}>{item[name]}</p>
                                 <span className="value">{item[value]}</span>
-                            </div>
-                        )
-                    }
+                            </div>)}
+                    </FlipMove>
                     {data.length === 0 && <p>{I18n.t("chart.noResults")}</p>}
                 </section>
             </div>
