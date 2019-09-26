@@ -71,8 +71,8 @@ export default class Animations extends React.PureComponent {
     render() {
         const {data, colors, provider, state, from, to, scale} = this.state;
         const customEnterAnimation = {
-            from: {transform: 'scale(0.5, 1)'},
-            to: {transform: 'scale(1, 1)'}
+            from: {transform: "scale(0.5, 1)"},
+            to: {transform: "scale(1, 1)"}
         };
         return (
             <div className="animations">
