@@ -1,0 +1,42 @@
+[
+  {
+    "count_user_id": 18,
+    "sp_entity_id": "https://manage.test2.surfconext.nl/shibboleth",
+    "time": "2018-09-03T00:00:00Z"
+  },
+  {
+    "count_user_id": 5,
+    "sp_entity_id": "https://teams.test2.surfconext.nl/shibboleth",
+    "time": "2018-09-03T00:00:00Z"
+  },
+  {
+    "count_user_id": 1,
+    "sp_entity_id": "https://spdashboard.test2.surfconext.nl/saml/metadata",
+    "time": "2018-09-03T00:00:00Z"
+  },
+  {
+    "count_user_id": 7,
+    "sp_entity_id": "https://profile.test2.surfconext.nl/authentication/metadata",
+    "time": "2018-09-03T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 2,
+    "sp_entity_id": "https://manage.test2.surfconext.nl/shibboleth",
+    "time": "2018-09-03T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1,
+    "sp_entity_id": "https://teams.test2.surfconext.nl/shibboleth",
+    "time": "2018-09-03T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 1,
+    "sp_entity_id": "https://spdashboard.test2.surfconext.nl/saml/metadata",
+    "time": "2018-09-03T00:00:00Z"
+  },
+  {
+    "distinct_count_user_id": 5,
+    "sp_entity_id": "https://profile.test2.surfconext.nl/authentication/metadata",
+    "time": "2018-09-03T00:00:00Z"
+  }
+]
