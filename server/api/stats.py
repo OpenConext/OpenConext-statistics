@@ -3,6 +3,7 @@ import logging
 import os
 import re
 import threading
+from random import randint
 
 from dateutil import tz
 from flask import Blueprint, current_app, request as current_request, session, g as request_context
@@ -15,7 +16,6 @@ from server.influx.repo import login_by_time_frame, \
     database_stats, login_count_per_idp_sp
 from server.influx.time import start_end_period
 from server.manage.manage import service_providers, connected_identity_providers, identity_providers
-from random import *
 
 VALID_GROUP_BY = ["idp_id", "sp_id"]
 VALID_STATE = ["prodaccepted", "testaccepted"]
@@ -282,4 +282,5 @@ def login_aggregated():
 @stats_api.route("/public/login_animated", strict_slashes=False)
 @json_endpoint
 def login_animated():
-    return [{"sp_entity_id": f"average name of service providers is long {i}", "count_user_id": randint(1, 100)} for i in range(15)], 200
+    return [{"sp_entity_id": f"average name of service providers is long {i}", "count_user_id": randint(1, 100)} for i
+            in range(15)], 200
