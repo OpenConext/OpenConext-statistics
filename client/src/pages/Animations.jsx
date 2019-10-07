@@ -12,6 +12,7 @@ import {isEmpty} from "../utils/Utils";
 
 moment.locale(I18n.locale);
 
+// TODO remove constants
 let name = "sp_entity_id";
 const value = "count_user_id";
 const offsetName = 335;
