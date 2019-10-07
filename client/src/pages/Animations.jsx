@@ -31,8 +31,8 @@ export default class Animations extends React.PureComponent {
             to: moment().endOf("day"),
             scale: "year",
             initial: true,
-            animationDuration: 1250,
-            refreshDuration: 5000,
+            animationDuration: 1350,
+            refreshDuration: 5750,
             largestValue: 0
         };
         this.flipContainer = React.createRef();
@@ -122,6 +122,7 @@ export default class Animations extends React.PureComponent {
     componentWillUnmount = () => clearInterval(this.interval);
 
     changeAttr = attrName => val => {
+        clearInterval(this.interval);
         this.interval = undefined;
         if (attrName === "provider") {
             name = val === "sp" ? "sp_entity_id" : "idp_entity_id";
