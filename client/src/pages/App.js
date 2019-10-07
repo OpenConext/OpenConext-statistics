@@ -69,20 +69,30 @@ class App extends React.PureComponent {
         } else {
             me().then(currentUser => {
                 if (currentUser && currentUser.uid) {
-                    this.setState({currentUser: currentUser, loading: false},
-                        () => !currentUser.guest && Promise.all([identityProviders(), serviceProviders()]).then(res =>
-                            this.setState({
-                                allIdentityProviders: res[0], allServiceProviders: res[1],
-                                identityProvidersDict: res[0].reduce((acc, p) => {
-                                    acc[p.id] = p;
-                                    return acc;
-                                }, {}),
-                                serviceProvidersDict: res[1].reduce((acc, p) => {
-                                    acc[p.id] = p;
-                                    return acc;
-                                }, {})
-                            })
-                        ));
+                    this.setState({currentUser: currentUser},
+                        () => {
+                            if (currentUser.guest) {
+                                this.setState({
+                                    loading: false
+                                });
+                            } else {
+                                Promise.all([identityProviders(), serviceProviders()]).then(res =>
+                                    this.setState({
+                                        loading: false,
+                                        allIdentityProviders: res[0],
+                                        allServiceProviders: res[1],
+                                        identityProvidersDict: res[0].reduce((acc, p) => {
+                                            acc[p.id] = p;
+                                            return acc;
+                                        }, {}),
+                                        serviceProvidersDict: res[1].reduce((acc, p) => {
+                                            acc[p.id] = p;
+                                            return acc;
+                                        }, {})
+                                    })
+                                )
+                            }
+                        });
                 } else {
                     this.handleBackendDown();
                 }

@@ -6,7 +6,7 @@ import moment from "moment";
 import {allowedAggregatedScales, getPeriod} from "../utils/Time";
 import "moment/locale/nl";
 import Filters from "../components/Filters";
-import {loginAggregated} from "../api";
+import {loginAggregated, loginTops} from "../api";
 import FlipMove from "react-flip-move";
 import {isEmpty} from "../utils/Utils";
 
@@ -15,7 +15,8 @@ moment.locale(I18n.locale);
 let name = "sp_entity_id";
 const value = "count_user_id";
 const offsetName = 335;
-// const maxDisplay = 10;
+const maxDisplay = 15;
+const local = false;
 
 export default class Animations extends React.PureComponent {
 
@@ -61,7 +62,8 @@ export default class Animations extends React.PureComponent {
         }
         const period = getPeriod(newFrom, scale);
         const groupBy = provider === "sp" ? "sp_id" : "idp_id";
-        loginAggregated({
+        const promise = local ? loginTops : loginAggregated;
+        promise({
             period: period,
             include_unique: false,
             group_by: groupBy,
@@ -70,12 +72,12 @@ export default class Animations extends React.PureComponent {
             if (res.length === 1 && res[0] === "no_results") {
                 this.setState({data: [], from: newFrom});
             } else {
-                res.forEach(item => {
+                const sorted = res.sort((a, b) => b[value] - a[value]).slice(0, maxDisplay);
+                sorted.forEach(item => {
                     if (!colors[item[name]]) {
                         colors[item[name]] = "#" + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6); //"#a8d9e6";
                     }
                 });
-                const sorted = res.sort((a, b) => b[value] - a[value]);//.slice(0, maxDisplay);
                 const tempData = sorted.map(item => ({
                     [name]: item[name],
                     [value]: this.getOldValue(data, item[name], item[value])
@@ -130,8 +132,11 @@ export default class Animations extends React.PureComponent {
         this.setState({[attrName]: val}, this.refresh);
     };
 
-    onFinishAnimation = () => {
-        setTimeout(() => this.setState({data: this.state.tempData, tempData: []}), 150);
+    onStartAnimation = () => {
+        setTimeout(() => requestAnimationFrame(() => {
+            const {tempData} = this.state;
+            this.setState({data: tempData, tempData: []})
+        }), this.state.animationDuration + 650);
     };
 
     getName = name => {
@@ -158,7 +163,7 @@ export default class Animations extends React.PureComponent {
                     })}</p>
 
                     <FlipMove duration={animationDuration} onFinishAll={this.onFinishAnimation}
-                              className="flip-wrapper"
+                              className="flip-wrapper" onStartAll={this.onStartAnimation}
                               appearAnimation={false} enterAnimation={false} leaveAnimation={false}>
                         {data.map((item, i) =>
                             <div key={item[name]} className="row" style={{

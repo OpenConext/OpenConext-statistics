@@ -283,4 +283,4 @@ def login_aggregated():
 @json_endpoint
 def login_animated():
     return [{"sp_entity_id": f"average name of service providers is long {i}", "count_user_id": randint(1, 100)} for i
-            in range(15)], 200
+            in range(25)], 200
