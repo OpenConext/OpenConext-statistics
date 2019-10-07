@@ -139,9 +139,19 @@ export function lastLoginTime({
     const query = queryParam(arguments);
     return fetchJson(`/api/stats/last_login_time${query}`)
 }
-
-export function loginTops() {
-    return fetchJson("/api/stats/public/login_animated");
+export function loginTops({
+                                    period = new Date().getFullYear(),
+                                    include_unique = true,
+                                    from = undefined,
+                                    to = undefined,
+                                    idp_id,
+                                    sp_id,
+                                    group_by,
+                                    state = "all",
+                                    group_by_period
+                                }) {
+    const query = queryParam(arguments);
+    return fetchJson(`/api/stats/public/login_animated${query}`);
 }
 
 export function me() {

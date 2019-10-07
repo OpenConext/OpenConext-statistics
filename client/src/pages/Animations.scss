@@ -8,7 +8,8 @@
 
   section.container {
     margin-right: 15px;
-    min-width: 20rem;
+    min-width: 320px;
+    max-width: 320px;
     display: flex;
     flex-direction: column;
 
@@ -18,9 +19,9 @@
   }
 
   section.content {
-    width: 100%;
     display: flex;
     flex-direction: column;
+    width: 100%;
 
     p.title {
       text-align: center;
@@ -36,7 +37,7 @@
     .row {
       display: flex;
       align-items: center;
-      transition: width 350ms ease-in-out;
+      transition: width 750ms ease-in-out;
       margin: 10px 0;
 
       p {

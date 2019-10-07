@@ -6,15 +6,16 @@ import moment from "moment";
 import {allowedAggregatedScales, getPeriod} from "../utils/Time";
 import "moment/locale/nl";
 import Filters from "../components/Filters";
-import {loginTops} from "../api";
+import {loginAggregated} from "../api";
 import FlipMove from "react-flip-move";
 import {isEmpty} from "../utils/Utils";
 
 moment.locale(I18n.locale);
 
-const name = "name";
-const value = "value";
+let name = "sp_entity_id";
+const value = "count_user_id";
 const offsetName = 335;
+// const maxDisplay = 10;
 
 export default class Animations extends React.PureComponent {
 
@@ -30,8 +31,8 @@ export default class Animations extends React.PureComponent {
             to: moment().endOf("day"),
             scale: "year",
             initial: true,
-            animationDuration: 500,
-            refreshDuration: 2000,
+            animationDuration: 1250,
+            refreshDuration: 5000,
             largestValue: 0
         };
         this.flipContainer = React.createRef();
@@ -46,24 +47,35 @@ export default class Animations extends React.PureComponent {
     };
 
     refresh = (initial = true) => {
-        const {colors, from, scale, data, refreshDuration} = this.state;
+        const {colors, from, scale, provider, data, refreshDuration, state} = this.state;
         if (!this.interval && initial) {
             this.interval = setInterval(() =>
                 this.refresh(false), refreshDuration);
         }
         let newFrom = initial ? from : moment(from).add(1, scale);
-        loginTops().then(res => {
-            res.forEach(item => {
-                if (!colors[item[name]]) {
-                    colors[item[name]] = "#" + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6); //"#a8d9e6";
-                }
-            });
-            if (newFrom.isAfter(moment())) {
-                newFrom = from;
-                clearInterval(this.interval);
-                this.interval = undefined;
+        if (newFrom.isAfter(moment())) {
+            newFrom = from;
+            clearInterval(this.interval);
+            this.interval = undefined;
+            return;
+        }
+        const period = getPeriod(newFrom, scale);
+        const groupBy = provider === "sp" ? "sp_id" : "idp_id";
+        loginAggregated({
+            period: period,
+            include_unique: false,
+            group_by: groupBy,
+            state: state
+        }).then(res => {
+            if (res.length === 1 && res[0] === "no_results") {
+                this.setState({data: [], from: newFrom});
             } else {
-                const sorted = res.sort((a, b) => b.value - a.value);
+                res.forEach(item => {
+                    if (!colors[item[name]]) {
+                        colors[item[name]] = "#" + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6); //"#a8d9e6";
+                    }
+                });
+                const sorted = res.sort((a, b) => b[value] - a[value]);//.slice(0, maxDisplay);
                 const tempData = sorted.map(item => ({
                     [name]: item[name],
                     [value]: this.getOldValue(data, item[name], item[value])
@@ -81,6 +93,8 @@ export default class Animations extends React.PureComponent {
 
     componentDidMount() {
         this.interval = setInterval(() => this.refresh(false), this.state.refreshDuration);
+        const offsetWidth = this.flipContainer.current.offsetWidth;
+        this.setState({offsetWidth});
         this.refresh();
     }
 
@@ -107,11 +121,16 @@ export default class Animations extends React.PureComponent {
 
     componentWillUnmount = () => clearInterval(this.interval);
 
-    changeAttr = name => val => this.setState({[name]: val}, this.refresh);
+    changeAttr = attrName => val => {
+        this.interval = undefined;
+        if (attrName === "provider") {
+            name = val === "sp" ? "sp_entity_id" : "idp_entity_id";
+        }
+        this.setState({[attrName]: val}, this.refresh);
+    };
 
     onFinishAnimation = () => {
-        const {data, tempData} = this.state;
-        this.setState({data: tempData, tempData: []});
+        setTimeout(() => this.setState({data: this.state.tempData, tempData: []}), 150);
     };
 
     getName = name => {
@@ -125,19 +144,17 @@ export default class Animations extends React.PureComponent {
     };
 
     render() {
-        const {data, colors, provider, state, from, to, scale, animationDuration, largestValue} = this.state;
-        const offsetWidth = (this.flipContainer.current || {}).offsetWidth;
-
+        const {data, colors, provider, state, from, to, scale, animationDuration, largestValue, offsetWidth} = this.state;
         return (
             <div className="animations">
                 {this.getLeftHandFilters(to, from, scale, provider, state)}
                 <section className="content" ref={this.flipContainer}>
-                    {data.length > 0 &&
+
                     <p className="title">{I18n.t("live.aggregatedChartTitlePeriod", {
                         period: getPeriod(from, scale),
                         group: I18n.t(`chart.${provider}`),
                         institutionType: ""
-                    })}</p>}
+                    })}</p>
 
                     <FlipMove duration={animationDuration} onFinishAll={this.onFinishAnimation}
                               className="flip-wrapper"
