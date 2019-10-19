@@ -39,22 +39,21 @@
       align-items: center;
       transition: width 850ms ease-in-out;
       margin: 10px 0;
+      height: 28px;
 
       p {
-        background-color: $background;
-        padding-right: 10px;
-        min-width: 335px;
-        max-width: 335px;
         display: inline-block;
-        color: $blue;
-        text-align: right;
+        padding-left: 5px;
+        color: white;
+        font-weight: bold;
       }
 
       .value {
         display: inline-block;
-        background-color: $background;
+        font-weight: bold;
         margin-left: auto;
-        padding-left: 5px;
+        padding-right: 5px;
+        color: white;
       }
     }
 

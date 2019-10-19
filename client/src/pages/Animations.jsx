@@ -12,7 +12,6 @@ import {isEmpty} from "../utils/Utils";
 
 moment.locale(I18n.locale);
 
-// TODO remove constants
 let name = "sp_entity_id";
 const value = "count_user_id";
 const offsetName = 335;
@@ -147,7 +146,9 @@ export default class Animations extends React.PureComponent {
     };
 
     getWidth = (largestValue, offsetWidth, value) => {
-        return `${((value / largestValue) * (offsetWidth - offsetName - 15)) + offsetName}px`;
+        const w = ((value / largestValue) * (offsetWidth - offsetName - 15)) + offsetName;
+        const wMax = Math.min(w, (offsetWidth - 15));
+        return `${wMax}px`;
     };
 
     render() {
@@ -163,7 +164,7 @@ export default class Animations extends React.PureComponent {
                         institutionType: ""
                     })}</p>
 
-                    <FlipMove duration={animationDuration} onFinishAll={this.onFinishAnimation}
+                    <FlipMove duration={animationDuration}
                               className="flip-wrapper" onStartAll={this.onStartAnimation}
                               appearAnimation={false} enterAnimation={false} leaveAnimation={false}>
                         {data.map((item, i) =>
