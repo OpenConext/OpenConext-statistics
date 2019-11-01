@@ -15,8 +15,29 @@ moment.locale(I18n.locale);
 let name = "sp_entity_id";
 const value = "count_user_id";
 const offsetName = 335;
-const maxDisplay = 15;
+const animationDuration = 1250;
+const refreshDuration = 5000;
+
+const communicationColors = [
+    "#EE7628",
+    "#E7303A",
+    "#F6DA44",
+    "#177ABF",
+    "#A5C251",
+    "#CCCBCB",
+    "#2CA055",
+    "#7B2882",
+    "#1A987F",
+    "#994080",
+    "#026688",
+    "#4DBA7D",
+    "#C6B728",
+    "#962B6B",
+    "#E0990F"
+];
+const maxDisplay = communicationColors.length;
 const local = false;
+
 
 export default class Animations extends React.PureComponent {
 
@@ -32,12 +53,17 @@ export default class Animations extends React.PureComponent {
             to: moment().endOf("day"),
             scale: "year",
             initial: true,
-            animationDuration: 1350,
-            refreshDuration: 5750,
+            animationDuration: animationDuration,
+            refreshDuration: refreshDuration,
             largestValue: 0
         };
         this.flipContainer = React.createRef();
     }
+
+    unusedColor = (colors) => {
+        const currentColors = Object.values(colors);
+        return communicationColors.find(c => !currentColors.includes(c))
+    };
 
     getOldValue = (data, key, fallback) => {
         const val = data.find(d => d[name] === key);
@@ -73,9 +99,12 @@ export default class Animations extends React.PureComponent {
                 this.setState({data: [], from: newFrom});
             } else {
                 const sorted = res.sort((a, b) => b[value] - a[value]).slice(0, maxDisplay);
+                const newNames = sorted.map(item => item[name]);
+                const deletedNames = data.map(item => item[name]).filter(name => !newNames.includes(name));
+                deletedNames.forEach(name => delete colors[name]);
                 sorted.forEach(item => {
                     if (!colors[item[name]]) {
-                        colors[item[name]] = "#" + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6); //"#a8d9e6";
+                        colors[item[name]] = this.unusedColor(colors, newNames);
                     }
                 });
                 const tempData = sorted.map(item => ({
@@ -136,7 +165,7 @@ export default class Animations extends React.PureComponent {
         setTimeout(() => requestAnimationFrame(() => {
             const {tempData} = this.state;
             this.setState({data: tempData, tempData: []})
-        }), this.state.animationDuration + 650);
+        }), this.state.animationDuration + 50);
     };
 
     getName = name => {
