@@ -282,5 +282,8 @@ def login_aggregated():
 @stats_api.route("/public/login_animated", strict_slashes=False)
 @json_endpoint
 def login_animated():
-    return [{"sp_entity_id": f"average name of service providers is long {i}", "count_user_id": randint(1, 25)} for i
+    group_by = current_request.args.get("group_by")
+    entity_id = "idp_entity_id" if group_by == "idp_id" else "sp_entity_id"
+    providers = "identity providers" if group_by == "idp_id" else "sp_entity_id"
+    return [{entity_id: f"average name of {providers} is long {i}", "count_user_id": randint(1, 25)} for i
             in range(25)], 200
