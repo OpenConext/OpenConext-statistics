@@ -22,7 +22,7 @@ def _data(entity_type, requested_fields=[], search_fields={}):
     with requests.Session() as s:
         mock_manage = current_app.app_config.manage.get("mock", False)
         required_attributes = {"REQUESTED_ATTRIBUTES": requested_fields}
-        providers = s.post(f"{current_app.app_config.manage.url}/manage/api/internal/search/saml20_{entity_type}",
+        providers = s.post(f"{current_app.app_config.manage.url}/manage/api/internal/search/{entity_type}",
                            json={**search_fields, **required_attributes},
                            auth=_auth()).json() if not mock_manage \
             else json.loads(_read_file(f"{entity_type}.json"))
@@ -51,19 +51,19 @@ def _data(entity_type, requested_fields=[], search_fields={}):
 
 
 def service_providers():
-    return _data("sp")
+    return _data("saml20_sp") + _data("oidc10_rp")
 
 
 def identity_providers():
-    return _data("idp", requested_fields=["metaDataFields.coin:institution_type"])
+    return _data("saml20_idp", requested_fields=["metaDataFields.coin:institution_type"])
 
 
 def identity_providers_by_institution_type(institution_type):
-    return _data("idp", requested_fields=["metaDataFields.coin:institution_type"],
+    return _data("saml20_idp", requested_fields=["metaDataFields.coin:institution_type"],
                  search_fields={"metaDataFields.coin:institution_type": institution_type})
 
 
 def connected_identity_providers():
-    return _data("idp",
+    return _data("saml20_idp",
                  requested_fields=["metaDataFields.coin:publish_in_edugain", "metaDataFields.coin:guest_qualifier",
                                    "metaDataFields.coin:institution_type"])

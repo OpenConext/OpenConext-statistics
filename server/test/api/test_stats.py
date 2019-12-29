@@ -16,14 +16,20 @@ class TestStats(AbstractTest):
 
     def mock_manage(self, type=None, file=None):
         responses.add_passthru("http://localhost:8086")
-        url = f"https://manage.example.surfconext.nl/manage/api/internal/search/saml20_{type}"
+        url = f"https://manage.example.surfconext.nl/manage/api/internal/search/{type}"
         responses.add(responses.POST, url,
                       json=json.loads(AbstractTest.read_file(file if file else f"mock/manage_metadata_{type}.json")),
                       status=200)
+        if type == "saml20_sp":
+            url = f"https://manage.example.surfconext.nl/manage/api/internal/search/oidc10_rp"
+            responses.add(responses.POST, url,
+                          json=json.loads(
+                              AbstractTest.read_file(file if file else f"mock/manage_metadata_oidc10_rp.json")),
+                          status=200)
 
     @responses.activate
     def test_service_providers(self):
-        self.mock_manage(type="sp")
+        self.mock_manage(type="saml20_sp")
         json = self.get("service_providers")
         self.assertListEqual([{"id": "https://sp/1",
                                "manage_id": "2cc71508-1b68-4a3e-b553-f04b6b2a689c",
@@ -61,7 +67,7 @@ class TestStats(AbstractTest):
 
     @responses.activate
     def test_identity_providers(self):
-        self.mock_manage(type="idp")
+        self.mock_manage(type="saml20_idp")
         json = self.get("identity_providers")
         self.assertListEqual(
             [{"coin:institution_type": "HBO",
@@ -88,7 +94,7 @@ class TestStats(AbstractTest):
 
     @responses.activate
     def test_connected_identity_providers(self):
-        self.mock_manage(type="idp")
+        self.mock_manage(type="saml20_idp")
         json = self.get("public/connected_identity_providers")
         self.assertListEqual([{"coin:institution_type": "HBO",
                                "coin:publish_in_edugain": "1",
@@ -120,7 +126,7 @@ class TestStats(AbstractTest):
 
     @responses.activate
     def test_first_login_period(self):
-        self.mock_manage(type="idp")
+        self.mock_manage(type="saml20_idp")
         json = self.get("first_login_time", query_data={"period": "2016M5", "provider": "idp", "state": "prodaccepted"})
         self.assertListEqual([{"count_user_id": 1, "distinct_count_user_id": 1, "idp_entity_id": "https://idp/1",
                                "month": "05", "quarter": "2", "time": 1463356800000, "year": "2016"}], json)
@@ -136,7 +142,7 @@ class TestStats(AbstractTest):
 
     @responses.activate
     def test_last_login_time(self):
-        self.mock_manage(type="sp")
+        self.mock_manage(type="saml20_sp")
         json = self.get("last_login_time", query_data={"from": "2018-01-01", "state": "prodaccepted", "provider": "sp"})
         self.assertListEqual([{'count_user_id': 1, 'distinct_count_user_id': 1, 'month': '10', 'quarter': '4',
                                'sp_entity_id': 'https://sp/1', 'time': 1509235200000, 'year': '2017'}], json)

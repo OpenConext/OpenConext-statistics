@@ -158,7 +158,7 @@ export default class Animations extends React.PureComponent {
         if (attrName === "provider") {
             name = val === "sp" ? "sp_entity_id" : "idp_entity_id";
         }
-        this.setState({[attrName]: val}, this.refresh);
+        this.setState({[attrName]: val, colors: {}}, this.refresh);
     };
 
     onStartAnimation = () => {

@@ -1,0 +1,60 @@
+[
+  {
+    "_id": "fb73bce8-f8c9-44a5-bd35-f48318c35a62",
+    "version": 0,
+    "type": "oidc10_rp",
+    "data": {
+      "eid": 1,
+      "entityid": "https://rp/1",
+      "state": "prodaccepted",
+      "metaDataFields": {
+        "name:en": "RP1 EN",
+        "name:nl": "RP1 NL",
+        "name:pt": "RP1 PT"
+      }
+    }
+  },
+  {
+    "_id": "6fbd643f-bf72-4b9c-93d4-d6564692363d",
+    "version": 0,
+    "type": "oidc10_rp",
+    "data": {
+      "eid": 1,
+      "entityid": "https://rp/2",
+      "state": "testaccepted",
+      "metaDataFields": {
+        "name:en": "RP2 EN",
+        "name:pt": "RP2 PT",
+        "name:nl": "RP2 NL"
+      }
+    }
+  }, {
+    "_id": "e0bacf11-4e04-44e1-abe0-d59615e13dac",
+    "version": 0,
+    "type": "oidc10_rp",
+    "data": {
+      "eid": 1,
+      "entityid": "https://rp/3",
+      "state": "prodaccepted",
+      "metaDataFields": {
+        "name:en": "RP3 EN",
+        "name:pt": "RP3 PT",
+        "name:nl": "RP3 NL"
+      }
+    }
+  }, {
+    "_id": "0c6ef2e0-e27d-4bce-88db-ebb70f01b3bb",
+    "version": 0,
+    "type": "oidc10_rp",
+    "data": {
+      "eid": 1,
+      "entityid": "https://rp/4",
+      "state": "testaccepted",
+      "metaDataFields": {
+        "name:en": "RP4 EN",
+        "name:pt": "RP4 PT",
+        "name:nl": "RP4 NL"
+      }
+    }
+  }
+]
