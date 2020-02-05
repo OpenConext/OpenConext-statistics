@@ -8,7 +8,7 @@ This project contains the Statistics API to retrieve OpenConext login informatio
 
 - Python 3.6.x
 - InfluxDB v1.5.x
-- Yarn 1.7
+- Yarn 1.7+
 - node
 
 ### [Getting started](#getting-started)
