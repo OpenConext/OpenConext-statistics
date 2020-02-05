@@ -62,6 +62,8 @@ logger.info(f"Initialize server with profile {profile}")
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
+app.config["SESSION_COOKIE_SECURE"] = not (is_test or is_local)
+
 app.register_blueprint(base_api)
 app.register_blueprint(stats_api)
 app.register_blueprint(user_api)
