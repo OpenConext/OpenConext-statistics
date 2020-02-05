@@ -83,5 +83,6 @@ def info():
     file = f"{os.path.dirname(os.path.realpath(__file__))}/git.info"
     if os.path.isfile(file):
         with open(file) as f:
+
             return {"git": f.read()}, 200
     return {"git": "no.info"}, 200

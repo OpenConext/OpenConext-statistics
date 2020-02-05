@@ -29,7 +29,7 @@ The GUI can be started with:
 cd client
 yarn start
 ```
-To create a GUI production build:
+To create a GUI production build to be deployed:
 ```
 yarn build
 ```
