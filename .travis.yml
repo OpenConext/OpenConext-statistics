@@ -5,9 +5,9 @@ addons:
     - wget
 
 python:
-  - "3.6"
+  - "3.7"
 node_js:
-- '7'
+- "10"
 cache:
   yarn: true
   directories:
@@ -20,7 +20,6 @@ before_install:
   - sudo dpkg -i influxdb_1.5.3_amd64.deb
   - sudo service influxdb start
   - npm install -g yarn
-install:
 script:
   - pytest --cov=server --cov-report= server/test
   - flake8 ./server/
