@@ -14,6 +14,7 @@ cache:
   - node_modules
 before_install:
   - pip install -r ./requirements/test.txt
+  - pip list
   - pip install codecov
   - mkdir influxdb_install
   - wget https://dl.influxdata.com/influxdb/releases/influxdb_1.5.3_amd64.deb
