@@ -7,7 +7,7 @@ from werkzeug.exceptions import HTTPException, Unauthorized
 
 base_api = Blueprint("base_api", __name__, url_prefix="/")
 
-white_listing = ["health", "info", "api/users/me", "/api/stats/public/connected_identity_providers",
+white_listing = ["health", "info", "version", "api/users/me", "/api/stats/public/connected_identity_providers",
                  "/api/stats/public/login_time_frame", "/api/stats/public/unique_login_count"]
 admin_listing = ["api/stats/admin"]
 
@@ -83,6 +83,15 @@ def info():
     file = f"{os.path.dirname(os.path.realpath(__file__))}/git.info"
     if os.path.isfile(file):
         with open(file) as f:
-
             return {"git": f.read()}, 200
     return {"git": "no.info"}, 200
+
+
+@base_api.route("/version", strict_slashes=False)
+@json_endpoint
+def version():
+    file = f"{os.path.dirname(os.path.realpath(__file__))}/version.info"
+    if os.path.isfile(file):
+        with open(file) as f:
+            return {"version": f"{f.read()}"}, 200
+    return {"version": "master"}, 200

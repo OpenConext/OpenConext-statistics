@@ -6,3 +6,4 @@ log/
 .coverage
 htmlcov/
 git.info
+version.info
