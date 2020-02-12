@@ -93,5 +93,5 @@ def version():
     file = f"{os.path.dirname(os.path.realpath(__file__))}/version.info"
     if os.path.isfile(file):
         with open(file) as f:
-            return {"version": f"{f.read()}"}, 200
+            return {"version": f"{f.read().rstrip()}"}, 200
     return {"version": "master"}, 200
