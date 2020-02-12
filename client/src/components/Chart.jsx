@@ -50,7 +50,7 @@ export default class Chart extends React.PureComponent {
                             text: I18n.t("export.downloadCSV"),
                             onclick: function () {
                                 const csv = this.getCSV();
-                                const cleanedCsv = csv.replace(/"<span[^>]+(.*?)<\/span>"/g, "$1").replace(/>/g, "");
+                                const cleanedCsv = csv.replace(/"<span[^>]+(.*?)<\/span>"/g, "\"$1\"").replace(/>/g, "");
                                 this.fileDownload("data:text/csv,\ufeff" + encodeURIComponent(cleanedCsv), "csv", cleanedCsv, "text/csv")
                             }
                         },
