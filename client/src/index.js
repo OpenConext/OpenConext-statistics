@@ -22,7 +22,9 @@ import * as HighStock from "highcharts/highstock"
     }
     lang = ["en", "nl", "pt"].includes(lang) ? lang : "en";
 
+    I18n.locale = lang || "en";
     moment.locale(I18n.locale);
+
     HighChart.setOptions({
         lang: {
             months: moment.months(),

@@ -346,7 +346,7 @@ export default class Live extends React.Component {
     };
 
     title = (from, to, aggregate, groupedBySp, groupedByIdp, scale, noTimeFrame, institutionType) => {
-        const format = scale === "minute" || scale === "hour" ? "L" : "L";//'MMMM Do YYYY, h:mm:ss a'
+        const format = scale === "minute" || scale === "hour" ? "YYYY-MM-DD" : "YYYY-MM-DD";//'MMMM Do YYYY, h:mm:ss a'
         if (noTimeFrame) {
             return I18n.t("live.noTimeFrameChart", {
                 from: from ? from.format(format) : "",
