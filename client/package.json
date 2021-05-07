@@ -30,7 +30,7 @@
     "react-tooltip": "^3.8.2",
     "source-map-explorer": "^1.5.0",
     "spin.js": "^4.0.0",
-    "handlebars": "^4.7.3"
+    "handlebars": "^4.7.7"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
