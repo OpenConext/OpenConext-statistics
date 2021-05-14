@@ -24,9 +24,13 @@ Ensure InfluxDb is running and run the Python server:
 ```
 PROFILE=local python -m server
 ```
+Install node modules
+``` 
+cd client
+yarn install
+```
 The GUI can be started with:
 ```
-cd client
 yarn start
 ```
 To create a GUI production build to be deployed:
