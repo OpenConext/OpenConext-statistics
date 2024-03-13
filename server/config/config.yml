@@ -1,6 +1,6 @@
 database:
   name: prod_logins
-  host: localhost
+  host: influxdb
   port: 8086
   username: ""
   password: ""
@@ -36,7 +36,6 @@ manage:
   mock: True
 
 feature:
-  high_scores:
-    False
+  high_scores: False
 
-base_url: http://localhost:8080/static
+base_url: http://localhost:8080/
