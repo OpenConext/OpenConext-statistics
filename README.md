@@ -7,11 +7,21 @@ This project contains the Statistics API to retrieve OpenConext login informatio
 ### [Overview Requirements](#system-requirements)
 
 - Python 3.6.x
-- InfluxDB v1.5.x
+- InfluxDB v1.8.x
 - Yarn 1.7+
 - node
 
 ### [Getting started](#getting-started)
+
+A docker-compose environment is available. 
+```
+docker-compose up
+```
+If you need to rerun pip, you can rebuild the python service container
+```
+docker-compose build python
+```
+
 
 Create a virtual environment:
 ```

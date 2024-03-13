@@ -1,0 +1,34 @@
+---
+version: "3.8"
+
+services:
+  python:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    environment:
+      PROFILE: "local"
+    volumes:
+      - .:/app
+    command: ["python3", "-m", "server"]
+    working_dir: /app
+    ports:
+      - 8080:8080
+    depends_on:
+      - influxdb
+  nodejs:
+    image: node:16-slim
+    volumes:
+      - .:/app
+    command: ["yarn", "start"]
+    working_dir: /app/client
+    ports:
+      - 8081:3000
+  influxdb:
+    image: influxdb:1.8
+    volumes:
+      - influxdb:/var/lib/influxdb
+    environment:
+      INFLUXDB_DB: "prod_logins"
+volumes:
+  influxdb:
