@@ -1,11 +1,10 @@
 import PropTypes from "prop-types";
 import React from "react";
-import I18n from "i18n-js";
+import I18n from "../locale/I18n";
 import Select from "react-select";
 
 import "react-datepicker/dist/react-datepicker.css";
-import "react-select/dist/react-select.css";
-import "./Filters.css";
+import "./Filters.scss";
 import CheckBox from "./CheckBox";
 
 const STATES = ["all", "prodaccepted", "testaccepted"];

@@ -3,9 +3,9 @@
 // Make a key with the translation and enclose the variable with {{}}
 // ie "Hello {{name}}" Do not add any spaces around the variable name.
 // Provide the values as: I18n.t("key", {name: "John Doe"})
-import I18n from "i18n-js";
+import I18n from "../locale/I18n";
 
-I18n.translations.en = {
+const en = {
     code: "EN",
     name: "English",
     select_locale: "Select English",
@@ -190,4 +190,5 @@ I18n.translations.en = {
 
 };
 
-export default I18n.translations.en;
+export default en;
+

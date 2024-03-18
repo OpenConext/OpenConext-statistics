@@ -1,10 +1,10 @@
-import "react-table/react-table.css";
 import ReactTable from "react-table";
 import React from "react";
-import moment from "moment/moment";
-import I18n from "i18n-js";
-import "./ProviderTable.css";
+
+import I18n from "../locale/I18n";
+import "./ProviderTable.scss";
 import PropTypes from "prop-types";
+import {DateTime} from "luxon";
 
 
 export default class ProviderTable extends React.Component {
@@ -27,7 +27,7 @@ export default class ProviderTable extends React.Component {
         }, {
             id: "date", // Required because this accessor is not a string
             Header: I18n.t(`providerTable.${modus}`),
-            accessor: p => p.time ? moment(p.time).format() : I18n.t("providerTable.noTime"),
+            accessor: p => p.time ? DateTime.fromMillis(p.time).toFormat("yyyy-LL-dd", { locale: I18n.locale}) : I18n.t("providerTable.noTime"),
             maxWidth: 200
         }];
         return <ReactTable className="-striped"

@@ -1,6 +1,6 @@
 import React from "react";
 import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
-import "./App.css";
+import "./App.scss";
 import ErrorDialog from "../components/ErrorDialog";
 import NotFound from "../pages/NotFound";
 import ServerError from "../pages/ServerError";
@@ -13,7 +13,9 @@ import "../locale/en";
 import "../locale/nl";
 import "../locale/pt";
 import Animations from "./Animations";
+import {addIcons} from "../utils/IconLibrary";
 
+addIcons();
 const S4 = () => (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 
 class App extends React.PureComponent {

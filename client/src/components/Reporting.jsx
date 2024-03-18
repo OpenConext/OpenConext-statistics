@@ -1,6 +1,6 @@
 import React from "react";
-import I18n from "i18n-js";
-import "./Reporting.css";
+import I18n from "../locale/I18n";
+import "./Reporting.scss";
 import CheckBox from "./CheckBox";
 import PropTypes from "prop-types";
 

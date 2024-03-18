@@ -1,6 +1,7 @@
 database:
-  name: prod_logins
-  host: influxdb
+  name: eb_logs_test
+#  name: prod_logins
+  host: localhost
   port: 8086
   username: ""
   password: ""
@@ -12,14 +13,14 @@ syslog:
 #  port: 514
 
 log:
-  measurement: EBAUTH
+  measurement: eb_logins_tst
   user_id: user_id
   sp_id: sp_entity_id
   idp_id: idp_entity_id
 
 secret_key: secret
 product: OpenConext
-supported_language_codes: en,nl,pt
+supported_language_codes: en,nl
 
 api_users:
   - name: "dashboard"
@@ -36,6 +37,6 @@ manage:
   mock: True
 
 feature:
-  high_scores: False
+  high_scores: True
 
 base_url: http://localhost:8080/

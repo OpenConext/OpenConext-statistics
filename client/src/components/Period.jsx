@@ -1,16 +1,18 @@
 import PropTypes from "prop-types";
 import React from "react";
-import I18n from "i18n-js";
+import I18n from "../locale/I18n";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import "react-select/dist/react-select.css";
-import "./Period.css";
-import moment from "moment";
+import "./Period.scss";
+
 import {isEmpty} from "../utils/Utils";
-import {allowedAggregatedScales, defaultScales, getDateTimeFormat} from "../utils/Time";
+import {addDays, allowedAggregatedScales, defaultScales, getDateTimeFormat} from "../utils/Time";
 import CheckBox from "./CheckBox";
+import {DateTime, Info} from "luxon";
+
+const monthOptions = Info.months("long", {locale: I18n.locale}).map((m, index) => ({label: m, value: index}))
 
 export default class Period extends React.PureComponent {
 
@@ -63,7 +65,9 @@ export default class Period extends React.PureComponent {
             searchable={false}
             clearable={false}
             onChange={opt => {
-                const yearDate = moment(date).year(parseInt(opt.value, 10));
+                const jsDate = new Date();
+                jsDate.setYear(parseInt(opt.value, 10));
+                const yearDate =  DateTime.fromJSDate(jsdate);
                 onChange(isFrom ? yearDate.startOf("year") : yearDate.endOf("year"));
             }}/>
     };
@@ -81,8 +85,9 @@ export default class Period extends React.PureComponent {
                 showYearDropdown
                 showMonthDropdown
                 showWeekNumbers
-                onWeekSelect={m => {
-                    const weekDate = moment(date).week(m.week());
+                onWeekSelect={date => {
+                    debugger;
+                    const weekDate = DateTime.fromJSDate(date);
                     onChange(isFrom ? weekDate.startOf("week") : weekDate.endOf("week"));
                     const datepicker = this.refs[name];
                     datepicker.setOpen(false);
@@ -98,32 +103,39 @@ export default class Period extends React.PureComponent {
             return <div className="group-dates">
                 <Select
                     value={date.format("MMMM")}
-                    options={moment.months().map(m => ({label: m, value: m}))}
+                    options={monthOptions}
                     searchable={false}
                     clearable={false}
                     onChange={opt => {
-                        const monthDate = moment(date).month(opt.value);
-                        onChange(isFrom ? monthDate.startOf("month") : monthDate.endOf("month"));
+                        const jsDate = new Date();
+                        jsDate.setMonth(parseInt(opt.value, 10))
+                        const monthDate = DateTime.fromJSDate(jsDate);
+                        onChange(isFrom ? monthDate.startOf("month").toJSDate() : monthDate.endOf("month").toJSDate());
                     }}/>
                 {this.renderYearPicker(date, isFrom, maxDate.year(), onChange)}
             </div>
         }
         if (quarterPicker) {
+            debugger;
             return <div className="group-dates">
                 <Select
-                    value={date.format("[Q]Q")}
+                    value={DateTime.fromJSDate(date).quarter +"Q"}
                     options={Array.from(new Array(4), (x, i) => "Q" + (i + 1).toString(10))
                         .map(m => ({label: m, value: m}))}
                     searchable={false}
                     clearable={false}
                     onChange={opt => {
-                        const quarterDate = moment(date).quarter(parseInt(opt.value.substring(1), 10));
-                        onChange(isFrom ? quarterDate.startOf("quarter") : quarterDate.endOf("quarter"))
+                        const jsDate = new Date();
+                        const quarter = parseInt(opt.value.substring(1), 10);
+                        jsDate.setMonth((quarter * 3) - 2);
+                        const quarterDate = DateTime.fromJSDate(jsDate);
+                        onChange(isFrom ? quarterDate.startOf("quarter").toJSDate() : quarterDate.endOf("quarter").toJSDate())
                     }}/>
-                {this.renderYearPicker(date, isFrom, maxDate.year(), onChange)}
+                {this.renderYearPicker(date, isFrom, maxDate.getFullYear(), onChange)}
             </div>
         }
-        return this.renderYearPicker(date, isFrom, maxDate.year(), onChange);
+        debugger;
+        return this.renderYearPicker(date, isFrom, maxDate.getFullYear(), onChange);
     };
 
 
@@ -143,6 +155,9 @@ export default class Period extends React.PureComponent {
         const dateFormat = getDateTimeFormat(scale, forceDatePicker);
 
         const showTo = (!aggregate && disabled.indexOf("to") === -1);
+        const scaleOptions = scales.map(s => ({value: s, label: I18n.t(`period.${s}`)}));
+        const scaleValue = scaleOptions.find(s => s.value === scale) ||
+            scaleOptions.find(s => s.value === "day") ;
         return (
             <div className="period">
                 <span className={`title ${displayDetails ? "" : "hide"} `}
@@ -152,8 +167,8 @@ export default class Period extends React.PureComponent {
                 {displayDetails && <section className="controls">
                     <span className="sub-title">{I18n.t("period.scale")}</span>
                     <Select onChange={option => onChangeScale(option.value)}
-                            options={scales.map(s => ({value: s, label: I18n.t(`period.${s}`)}))}
-                            value={scale || "day"}
+                            options={scaleOptions}
+                            value={scaleValue}
                             searchable={false}
                             clearable={false}
                             disabled={disabled.indexOf("scale") > -1}
@@ -167,7 +182,7 @@ export default class Period extends React.PureComponent {
                     this.renderDatePicker(scale, true, from, this.invariant(onChangeFrom, "from"), to, dateFormat, "datepicker-from", false, forceDatePicker)}
                     {showTo && <span key="1" className="sub-title">{I18n.t("period.to")}</span>}
                     {showTo &&
-                    this.renderDatePicker(scale, false, to, this.invariant(onChangeTo, "to"), moment().add(1, "day"), dateFormat, "datepicker-to", true, forceDatePicker)}
+                    this.renderDatePicker(scale, false, to, this.invariant(onChangeTo, "to"), addDays(1), dateFormat, "datepicker-to", true, forceDatePicker)}
                 </section>}
             </div>
         );

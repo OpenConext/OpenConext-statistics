@@ -1,10 +1,10 @@
 import React from "react";
-import I18n from "i18n-js";
+import I18n from "../locale/I18n";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import logoSurfConext from "../images/logo@2x.png";
 import logoOpenConext from "../images/open-conext-logo.png";
-import "./Header.css";
+import "./Header.scss";
 import {isEmpty, stop} from "../utils/Utils";
 import LanguageSelector from "./LanguageSelector";
 

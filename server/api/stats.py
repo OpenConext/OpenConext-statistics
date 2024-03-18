@@ -210,7 +210,7 @@ def _options(include_group_by=True, include_unique=True,
             raise ValueError(f"Invalid group_by_period {group_by_period}. Must be on off {VALID_PERIOD_SCALE}")
         request_args["group_by_period"] = group_by_period
 
-        if "group_by" not in request_args or len(request_args["group_by"]) is not 2:
+        if "group_by" not in request_args or len(request_args["group_by"]) != 2:
             raise ValueError(f"Group_by_period {group_by_period} must be combined with 2 group_by arg")
 
     state = args.get("state")

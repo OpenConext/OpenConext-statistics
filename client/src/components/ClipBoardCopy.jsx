@@ -1,10 +1,10 @@
 import React from "react";
-import I18n from "i18n-js";
+import I18n from "../locale/I18n";
 import PropTypes from "prop-types";
-import ReactTooltip from "react-tooltip";
+import {Tooltip} from "@surfnet/sds";
 import CopyToClipboard from "react-copy-to-clipboard";
 
-import "./ClipBoardCopy.css";
+import "./ClipBoardCopy.scss";
 
 export default class ClipBoardCopy extends React.PureComponent {
 
@@ -34,13 +34,13 @@ export default class ClipBoardCopy extends React.PureComponent {
                         <a className="identifier-copy-link" data-for={tooltipId} data-tip>
                             <i className={`fa fa-clipboard ${copiedToClipBoardClassName}`}></i>
                          </a>
-                         <ReactTooltip id={tooltipId} type="info" effect="solid" place="right"
-                                       getContent={[() => this.toolTip(), 1500]} />
+                        <Tooltip standalone={true}
+                                 tip={this.toolTip()}/>
                     </span>
     </CopyToClipboard>
     </span>
-    )
-        ;
+        )
+            ;
     }
 }
 

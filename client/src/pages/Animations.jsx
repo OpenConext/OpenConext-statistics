@@ -1,16 +1,15 @@
 import React from "react";
-import I18n from "i18n-js";
-import "./Animations.css";
+import I18n from "../locale/I18n";
+import "./Animations.scss";
 import Period from "../components/Period";
-import moment from "moment";
+
 import {allowedAggregatedScales, getPeriod} from "../utils/Time";
-import "moment/locale/nl";
+
 import Filters from "../components/Filters";
 import {loginAggregated, loginTops} from "../api";
 import FlipMove from "react-flip-move";
 import {isEmpty} from "../utils/Utils";
-
-moment.locale(I18n.locale);
+import {DateTime} from "luxon";
 
 let name = "sp_entity_id";
 const value = "count_user_id";
@@ -49,8 +48,8 @@ export default class Animations extends React.PureComponent {
             colors: {},
             provider: "sp",
             state: "prodaccepted",
-            from: moment().add(-5, "year").startOf("year"),
-            to: moment().endOf("day"),
+            from: DateTime.now().subtract({"year": 5}).startOf("year").toJSDate(),
+            to: DateTime.now().endOf("day").toJSDate(),
             scale: "year",
             initial: true,
             animationDuration: animationDuration,
@@ -79,8 +78,8 @@ export default class Animations extends React.PureComponent {
             this.interval = setInterval(() =>
                 this.refresh(false), refreshDuration);
         }
-        let newFrom = initial ? from : moment(from).add(1, scale);
-        if (newFrom.isAfter(moment())) {
+        let newFrom = initial ? from : DateTime.fromJSDate(from).plus({[scale]: 1}).toJSDate();
+        if (newFrom > new Date()) {
             newFrom = from;
             clearInterval(this.interval);
             this.interval = undefined;
@@ -196,8 +195,8 @@ export default class Animations extends React.PureComponent {
                     <FlipMove duration={animationDuration}
                               className="flip-wrapper" onStartAll={this.onStartAnimation}
                               appearAnimation={false} enterAnimation={false} leaveAnimation={false}>
-                        {data.map((item, i) =>
-                            <div key={item[name]} className="row" style={{
+                        {data.map((item, index) =>
+                            <div key={index} className="row" style={{
                                 width: this.getWidth(largestValue, offsetWidth, item[value]),
                                 backgroundColor: colors[item[name]]
                             }}>

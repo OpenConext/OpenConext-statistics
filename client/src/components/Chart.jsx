@@ -5,16 +5,15 @@ import Highstock from "highcharts/highstock";
 import OfflineExporting from "highcharts/modules/offline-exporting";
 import HighChartContainer from "./HighChartContainer";
 
-import I18n from "i18n-js";
-import "./Chart.css";
-import moment from "moment";
+import I18n from "../locale/I18n";
+import "./Chart.scss";
 import Exporter from 'highcharts/modules/exporting';
 import ExportData from 'highcharts/modules/export-data';
 import {mergeList, providerName} from "../utils/Utils";
 import {getDateTimeFormat} from "../utils/Time";
-import "moment/locale/nl";
 import ReactTable from "react-table";
 import ClipBoardCopy from "./ClipBoardCopy";
+import {DateTime} from "luxon";
 
 Exporter(Highcharts);
 Exporter(Highstock);
@@ -24,7 +23,6 @@ OfflineExporting(Highcharts);
 OfflineExporting(Highstock);
 
 
-moment.locale(I18n.locale);
 const navigation = {
     buttonOptions: {
         symbolSize: 18,
@@ -121,13 +119,14 @@ export default class Chart extends React.PureComponent {
 </div>`;
                         return acc
                     }, "");
-                    let m = moment.unix(this.x / 1000);
+                    let dateTime = DateTime.fromMillis(this.x)
+                    let date =  new Date(this.x);
                     let dtf = "LLL";
                     if (scale !== "minute" && scale !== "hour") {
-                        m = m.utc();
+                        dateTime = dateTime.toUTC();
                         dtf = getDateTimeFormat(scale);
                     }
-                    res += `<span style="font-size: 11px;margin-left: 3px;display: inline-block">${m.format(dtf)}</span>`;
+                    res += `<span style="font-size: 11px;margin-left: 3px;display: inline-block">${DateTime.fromJSDate(date).toFormat(dtf, { locale: I18n.locale})}</span>`;
                     return res;
                 },
                 useHTML: true,
@@ -139,11 +138,11 @@ export default class Chart extends React.PureComponent {
                 labels: {
                     formatter: function () {
                         if (series[0].data.length === 1) {
-                            let m = moment(this.value);
+                            let dateTime = DateTime.fromMillis(this.value);
                             if (scale !== "minute" && scale !== "hour") {
-                                m = m.utc();
+                                dateTime = dateTime.toUTC();
                             }
-                            return m.format(getDateTimeFormat(scale));
+                            return dateTime.toFormat(getDateTimeFormat(scale), { locale: I18n.locale});
                         } else {
                             return this.axis.defaultLabelFormatter.call(this)
                         }
@@ -255,7 +254,7 @@ export default class Chart extends React.PureComponent {
 
     numberWithDots = (n, printable) => n ? (printable ? n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : n) : "";
 
-    dateAccessor = p => moment(p.time).utc().format("YYYY-MM-DD");
+    dateAccessor = p => DateTime.fromMillis(p.time).toUTC().toFormat("yyyy-LL-dd", { locale: I18n.locale });
 
     loginsAccessor = printable => p => this.numberWithDots(p.count_user_id, printable);
 

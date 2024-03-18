@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Modal from "react-modal";
-import "./ErrorDialog.css";
-import I18n from "i18n-js";
+import "./ErrorDialog.scss";
+import I18n from "../locale/I18n";
 import {stop} from "../utils/Utils";
 
 export default function ErrorDialog({isOpen = false, close}) {

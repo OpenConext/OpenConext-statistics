@@ -1,19 +1,17 @@
 import React from "react";
-import I18n from "i18n-js";
-import "./Advanced.css";
+import I18n from "../locale/I18n";
+import "./Advanced.scss";
 import PropTypes from "prop-types";
 import Period from "../components/Period";
-import moment from "moment";
+
 import {allowedAggregatedScales} from "../utils/Time";
-import "moment/locale/nl";
 import Filters from "../components/Filters";
 import {firstLoginTime, lastLoginTime} from "../api";
 import ProviderTable from "../components/ProviderTable";
 import {isEmpty, providerName} from "../utils/Utils";
 import Reporting from "../components/Reporting";
 import ClipBoardCopy from "../components/ClipBoardCopy";
-
-moment.locale(I18n.locale);
+import {DateTime} from "luxon";
 
 export default class Advanced extends React.PureComponent {
 
@@ -22,8 +20,8 @@ export default class Advanced extends React.PureComponent {
         this.state = {
             data: [],
             filteredData: [],
-            from: moment().startOf("quarter"),
-            to: moment().add(1, "day").startOf("day"),
+            from: DateTime.now().startOf("quarter"),
+            to: DateTime.now().plus({'day': 1}).startOf("day"),
             scale: "none",
             provider: "sp",
             state: "prodaccepted",
@@ -76,8 +74,8 @@ export default class Advanced extends React.PureComponent {
 
     toggleModus = val => this.setState({
         modus: val ? "newcomers" : "unused",
-        from: moment().startOf("quarter"),
-        to: moment().add(1, "day").startOf("day"),
+        from: DateTime.now().startOf("quarter"),
+        to: DateTime.now().add({"day":1}).startOf("day"),
         scale: "none",
         loaded: false,
         date: [],
@@ -98,8 +96,8 @@ export default class Advanced extends React.PureComponent {
 
     onChangeScale = scale => {
         if (scale !== "none") {
-            const to = moment();
-            const from = moment().startOf(scale);
+            const to = DateTime.now();
+            const from = to.startOf(scale);
             this.setState({scale: scale, to: to, from: from}, () => this.componentDidMount());
         } else {
             this.setState({scale: scale}, () => this.componentDidMount());
@@ -115,7 +113,7 @@ export default class Advanced extends React.PureComponent {
             provider: I18n.t(`providers.${provider}`)
         });
         const text = filteredData
-            .map(p => `${p.time ? moment(p.time).format() : I18n.t("providerTable.noTime")},${isEmpty(p.name) ? p.manage_id : p.name}`)
+            .map(p => `${p.time ? DateTime.fromMillis(p.time).toFormat("yyyy-LL-dd") : I18n.t("providerTable.noTime")},${isEmpty(p.name) ? p.manage_id : p.name}`)
             .join("\n");
 
         return (

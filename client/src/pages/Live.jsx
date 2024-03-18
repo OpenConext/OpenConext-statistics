@@ -1,19 +1,17 @@
 import React from "react";
 import {loginAggregated, loginTimeFrame, uniqueLoginCount} from "../api";
-import I18n from "i18n-js";
-import "./Live.css";
+import I18n from "../locale/I18n";
+import "./Live.scss";
 import Period from "../components/Period";
-import moment from "moment";
 import Chart from "../components/Chart";
 import PropTypes from "prop-types";
 import GroupBy from "../components/GroupBy";
 import {isEmpty, stop} from "../utils/Utils";
-import {addDayDuplicates, getPeriod} from "../utils/Time";
-import "moment/locale/nl";
+import {addDayDuplicates, addDays, daysBetween, getPeriod, unixFromDate, unixFromDateTime} from "../utils/Time";
 import Filters from "../components/Filters";
 import SelectPeriod from "../components/SelectPeriod";
+import {DateTime} from "luxon";
 
-moment.locale(I18n.locale);
 
 const minDiffByScale = {minute: 1, hour: 7, day: 90, week: 365, month: 365, quarter: 365, year: 365 * 5};
 const maxDayDiffMainMeasurements = 14;
@@ -28,8 +26,8 @@ export default class Live extends React.Component {
     initialStateValues() {
         return {
             data: [],
-            from: moment().subtract(24, "hour"),
-            to: moment().add(1, "day").startOf("day"),
+            from: addDays(-1),
+            to: DateTime.fromJSDate(addDays(1)).startOf("day").toJSDate(),
             scale: "minute",
             sp: undefined,
             idp: undefined,
@@ -53,14 +51,14 @@ export default class Live extends React.Component {
     };
 
     initialStateNoGroupBy = () => ({
-        from: moment().subtract(24, "hour"),
-        to: moment().add(1, "day").startOf("day"),
+        from: addDays(-1),
+        to: DateTime.fromJSDate(addDays(1)).startOf("day").toJSDate(),
         scale: "minute"
     });
 
     initialStateGroupBy = () => ({
-        from: moment().subtract(1, "day"),
-        to: moment(),
+        from: addDays(1),
+        to: new Date(),
         scale: "year"
     });
 
@@ -80,20 +78,19 @@ export default class Live extends React.Component {
         const period = getPeriod(from, scale);
         if (noTimeFrame) {
             uniqueLoginCount({
-                from: from ? from.unix() : moment().startOf("day").unix(),
-                to: to ? to.unix() : moment().endOf("day").unix(),
+                from: from ? unixFromDate(from) : unixFromDateTime(DateTime.now().startOf("day")),
+                to: to ? unixFromDate(to) : unixFromDateTime(DateTime.now().endOf("day")),
                 idp_id: idp,
                 sp_id: sp,
                 epoch: "ms",
                 state: providerState
             }).then(res => this.setState({data: res}));
-        }
-        else if (groupedBySp || groupedByIdp) {
+        } else if (groupedBySp || groupedByIdp) {
             this.doAggregatedLogin(period, includeUniques, from, to, idp, sp, groupBy, providerState, groupedBySp, groupedByIdp);
         } else {
             loginTimeFrame({
-                from: from ? from.unix() : moment().startOf("day").unix(),
-                to: to ? to.unix() : moment().endOf("day").unix(),
+                from: from ? unixFromDate(from) : unixFromDateTime(DateTime.now().startOf("day")),
+                to: to ? unixFromDate(to) : unixFromDateTime(DateTime.now().endOf("day")),
                 include_unique: includeUniques,
                 scale: scale,
                 idp_id: idp,
@@ -104,7 +101,7 @@ export default class Live extends React.Component {
             }).then(res => {
                 const hasResults = res.length > 0 && res[0] !== "no_results";
                 if (hasResults && (scale === "minute" || scale === "hour")) {
-                    const now = moment().unix() * 1000;
+                    const now = new Date().getTime();
                     res = res.filter(p => p.time <= now);
                     res = res.slice(1, res.length - 1);
                 }
@@ -176,14 +173,14 @@ export default class Live extends React.Component {
         let from, to;
         const currentScale = this.state.scale;
         if (currentScale === "minute") {
-            from = moment(this.state.from).subtract(12, "hour");
-            to = moment(this.state.to).subtract(12, "hour");
+            from = DateTime.fromJSDate(this.state.from).minus({"day": 112}).toJSDate();
+            to = DateTime.fromJSDate(this.state.to).minus({"day": 112}).toJSDate();
         } else if (currentScale === "hour") {
-            from = moment(this.state.from).subtract(1, "day");
-            to = moment(this.state.to).subtract(1, "day");
+            from = DateTime.fromJSDate(this.state.from).minus({"day": 1}).toJSDate();
+            to = DateTime.fromJSDate(this.state.to).minus({"day": 1}).toJSDate();
         } else {
-            from = moment(this.state.from).subtract(1, currentScale);
-            to = moment(this.state.to).subtract(1, currentScale);
+            from = DateTime.fromJSDate(this.state.from).minus({[currentScale]: 12}).toJSDate();
+            to = DateTime.fromJSDate(this.state.to).minus({[currentScale]: 12}).toJSDate();
         }
         this.setState({from: from, to: to, maximumTo: false}, this.componentDidMount)
     };
@@ -196,17 +193,17 @@ export default class Live extends React.Component {
         let from, to;
         const currentScale = this.state.scale;
         if (currentScale === "minute") {
-            from = moment(this.state.from).add(12, "hour");
-            to = moment(this.state.to).add(12, "hour");
+            from = DateTime.fromJSDate(this.state.from).plus({"hour": 12}).toJSDate();
+            to = DateTime.fromJSDate(this.state.to).plus({"hour": 12}).toJSDate();
         } else if (currentScale === "hour") {
-            from = moment(this.state.from).add(1, "day");
-            to = moment(this.state.to).add(1, "day");
+            from = DateTime.fromJSDate(this.state.from).plus({"day": 1}).toJSDate();
+            to = DateTime.fromJSDate(this.state.to).plus({"day": 1}).toJSDate();
         } else {
-            from = moment(this.state.from).add(1, currentScale);
-            to = moment(this.state.to).add(1, currentScale);
+            from = DateTime.fromJSDate(this.state.from).plus({[currentScale]: 12}).toJSDate();
+            to = DateTime.fromJSDate(this.state.to).plus({[currentScale]: 12}).toJSDate();
         }
-        const tomorrowMidnight = moment().add(1, "day").startOf("day");
-        const maximumTo = tomorrowMidnight.isBefore(to);
+        const tomorrowMidnight = DateTime.now().plus({"day": 1}).startOf("day").toJSDate();
+        const maximumTo = tomorrowMidnight < to;
         this.setState({
             from: from,
             to: maximumTo ? tomorrowMidnight : to,
@@ -217,11 +214,12 @@ export default class Live extends React.Component {
     onChangeFrom = val => {
         const {scale, to} = this.state;
         let additionalState = {};
-        const diff = moment.duration(to.diff(val)).asDays();
-        if (scale === "minute" && diff > maxDayDiffMainMeasurements) {
-            additionalState = {to: moment(val).add(maxDayDiffMainMeasurements, "day"), includeUniques: false};
-        } else if (scale === "hour" && diff > maxDayDiffMainMeasurements) {
-            additionalState = {to: moment(val).add(maxDayDiffMainMeasurements, "day"), includeUniques: false};
+        const diff = daysBetween(val, to);
+        if ((scale === "minute" || scale === "day") && diff > maxDayDiffMainMeasurements) {
+            additionalState = {
+                to: DateTime.fromJSDate(val).plus({"day": maxDayDiffMainMeasurements}, "day").toJSDate(),
+                includeUniques: false
+            };
         }
         this.setState({data: [], from: val, ...additionalState}, this.componentDidMount)
     };
@@ -229,14 +227,15 @@ export default class Live extends React.Component {
     onChangeTo = val => {
         const {scale, from} = this.state;
         let additionalState = {};
-        const diff = moment.duration(val.diff(from)).asDays();
-        if (scale === "minute" && diff > maxDayDiffMainMeasurements) {
-            additionalState = {from: moment(val).add(-1 * maxDayDiffMainMeasurements, "day"), includeUniques: false};
-        } else if (scale === "hour" && diff > maxDayDiffMainMeasurements) {
-            additionalState = {from: moment(val).add(-1 * maxDayDiffMainMeasurements, "day"), includeUniques: false};
+        const diff = daysBetween(from, val);
+        if ((scale === "minute" || scale === "day") && diff > maxDayDiffMainMeasurements) {
+            additionalState = {
+                from: DateTime.fromJSDate(val).minus({"day": maxDayDiffMainMeasurements}, "day").toJSDate(),
+                includeUniques: false
+            };
         }
-        const tomorrowMidnight = moment().add(1, "day").startOf("day");
-        const maximumTo = tomorrowMidnight.isBefore(val);
+        const tomorrowMidnight = DateTime.now().plus({"day": 1}).startOf("day").toJSDate();
+        const maximumTo = tomorrowMidnight < val;
         this.setState({data: [], maximumTo: maximumTo, to: val, ...additionalState}, this.componentDidMount)
     };
 
@@ -266,19 +265,19 @@ export default class Live extends React.Component {
             this.setState({
                 data: [],
                 scale: scale,
-                from: moment().subtract(1, "day").startOf("day")
+                from: DateTime.fromJSDate(addDays(-1)).startOf("day").toJSDate()
             }, this.componentDidMount);
         } else {
             if (scale === "minute") {
                 this.setState({
                     data: [],
                     scale: scale,
-                    from: moment().subtract(24, "hour"),
-                    to: moment().add(1, "day").startOf("day")
+                    from: DateTime.fromJSDate(addDays(-1)).startOf("day").toJSDate(),
+                    to: DateTime.fromJSDate(addDays(1)).startOf("day").toJSDate(),
                 }, this.componentDidMount);
             } else {
-                const from = moment(to).subtract(minDiffByScale[scale], "day").startOf(scale);
-                this.setState({
+                const from = DateTime.fromJSDate(to).minus({"day": minDiffByScale[scale]}).startOf(scale).toJSDate();
+                    this.setState({
                     data: [],
                     scale: scale,
                     from: from
@@ -346,19 +345,19 @@ export default class Live extends React.Component {
     };
 
     title = (from, to, aggregate, groupedBySp, groupedByIdp, scale, noTimeFrame, institutionType) => {
-        const format = scale === "minute" || scale === "hour" ? "YYYY-MM-DD" : "YYYY-MM-DD";//'MMMM Do YYYY, h:mm:ss a'
+        const format = "yyyy-LL-dd";
         if (noTimeFrame) {
             return I18n.t("live.noTimeFrameChart", {
-                from: from ? from.format(format) : "",
-                to: to ? to.format(format) : "",
+                from: from ? DateTime.fromJSDate(from).toFormat(format, {locale: I18n.locale}) : "",
+                to: to ? DateTime.fromJSDate(to).toFormat(format, {locale: I18n.locale}) : "",
                 scale: I18n.t(`period.${scale}`).toLowerCase(),
                 institutionType: isEmpty(institutionType) ? "" : I18n.t("live.institutionType", {institutionType: institutionType})
             });
         }
         if (!aggregate) {
             return I18n.t("live.chartTitle", {
-                from: from ? from.format(format) : "",
-                to: to ? to.format(format) : "",
+                from: from ? DateTime.fromJSDate(from).toFormat(format, {locale: I18n.locale}) : "",
+                to: to ? DateTime.fromJSDate(to).toFormat(format, {locale: I18n.locale}) : "",
                 scale: I18n.t(`period.${scale}`).toLowerCase(),
                 institutionType: isEmpty(institutionType) ? "" : I18n.t("live.institutionType", {institutionType: institutionType})
             });

@@ -1,17 +1,16 @@
 import {getPeriod, addDayDuplicates} from "../../utils/Time";
-import moment from "moment";
 import data from "./tooltip.bug.json";
 
 function doTest(year, month, day, scale, expected) {
-    const period = getPeriod(moment(new Date(year, month, day)), scale);
+    const period = getPeriod(new Date(year, month, day), scale);
     expect(period).toBe(expected);
 }
 
 test("Day", () => doTest(2017, 6, 1, "day", "2017D182"));
 
-test("Week", () => doTest(2017, 0, 1, "week", "2017W1"));
+test("Week start", () => doTest(2017, 0, 5, "week", "2017W1"));
 
-test("Week", () => doTest(2017, 11, 28, "week", "2017W52"));
+test("Week end", () => doTest(2017, 11, 28, "week", "2017W52"));
 
 test("Month", () => doTest(2017, 0, 1, "month", "2017M1"));
 

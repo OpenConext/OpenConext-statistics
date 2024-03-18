@@ -1,13 +1,13 @@
 import PropTypes from "prop-types";
 import React from "react";
-import I18n from "i18n-js";
+import I18n from "../locale/I18n";
 import Select from "react-select";
 
 import "react-datepicker/dist/react-datepicker.css";
-import "react-select/dist/react-select.css";
-import "./SelectPeriod.css";
-import moment from "moment";
-import {defaultScales} from "../utils/Time";
+import "./SelectPeriod.scss";
+
+import {addDays, defaultScales} from "../utils/Time";
+import {DateTime} from "luxon";
 
 const defaultScaleLiterals = {
     "minute": 24 * 60,
@@ -29,8 +29,8 @@ export default class SelectPeriod extends React.PureComponent {
         const {onChangeSelectPeriod} = this.props;
         const state = {
             scale: val,
-            to: moment().add(1, "day"),
-            from: moment().subtract(defaultScaleLiterals[val], val),
+            to: addDays(1),
+            from: DateTime.now().minus({[val]: defaultScaleLiterals[val]}),
             period: val
         };
         onChangeSelectPeriod(state);

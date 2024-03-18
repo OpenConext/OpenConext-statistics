@@ -1,5 +1,5 @@
 import React from "react";
-import I18n from "i18n-js";
+import I18n from "../locale/I18n";
 import PropTypes from "prop-types";
 
 import {Spinner} from "spin.js";
@@ -7,7 +7,7 @@ import spinner from "../lib/Spin";
 
 import {NavLink} from "react-router-dom";
 
-import "./Navigation.css";
+import "./Navigation.scss";
 import {isEmpty} from "../utils/Utils";
 
 export default class Navigation extends React.PureComponent {
@@ -19,7 +19,7 @@ export default class Navigation extends React.PureComponent {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         spinner.onStart = () => this.setState({loading: true});
         spinner.onStop = () => this.setState({loading: false});
     }

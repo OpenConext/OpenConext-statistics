@@ -46,7 +46,7 @@ def page_not_found(_):
 
 
 config_file_location = os.environ.get("CONFIG", "config/config.yml")
-config = munchify(yaml.load(read_file(config_file_location)))
+config = munchify(yaml.load(read_file(config_file_location), Loader=yaml.FullLoader))
 
 test = os.environ.get("TEST")
 profile = os.environ.get("PROFILE")
