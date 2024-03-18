@@ -2,6 +2,7 @@ database:
   name: eb_logs_test
 #  name: prod_logins
   host: localhost
+#  host: influxdb
   port: 8086
   username: ""
   password: ""

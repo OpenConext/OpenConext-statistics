@@ -6,13 +6,18 @@ This project contains the Statistics API to retrieve OpenConext login informatio
 
 ### [Overview Requirements](#system-requirements)
 
+<<<<<<< HEAD
 - Python 3.9.x
+=======
+- Python 3.6.x
+>>>>>>> feature/docker_compose
 - InfluxDB v1.8.x
 - Yarn 1.7+
 - node
 
 ### [Getting started](#getting-started)
 
+<<<<<<< HEAD
 A docker-compose environment is available. You need to replace the following line:
 ```
 "proxy": "http://localhost:8080",
@@ -22,6 +27,9 @@ with
 "proxy": "http://python:8080",
 ```
 when running with docker. Start the docker containers with
+=======
+A docker-compose environment is available. 
+>>>>>>> feature/docker_compose
 ```
 docker-compose up
 ```
