@@ -4,7 +4,7 @@ import "./Advanced.scss";
 import PropTypes from "prop-types";
 import Period from "../components/Period";
 
-import {allowedAggregatedScales} from "../utils/Time";
+import {allowedAggregatedScales, unixFromDate, unixFromDateTime} from "../utils/Time";
 import Filters from "../components/Filters";
 import {firstLoginTime, lastLoginTime} from "../api";
 import ProviderTable from "../components/ProviderTable";
@@ -20,8 +20,8 @@ export default class Advanced extends React.PureComponent {
         this.state = {
             data: [],
             filteredData: [],
-            from: DateTime.now().startOf("quarter"),
-            to: DateTime.now().plus({'day': 1}).startOf("day"),
+            from: DateTime.now().startOf("quarter").toJSDate(),
+            to: DateTime.now().plus({'day': 1}).startOf("day").toJSDate(),
             scale: "none",
             provider: "sp",
             state: "prodaccepted",
@@ -35,8 +35,8 @@ export default class Advanced extends React.PureComponent {
         this.setState({"loaded": false});
         const promise = modus === "newcomers" ?
             firstLoginTime({
-                from: from.unix(),
-                to: to.unix(),
+                from: unixFromDate(from),
+                to: unixFromDate(to),
                 state: state,
                 provider: provider
             }) :
@@ -98,7 +98,7 @@ export default class Advanced extends React.PureComponent {
         if (scale !== "none") {
             const to = DateTime.now();
             const from = to.startOf(scale);
-            this.setState({scale: scale, to: to, from: from}, () => this.componentDidMount());
+            this.setState({scale: scale, to: to.toJSDate(), from: from.toJSDate()}, () => this.componentDidMount());
         } else {
             this.setState({scale: scale}, () => this.componentDidMount());
         }
@@ -108,8 +108,8 @@ export default class Advanced extends React.PureComponent {
         const {filteredData, from, to, scale, state, provider, loaded, modus} = this.state;
         const {user} = this.props;
         const title = I18n.t(`advanced.${modus}.title`, {
-            from: from.format('MMMM Do YYYY'),
-            to: to.format('MMMM Do YYYY'),
+            from: DateTime.fromJSDate(from).toFormat('yyyy-LL-dd'),
+            to: DateTime.fromJSDate(to).toFormat('yyyy-LL-dd'),
             provider: I18n.t(`providers.${provider}`)
         });
         const text = filteredData
@@ -144,7 +144,7 @@ export default class Advanced extends React.PureComponent {
                 {(isEmpty(filteredData) && loaded) && <span>{I18n.t(`providerTable.${modus}NoResults`)}</span>}
                 {(!isEmpty(filteredData) && loaded) &&
                 <section className="content">
-                    <span className="title">{title}<ClipBoardCopy identifier="table-export" text={text}/></span>
+                    <span className="title copy-container">{title}<ClipBoardCopy identifier="table-export" text={text}/></span>
                     <ProviderTable data={filteredData}
                                    modus={modus}
                                    user={user}

@@ -48,7 +48,7 @@ export default class Animations extends React.PureComponent {
             colors: {},
             provider: "sp",
             state: "prodaccepted",
-            from: DateTime.now().subtract({"year": 5}).startOf("year").toJSDate(),
+            from: DateTime.now().minus({"year": 5}).startOf("year").toJSDate(),
             to: DateTime.now().endOf("day").toJSDate(),
             scale: "year",
             initial: true,

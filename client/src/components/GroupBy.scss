@@ -21,10 +21,14 @@ div.providers {
     }
     section.controls {
         padding: 10px 15px;
-        span.sub-title {
-            display: inline-block;
-            margin-top: 10px;
-        }
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    a.download {
+        margin-top: 15px;
+        font-size: 13px;
+    }
+
 
     }
     div.Select-control {
@@ -48,12 +52,6 @@ div.providers {
     span.Select-arrow-zone {
         padding: 0 12px;
         background-color: $light-grey;
-    }
-
-    a.download {
-        font-size: 12px;
-        width: 100%;
-        margin-top: 15px;
     }
 
     span.sub-title {

@@ -12,6 +12,7 @@ import ExportData from 'highcharts/modules/export-data';
 import {mergeList, providerName} from "../utils/Utils";
 import {getDateTimeFormat} from "../utils/Time";
 import ReactTable from "react-table";
+import "react-table/react-table.css";
 import ClipBoardCopy from "./ClipBoardCopy";
 import {DateTime} from "luxon";
 
@@ -49,7 +50,11 @@ export default class Chart extends React.PureComponent {
                             onclick: function () {
                                 const csv = this.getCSV();
                                 const cleanedCsv = csv.replace(/"<span[^>]+(.*?)<\/span>"/g, "\"$1\"").replace(/>/g, "");
-                                this.fileDownload("data:text/csv,\ufeff" + encodeURIComponent(cleanedCsv), "csv", cleanedCsv, "text/csv")
+                                const jsonString = `data:text/csv;charset=utf-8,${encodeURIComponent(cleanedCsv)}`;
+                                const link = document.createElement("a");
+                                link.href = jsonString;
+                                link.download = "data.csv";
+                                link.click();
                             }
                         },
                         'separator',
@@ -290,7 +295,7 @@ export default class Chart extends React.PureComponent {
             .map(row => `${this.providerAccessor(groupedBySp, serviceProvidersDict, identityProvidersDict, true)(row)},${this.dateAccessor(row)},${this.loginsAccessor(false)(row)},${this.usersAccessor(includeUniques, false)(row)}`))
             .join("\n");
         return <section className="table">
-            {title && <span className="title">{title} <ClipBoardCopy identifier="table-export" text={text}/></span>}
+            {title && <span className="title copy-container">{title} <ClipBoardCopy txt={text}/></span>}
             <ReactTable className="-striped"
                         data={data}
                         showPagination={false}
@@ -342,7 +347,7 @@ export default class Chart extends React.PureComponent {
             .join("\n");
 
         return <section className="table">
-            {title && <span className="title">{title} <ClipBoardCopy identifier="table-export" text={text}/></span>}
+            {title && <span className="title copy-container">{title} <ClipBoardCopy txt={text}/></span>}
             <ReactTable className="-striped"
                         data={tableData}
                         showPagination={false}

@@ -16,17 +16,19 @@
             margin-bottom: 15px;
         }
     }
+
     section.content {
         width: 100%;
+
         span.title {
             background-color: $light-grey;
             padding: 10px;
             border-top-left-radius: $br;
             border-top-right-radius: $br;
-            display: block;
             font-weight: bold;
             font-size: 18px;
             color: $darker-blue;
+
             span.clipboard {
                 display: inline-block;
                 margin-left: 15px;
@@ -34,6 +36,16 @@
         }
 
     }
+
+    span.copy-container {
+        display: flex;
+        align-items: center;
+
+        section.copy-to-clipboard {
+            margin-left: auto;
+        }
+    }
+
 
 }
 

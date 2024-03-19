@@ -35,12 +35,15 @@ polyfill();
     lang = ["en", "nl", "pt"].includes(lang) ? lang : "en";
 
     I18n.locale = lang || "en";
+    const weekDays = Info.weekdays("long", {locale: I18n.locale});
+    const months = Info.months("long", {locale: I18n.locale});
+    const shortMonths = Info.months("short", {locale: I18n.locale});
 
     HighChart.setOptions({
         lang: {
-            months: Info.months("long", {locale: I18n.locale}),
-            weekdays:  Info.weekdays({locale: I18n.locale}),
-            shortMonths: Info.months("short", {locale: I18n.locale}),
+            months: months,
+            weekdays:  weekDays,
+            shortMonths: shortMonths,
             downloadCSV: I18n.t("export.downloadCSV"),
             downloadPNG: I18n.t("export.downloadPNG"),
             downloadPDF: I18n.t("export.downloadPDF"),
@@ -48,9 +51,9 @@ polyfill();
     });
     HighStock.setOptions({
         lang: {
-            months: Info.months("long", {locale: I18n.locale}),
-            weekdays:  Info.weekdays({locale: I18n.locale}),
-            shortMonths: Info.months("short", {locale: I18n.locale}),
+            months: months,
+            weekdays:  weekDays,
+            shortMonths: shortMonths,
             rangeSelectorFrom: I18n.t("period.from"),
             rangeSelectorTo: I18n.t("period.to"),
             rangeSelectorZoom: I18n.t("period.zoom"),

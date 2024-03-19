@@ -56,19 +56,19 @@ export default class Period extends React.PureComponent {
     };
 
     renderYearPicker = (date, isFrom, maxYear, onChange) => {
-        const currentYear = date.format("YYYY");
+        const currentYear = date.getFullYear();
         const arr = Array.from(new Array((1 + maxYear) - 2011), (x, i) => (i + 2011).toString(10));
         const options = arr.map(m => ({label: m, value: m}));
         return <Select
-            value={currentYear}
+            value={options.find(option => parseInt(option.value, 10) === currentYear )}
             options={options}
             searchable={false}
             clearable={false}
             onChange={opt => {
                 const jsDate = new Date();
                 jsDate.setYear(parseInt(opt.value, 10));
-                const yearDate =  DateTime.fromJSDate(jsdate);
-                onChange(isFrom ? yearDate.startOf("year") : yearDate.endOf("year"));
+                const yearDate =  DateTime.fromJSDate(jsDate);
+                onChange(isFrom ? yearDate.startOf("year").toJSDate() : yearDate.endOf("year").toJSDate());
             }}/>
     };
 
@@ -88,7 +88,7 @@ export default class Period extends React.PureComponent {
                 onWeekSelect={date => {
                     debugger;
                     const weekDate = DateTime.fromJSDate(date);
-                    onChange(isFrom ? weekDate.startOf("week") : weekDate.endOf("week"));
+                    onChange(isFrom ? weekDate.startOf("week").toJSDate() : weekDate.endOf("week").toJSDate());
                     const datepicker = this.refs[name];
                     datepicker.setOpen(false);
                 }}
@@ -116,7 +116,6 @@ export default class Period extends React.PureComponent {
             </div>
         }
         if (quarterPicker) {
-            debugger;
             return <div className="group-dates">
                 <Select
                     value={DateTime.fromJSDate(date).quarter +"Q"}
@@ -134,7 +133,6 @@ export default class Period extends React.PureComponent {
                 {this.renderYearPicker(date, isFrom, maxDate.getFullYear(), onChange)}
             </div>
         }
-        debugger;
         return this.renderYearPicker(date, isFrom, maxDate.getFullYear(), onChange);
     };
 
