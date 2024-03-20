@@ -101,6 +101,7 @@ export default class Chart extends React.PureComponent {
                 type: scale === "minute" ? "line" : "column"
             },
             title: {text: this.props.title},
+            accessibility: {enabled: false},
             yAxis: {
                 title: {text: I18n.t("chart.chart", {scale: I18n.t(`period.${scale}`).toLowerCase()})},
                 labels: {},
@@ -208,6 +209,7 @@ export default class Chart extends React.PureComponent {
                 height: Math.max(data.length * 50 + 120, guest ? 575 : 350)
             },
             title: {text: this.props.title},
+            accessibility: {enabled: false},
             xAxis: {
                 categories: yValues, title: {text: null},
                 labels: {
@@ -259,7 +261,9 @@ export default class Chart extends React.PureComponent {
 
     numberWithDots = (n, printable) => n ? (printable ? n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : n) : "";
 
-    dateAccessor = p => DateTime.fromMillis(p.time).toUTC().toFormat("yyyy-LL-dd", { locale: I18n.locale });
+    dateAccessor = p => {
+        return DateTime.fromJSDate(new Date(p.time)).toUTC().toFormat("yyyy-LL-dd", { locale: I18n.locale });
+    }
 
     loginsAccessor = printable => p => this.numberWithDots(p.count_user_id, printable);
 

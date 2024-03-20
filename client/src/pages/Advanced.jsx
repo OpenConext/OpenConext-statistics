@@ -41,7 +41,7 @@ export default class Advanced extends React.PureComponent {
                 provider: provider
             }) :
             lastLoginTime({
-                from: from.unix(),
+                from: unixFromDate(from),
                 state: state,
                 provider: provider
 
@@ -74,8 +74,8 @@ export default class Advanced extends React.PureComponent {
 
     toggleModus = val => this.setState({
         modus: val ? "newcomers" : "unused",
-        from: DateTime.now().startOf("quarter"),
-        to: DateTime.now().add({"day":1}).startOf("day"),
+        from: DateTime.now().startOf("quarter").toJSDate(),
+        to: DateTime.now().plus({"day":1}).startOf("day").toJSDate(),
         scale: "none",
         loaded: false,
         date: [],
@@ -97,8 +97,8 @@ export default class Advanced extends React.PureComponent {
     onChangeScale = scale => {
         if (scale !== "none") {
             const to = DateTime.now();
-            const from = to.startOf(scale);
-            this.setState({scale: scale, to: to.toJSDate(), from: from.toJSDate()}, () => this.componentDidMount());
+            const from = to.startOf(scale).toJSDate();
+            this.setState({scale: scale, to: to.toJSDate(), from: from}, () => this.componentDidMount());
         } else {
             this.setState({scale: scale}, () => this.componentDidMount());
         }
@@ -113,7 +113,7 @@ export default class Advanced extends React.PureComponent {
             provider: I18n.t(`providers.${provider}`)
         });
         const text = filteredData
-            .map(p => `${p.time ? DateTime.fromMillis(p.time).toFormat("yyyy-LL-dd") : I18n.t("providerTable.noTime")},${isEmpty(p.name) ? p.manage_id : p.name}`)
+            .map(p => `${p.time ? DateTime.fromJSDate(new Date(p.time)).toFormat("yyyy-LL-dd") : I18n.t("providerTable.noTime")},${isEmpty(p.name) ? p.manage_id : p.name}`)
             .join("\n");
 
         return (

@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import I18n from "../locale/I18n";
 import "./GroupBy.scss";
-import CheckBox from "./CheckBox";
 import {CSVDownload} from "react-csv";
 import {RadioButton} from "@surfnet/sds";
 
@@ -39,7 +38,7 @@ export default class GroupBy extends React.PureComponent {
                     {<a href="/download" className={`download button ${className}`}
                         onClick={onDownload}>{I18n.t("providers.matrix")}</a>}
                     {download &&
-                    <CSVDownload target="_parent" data={matrix} filename="sp-idp-matrix.csv"></CSVDownload>}
+                        <CSVDownload target="_parent" data={matrix} filename="sp-idp-matrix.csv"></CSVDownload>}
                 </section>}
             </div>
         );

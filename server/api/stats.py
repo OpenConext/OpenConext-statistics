@@ -50,6 +50,10 @@ def first_login_time():
     else:
         raise ValueError(f"Must specify provider: {VALID_PROVIDER}")
 
+    state = args.get("state")
+    if state and state in VALID_STATE:
+        request_args["state"] = state
+
     first_logins = first_login_from_to(current_app.app_config, **request_args)
 
     manage_providers = service_providers() if provider == "sp" else identity_providers()

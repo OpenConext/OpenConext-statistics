@@ -4,6 +4,7 @@ div.providers {
     border-radius: $br;
     background-color: white;
     border: 1px solid $lighter-grey;
+
     span.title {
         background-color: $light-grey;
         padding: 10px;
@@ -14,23 +15,26 @@ div.providers {
         font-size: 18px;
         color: $darker-blue;
         cursor: pointer;
+
         &.hide {
             border-radius: 5px;
         }
 
     }
+
     section.controls {
         padding: 10px 15px;
         display: flex;
         flex-direction: column;
         gap: 10px;
-    a.download {
-        margin-top: 15px;
-        font-size: 13px;
+
+        a.download {
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
     }
 
-
-    }
     div.Select-control {
         border-radius: $br;
         border: 1px solid $lighter-grey;
@@ -42,6 +46,7 @@ div.providers {
         overflow: hidden;
         position: relative;
     }
+
     div.Select {
         &.select-all {
             span.Select-clear-zone {
@@ -49,6 +54,7 @@ div.providers {
             }
         }
     }
+
     span.Select-arrow-zone {
         padding: 0 12px;
         background-color: $light-grey;
@@ -57,15 +63,18 @@ div.providers {
     span.sub-title {
         display: inline-block;
         margin-top: 10px;
+
         &.first {
             margin-top: 0;
         }
+
         i.fa-info-circle {
             color: $blue;
             margin-left: 8px;
             font-size: 16px;
         }
     }
+
     div.checkbox {
         margin-top: 10px;
     }

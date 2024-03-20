@@ -6,18 +6,13 @@ This project contains the Statistics API to retrieve OpenConext login informatio
 
 ### [Overview Requirements](#system-requirements)
 
-<<<<<<< HEAD
 - Python 3.9.x
-=======
-- Python 3.6.x
->>>>>>> feature/docker_compose
 - InfluxDB v1.8.x
 - Yarn 1.7+
 - node
 
 ### [Getting started](#getting-started)
 
-<<<<<<< HEAD
 A docker-compose environment is available. You need to replace the following line:
 ```
 "proxy": "http://localhost:8080",
@@ -27,9 +22,6 @@ with
 "proxy": "http://python:8080",
 ```
 when running with docker. Start the docker containers with
-=======
-A docker-compose environment is available. 
->>>>>>> feature/docker_compose
 ```
 docker-compose up
 ```
@@ -50,8 +42,12 @@ Ensure InfluxDb is running and run the Python server:
 ```
 PROFILE=local python -m server
 ```
+You can use the (annoying interactive) influx shell when you install the influx-cli
+```
+brew install influxdb-cli
 influx v1 shell
-
+precision rfc3339
+```
 
 The GUI can be started with:
 ```
@@ -92,4 +88,13 @@ Or to run all the tests and do not watch:
 ```
 cd client
 CI=true yarn test
+```
+### [Local development](#local-development)
+Add the following properties to your run configuration for local development:
+```
+CONFIG=config/config.yml;
+PROFILE=local;
+PYDEVD_USE_CYTHON=NO;
+PYDEVD_USE_FRAME_EVAL=NO;
+PYTHONUNBUFFERED=1
 ```

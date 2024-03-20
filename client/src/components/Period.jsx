@@ -86,7 +86,6 @@ export default class Period extends React.PureComponent {
                 showMonthDropdown
                 showWeekNumbers
                 onWeekSelect={date => {
-                    debugger;
                     const weekDate = DateTime.fromJSDate(date);
                     onChange(isFrom ? weekDate.startOf("week").toJSDate() : weekDate.endOf("week").toJSDate());
                     const datepicker = this.refs[name];

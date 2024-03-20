@@ -15,8 +15,8 @@ def get_points_with_tags(result_set: ResultSet):
             yield {**dict(zip(row["columns"], point)), **row["tags"]}
 
 
-def _query(s, transform=None, group_by=None, epoch=None):
-    result_set = current_app.influx_client.query(s, epoch=epoch)
+def _query(s, transform=None, group_by=None, epoch=None, bind_params={}):
+    result_set = current_app.influx_client.query(s, bind_params=bind_params, epoch=epoch)
     # The tags are in the ResultSet but not included in the get_points
     points = get_points_with_tags(result_set) if group_by else result_set.get_points()
     if transform:
@@ -65,13 +65,16 @@ def _determine_measurement(config, idp_entity_id, sp_entity_id, measurement_scal
     return measurement
 
 
-def first_login_from_to(config, from_seconds=None, to_seconds=None, provider="sp"):
+def first_login_from_to(config, from_seconds=None, to_seconds=None, provider="sp", state=None):
     _sp = provider == "sp"
     measurement = _determine_measurement(config, not _sp, _sp, "day", None)
-    q = f"select * from {measurement} group by {config.log.sp_id if _sp else config.log.idp_id} " \
-        f"order by time asc limit 1"
-
-    records = _query(q, group_by=True, epoch="ms")
+    q = f"select * from {measurement} group by {config.log.sp_id if _sp else config.log.idp_id} "
+    bind_params = {}
+    if state:
+        q += " where state = $state"
+        bind_params["state"] = state
+    q += "order by time asc limit 1"
+    records = _query(q, group_by=True, epoch="ms", bind_params=bind_params)
     fs = int(from_seconds) * 1000
     ts = int(to_seconds) * 1000
     return list(filter(lambda p: fs <= p["time"] < ts, records))
@@ -90,17 +93,30 @@ def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entit
                         include_unique=True, epoch=None, state=None, institution_type=None):
     measurement = _determine_measurement(config, idp_entity_id, sp_entity_id, scale, state,
                                          institution_type=institution_type)
+    bind_params = {}
     if scale in ["minute", "hour"]:
         q = f"select count(user_id) as count_user_id from {measurement} where 1=1"
     else:
         q = f"select * from {measurement} where 1=1"
     needs_grouping = scale in GROUPING_SCALES
 
+    # if not needs_grouping:
+    #     bind_params["from_seconds"] = from_seconds
+    #     bind_params["to_seconds"] = to_seconds
+    #     q += " and time >= $from_seconds and time < $to_seconds"
+
     if not needs_grouping:
         q += f" and time >= {from_seconds}s and time < {to_seconds}s"
 
-    q += f" and {config.log.sp_id} = '{sp_entity_id}'" if sp_entity_id else ""
-    q += f" and {config.log.idp_id} = '{idp_entity_id}'" if idp_entity_id else ""
+    # q += f" and {config.log.sp_id} = '{sp_entity_id}'" if sp_entity_id else ""
+    # q += f" and {config.log.idp_id} = '{idp_entity_id}'" if idp_entity_id else ""
+
+    if sp_entity_id:
+        bind_params["sp_entity_id"] = sp_entity_id
+        q += f" and {config.log.sp_id} = $sp_entity_id"
+    if idp_entity_id:
+        bind_params["idp_entity_id"] = idp_entity_id
+        q += f" and {config.log.idp_id} = $idp_entity_id"
 
     if institution_type:
         identity_providers = identity_providers_by_institution_type(institution_type)
@@ -160,16 +176,18 @@ def login_by_aggregated(config, period, idp_entity_id=None, sp_entity_id=None, i
                                          group_by)
 
     q = f"select * from {measurement}"
+    bind_params = {}
     needs_grouping = measurement_scale in GROUPING_SCALES
     if needs_grouping:
-        q += f" where 1=1 and year = '{period[0:4]}'"
+        bind_params["year"] = period[0:4]
+        q += " where 1=1 and year = $year"
         if measurement_scale != "year":
             tag_value = period[5:]
             tag_value = "0" + tag_value if len(tag_value) == 1 and measurement_scale == "month" else tag_value
             q += f" and {measurement_scale} = '{tag_value}'"
     else:
         from_seconds, to_seconds = start_end_period(period)
-        q += f" where 1=1 and time >= {from_seconds}s and time < {to_seconds}s "
+        q += f" where 1=1 and time >= {int(from_seconds)}s and time < {int(to_seconds)}s "
 
     q += f" and {config.log.sp_id} = '{sp_entity_id}'" if sp_entity_id else ""
     q += f" and {config.log.idp_id} = '{idp_entity_id}'" if idp_entity_id else ""
@@ -177,7 +195,7 @@ def login_by_aggregated(config, period, idp_entity_id=None, sp_entity_id=None, i
     logger = logging.getLogger("main")
     logger.info(q)
 
-    records = _query(q, group_by=False, epoch=epoch)
+    records = _query(q, group_by=False, epoch=epoch, bind_params=bind_params)
     if needs_grouping and measurement_adjustment_period in GROUPING_SCALES:
         records = adjust_time(records, epoch)
 
@@ -185,7 +203,7 @@ def login_by_aggregated(config, period, idp_entity_id=None, sp_entity_id=None, i
         q = q.replace(f"from {measurement}",
                       f"from {measurement}_unique")
         # unique_records = _query(q, group_by=bool(group_by_period), epoch=epoch)
-        unique_records = _query(q, group_by=False, epoch=epoch)
+        unique_records = _query(q, group_by=False, epoch=epoch, bind_params=bind_params)
         if needs_grouping and measurement_adjustment_period in GROUPING_SCALES:
             unique_records = adjust_time(unique_records, epoch)
         records.extend(unique_records)

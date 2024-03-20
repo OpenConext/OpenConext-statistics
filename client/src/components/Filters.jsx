@@ -26,6 +26,31 @@ export default class Filters extends React.PureComponent {
             onChangeSp, onChangeIdp, sp, idp, serviceProviders, identityProviders = [], onChangeInstitutionType, institutionType, groupedBySp
         } = this.props;
         const institutionTypes = Array.from(new Set(identityProviders.filter(idp => idp["coin:institution_type"]).map(idp => idp["coin:institution_type"])));
+        const serviceProviderOptions = [{value: "", label: I18n.t("providers.all.sp")}]
+            .concat((serviceProviders || []).map(p => ({
+                value: p.id,
+                label: I18n.locale === "en" ? p.name_en : p.name_nl || p.id
+            })));
+        const serviceProviderOption = serviceProviderOptions.find(o => o.value === sp) || serviceProviderOptions[0];
+        const identityProviderOptions = [{value: "", label: I18n.t("providers.all.idp")}]
+            .concat((identityProviders || []).map(p => ({
+                value: p.id,
+                label: I18n.locale === "en" ? p.name_en : p.name_nl || p.id
+            })));
+        const identityProviderOption = identityProviderOptions.find(o => o.value === idp) || identityProviderOptions[0];
+        const institutionOptions = [{value: "", label: I18n.t("providers.all.idp_type")}]
+            .concat((institutionTypes || []).map(t => ({
+                value: t,
+                label: t
+            })));
+        const institutionOption = institutionOptions.find(o => o.value === institutionType) || institutionOptions[0];
+        const stateOptions = STATES.map(s => ({value: s, label: I18n.t(`filters.stateValues.${s}`)}));
+        const stateOption = stateOptions.find(o => o.value === state) || stateOptions[1];
+        const providerOptions = PROVIDERS.map(s => ({
+            value: s,
+            label: I18n.t(`filters.providerValues.${s}`)
+        }));
+        const providerOption = providerOptions.find(o => o.value === provider) || providerOptions[0];
         return (
             <div className="filters">
                 <span className={`title ${displayDetails ? "" : "hide"} `}
@@ -35,12 +60,8 @@ export default class Filters extends React.PureComponent {
                         <span className="first sub-title">{I18n.t("providers.sp")}</span>
                         <Select className={`${sp ? "" : "select-all"}`}
                                 onChange={option => option ? onChangeSp(option.value) : onChangeSp("")}
-                                options={[{value: "", label: I18n.t("providers.all.sp")}]
-                                    .concat(serviceProviders.map(p => ({
-                                        value: p.id,
-                                        label: I18n.locale === "en" ? p.name_en : p.name_nl || p.id
-                                    })))}
-                                value={sp || ""}
+                                options={serviceProviderOptions}
+                                value={serviceProviderOption}
                                 searchable={true}
                                 clearable={true}/>
                     </div>}
@@ -48,12 +69,8 @@ export default class Filters extends React.PureComponent {
                         <span className="sub-title">{I18n.t("providers.idp")}</span>
                         <Select className={`${idp ? "" : "select-all"}`}
                                 onChange={option => option ? onChangeIdp(option.value) : onChangeIdp("")}
-                                options={[{value: "", label: I18n.t("providers.all.idp")}]
-                                    .concat(identityProviders.map(p => ({
-                                        value: p.id,
-                                        label: I18n.locale === "en" ? p.name_en : p.name_nl || p.id
-                                    })))}
-                                value={idp || ""}
+                                options={identityProviderOptions}
+                                value={identityProviderOption}
                                 searchable={true}
                                 clearable={true}/>
                     </div>}
@@ -61,30 +78,23 @@ export default class Filters extends React.PureComponent {
                         <span className="sub-title">{I18n.t("providers.institution_type")}</span>
                         <Select className={`${institutionType ? "" : "select-all"}`}
                                 onChange={option => option ? onChangeInstitutionType(option.value) : onChangeInstitutionType("")}
-                                options={[{value: "", label: I18n.t("providers.all.idp_type")}]
-                                    .concat(institutionTypes.map(t => ({
-                                        value: t,
-                                        label: t
-                                    })))}
-                                value={institutionType || ""}
+                                options={institutionOptions}
+                                value={institutionOption}
                                 searchable={true}
                                 clearable={true}
                                 disabled={groupedBySp === true}/>
                     </div>}
                     {displayProvider && <span className="sub-title">{I18n.t("filters.provider")}</span>}
                     {displayProvider && <Select onChange={option => option ? onChangeProvider(option.value) : null}
-                                                options={PROVIDERS.map(s => ({
-                                                    value: s,
-                                                    label: I18n.t(`filters.providerValues.${s}`)
-                                                }))}
-                                                value={provider || PROVIDERS[0]}
+                                                options={providerOptions}
+                                                value={providerOption}
                                                 searchable={false}
                                                 clearable={false}
                     />}
                     <span className="sub-title">{I18n.t("filters.state")}</span>
                     <Select onChange={option => option ? onChangeState(option.value) : null}
-                            options={STATES.map(s => ({value: s, label: I18n.t(`filters.stateValues.${s}`)}))}
-                            value={state || "prodaccepted"}
+                            options={stateOptions}
+                            value={stateOption}
                             searchable={false}
                             clearable={false}
                     />
