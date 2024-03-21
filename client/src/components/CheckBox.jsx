@@ -1,31 +1,33 @@
 import React from "react";
-import PropTypes from "prop-types";
+import "./CheckBox.scss";
+import {ReactComponent as CheckIcon} from "../icons/check.svg";
+import Tooltip from "./Tooltip";
 
-import {Checkbox} from "@surfnet/sds";
+export default function CheckBox({name, value, info, onChange, toolTip = null, readOnly = false}) {
 
-
-export default class CheckBox extends React.PureComponent {
-
-    render() {
-        const {name, value, readOnly = false, onChange = e => this, info, tooltip, className = "checkbox"} = this.props;
-        return (
-            <div className={className}>
-                <Checkbox name={name} value={value} onChange={onChange} readOnly={readOnly} info={info}
-                          tooltip={tooltip}/>
-            </div>
-        );
+    const innerOnChange = e => {
+        e.cancelBubble = true;
+        e.stopPropagation();
+        onChange && onChange(e);
+        return false;
     }
+
+    return (
+        <div className="checkbox">
+            <input type="checkbox"
+                   id={name}
+                   name={name}
+                   checked={value}
+                   onChange={innerOnChange}
+                   disabled={readOnly}/>
+            <label htmlFor={name}>
+                <button disabled={readOnly} onClick={innerOnChange}><CheckIcon/></button>
+            </label>
+            {info && <span>
+                    <label htmlFor={name} className={`info ${readOnly ? "disabled" : ""}`}
+                           dangerouslySetInnerHTML={{__html: info}}/>
+                    {toolTip && <Tooltip tooltip={toolTip} name={name} label={""}/>}
+                </span>}
+        </div>
+    );
 }
-
-CheckBox.propTypes = {
-    name: PropTypes.string.isRequired,
-    value: PropTypes.bool.isRequired,
-    onChange: PropTypes.func,
-    readOnly: PropTypes.bool,
-    info: PropTypes.string,
-    tooltip: PropTypes.string,
-    className: PropTypes.string,
-    autofocus: PropTypes.bool
-};
-
-

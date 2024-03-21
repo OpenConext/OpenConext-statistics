@@ -7,12 +7,15 @@ config.autoAddCss = false;
 import "../../node_modules/@fortawesome/fontawesome-svg-core/styles.css";
 
 import {
-faDownload, faCopy
+    faDownload, faCopy, faRefresh, faCheck, faInfoCircle
 } from '@fortawesome/free-solid-svg-icons'
 
 export function addIcons() {
     library.add(
         faDownload,
-        faCopy
+        faCopy,
+        faRefresh,
+        faCheck,
+        faInfoCircle
     );
 }

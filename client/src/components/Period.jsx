@@ -172,7 +172,8 @@ export default class Period extends React.PureComponent {
                     />
                     {changeTimeFrame && <CheckBox name="no-timeframe-check" value={noTimeFrame}
                                                   readOnly={disabled.indexOf("noTimeframe") > -1}
-                                                  onChange={changeTimeFrame} info={I18n.t("period.noTimeFrame")}
+                                                  onChange={changeTimeFrame}
+                                                  info={I18n.t("period.noTimeFrame")}
                                                   tooltip={I18n.t("period.noTimeFrameTooltip")}/>}
                     <span className="sub-title">{fromTitle}</span>
                     {disabled.indexOf("from") === -1 &&

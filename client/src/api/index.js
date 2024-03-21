@@ -162,6 +162,10 @@ export function reportError(error) {
     return postPutJson("/api/users/error", error, "post");
 }
 
+export function generateMockData() {
+    return postPutJson("/api/system/generate", error, "put");
+}
+
 export function logOut() {
     const promise = fetchDelete("/api/users/logout");
     Cookies.remove("session", {path: "/"});

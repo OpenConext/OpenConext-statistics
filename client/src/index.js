@@ -7,17 +7,18 @@ import "./locale/nl";
 import Cookies from "js-cookie";
 import * as HighChart from "highcharts";
 import * as HighStock from "highcharts/highstock"
-import '@surfnet/sds/styles/sds.css';
-import { DateTime, Duration, Interval, Settings, Info, Zone } from "luxon";
+import {Info} from "luxon";
 import {createRoot} from "react-dom/client";
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 import {polyfill} from "es6-promise";
 import React from 'react';
 
+// import 'highcharts/css/highcharts.css';
+//Do not change the order of highcharts imports
+// import '@surfnet/sds/styles/sds.css';
 //Do not change the order of @surfnet.sds style imports
-import '@surfnet/sds/cjs/index.css';
-import "react-tooltip/dist/react-tooltip.css";
+// import '@surfnet/sds/cjs/index.css';
 
 polyfill();
 
@@ -42,7 +43,7 @@ polyfill();
     HighChart.setOptions({
         lang: {
             months: months,
-            weekdays:  weekDays,
+            weekdays: weekDays,
             shortMonths: shortMonths,
             downloadCSV: I18n.t("export.downloadCSV"),
             downloadPNG: I18n.t("export.downloadPNG"),
@@ -52,7 +53,7 @@ polyfill();
     HighStock.setOptions({
         lang: {
             months: months,
-            weekdays:  weekDays,
+            weekdays: weekDays,
             shortMonths: shortMonths,
             rangeSelectorFrom: I18n.t("period.from"),
             rangeSelectorTo: I18n.t("period.to"),

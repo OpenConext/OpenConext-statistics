@@ -12,9 +12,11 @@ user_api = Blueprint("user_api", __name__, url_prefix="/api/users")
 @json_endpoint
 def me():
     sub = current_request.headers.get("Oidc-Claim-Sub")
+    local_ = current_app.app_config.profile == "local"
     config_data = {"supported_language_codes": current_app.app_config.supported_language_codes,
                    "product": current_app.app_config.product,
                    "manage_url": current_app.app_config.manage.url,
+                   "local": local_,
                    "base_url": current_app.app_config.base_url,
                    "feature_high_scores": current_app.app_config.feature.high_scores}
     if sub:
@@ -25,7 +27,7 @@ def me():
     if "user" in session:
         return session["user"], 200
 
-    if current_app.app_config.profile == "local":
+    if local_: # and False:
         user = {"uid": "uid", "display_name": "John Doe", "guest": False, **config_data}
         session["user"] = user
         return user, 200

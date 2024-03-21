@@ -15,8 +15,7 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import ClipBoardCopy from "./ClipBoardCopy";
 import {DateTime} from "luxon";
-import Spin from "../lib/Spin";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+
 
 Exporter(Highcharts);
 Exporter(Highstock);
@@ -101,7 +100,7 @@ export default class Chart extends React.PureComponent {
                 zoomType: "x",
                 height: guest ? 525 : 682,
                 type: scale === "minute" ? "line" : "column",
-                styledMode: false
+                // styledMode: true
             },
             title: {text: this.props.title},
             accessibility: {enabled: false},
@@ -399,7 +398,7 @@ export default class Chart extends React.PureComponent {
         if (data.length === 0) {
             return <section className="loading">
                 <em>{I18n.t("chart.loading")}</em>
-                <FontAwesomeIcon icon="refresh" className="fa-spin fa-2x fa-fw"/>
+                <i className="fa fa-refresh fa-spin fa-2x fa-fw"></i>
             </section>;
         }
         if (data.length === 1 && data[0] === "no_results") {

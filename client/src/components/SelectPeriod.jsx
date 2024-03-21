@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import I18n from "../locale/I18n";
 import Select from "react-select";
-
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import "react-datepicker/dist/react-datepicker.css";
 import "./SelectPeriod.scss";
 
@@ -30,7 +30,7 @@ export default class SelectPeriod extends React.PureComponent {
         const state = {
             scale: val,
             to: addDays(1),
-            from: DateTime.now().minus({[val]: defaultScaleLiterals[val]}),
+            from: DateTime.now().minus({[val]: defaultScaleLiterals[val]}).toJSDate(),
             period: val
         };
         onChangeSelectPeriod(state);
@@ -39,6 +39,8 @@ export default class SelectPeriod extends React.PureComponent {
     render() {
         const {period} = this.props;
 
+        const options = defaultScales.reverse().map(s => ({value: s, label: I18n.t(`selectPeriod.${s}`)}));
+        const option = options.find(o => o.value === period) || defaultScales[0];
         return (
             <div className="select-period">
                 <span className="title">
@@ -46,13 +48,14 @@ export default class SelectPeriod extends React.PureComponent {
                     </span>
                 <section className="controls">
                     <Select
+                        className={"Select"}
                         onChange={option => this.setState({period: option.value}, this.changeSelectPeriod(option.value))}
-                        options={defaultScales.reverse().map(s => ({value: s, label: I18n.t(`selectPeriod.${s}`)}))}
-                        value={period}
+                        options={options}
+                        value={option}
                         searchable={false}
                         clearable={false}
                     />
-                    <span onClick={this.changeSelectPeriod(this.props.period)}><i className="fa fa-refresh"></i></span>
+                    <span onClick={this.changeSelectPeriod(this.props.period)}><FontAwesomeIcon icon="refresh" className="refresh"/></span>
                 </section>
             </div>
         );

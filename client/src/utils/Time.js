@@ -32,21 +32,24 @@ export function getPeriod(date, scale) {
 }
 
 //See https://moment.github.io/luxon/#/formatting?id=table-of-tokens
-export function getDateTimeFormat(scale, forceDayFormat = false) {
+export function getDateTimeFormat(scale, forceDayFormat = false, adjustForDateFormat = false) {
     if (forceDayFormat) {
         return "yyyy-LL-dd";
     }
     switch (scale) {
+        case "minute":
+        case "hour":
+            return "yyyy-LL-dd hh:mm"
         case "day":
             return "yyyy-LL-dd";
         case "week":
-            return `yyyy Ww`;
+            return adjustForDateFormat ? `yyyy 'W'W` : `yyyy 'W'w`;
         case "month":
-            return "yyyy LL";
+            return "yyyy 'M'L";
         case "quarter":
-            return "yyyy Qq";
+            return "yyyy 'Q'q";
         case "year":
-            return `[${I18n.t("period.year")}] yyyy`;
+            return `'${I18n.t("period.year")}' yyyy`;
         default:
             return "yyyy-LL-dd";
     }

@@ -1,4 +1,4 @@
-@import "../stylesheets/vars.scss";
+@import "../stylesheets/vars";
 
 div.checkbox {
 
@@ -9,59 +9,93 @@ div.checkbox {
         display: none;
     }
 
+    button {
+        color: transparent;
+        border: none;
+    }
+
     label {
         display: inline-block;
+        outline: none !important;
+        margin-left: 4px;
+
         &.info {
             margin-left: 10px;
+            cursor: pointer;
         }
+
         &.disabled {
-            color: $medium-grey;
+            color: $lighter-grey;
         }
     }
 
-    input[type="checkbox"] + label span {
+    input[type="checkbox"] + label button {
         font-size: 11px;
         background-color: white;
-        border: 1px solid $blue;
+        border: 1px solid #8C969F;
         border-radius: 3px;
-        padding: 1px 2px;
+        padding: 7px 4px 1px 4px;
         margin: 2px 0;
         cursor: pointer;
-        i {
+
+        &:hover {
+            border: 1px solid #0077C8;
+        }
+
+        &:focus-visible, &:focus {
+            box-shadow: 0 0 0 3px #94d6ff;
+            border: solid 1px #004c97;
+        }
+
+        svg {
             color: transparent;
-            padding: 0 1px;
+            width: 14px;
         }
     }
 
-    input[type="checkbox"]:disabled + label span {
-        border: 1px solid darken($medium-grey, 5%);
-        background-color: $light-grey;
+    input[type="checkbox"]:disabled + label button {
+        border: 1px solid darken($lighter-grey, 5%);
+        background-color: $background;
         cursor: not-allowed;
     }
 
-    input[type="checkbox"]:checked + label span {
-        border: 2px solid $blue;
-        border-radius: 2px;
+    input[type="checkbox"]:checked + label button {
+        border: 1px solid $blue;
+        background-color: $blue;
+        border-radius: 3px;
         box-shadow: none;
-        padding: 0;
-        i {
+        padding: 7px 4px 1px 4px;
+        outline: none !important;
+
+        &:hover {
+            border: solid 1px #004c97;
+            background-color: #004c97;
+        }
+
+        &:focus-visible, &:focus {
+            box-shadow: 0 0 0 3px #94d6ff;
+            border: solid 1px #004c97;
+        }
+
+        svg {
             background-color: $blue;
             color: white;
-            padding: 3px 2px;
+            width: 14px;
+
+            &:hover {
+                background-color: #004c97;
+            }
         }
     }
 
-    input[type="checkbox"]:checked:disabled + label span {
-        border: 3px solid $medium-grey;
+    input[type="checkbox"]:checked:disabled + label button {
+        border: 3px solid #F4F6F8;
+        background-color: #F4F6F8;;
         cursor: default;
-        i {
-            background-color: $medium-grey;
+
+        svg {
+            background-color: $lighter-grey;
         }
     }
 
-    i.fa-info-circle {
-        color: $blue;
-        margin-left: 8px;
-        font-size: 16px;
-    }
 }

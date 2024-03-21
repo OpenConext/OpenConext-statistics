@@ -1,0 +1,15 @@
+@import "vars.scss";
+
+:root,
+.highcharts-light {
+    /* Colors for data series and points */
+    --highcharts-color-0: #D4AF37;
+    --highcharts-color-1: #15A300;
+}
+.highcharts-button-box {
+    stroke: none!important;
+}
+.highcharts-button-symbol {
+    stroke: $blue!important;
+    stroke-width: 3px;
+}

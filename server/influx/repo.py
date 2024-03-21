@@ -29,11 +29,11 @@ def _transform_tags(res):
 
 
 def service_providers_tags(measurement, log_sp_tag):
-    return _query(f"show tag values from {measurement} with key = {log_sp_tag}", _transform_tags)
+    return _query(f"show tag values from {measurement} with key = {log_sp_tag}", transform=_transform_tags)
 
 
 def identity_providers_tags(measurement, log_idp_tag):
-    return _query(f"show tag values from {measurement} with key = {log_idp_tag}", _transform_tags)
+    return _query(f"show tag values from {measurement} with key = {log_idp_tag}", transform=_transform_tags)
 
 
 def database_stats():
@@ -68,12 +68,12 @@ def _determine_measurement(config, idp_entity_id, sp_entity_id, measurement_scal
 def first_login_from_to(config, from_seconds=None, to_seconds=None, provider="sp", state=None):
     _sp = provider == "sp"
     measurement = _determine_measurement(config, not _sp, _sp, "day", None)
-    q = f"select * from {measurement} group by {config.log.sp_id if _sp else config.log.idp_id} "
+    q = f"select * from {measurement} where 1=1 "
     bind_params = {}
     if state:
-        q += " where state = $state"
+        q += " and state = $state "
         bind_params["state"] = state
-    q += "order by time asc limit 1"
+    q += f"group by {config.log.sp_id if _sp else config.log.idp_id} order by time asc limit 1"
     records = _query(q, group_by=True, epoch="ms", bind_params=bind_params)
     fs = int(from_seconds) * 1000
     ts = int(to_seconds) * 1000
@@ -134,7 +134,7 @@ def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entit
     logger = logging.getLogger("main")
     logger.info(q)
 
-    records = _query(q, epoch=epoch)
+    records = _query(q, epoch=epoch, bind_params=bind_params)
     # the actual time for non-supported date literals is nonsense in the influx database
     if needs_grouping:
         records = filter_time(from_seconds, to_seconds, adjust_time(records, epoch))
@@ -146,7 +146,7 @@ def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entit
     if uniques_included:
         q = q.replace(f"from {measurement}",
                       f"from {measurement}_unique")
-        unique_records = _query(q, epoch=epoch)
+        unique_records = _query(q, epoch=epoch, bind_params=bind_params)
         if needs_grouping:
             unique_records = filter_time(from_seconds, to_seconds, adjust_time(unique_records, epoch))
         if institution_type or scale in ["week"]:

@@ -11,7 +11,7 @@ import {addDayDuplicates, addDays, daysBetween, getPeriod, unixFromDate, unixFro
 import Filters from "../components/Filters";
 import SelectPeriod from "../components/SelectPeriod";
 import {DateTime} from "luxon";
-
+import mockData from "../utils/data.json"
 
 const minDiffByScale = {minute: 1, hour: 7, day: 90, week: 365, month: 365, quarter: 365, year: 365 * 5};
 const maxDayDiffMainMeasurements = 14;
@@ -99,6 +99,7 @@ export default class Live extends React.Component {
                 state: providerState,
                 institution_type: institutionType
             }).then(res => {
+                // res = mockData
                 const hasResults = res.length > 0 && res[0] !== "no_results";
                 if (hasResults && (scale === "minute" || scale === "hour")) {
                     const now = new Date().getTime();

@@ -10,6 +10,7 @@ from munch import munchify
 
 from server.api.base import base_api
 from server.api.stats import stats_api
+from server.api.system import system_api
 from server.api.user import user_api
 from server.influx.cq import backfill_login_measurements
 
@@ -67,6 +68,7 @@ app.config["SESSION_COOKIE_SECURE"] = not (is_test or is_local)
 app.register_blueprint(base_api)
 app.register_blueprint(stats_api)
 app.register_blueprint(user_api)
+app.register_blueprint(system_api)
 
 app.register_error_handler(404, page_not_found)
 

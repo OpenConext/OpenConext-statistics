@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import I18n from "../locale/I18n";
 import "./GroupBy.scss";
 import {CSVDownload} from "react-csv";
-import {RadioButton} from "@surfnet/sds";
+import CheckBox from "./CheckBox";
 
 export default class GroupBy extends React.PureComponent {
     constructor() {
@@ -27,14 +27,14 @@ export default class GroupBy extends React.PureComponent {
                     {I18n.t("providers.title")}
                     </span>
                 {displayDetails && <section className="controls">
-                    <RadioButton label={I18n.t("providers.groupBy", {type: I18n.t("providers.sp")})}
-                                 name="sp"
-                                 value={groupedBySp}
-                                 onChange={onChangeGroupBySp}/>
-                    <RadioButton label={I18n.t("providers.groupBy", {type: I18n.t("providers.idp")})}
-                                 name="sp"
-                                 value={groupedByIdp}
-                                 onChange={onChangeGroupByIdp}/>
+                    <CheckBox info={I18n.t("providers.groupBy", {type: I18n.t("providers.sp")})}
+                              name="sp"
+                              value={groupedBySp}
+                              onChange={onChangeGroupBySp}/>
+                    <CheckBox info={I18n.t("providers.groupBy", {type: I18n.t("providers.idp")})}
+                              name="sp"
+                              value={groupedByIdp}
+                              onChange={onChangeGroupByIdp}/>
                     {<a href="/download" className={`download button ${className}`}
                         onClick={onDownload}>{I18n.t("providers.matrix")}</a>}
                     {download &&
