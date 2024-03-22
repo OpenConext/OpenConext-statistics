@@ -14,10 +14,14 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   Server_tests:
     name: Server tests
-
+    timeout-minutes: 15
     runs-on: ubuntu-latest
 
     # Test different python versions
@@ -79,7 +83,7 @@ jobs:
 
   Client_build:
     name: Client build
-
+    timeout-minutes: 15
     runs-on: ubuntu-latest
 
     steps:
