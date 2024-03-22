@@ -10,19 +10,19 @@ VALID_PERIODS = ["day", "week", "month", "quarter", "year"]
 VALID_GROUP_BY = ["day", "week"]
 
 
-def append_measurement(l, period, postfix=""):
-    l.append(f"sp_idp_users_{period}{postfix}")
-    l.append(f"sp_idp_pa_users_{period}{postfix}")
-    l.append(f"sp_idp_ta_users_{period}{postfix}")
-    l.append(f"idp_users_{period}{postfix}")
-    l.append(f"idp_pa_users_{period}{postfix}")
-    l.append(f"idp_ta_users_{period}{postfix}")
-    l.append(f"sp_users_{period}{postfix}")
-    l.append(f"sp_pa_users_{period}{postfix}")
-    l.append(f"sp_tp_users_{period}{postfix}")
-    l.append(f"total_users_{period}{postfix}")
-    l.append(f"total_pa_users_{period}{postfix}")
-    l.append(f"total_ta_users_{period}{postfix}")
+def append_measurement(measurements, period, postfix=""):
+    measurements.append(f"sp_idp_users_{period}{postfix}")
+    measurements.append(f"sp_idp_pa_users_{period}{postfix}")
+    measurements.append(f"sp_idp_ta_users_{period}{postfix}")
+    measurements.append(f"idp_users_{period}{postfix}")
+    measurements.append(f"idp_pa_users_{period}{postfix}")
+    measurements.append(f"idp_ta_users_{period}{postfix}")
+    measurements.append(f"sp_users_{period}{postfix}")
+    measurements.append(f"sp_pa_users_{period}{postfix}")
+    measurements.append(f"sp_tp_users_{period}{postfix}")
+    measurements.append(f"total_users_{period}{postfix}")
+    measurements.append(f"total_pa_users_{period}{postfix}")
+    measurements.append(f"total_ta_users_{period}{postfix}")
 
 
 def get_measurements():
@@ -46,8 +46,8 @@ def create_continuous_query(db, db_name, duration, period, is_unique, include_to
 
     extra_query_part = ""
     if additional_where_query:
-        extra_query_part = f" WHERE " if not state_value else ""
-        extra_query_part += f" AND " if state_value else ""
+        extra_query_part = " WHERE " if not state_value else ""
+        extra_query_part += " AND " if state_value else ""
         extra_query_part += f" {additional_where_query} "
         q += extra_query_part
 

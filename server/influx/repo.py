@@ -1,6 +1,8 @@
+import logging
+
 from flask import current_app
 from influxdb.resultset import ResultSet
-import logging
+
 from server.influx.time import start_end_period, adjust_time, remove_aggregated_time_info, filter_time, \
     combine_time_duplicates
 from server.manage.manage import identity_providers_by_institution_type
@@ -120,14 +122,15 @@ def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entit
 
     if institution_type:
         identity_providers = identity_providers_by_institution_type(institution_type)
-        identity_providers_entities_id = map(lambda idp: idp["id"].replace("/", "\/"), identity_providers)
+        identity_providers_entities_id = map(lambda idp: idp["id"].replace("/", "\\/"), identity_providers)
         query_part = "|".join(identity_providers_entities_id)
         q += f" and {config.log.idp_id} =~ /{query_part}/"
 
     # we don't have aggregated measurements for these
     if scale in ["minute", "hour"]:
         if state and state in ["prodaccepted", "testaccepted"]:
-            q += f" and state = '{state}'"
+            q += " and state = $state"
+            bind_params["state"] = state
         time_scale = "1m" if scale == "minute" else "1h"
         q += f" group by time({time_scale})"
 
@@ -157,13 +160,21 @@ def login_by_time_frame(config, from_seconds, to_seconds, scale="day", idp_entit
 
 
 def login_count_per_idp_sp(config, from_seconds, to_seconds, idp_entity_id, sp_entity_id, epoch=None, state=None):
+    bind_params = {}
     q = f"select count(user_id) as count_user_id, count(distinct(user_id)) as distinct_count_user_id " \
         f"from {config.log.measurement} " \
-        f"where time >= {from_seconds}s and time < {to_seconds}s " \
-        f"and {config.log.sp_id} = '{sp_entity_id}' " \
-        f"and {config.log.idp_id} = '{idp_entity_id}' "
-    q += f" and state = '{state}'" if state else ""
-    records = _query(q, epoch=epoch)
+        f"where time >= {int(from_seconds)}s and time < {int(to_seconds)}s "
+
+    if sp_entity_id:
+        bind_params["sp_entity_id"] = sp_entity_id
+        q += f" and {config.log.sp_id} = $sp_entity_id"
+    if idp_entity_id:
+        bind_params["idp_entity_id"] = idp_entity_id
+        q += f" and {config.log.idp_id} = $idp_entity_id"
+    if state:
+        bind_params["state"] = state
+        q += " and state = $state"
+    records = _query(q, epoch=epoch, bind_params=bind_params)
     return remove_aggregated_time_info(records)
 
 
@@ -184,13 +195,18 @@ def login_by_aggregated(config, period, idp_entity_id=None, sp_entity_id=None, i
         if measurement_scale != "year":
             tag_value = period[5:]
             tag_value = "0" + tag_value if len(tag_value) == 1 and measurement_scale == "month" else tag_value
-            q += f" and {measurement_scale} = '{tag_value}'"
+            q += f" and {measurement_scale} = $tag_value"
+            bind_params["tag_value"] = tag_value
     else:
         from_seconds, to_seconds = start_end_period(period)
         q += f" where 1=1 and time >= {int(from_seconds)}s and time < {int(to_seconds)}s "
 
-    q += f" and {config.log.sp_id} = '{sp_entity_id}'" if sp_entity_id else ""
-    q += f" and {config.log.idp_id} = '{idp_entity_id}'" if idp_entity_id else ""
+    if sp_entity_id:
+        bind_params["sp_entity_id"] = sp_entity_id
+        q += f" and {config.log.sp_id} = $sp_entity_id"
+    if idp_entity_id:
+        bind_params["idp_entity_id"] = idp_entity_id
+        q += f" and {config.log.idp_id} = $idp_entity_id"
 
     logger = logging.getLogger("main")
     logger.info(q)

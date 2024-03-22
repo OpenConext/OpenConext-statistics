@@ -1,0 +1,137 @@
+---
+
+name: CI
+
+on:
+  # Triggers the workflow on push or pull request events
+  push:
+  pull_request:
+  release:
+    tags:
+      - 'v*'
+    types: [published]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  Server_tests:
+    name: Server tests
+
+    runs-on: ubuntu-latest
+
+    # Test different python versions
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.9']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check out repo
+        uses: actions/checkout@v2
+      - name: Setup InfluxDB
+        uses: influxdata/influxdb-action@v3
+        with:
+          influxdb_version: 1.11.5
+          influxdb_org: influxdata
+          influxdb_user: ""
+          influxdb_password: ""
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+          cache-dependency-path: 'requirements/*.txt'
+
+      - name: Display Python version
+        run: |
+          python -c "import sys; print(sys.version)"
+          echo coverage: .${{ matrix.coverage }}.
+
+
+      - name: Install dependencies
+        run: |
+          python -m pip install pip setuptools wheel
+          pip install --upgrade pip
+          pip install -r ./requirements/test.txt
+          pip install flake8
+
+      - name: Run flake8
+        run: |
+          cd ./server
+          flake8 .
+
+      - name: Run tests with coverage
+        run: |
+          cd ./server
+          coverage run -m pytest test --cov-report xml --cov=server
+        timeout-minutes: 20
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+        if: success()
+
+
+  Client_build:
+    name: Client build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run errands
+        run: |
+          sudo apt -y install curl
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "DIR=$(yarn cache dir)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v4
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.DIR }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.11.1"
+          cache: "yarn"
+          cache-dependency-path: '**/yarn.lock'
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          source ~/.nvm/nvm.sh
+          rm -rf ~/.yarn
+          curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.19
+          export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+          yarn -v
+#          nvm install "16.10.0"
+#          nvm use "16.10.0"
+        env:
+          VNM_DIR: ~/.nvm
+
+      - name: Run tests
+        shell: bash
+        run: |
+          cd client
+          yarn install
+          CI=true yarn test
+          yarn build
+        env:
+          CI: true
+          VNM_DIR: ~/.nvm
+          INLINE_RUNTIME_CHUNK: False
+          IMAGE_INLINE_SIZE_LIMIT: 0
+        timeout-minutes: 15

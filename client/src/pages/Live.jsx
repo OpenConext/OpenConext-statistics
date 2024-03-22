@@ -11,7 +11,6 @@ import {addDayDuplicates, addDays, daysBetween, getPeriod, unixFromDate, unixFro
 import Filters from "../components/Filters";
 import SelectPeriod from "../components/SelectPeriod";
 import {DateTime} from "luxon";
-import mockData from "../utils/data.json"
 
 const minDiffByScale = {minute: 1, hour: 7, day: 90, week: 365, month: 365, quarter: 365, year: 365 * 5};
 const maxDayDiffMainMeasurements = 14;
@@ -278,7 +277,7 @@ export default class Live extends React.Component {
                 }, this.componentDidMount);
             } else {
                 const from = DateTime.fromJSDate(to).minus({"day": minDiffByScale[scale]}).startOf(scale).toJSDate();
-                    this.setState({
+                this.setState({
                     data: [],
                     scale: scale,
                     from: from
@@ -293,13 +292,14 @@ export default class Live extends React.Component {
 
     onChangeGroupBySp = e => {
         let additionalState = {};
-        if (!this.state.groupedByIdp && e.target.checked) {
+        const checked = e.target.checked;
+        if (!this.state.groupedByIdp && checked) {
             additionalState = this.initialStateGroupBy();
-        } else if (!e.target.checked) {
+        } else if (!checked) {
             additionalState = this.initialStateNoGroupBy();
         }
         this.setState({
-            data: [], groupedBySp: e.target.checked,
+            data: [], groupedBySp: checked,
             groupedByIdp: false,
             institutionType: "",
             ...additionalState
@@ -308,13 +308,16 @@ export default class Live extends React.Component {
 
     onChangeGroupByIdp = e => {
         let additionalState = {};
-        if (!this.state.groupedBySp && e.target.checked) {
+        const checked = e.target.checked;
+        debugger;
+        if (!this.state.groupedBySp && checked) {
             additionalState = this.initialStateGroupBy();
-        } else if (!e.target.checked) {
+        } else if (!checked) {
             additionalState = this.initialStateNoGroupBy();
         }
         this.setState({
-            data: [], groupedByIdp: e.target.checked,
+            data: [],
+            groupedByIdp: checked,
             groupedBySp: false,
             institutionType: "",
             ...additionalState

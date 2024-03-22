@@ -1,4 +1,3 @@
-import time
 import datetime
 import random
 import time
@@ -17,7 +16,7 @@ system_api = Blueprint("system_api", __name__, url_prefix="/api/system")
 def generate():
     config = current_app.app_config
     if config.profile != "local":
-        raise Unauthorized(description=f"Generate not allowed in non-local mode")
+        raise Unauthorized(description="Generate not allowed in non-local mode")
 
     db = current_app.influx_client
 

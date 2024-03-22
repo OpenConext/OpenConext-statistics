@@ -21,10 +21,10 @@ class TestStats(AbstractTest):
                       json=json.loads(AbstractTest.read_file(file if file else f"mock/manage_metadata_{type}.json")),
                       status=200)
         if type == "saml20_sp":
-            url = f"https://manage.example.surfconext.nl/manage/api/internal/search/oidc10_rp"
+            url = "https://manage.example.surfconext.nl/manage/api/internal/search/oidc10_rp"
             responses.add(responses.POST, url,
                           json=json.loads(
-                              AbstractTest.read_file(file if file else f"mock/manage_metadata_oidc10_rp.json")),
+                              AbstractTest.read_file(file if file else "mock/manage_metadata_oidc10_rp.json")),
                           status=200)
 
     @responses.activate
@@ -127,9 +127,15 @@ class TestStats(AbstractTest):
     @responses.activate
     def test_first_login_period(self):
         self.mock_manage(type="saml20_idp")
-        json = self.get("first_login_time", query_data={"period": "2016M5", "provider": "idp", "state": "prodaccepted"})
+        json = self.get("first_login_time", query_data={"period": "2016M5", "provider": "idp"})
         self.assertListEqual([{"count_user_id": 1, "distinct_count_user_id": 1, "idp_entity_id": "https://idp/1",
                                "month": "05", "quarter": "2", "time": 1463356800000, "year": "2016"}], json)
+
+    @responses.activate
+    def test_first_login_period_with_state(self):
+        self.mock_manage(type="saml20_idp")
+        json = self.get("first_login_time", query_data={"period": "2016M5", "provider": "idp", "state": "prodaccepted"})
+        self.assertEqual(0, len(json))
 
     def test_first_login_invalid_period(self):
         self.get("first_login_time", query_data={"period": "bogus"}, response_status_code=500)
@@ -386,10 +392,10 @@ class TestStats(AbstractTest):
     def test_login_aggregated_year_401(self):
         for forbidden_arg in ["idp_id", "sp_id", "group_by"]:
             query_string = {"period": "2017", forbidden_arg: "idp_id"}
-            response = self.client.get(f"/api/stats/public/login_aggregated",
+            response = self.client.get("/api/stats/public/login_aggregated",
                                        query_string=query_string)
             self.assertEqual(401, response.status_code)
-        response = self.client.get(f"/api/stats/public/login_aggregated",
+        response = self.client.get("/api/stats/public/login_aggregated",
                                    query_string={"period": "2017"})
         self.assertEqual(401, response.status_code)
 

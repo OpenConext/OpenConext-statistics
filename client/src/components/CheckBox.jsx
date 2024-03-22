@@ -5,23 +5,19 @@ import Tooltip from "./Tooltip";
 
 export default function CheckBox({name, value, info, onChange, toolTip = null, readOnly = false}) {
 
-    const innerOnChange = e => {
-        e.cancelBubble = true;
-        e.stopPropagation();
-        onChange && onChange(e);
-        return false;
-    }
-
     return (
         <div className="checkbox">
             <input type="checkbox"
                    id={name}
                    name={name}
                    checked={value}
-                   onChange={innerOnChange}
+                   onChange={onChange}
                    disabled={readOnly}/>
             <label htmlFor={name}>
-                <button disabled={readOnly} onClick={innerOnChange}><CheckIcon/></button>
+                <button disabled={readOnly} onClick={e => onChange({target: {checked: !value}})}>
+                    <CheckIcon/>
+                </button>
+
             </label>
             {info && <span>
                     <label htmlFor={name} className={`info ${readOnly ? "disabled" : ""}`}

@@ -38,7 +38,7 @@ def auth_filter(config):
 
     if is_write_access_required:
         if "write" not in get_user(config, auth)[0].scope:
-            raise Unauthorized(description=f"No write access for user")
+            raise Unauthorized(description="No write access for user")
 
 
 def get_user(config, auth):

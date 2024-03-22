@@ -7,16 +7,16 @@ BASIC_AUTH_HEADER = {"Authorization": f"Basic {b64encode(b'sysadmin:secret').dec
 class TestCq(AbstractTest):
 
     def test_cq_unauthorized(self):
-        response = self.client.put(f"/api/stats/admin/reinitialize_measurements_and_cq",
+        response = self.client.put("/api/stats/admin/reinitialize_measurements_and_cq",
                                    headers={"Authorization": "Basic ZGFzaGJvYXJkOnNlY3JldA=="})
         self.assertEqual(401, response.status_code)
 
     def test_cq(self):
-        self.client.put(f"/api/stats/admin/reinitialize_measurements_and_cq",
+        self.client.put("/api/stats/admin/reinitialize_measurements_and_cq",
                         headers=BASIC_AUTH_HEADER)
         self._assert_measurements()
 
-        self.client.put(f"/api/stats/admin/restart_reinitialize_measurements_and_cq",
+        self.client.put("/api/stats/admin/restart_reinitialize_measurements_and_cq",
                         headers=BASIC_AUTH_HEADER)
         self._assert_measurements()
 
@@ -26,6 +26,6 @@ class TestCq(AbstractTest):
                          measurements_count)
 
     def test_unique_week_cq(self):
-        self.client.put(f"/api/stats/admin/reinitialize_unique_week_cq",
+        self.client.put("/api/stats/admin/reinitialize_unique_week_cq",
                         headers=BASIC_AUTH_HEADER)
         self._assert_measurements()

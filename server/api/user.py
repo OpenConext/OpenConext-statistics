@@ -27,7 +27,7 @@ def me():
     if "user" in session:
         return session["user"], 200
 
-    if local_: # and False:
+    if local_:  # and False:
         user = {"uid": "uid", "display_name": "John Doe", "guest": False, **config_data}
         session["user"] = user
         return user, 200

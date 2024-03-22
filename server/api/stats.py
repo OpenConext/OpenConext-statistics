@@ -162,7 +162,7 @@ def _do_reinitialize_unique_week_cq(local_app_instance):
         influx_client = local_app_instance.influx_client
         reinitialize_unique_week_cq(cfg, influx_client)
         logger = logging.getLogger("stats")
-        logger.info(f"Successfully finished back-filling the unique weeks measurements")
+        logger.info("Successfully finished back-filling the unique weeks measurements")
 
 
 @stats_api.route("/service_providers", strict_slashes=False)

@@ -6,6 +6,7 @@ import {CSVDownload} from "react-csv";
 import CheckBox from "./CheckBox";
 
 export default class GroupBy extends React.PureComponent {
+
     constructor() {
         super();
         this.state = {

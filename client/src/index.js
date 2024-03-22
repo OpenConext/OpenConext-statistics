@@ -14,12 +14,6 @@ import "regenerator-runtime/runtime";
 import {polyfill} from "es6-promise";
 import React from 'react';
 
-// import 'highcharts/css/highcharts.css';
-//Do not change the order of highcharts imports
-// import '@surfnet/sds/styles/sds.css';
-//Do not change the order of @surfnet.sds style imports
-// import '@surfnet/sds/cjs/index.css';
-
 polyfill();
 
 (() => {
