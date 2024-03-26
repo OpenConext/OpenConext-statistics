@@ -1,0 +1,22 @@
+FROM python:3.9-slim-buster as build
+COPY requirements/base.txt /
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt clean && apt autoclean && apt update && \
+  apt install -y --no-install-recommends pkg-config default-libmysqlclient-dev build-essential
+RUN pip install -r /base.txt
+
+
+FROM python:3.9-slim-buster
+WORKDIR /app
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt -y update && \
+  apt -y upgrade && \
+  apt autoremove -y && \
+  apt clean && \
+  apt autoclean && \ 
+  rm -rf /var/lib/apt/lists/*
+COPY --from=build /usr/local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages
+COPY --from=build /usr/local/bin/gunicorn /usr/local/bin/gunicorn
+COPY server/ /app/server/
+RUN mkdir /app/log/
+CMD ["/usr/local/bin/gunicorn", "--worker-class", "eventlet", "--workers", "8", "--bind", "0.0.0.0:80", "server.__main__:app"]
