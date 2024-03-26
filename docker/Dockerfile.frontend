@@ -12,4 +12,4 @@ RUN apt update && \
   apt autoclean && \ 
   rm -rf /var/lib/apt/lists/*
 
-COPY --from=build /var/www/html/public/ /var/www/html/public/
+COPY --from=build /var/www/html/build/ /var/www/html/public/
