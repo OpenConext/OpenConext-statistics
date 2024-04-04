@@ -59,17 +59,20 @@ export default class Period extends React.PureComponent {
         const currentYear = date.getFullYear();
         const arr = Array.from(new Array((1 + maxYear) - 2011), (x, i) => (i + 2011).toString(10));
         const options = arr.map(m => ({label: m, value: m}));
-        return <Select
-            value={options.find(option => parseInt(option.value, 10) === currentYear )}
-            options={options}
-            searchable={false}
-            clearable={false}
-            onChange={opt => {
-                const jsDate = new Date();
-                jsDate.setYear(parseInt(opt.value, 10));
-                const yearDate =  DateTime.fromJSDate(jsDate);
-                onChange(isFrom ? yearDate.startOf("year").toJSDate() : yearDate.endOf("year").toJSDate());
-            }}/>
+        return (
+            <Select
+                value={options.find(option => parseInt(option.value, 10) === currentYear)}
+                options={options}
+                className={"select-time-unit"}
+                searchable={false}
+                clearable={false}
+                onChange={opt => {
+                    const jsDate = new Date();
+                    jsDate.setYear(parseInt(opt.value, 10));
+                    const yearDate = DateTime.fromJSDate(jsDate);
+                    onChange(isFrom ? yearDate.startOf("year").toJSDate() : yearDate.endOf("year").toJSDate());
+                }}/>
+        )
     };
 
     renderDatePicker = (scale, isFrom, date, onChange, maxDate, dateFormat, name, showToday = true, forceDatePicker = false) => {
@@ -99,11 +102,13 @@ export default class Period extends React.PureComponent {
             />
         }
         if (monthPicker) {
+            const monthValue = monthOptions.find(option => option.value === date.getMonth()) || monthOptions[0];
             return <div className="group-dates">
                 <Select
-                    value={date.format("MMMM")}
+                    value={monthValue}
                     options={monthOptions}
                     searchable={false}
+                    className={"select-time-unit"}
                     clearable={false}
                     onChange={opt => {
                         const jsDate = new Date();
@@ -111,15 +116,19 @@ export default class Period extends React.PureComponent {
                         const monthDate = DateTime.fromJSDate(jsDate);
                         onChange(isFrom ? monthDate.startOf("month").toJSDate() : monthDate.endOf("month").toJSDate());
                     }}/>
-                {this.renderYearPicker(date, isFrom, maxDate.year(), onChange)}
+                {this.renderYearPicker(date, isFrom, maxDate.getFullYear(), onChange)}
             </div>
         }
         if (quarterPicker) {
+            const quarterOptions = Array.from(new Array(4), (x, i) => "Q" + (i + 1).toString(10))
+                .map(m => ({label: m, value: m}));
+            const quarterValue = DateTime.fromJSDate(date).quarter + "Q";
+            const quarterValueOption = quarterOptions.find(option => option.value === quarterValue) || quarterOptions[0]
             return <div className="group-dates">
                 <Select
-                    value={DateTime.fromJSDate(date).quarter +"Q"}
-                    options={Array.from(new Array(4), (x, i) => "Q" + (i + 1).toString(10))
-                        .map(m => ({label: m, value: m}))}
+                    value={quarterValueOption}
+                    options={quarterOptions}
+                    className={"select-time-unit"}
                     searchable={false}
                     clearable={false}
                     onChange={opt => {
@@ -154,7 +163,7 @@ export default class Period extends React.PureComponent {
         const showTo = (!aggregate && disabled.indexOf("to") === -1);
         const scaleOptions = scales.map(s => ({value: s, label: I18n.t(`period.${s}`)}));
         const scaleValue = scaleOptions.find(s => s.value === scale) ||
-            scaleOptions.find(s => s.value === "day") ;
+            scaleOptions.find(s => s.value === "day");
         return (
             <div className="period">
                 <span className={`title ${displayDetails ? "" : "hide"} `}
@@ -165,6 +174,7 @@ export default class Period extends React.PureComponent {
                     <span className="sub-title">{I18n.t("period.scale")}</span>
                     <Select onChange={option => onChangeScale(option.value)}
                             options={scaleOptions}
+                            className={"select-time-unit"}
                             value={scaleValue}
                             searchable={false}
                             clearable={false}
@@ -177,10 +187,10 @@ export default class Period extends React.PureComponent {
                                                   tooltip={I18n.t("period.noTimeFrameTooltip")}/>}
                     <span className="sub-title">{fromTitle}</span>
                     {disabled.indexOf("from") === -1 &&
-                    this.renderDatePicker(scale, true, from, this.invariant(onChangeFrom, "from"), to, dateFormat, "datepicker-from", false, forceDatePicker)}
+                        this.renderDatePicker(scale, true, from, this.invariant(onChangeFrom, "from"), to, dateFormat, "datepicker-from", false, forceDatePicker)}
                     {showTo && <span key="1" className="sub-title">{I18n.t("period.to")}</span>}
                     {showTo &&
-                    this.renderDatePicker(scale, false, to, this.invariant(onChangeTo, "to"), addDays(1), dateFormat, "datepicker-to", true, forceDatePicker)}
+                        this.renderDatePicker(scale, false, to, this.invariant(onChangeTo, "to"), addDays(1), dateFormat, "datepicker-to", true, forceDatePicker)}
                 </section>}
             </div>
         );
