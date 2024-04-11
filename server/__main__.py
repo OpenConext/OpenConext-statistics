@@ -1,6 +1,7 @@
 import datetime
 import logging
 import os
+import sys
 from logging.handlers import TimedRotatingFileHandler, SysLogHandler
 
 import yaml
@@ -21,25 +22,15 @@ def read_file(file_name):
         return f.read()
 
 
-def _init_logging(local, config):
-    if local:
-        logging.basicConfig(level=logging.INFO)
-    else:
-        handler = TimedRotatingFileHandler(f"{os.path.dirname(os.path.realpath(__file__))}/../log/stats.log",
-                                           when="midnight", backupCount=30)
-        formatter = logging.Formatter('STATISTICS: %(asctime)s %(name)s %(levelname)s %(message)s')
-        handler.setFormatter(formatter)
+def _init_logging():
+    root = logging.getLogger()
+    root.setLevel(logging.DEBUG)
 
-        address = (config.syslog.host, int(config.syslog.port)) if "host" in config.syslog and "port" in config.syslog \
-                                                                   and len(config.syslog.port) > 0 \
-            else config.syslog.address
-        syslog_handler = SysLogHandler(address=address, facility=SysLogHandler.LOG_DAEMON)
-        syslog_handler.setFormatter(formatter)
-
-        logger = logging.getLogger()
-        logger.setLevel(logging.INFO)
-        logger.addHandler(handler)
-        logger.addHandler(syslog_handler)
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setLevel(logging.DEBUG)
+    formatter = logging.Formatter('STATISTICS: %(asctime)s %(name)s %(levelname)s %(message)s')
+    handler.setFormatter(formatter)
+    root.addHandler(handler)
 
 
 def page_not_found(_):
@@ -55,7 +46,7 @@ profile = os.environ.get("PROFILE")
 is_local = profile is not None and profile == "local"
 is_test = test is not None and bool(int(test))
 
-_init_logging(is_local or is_test, config)
+_init_logging()
 
 logger = logging.getLogger("main")
 logger.info(f"Initialize server with profile {profile}")

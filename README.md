@@ -98,3 +98,13 @@ PYDEVD_USE_CYTHON=NO;
 PYDEVD_USE_FRAME_EVAL=NO;
 PYTHONUNBUFFERED=1
 ```
+
+### [Upgrade](#upgrade)
+
+See https://github.com/simion/pip-upgrader for upgrading automatically
+
+```bash
+source .venv/bin/activate
+pip install pip-upgrader
+pip-upgrade requirements/test.txt --dry-run
+```
