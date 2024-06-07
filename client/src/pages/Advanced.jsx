@@ -37,12 +37,10 @@ export default class Advanced extends React.PureComponent {
             firstLoginTime({
                 from: unixFromDate(from),
                 to: unixFromDate(to),
-                state: state,
                 provider: provider
             }) :
             lastLoginTime({
                 from: unixFromDate(from),
-                state: state,
                 provider: provider
 
             });

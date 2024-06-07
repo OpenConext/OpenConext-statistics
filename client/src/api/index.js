@@ -124,7 +124,6 @@ export function uniqueLoginCount({
 export function firstLoginTime({
                                    from = undefined,
                                    to = undefined,
-                                   state = "all",
                                    provider
                                }) {
     const query = queryParam(arguments);
@@ -133,7 +132,6 @@ export function firstLoginTime({
 
 export function lastLoginTime({
                                   from = undefined,
-                                  state = "all",
                                   provider
                               }) {
     const query = queryParam(arguments);

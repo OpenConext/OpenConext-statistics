@@ -67,16 +67,12 @@ def _determine_measurement(config, idp_entity_id, sp_entity_id, measurement_scal
     return measurement
 
 
-def first_login_from_to(config, from_seconds=None, to_seconds=None, provider="sp", state=None):
+def first_login_from_to(config, from_seconds=None, to_seconds=None, provider="sp"):
     _sp = provider == "sp"
     measurement = _determine_measurement(config, not _sp, _sp, "day", None)
-    q = f"select * from {measurement} where 1=1 "
-    bind_params = {}
-    if state:
-        q += " and state = $state "
-        bind_params["state"] = state
-    q += f"group by {config.log.sp_id if _sp else config.log.idp_id} order by time asc limit 1"
-    records = _query(q, group_by=True, epoch="ms", bind_params=bind_params)
+    q = f"select * from {measurement} group by {config.log.sp_id if _sp else config.log.idp_id} " \
+        f"order by time asc limit 1"
+    records = _query(q, group_by=True, epoch="ms", bind_params={})
     fs = int(from_seconds) * 1000
     ts = int(to_seconds) * 1000
     return list(filter(lambda p: fs <= p["time"] < ts, records))

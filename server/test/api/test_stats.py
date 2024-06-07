@@ -135,7 +135,7 @@ class TestStats(AbstractTest):
     def test_first_login_period_with_state(self):
         self.mock_manage(type="saml20_idp")
         json = self.get("first_login_time", query_data={"period": "2016M5", "provider": "idp", "state": "prodaccepted"})
-        self.assertEqual(0, len(json))
+        self.assertEqual(1, len(json))
 
     def test_first_login_invalid_period(self):
         self.get("first_login_time", query_data={"period": "bogus"}, response_status_code=500)

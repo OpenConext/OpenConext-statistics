@@ -50,16 +50,12 @@ def first_login_time():
     else:
         raise ValueError(f"Must specify provider: {VALID_PROVIDER}")
 
-    state = args.get("state")
-    if state and state in VALID_STATE:
-        request_args["state"] = state
-
     first_logins = first_login_from_to(current_app.app_config, **request_args)
 
     manage_providers = service_providers() if provider == "sp" else identity_providers()
     manage_providers_entity_ids = list(map(lambda p: p["id"], manage_providers))
 
-    # Filter out all of the results that are not present in Manage
+    # Filter out all the results that are not present in Manage
     prop = "sp_entity_id" if provider == "sp" else "idp_entity_id"
 
     result = list(filter(lambda p: p[prop] in manage_providers_entity_ids, first_logins))
@@ -88,7 +84,7 @@ def last_login_time():
     manage_providers = service_providers() if provider == "sp" else identity_providers()
     manage_providers_entity_ids = list(map(lambda p: p["id"], manage_providers))
 
-    # Filter out all of the results that are not present in Manage
+    # Filter out all the results that are not present in Manage
     prop = "sp_entity_id" if provider == "sp" else "idp_entity_id"
 
     result = list(filter(lambda p: p[prop] in manage_providers_entity_ids, last_logins_before_from))

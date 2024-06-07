@@ -2,7 +2,6 @@ import datetime
 import logging
 import os
 import sys
-from logging.handlers import TimedRotatingFileHandler, SysLogHandler
 
 import yaml
 from flask import Flask, jsonify, request as current_request
