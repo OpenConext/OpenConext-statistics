@@ -39,7 +39,7 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.8.0",
     "react-table": "6.8.6",
-    "react-tooltip": "^5.26.3",
+    "react-tooltip": "^5.26.4",
     "sass": "^1.77.4",
     "source-map-explorer": "^2.5.3",
     "spin.js": "^4.1.1",
