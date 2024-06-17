@@ -140,6 +140,12 @@ export default class Chart extends React.PureComponent {
             },
             xAxis: {
                 type: "datetime",
+                tickPositioner: function () {
+                    if (!this.tickPositions.includes(this.min)) {
+                        this.tickPositions.push(this.min);
+                    }
+                    return this.tickPositions;
+                },
                 labels: {
                     formatter: function () {
                         if (series[0].data.length === 1) {
