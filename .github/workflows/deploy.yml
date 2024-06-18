@@ -54,7 +54,7 @@ jobs:
             type=raw,event=workflow_dispatch,value=snapshot
 
       - name: Build and push the manage gui image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: docker/Dockerfile.frontend
@@ -64,7 +64,7 @@ jobs:
           labels: ${{ steps.meta_gui.outputs.labels }}
 
       - name: Build and push the manage server image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: docker/Dockerfile.server
