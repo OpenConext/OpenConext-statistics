@@ -17,7 +17,7 @@
     "dompurify": "^3.1.5",
     "es6-promise": "^4.2.8",
     "handlebars": "^4.7.8",
-    "highcharts": "^11.4.3",
+    "highcharts": "^11.4.4",
     "@tippyjs/react": "^4.2.6",
     "http-proxy-middleware": "^3.0.0",
     "i18n-js": "^4.4.3",
