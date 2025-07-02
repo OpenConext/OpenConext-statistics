@@ -25,6 +25,14 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-latest
 
+    # start influx
+    services:
+      influxdb:
+        # Docker Hub image
+        image: "influxdb:1.11"
+        ports:
+          - "8086:8086"
+
     # Test different python versions
     strategy:
       fail-fast: false
@@ -37,13 +45,7 @@ jobs:
 
       - name: Check out repo
         uses: actions/checkout@v4
-      - name: Setup InfluxDB
-        uses: influxdata/influxdb-action@v3
-        with:
-          influxdb_version: 1.11.5
-          influxdb_org: influxdata
-          influxdb_user: ""
-          influxdb_password: ""
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
@@ -72,7 +74,7 @@ jobs:
       - name: Run tests with coverage
         run: |
           cd ./server
-          coverage run -m pytest test --cov-report xml --cov=server
+          coverage run -m pytest test --cov-report xml
         timeout-minutes: 20
 
       - name: Upload coverage to Codecov
