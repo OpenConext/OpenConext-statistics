@@ -74,7 +74,7 @@ jobs:
       - name: Run tests with coverage
         run: |
           cd ./server
-          coverage run -m pytest test --cov-report xml --cov=server
+          coverage run -m pytest test --cov-report xml
         timeout-minutes: 20
 
       - name: Upload coverage to Codecov

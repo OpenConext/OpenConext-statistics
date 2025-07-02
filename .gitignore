@@ -4,6 +4,7 @@ log/
 .venv
 .pytest_cache
 .coverage
+coverage.xml
 htmlcov/
 git.info
 version.info
