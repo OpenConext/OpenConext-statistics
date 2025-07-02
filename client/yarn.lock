@@ -8448,10 +8448,10 @@ react-table@6.8.6:
   dependencies:
     classnames "^2.2.5"
 
-react-tooltip@^5.26.4:
-  version "5.27.0"
-  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-5.27.0.tgz#d502d1055b259c26b10ebfc6d925621f2afd3119"
-  integrity sha512-JXROcdfCEbCqkAkh8LyTSP3guQ0dG53iY2E2o4fw3D8clKzziMpE6QG6CclDaHELEKTzpMSeAOsdtg0ahoQosw==
+react-tooltip@^5.29.1:
+  version "5.29.1"
+  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-5.29.1.tgz#ba0b80b04d66822590976d2a32f47544fd9feee2"
+  integrity sha512-rmJmEb/p99xWhwmVT7F7riLG08wwKykjHiMGbDPloNJk3tdI73oHsVOwzZ4SRjqMdd5/xwb/4nmz0RcoMfY7Bw==
   dependencies:
     "@floating-ui/dom" "^1.6.1"
     classnames "^2.3.0"
