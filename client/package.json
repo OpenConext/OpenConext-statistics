@@ -14,7 +14,7 @@
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^14.5.2",
     "core-js": "^3.37.1",
-    "dompurify": "^3.2.4",
+    "dompurify": "^3.2.6",
     "es6-promise": "^4.2.8",
     "handlebars": "^4.7.8",
     "highcharts": "^11.4.3",
