@@ -4,12 +4,19 @@ updates:
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
+    # group all GHA update in a single PR
+    groups:
+      gha:
     schedule:
       interval: "daily"
 
   # Maintain dependencies for client
   - package-ecosystem: "npm"
     directory: "/client"
+    groups:
+      # group all patch and minor updates in a single PR
+      javascript-minor:
+        update-types: [ "minor", "patch" ]
     schedule:
       interval: "daily"
     open-pull-requests-limit: 10
@@ -17,6 +24,10 @@ updates:
   # Maintain dependencies for server
   - package-ecosystem: "pip"
     directory: "/server"
+    groups:
+      # group all patch and minor updates in a single PR
+      javascript-minor:
+        update-types: [ "minor", "patch" ]
     schedule:
       interval: "daily"
     open-pull-requests-limit: 10
