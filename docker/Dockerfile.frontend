@@ -1,15 +1,18 @@
+######################################
+## build image
 FROM node:20-slim as build
 WORKDIR /var/www/html
 COPY client/ /var/www/html/
 RUN yarn install
 RUN yarn build
 
+######################################
+## final image
 FROM ghcr.io/openconext/openconext-basecontainers/apache2:latest
-RUN apt update && \
-  apt -y install libapache2-mod-auth-openidc && \
-  apt autoremove -y && \
-  apt clean && \
-  apt autoclean && \ 
-  rm -rf /var/lib/apt/lists/*
+RUN \
+    apt update && \
+    apt -y install libapache2-mod-auth-openidc && \
+    apt autoremove -y && \
+    rm -rf /v/var/lib/apt/lists/*
 
 COPY --from=build /var/www/html/build/ /var/www/html/public/
