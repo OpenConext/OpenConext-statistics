@@ -16,6 +16,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+        with:
+          # we need a full checkout to be able use git describe.
+          # see https://github.com/actions/checkout/issues/1471
+          fetch-depth: 0
+          fetch-tags: true
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -52,6 +57,11 @@ jobs:
             type=raw,event=tag,value=latest
             type=semver,event=tag,pattern={{version}}
             type=raw,event=workflow_dispatch,value=snapshot
+
+      - name: Save version info
+        run: |
+          git describe --exclude 'snapshot' | tee ./server/api/version.info
+          git log -1 | tee ./server/api/git.info
 
       - name: Build and push the stats gui image
         uses: docker/build-push-action@v6
