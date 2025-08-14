@@ -9,3 +9,4 @@ htmlcov/
 git.info
 version.info
 .idea/
+junit.xml
