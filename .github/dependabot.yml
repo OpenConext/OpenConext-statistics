@@ -24,7 +24,7 @@ updates:
 
   # Maintain dependencies for server
   - package-ecosystem: "pip"
-    directory: "/server"
+    directory: "/"
     groups:
       # group all patch and minor updates in a single PR
       javascript-minor:
