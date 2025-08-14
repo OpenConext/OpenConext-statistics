@@ -42,7 +42,7 @@
     "react-tooltip": "^5.29.1",
     "sass": "^1.83.4",
     "source-map-explorer": "^2.5.3",
-    "spin.js": "^4.1.1",
+    "spin.js": "^4.1.2",
     "@babel/plugin-proposal-private-property-in-object" : "^7.21.11"
   },
   "scripts": {
