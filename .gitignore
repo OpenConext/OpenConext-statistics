@@ -5,7 +5,9 @@ log/
 .pytest_cache
 .coverage
 coverage.xml
+junit.xml
 htmlcov/
 git.info
 version.info
 .idea/
+junit.xml

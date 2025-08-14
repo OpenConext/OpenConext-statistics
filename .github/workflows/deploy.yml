@@ -53,7 +53,7 @@ jobs:
             type=semver,event=tag,pattern={{version}}
             type=raw,event=workflow_dispatch,value=snapshot
 
-      - name: Build and push the manage gui image
+      - name: Build and push the stats gui image
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -63,7 +63,7 @@ jobs:
           tags: ${{ steps.meta_gui.outputs.tags }}
           labels: ${{ steps.meta_gui.outputs.labels }}
 
-      - name: Build and push the manage server image
+      - name: Build and push the stats server image
         uses: docker/build-push-action@v6
         with:
           context: .
