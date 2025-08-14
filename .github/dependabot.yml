@@ -27,7 +27,7 @@ updates:
     directory: "/"
     groups:
       # group all patch and minor updates in a single PR
-      javascript-minor:
+      python-minor:
         update-types: [ "minor", "patch" ]
     schedule:
       interval: "daily"
