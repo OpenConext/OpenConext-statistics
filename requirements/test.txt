@@ -6,6 +6,6 @@ flask-webtest==0.1.6
 pytest==8.4.1
 pytest-cov==6.2.1
 pytest-xdist==3.8.0
-coverage==7.10.3
+coverage==7.10.5
 responses==0.25.8
 
