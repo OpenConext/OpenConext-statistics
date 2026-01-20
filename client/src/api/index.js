@@ -66,7 +66,7 @@ function fetchDelete(path) {
 
 function queryParam(options) {
     const entries = Object.entries(options[0]);
-    return entries.reduce((acc, entry) => isEmpty(entry[1]) ? acc : acc + `${entry[0]}=${entry[1]}&`, "?");
+    return entries.reduce((acc, entry) => isEmpty(entry[1]) ? acc : acc + `${entry[0]}=${encodeURIComponent(entry[1])}&`, "?");
 }
 
 //API
@@ -83,7 +83,8 @@ export function connectedIdentityProviders() {
 }
 
 export function loginTimeFrame({
-                                   from, to = Math.floor(new Date().getTime() / 1000),
+                                   from,
+                                   to = Math.floor(new Date().getTime() / 1000),
                                    scale = "day",
                                    include_unique = true,
                                    idp_id,
@@ -111,7 +112,8 @@ export function loginAggregated({
 }
 
 export function uniqueLoginCount({
-                                   from, to = Math.floor(new Date().getTime() / 1000),
+                                   from,
+                                     to = Math.floor(new Date().getTime() / 1000),
                                    idp_id,
                                    sp_id,
                                    epoch = "ms",
